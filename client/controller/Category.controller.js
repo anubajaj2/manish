@@ -50,19 +50,17 @@ sap.ui.define([
 			var oProductList = this.byId("productList");
 			var oBinding = oProductList.getBinding("items");
 			oBinding.attachDataReceived(this.fnDataReceived, this);
+			debugger;
 			var sId = oEvent.getParameter("arguments").id;
 			this._sProductId = oEvent.getParameter("arguments").productId;
 			// the binding should be done after insuring that the metadata is loaded successfully
 			oModel.metadataLoaded().then(function () {
 				var oView = this.getView(),
 					sPath = "/" + this.getModel().createKey("ProductCategories", {
-					Category: sId
+					Category: "'" +  sId + "'"
 				});
 				oView.bindElement({
-					path : sPath,
-					parameters: {
-						expand: "Products"
-					},
+					path : sPath + "/Products",
 					events: {
 						dataRequested: function () {
 							oView.setBusy(true);

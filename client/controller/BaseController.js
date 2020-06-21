@@ -97,7 +97,7 @@ sap.ui.define([
 		_unhideMiddlePage: function () {
 			// TODO: bug in sap.f router, open ticket and remove this method afterwards
 			setTimeout(function () {
-				this.getOwnerComponent().getRootControl().byId("layout").getCurrentMidColumnPage().removeStyleClass("sapMNavItemHidden");
+				this.getOwnerComponent().getRootControl().getContent()[0].getPages()[1].byId("layout").getCurrentMidColumnPage().removeStyleClass("sapMNavItemHidden");
 			}.bind(this), 0);
 		},
 

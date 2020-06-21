@@ -26,6 +26,31 @@ sap.ui.define([
 			// if (bSmallScreen) {
 			// 	this._setLayout("One");
 			// }
+			var that = this;
+			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/ProductCategories",
+			// 									"POST", {}, {
+			// 										"Category": "Gold",
+			// 										"CategoryName": "Gold Set",
+			// 										"NumberOfProducts": 2
+			// 									}, this).then(function(data){
+			// 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+			// 										 "/Products",
+			// 																			"POST", {}, {
+			// 																				"Category": data.id,
+			// 																				"ProductId": "SET1",
+			// 																				"Name": "Set 1",
+			// 																				"ShortDescription":"demo set",
+			// 																				"SupplierName": "Bajaj & Co.",
+			// 																				"Weight":"150",
+			// 																				"WeightUnit": "gm",
+			// 																				"Price":"15000",
+			// 																				"Status":"A",
+			// 																				"CurrencyCode":"",
+			// 																				"PictureUrl": "https://5.imimg.com/data5/JJ/CP/MY-3749260/bridal-gold-necklace-set-500x500.jpg"
+			// 																			}, that);
+			// 																				alert("aaya");
+			// 									});
+
 		},
 
 		onSearch: function () {
@@ -70,7 +95,7 @@ sap.ui.define([
 		onCategoryListItemPress: function (oEvent) {
 			var oBindContext = oEvent.getSource().getBindingContext();
 			var oModel = oBindContext.getModel();
-			var sCategoryId = oModel.getData(oBindContext.getPath()).Category;
+			var sCategoryId = oModel.getData(oBindContext.getPath()).id;
 
 			this._router.navTo("category", {id: sCategoryId});
 			this._unhideMiddlePage();

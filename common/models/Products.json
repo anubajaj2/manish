@@ -21,51 +21,51 @@
     },
     "ShortDescription": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "SupplierName": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Weight": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "WeightUnit": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Price": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "Status": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "CurrencyCode": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "DimensionWidth": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "DimensionDepth": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "DimensionHeight": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "DimensionUnit": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "PictureUrl": {
       "type": "string",
-      "required": true
+      "required": false
     }
   },
   "relations": {
