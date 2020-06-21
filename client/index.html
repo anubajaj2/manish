@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Product Manage</title>
+
+	<!-- keep index.html mocked as well for consistency -->
+	<script
+		id='sap-ui-bootstrap'
+		src='https://sapui5.hana.ondemand.com/1.56.10/resources/sap-ui-core.js'
+		data-sap-ui-theme="sap_belize"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true"
+		data-sap-ui-resourceroots='{
+			"sap.ui.demo.cart" : "./"
+		}'>
+	</script>
+	<script>
+
+		//Mimcking Fiori Lunnchpad
+		var oCompContainer = new sap.ui.core.ComponentContainer({
+			name: "sap.ui.demo.cart"
+		});
+
+		oCompContainer.placeAt("content");
+
+
+	</script>
+</head>
+<body class='sapUiBody' id='content'>
+	<div id="content" />
+</body>
+</html>

@@ -1,0 +1,88 @@
+{
+  "name": "Product",
+  "plural": "Products",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ProductId": {
+      "type": "string",
+      "required": true
+    },
+    "Category": {
+      "type": "string",
+      "required": true
+    },
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "ShortDescription": {
+      "type": "string",
+      "required": true
+    },
+    "SupplierName": {
+      "type": "string",
+      "required": true
+    },
+    "Weight": {
+      "type": "string",
+      "required": true
+    },
+    "WeightUnit": {
+      "type": "string",
+      "required": true
+    },
+    "Price": {
+      "type": "string",
+      "required": true
+    },
+    "Status": {
+      "type": "string",
+      "required": true
+    },
+    "CurrencyCode": {
+      "type": "string",
+      "required": true
+    },
+    "DimensionWidth": {
+      "type": "string",
+      "required": true
+    },
+    "DimensionDepth": {
+      "type": "string",
+      "required": true
+    },
+    "DimensionHeight": {
+      "type": "string",
+      "required": true
+    },
+    "DimensionUnit": {
+      "type": "string",
+      "required": true
+    },
+    "PictureUrl": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "relations": {
+    "ProductCategory":{
+      "type":"belongsTo",
+      "model":"Category",
+      "foreignKey":"Category"
+    }
+  },
+  "validations": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

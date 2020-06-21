@@ -1,0 +1,40 @@
+{
+  "name": "Category",
+  "plural": "ProductCategories",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Category": {
+      "type": "string",
+      "required": true
+    },
+    "CategoryName": {
+      "type": "string",
+      "required": true
+    },
+    "NumberOfProducts": {
+      "type": "number",
+      "required": false
+    }
+  },
+  "relations": {
+    "Products":{
+      "type":"hasMany",
+      "model":"Product",
+      "foreignKey":"Category"
+    }
+  },
+  "validations": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}
