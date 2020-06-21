@@ -22,10 +22,10 @@ sap.ui.define([
 		},
 
 		_onRouteMatched: function() {
-			var bSmallScreen = this.getModel("appView").getProperty("/smallScreenMode");
-			if (bSmallScreen) {
-				this._setLayout("One");
-			}
+			// var bSmallScreen = this.getModel("appView").getProperty("/smallScreenMode");
+			// if (bSmallScreen) {
+			// 	this._setLayout("One");
+			// }
 		},
 
 		onSearch: function () {

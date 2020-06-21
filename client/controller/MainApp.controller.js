@@ -108,7 +108,7 @@ sap.ui.define([
 										}
 										if(found === true){
 											that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
-											that2.oRouter.navTo("App");
+											that2.oRouter.navTo("categories");
 										}else{
 											sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
 										}
