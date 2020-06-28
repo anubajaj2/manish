@@ -19,10 +19,6 @@
       "type": "string",
       "required": true
     },
-    "SubCategory": {
-      "type": "string",
-      "required": true
-    },
     "NumberOfProducts": {
       "type": "number",
       "required": false
