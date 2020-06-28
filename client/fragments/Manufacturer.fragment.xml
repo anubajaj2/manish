@@ -1,0 +1,46 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout"
+  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+  <VBox class="sapUiSmallMargin">
+    <f:SimpleForm
+      id="selectionId"
+      editable="true"
+      layout="ResponsiveGridLayout"
+      labelSpanXL="4"
+      labelSpanL="3"
+      labelSpanM="4"
+      labelSpanS="12"
+      adjustLabelSpan="false"
+      emptySpanXL="0"
+      emptySpanL="4"
+      emptySpanM="0"
+      emptySpanS="0"
+      columnsXL="2"
+      columnsL="1"
+      columnsM="1"
+      singleContainerFullSize="false">
+      <f:content>
+        <Label text="Code"/>
+        <Input id="idCode" required="true" value="{local>/Manufacturer/Code}"/>
+        <Label text="Name"/>
+        <Input id="idName" value="{local>/Manufacturer/Name}"/>
+        <Label text="Address"/>
+        <Input id="idAddress" value="{local>/Manufacturer/Address}"/>
+        <Label text="City"/>
+        <Input id="idCity" value="{local>/Manufacturer/City}"/>
+        <Label text="Contact" required="true"/>
+        <Input id="idContact" value="{local>/Manufacturer/Contact}"/>
+        <Label text="Group"/>
+        <!-- <ComboBox id="idGroup" value="{local>/Manufacturer/Group}" items="{ path: '/ZEMT_PRODUCTSSet'}"> <core:Item key="{Product}" text="{ProdName}"/> </ComboBox> -->
+        <Label text="Email"/>
+        <Input id="idEmail" value="{local>/Manufacturer/Email}"/>
+        <Label text="Block"/>
+        <Switch type="AcceptReject" state="false">
+				<layoutData>
+					<FlexItemData growFactor="1" />
+				</layoutData>
+			</Switch>
+        <!--<Input id="idBolock" value="{local>/headerData/Durationinmonths}"/>-->
+      </f:content>
+    </f:SimpleForm>
+  </VBox>
+</core:FragmentDefinition>

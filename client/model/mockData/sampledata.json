@@ -105,6 +105,20 @@
 		}
 	],
 	"BeneficiaryName": "",
+	"Manufacturer":{
+		"Code":"",
+		"Name":"",
+		"Address":"",
+		"City":"",
+		"Contact":"",
+		"Group":"",
+		"Email":"",
+		"Block":"",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
 	"ProductCategories": {
 		"Category": "",
 		"SubCategory": "",

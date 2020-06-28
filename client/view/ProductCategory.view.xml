@@ -1,14 +1,46 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.ProductCategory"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		id="page"
-		title="Manage Product Category"
-		backgroundDesign="Solid">
-		<content>
-
-		</content>
-	</Page>
+<mvc:View controllerName="sap.ui.demo.cart.controller.ProductCategory"
+	 xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	  xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form">
+	<!-- <Page id="page" title="Manage Product Category" backgroundDesign="Solid"> <content> -->
+	<semantic:FullscreenPage id="Product" navButtonPress="onNavBack" showNavButton="true" title="Manage Product Category">
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/>
+		</semantic:customHeaderContent>
+		<semantic:content id="ProductCategory">
+			<VBox class="sapUiSmallMargin">
+				<f:SimpleForm
+					id="selectionId"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanXL="4"
+					labelSpanL="3"
+					labelSpanM="4"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="4"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="2"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="Category"/>
+						<Input id="idCategory" required="true" value="{local>/ProductCategories/Category}"/>
+						<Label text="SubCategory"/>
+						<Input id="idSubCategory" value="{local>/ProductCategories/SubCategory}"/>
+						<Label text="Type"/>
+						<Input id="idType" value="{local>/ProductCategories/Type}"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{viewModel>/buttonText}" type="Accept" press="saveGroup"/>
+			<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Clear" type="Ghost" press="clearGroup"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+	<!-- </content> </Page> -->
 </mvc:View>
