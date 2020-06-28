@@ -1,0 +1,29 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.AdminHome"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		id="page"
+		title="Admin Home"
+		backgroundDesign="Solid">
+		<content>
+			<List id="idAdminHome" growing="true" growingThreshold="10"
+					mode="SingleSelectMaster" delete="onDelete"
+			      selectionChange="onSelectItem">
+				<items>
+					<StandardListItem id="Group" icon="sap-icon://overview-chart" title="Group Manager" description=""></StandardListItem>
+					<StandardListItem id="Customers" icon="sap-icon://customer" title="Retailers" description=""></StandardListItem>
+					<StandardListItem id="Manufacturer" icon="sap-icon://supplier" title="Manufacturer" description=""></StandardListItem>
+					<StandardListItem id="ProductCategory" icon="sap-icon://add-product" title="Product Catalog" description=""></StandardListItem>
+					<StandardListItem id="ProductApprove" icon="sap-icon://accounting-document-verification" title="Product Approval" description=""></StandardListItem>
+					<StandardListItem id="OrderStatus" icon="sap-icon://cart-approval" title="Order Status" description=""></StandardListItem>
+					<StandardListItem id="GroupPermission" icon="sap-icon://role" title="Group Permission" description=""></StandardListItem>
+					<StandardListItem id="Preferences" icon="sap-icon://customize" title="Preferences" description=""></StandardListItem>
+					<StandardListItem id="Usage" icon="sap-icon://area-chart" title="Usage Statistics" visible="false" description=""></StandardListItem>
+					<StandardListItem id="AdminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
+				</items>
+			</List>
+		</content>
+	</Page>
+</mvc:View>

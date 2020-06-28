@@ -108,9 +108,15 @@ sap.ui.define([
 										}
 										if(found === true){
 											that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
-											that2.oRouter.navTo("categories");
+											if(that2.getView().getModel("local").getProperty("/Role") === "Retailer"){
+												that2.oRouter.navTo("categories");
+											}else if(that2.getView().getModel("local").getProperty("/Role") === "Admin"){
+												that2.oRouter.navTo("Group");
+											}else if(that2.getView().getModel("local").getProperty("/Role") === "Maker"){
+												that2.oRouter.navTo("AddProduct");
+											}
 										}else{
-											sap.m.MessageBox.error("The user is not authorized, Contact Anubhav");
+											sap.m.MessageBox.error("The user is not authorized, Please Contact Mr. Amit");
 										}
 									}
 								}).catch(function(oError) {

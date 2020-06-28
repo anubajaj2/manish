@@ -11,7 +11,7 @@ var InitSecurity = (function () {
     ;
     InitSecurity.prototype.init = function () {
         var _this = this;
-        this.User.findOne({ where: { email: 'manish@demo\.com' } }).then(function (user) {
+        this.User.findOne({ where: { email: 'manish@gmail\.com' } }).then(function (user) {
             if (!user) {
                 _this.User.create({ username: 'manish', email: 'manish@gmail\.com', password: 'welcome' }).then(function (user) {
                     if (user) {

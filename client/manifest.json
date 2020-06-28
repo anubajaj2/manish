@@ -85,6 +85,126 @@
 					"target": ["App"],
 					"subroutes":[
 												{
+												"pattern": "AdminHome",
+												"name": "AdminHome",
+												"target": [
+													"AdminHome"
+												],
+												"subroutes": [
+															{
+															"pattern": "Group",
+															"name": "Group",
+																"target": [
+																	"AdminHome",
+																	"Group"
+																]
+															},
+															{
+															"pattern": "Customers",
+															"name": "Customers",
+																"target": [
+																	"AdminHome",
+																	"Customers"
+																]
+															},
+															{
+															"pattern": "Manufacturer",
+															"name": "Manufacturer",
+																"target": [
+																	"AdminHome",
+																	"Manufacturer"
+																]
+															},
+															{
+															"pattern": "ProductCategory",
+															"name": "ProductCategory",
+																"target": [
+																	"AdminHome",
+																	"ProductCategory"
+																]
+															},
+															{
+															"pattern": "ProductApprove",
+															"name": "ProductApprove",
+																"target": [
+																	"AdminHome",
+																	"ProductApprove"
+																]
+															},
+															{
+															"pattern": "OrderStatus",
+															"name": "OrderStatus",
+																"target": [
+																	"AdminHome",
+																	"OrderStatus"
+																]
+															},
+															{
+															"pattern": "GroupPermission",
+															"name": "GroupPermission",
+																"target": [
+																	"AdminHome",
+																	"GroupPermission"
+																]
+															},
+															{
+															"pattern": "Usage",
+															"name": "Usage",
+																"target": [
+																	"AdminHome",
+																	"Usage"
+																]
+															},
+															{
+															"pattern": "AdminPanel",
+															"name": "AdminPanel",
+																"target": [
+																	"AdminHome",
+																	"AdminPanel"
+																]
+															},
+															{
+															"pattern": "Preferences",
+															"name": "Preferences",
+																"target": [
+																	"AdminHome",
+																	"Preferences"
+																]
+															}
+													]
+												},
+												{
+														"pattern": "ManuHome",
+														"name": "ManuHome",
+														"target": [
+															"ManuHome"
+														],
+														"subroutes": [
+															{
+															"pattern": "AddProduct",
+															"name": "AddProduct",
+															"target": [
+																"ManuHome",
+																"AddProduct"
+															]
+															},{
+															"pattern": "ChangeStock",
+															"name": "ChangeStock",
+															"target": [
+																"ManuHome",
+																"ChangeStock"
+															]
+															},{
+																"pattern": "MyApproval",
+																"name": "MyApproval",
+																"target": [
+																	"ManuHome",
+																	"MyApproval"
+																]
+															}
+													]
+												},
+												{
 												"pattern": "home",
 												"name": "home",
 												"target": [
@@ -253,7 +373,113 @@
 					"viewLevel": 2,
 					"viewId": "orderCompletedView",
 					"title": "{i18n>orderCompletedTitle}"
+				},
+				"AdminHome": {
+					"viewName": "AdminHome",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "beginColumnPages",
+					"viewLevel": 2,
+					"viewId": "AdminHome"
+				},
+				"Group": {
+					"viewName": "Group",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "Group"
+				},
+				"Customers": {
+					"viewName": "Customers",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "Customers"
+				},
+				"Manufacturer": {
+					"viewName": "Manufacturer",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "Manufacturer"
+				},
+				"ProductCategory": {
+					"viewName": "ProductCategory",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "ProductCategory"
+				},
+				"ProductApprove": {
+					"viewName": "ProductApprove",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "ProductApprove"
+				},
+				"OrderStatus": {
+					"viewName": "OrderStatus",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "OrderStatus"
+				},
+				"GroupPermission": {
+					"viewName": "GroupPermission",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "GroupPermission"
+				},
+				"Usage": {
+					"viewName": "Usage",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "Usage"
+				},
+				"AdminPanel": {
+					"viewName": "AdminPanel",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "AdminPanel"
+				},
+				"AddProduct": {
+					"viewName": "AddProduct",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "AddProduct"
+				},
+				"ChangeStock": {
+					"viewName": "ChangeStock",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "ChangeStock"
+				},
+				"MyApproval": {
+					"viewName": "MyApproval",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "MyApproval"
+				},
+				"ManuHome": {
+					"viewName": "ManuHome",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "beginColumnPages",
+					"viewLevel": 1,
+					"viewId": "ManuHome"
+				},
+				"Preferences": {
+					"viewName": "Preferences",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "Preferences"
 				}
+
 			}
 		}
 	}
