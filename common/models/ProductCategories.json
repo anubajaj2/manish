@@ -11,7 +11,15 @@
       "type": "string",
       "required": true
     },
-    "CategoryName": {
+    "SubCategory": {
+      "type": "string",
+      "required": true
+    },
+    "Type": {
+      "type": "string",
+      "required": true
+    },
+    "SubCategory": {
       "type": "string",
       "required": true
     },
