@@ -1,9 +1,9 @@
 sap.ui.define([
-	"./BaseController",
-	"../model/cart",
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/ui/demo/cart/model/cart",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/model/Filter",
-	"../model/formatter"
+	"sap/ui/demo/cart/model/formatter"
 ], function (BaseController, cart, JSONModel, Filter, formatter) {
 	"use strict";
 
@@ -33,6 +33,8 @@ sap.ui.define([
 			});
 			this.getView().setModel(oViewModel, "view");
 			this.getRouter().attachRouteMatched(this._onRouteMatched, this);
+			this.getRouter().getTarget("welcome").attachDisplay(this._onRouteMatched, this);
+
 
 			// select random carousel page at start
 			var oWelcomeCarousel = this.byId("welcomeCarousel");

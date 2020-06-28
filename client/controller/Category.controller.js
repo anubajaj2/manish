@@ -1,6 +1,6 @@
 sap.ui.define([
-	"./BaseController",
-	"../model/formatter",
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/ui/demo/cart/model/formatter",
 	"sap/ui/Device",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
@@ -25,12 +25,12 @@ sap.ui.define([
 		_iHighFilterPreviousValue: 5000,
 
 		onInit: function () {
+			debugger;
 			var oViewModel = new JSONModel({
 				Suppliers: []
 			});
 			this.getView().setModel(oViewModel, "view");
-			var oComponent = this.getOwnerComponent();
-			this._oRouter = oComponent.getRouter();
+			this._oRouter = this.getOwnerComponent().getRouter();
 			this._oRouter.getRoute("category").attachMatched(this._loadCategories, this);
 			this._oRouter.getRoute("productCart").attachMatched(this._loadCategories, this);
 			this._oRouter.getRoute("product").attachMatched(this._loadCategories, this);
@@ -39,6 +39,7 @@ sap.ui.define([
 		},
 
 		_loadCategories: function(oEvent) {
+			debugger;
 			var bSmallScreen = this.getModel("appView").getProperty("/smallScreenMode"),
 				sRouteName = oEvent.getParameter("name");
 
@@ -55,12 +56,15 @@ sap.ui.define([
 			this._sProductId = oEvent.getParameter("arguments").productId;
 			// the binding should be done after insuring that the metadata is loaded successfully
 			oModel.metadataLoaded().then(function () {
-				var oView = this.getView(),
+					var oView = this.getView(),
 					sPath = "/" + this.getModel().createKey("ProductCategories", {
-					Category: "'" +  sId + "'"
+					id: "'" +  sId + "'"
 				});
+				//var sPath1 =  sPath + "/Products";
 				oView.bindElement({
-					path : sPath + "/Products",
+					path : sPath,
+				//	urlParameters: {"$expand": "Products" },
+				//	parameters: {	expand: "Products"},
 					events: {
 						dataRequested: function () {
 							oView.setBusy(true);
@@ -78,6 +82,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_loadSuppliers: function () {
+			debugger;
 			var oModel = this.getModel();
 			oModel.read("/Products", {
 				success: function (oData) {
@@ -100,10 +105,11 @@ sap.ui.define([
 				}.bind(this)
 			});
 
-			this._clearComparison();
+		//	this._clearComparison();
 		},
 
 		fnDataReceived: function() {
+			debugger;
 			var oList = this.byId("productList");
 			var aListItems = oList.getItems();
 			aListItems.some(function(oItem) {
@@ -119,6 +125,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the list select event
 		 */
 		onProductListSelect : function (oEvent) {
+			debugger;
 			this._showProduct(oEvent);
 		},
 
@@ -129,6 +136,7 @@ sap.ui.define([
 
 
 		onProductDetails: function (oEvent) {
+			debugger;
 			var oBindContext;
 			if (Device.system.phone) {
 				oBindContext = oEvent.getSource().getBindingContext();
@@ -155,6 +163,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_applyFilter : function (oEvent) {
+			debugger;
 			var oList = this.byId("productList"),
 				oBinding = oList.getBinding("items"),
 				aSelectedFilterItems = oEvent.getParameter("filterItems"),
@@ -240,6 +249,7 @@ sap.ui.define([
 		 * Open the filter dialog
 		 */
 		onFilter: function () {
+			debugger;
 			// load asynchronous XML fragment
 			if (!this.byId("categoryFilterDialog")) {
 				Fragment.load({
@@ -262,6 +272,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the press event of the sap.m.Button
 		 */
 		handleConfirm: function (oEvent) {
+			debugger;
 			var oCustomFilter = this.byId("categoryFilterDialog").getFilterItems()[1];
 			var oSlider = oCustomFilter.getCustomControl().getAggregation("content")[0];
 			this._iLowFilterPreviousValue = oSlider.getValue();
@@ -289,6 +300,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the change event of the sap.m.RangeSlider
 		 */
 		handleChange: function (oEvent) {
+			debugger;
 			var oCustomFilter = this.byId("categoryFilterDialog").getFilterItems()[1];
 			var oSlider = oCustomFilter.getCustomControl().getAggregation("content")[0];
 			var iLowValue = oEvent.getParameter("range")[0];
@@ -304,6 +316,7 @@ sap.ui.define([
 		 * Reset the price custom filter
 		 */
 		handleResetFilters: function () {
+			debugger;
 			var oCustomFilter = this.byId("categoryFilterDialog").getFilterItems()[1];
 			var oSlider = oCustomFilter.getCustomControl().getAggregation("content")[0];
 			oSlider.setValue(oSlider.getMin());
@@ -316,6 +329,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the press event of the link text in sap.m.ObjectListItem
 		 */
 		compareProducts: function (oEvent) {
+			debugger;
 			var oProduct = oEvent.getSource().getBindingContext().getObject();
 			var sItem1Id = this.getModel("comparison").getProperty("/item1");
 			var sItem2Id = this.getModel("comparison").getProperty("/item2");
@@ -330,6 +344,7 @@ sap.ui.define([
 		 * @override
 		 */
 		onBack: function () {
+			debugger;
 			this.getRouter().navTo("categories");
 		}
 	});

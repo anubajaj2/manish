@@ -3,7 +3,7 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/core/UIComponent",
 	"sap/ui/core/routing/History",
-	"../model/cart",
+	"sap/ui/demo/cart/model/cart",
 	"sap/ui/demo/cart/dbapi/dbapi",
 ], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper) {
 	"use strict";
@@ -95,9 +95,10 @@ sap.ui.define([
 		 * @private
 		 */
 		_unhideMiddlePage: function () {
+			debugger;
 			// TODO: bug in sap.f router, open ticket and remove this method afterwards
 			setTimeout(function () {
-				this.getOwnerComponent().getRootControl().getContent()[0].getPages()[1].byId("layout").getCurrentMidColumnPage().removeStyleClass("sapMNavItemHidden");
+			this.getOwnerComponent().getRootControl().getContent()[0].getPages()[1].byId("layout").getCurrentMidColumnPage().removeStyleClass("sapMNavItemHidden");
 			}.bind(this), 0);
 		},
 
@@ -130,13 +131,13 @@ sap.ui.define([
 		 * Clear comparison model
 		 * @protected
 		 */
-		_clearComparison: function (){
+	/*	_clearComparison: function (){
 			var oModel = this.getOwnerComponent().getModel("comparison");
 			oModel.setData({
 				category: "",
 				item1: "",
 				item2: ""
 			});
-		}
+		} */
 	});
 });

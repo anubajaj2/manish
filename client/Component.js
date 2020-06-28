@@ -1,10 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
-	"./model/models",
-	"sap/ui/Device"
-], function(UIComponent,  models, Device) {
+	"sap/ui/demo/cart/model/models",
+	"sap/ui/Device",
+	"sap/ui/model/json/JSONModel",
+	"sap/f/library"
+], function(UIComponent,  models, Device, JSONModel, library) {
 	"use strict";
-
+ var LayoutType = library.LayoutType;
 	return UIComponent.extend("sap.ui.demo.cart.Component", {
 
 		metadata: {
@@ -18,20 +20,29 @@ sap.ui.define([
 		 * @override
 		 */
 		init: function () {
-			//create and set cart model
-			var oCartModel = new sap.ui.model.json.JSONModel("SHOPPING_CART", {
-				cartEntries: {},
-				savedForLaterEntries: {}
+			var oViewModel;
+
+			oViewModel = new JSONModel({
+				busy : true,
+				delay : 0,
+				layout : "TwoColumnsMidExpanded",
+				smallScreenMode : true
 			});
-			this.setModel(oCartModel, "cartProducts");
+			this.setModel(oViewModel, "appView");
+			//create and set cart model
+		//	var oCartModel = new sap.ui.model.json.JSONModel("SHOPPING_CART", {
+		//		cartEntries: {},
+		//		savedForLaterEntries: {}
+		//	});
+		//	this.setModel(oCartModel, "cartProducts");
 
 			//create and set comparison model
-			var oComparisonModel = new sap.ui.model.json.JSONModel("PRODUCT_COMPARISON", {
-				category: "",
-				item1: "",
-				item2: ""
-			});
-			this.setModel(oComparisonModel, "comparison");
+		//	var oComparisonModel = new sap.ui.model.json.JSONModel("PRODUCT_COMPARISON", {
+		//		category: "",
+		//		item1: "",
+		//		item2: ""
+		//	});
+		//	this.setModel(oComparisonModel, "comparison");
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");

@@ -1,6 +1,6 @@
 sap.ui.define([
-	"./BaseController",
-	"../model/formatter"
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/ui/demo/cart/model/formatter"
 ], function(
 	BaseController,
 	formatter) {

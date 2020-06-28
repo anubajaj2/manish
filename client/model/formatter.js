@@ -74,13 +74,14 @@ sap.ui.define([
 		 * @param {string} sUrl image URL
 		 * @return {string} relative image URL
 		 */
-		pictureUrl: function (sUrl) {
+	/*	pictureUrl: function (sUrl) {
+			debugger;
 			if (sUrl){
 				return  sap.ui.require.toUrl(sUrl);
 			} else {
 				return undefined;
 			}
-		},
+		},*/
 
 		/**
 		 * Returns the footer text for the cart based on the amount of products

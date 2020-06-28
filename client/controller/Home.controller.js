@@ -1,6 +1,6 @@
 sap.ui.define([
-	"./BaseController",
-	"../model/formatter",
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/ui/demo/cart/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"sap/ui/Device"
@@ -16,12 +16,13 @@ sap.ui.define([
 		formatter : formatter,
 
 		onInit: function () {
-			var oComponent = this.getOwnerComponent();
-			this._router = oComponent.getRouter();
-			this._router.getRoute("categories").attachMatched(this._onRouteMatched, this);
+			debugger;
+			this._router = this.getOwnerComponent().getRouter();
+			//this._router.getRoute("categories").attachMatched(this._onRouteMatched, this);
 		},
 
 		_onRouteMatched: function() {
+
 			// var bSmallScreen = this.getModel("appView").getProperty("/smallScreenMode");
 			// if (bSmallScreen) {
 			// 	this._setLayout("One");
@@ -54,10 +55,12 @@ sap.ui.define([
 		},
 
 		onSearch: function () {
+			debugger;
 			this._search();
 		},
 
 		onRefresh: function () {
+			debugger;
 			// trigger search again and hide pullToRefresh when data ready
 			var oProductList = this.byId("productList");
 			var oBinding = oProductList.getBinding("items");
@@ -70,6 +73,7 @@ sap.ui.define([
 		},
 
 		_search: function () {
+			debugger;
 			var oView = this.getView();
 			var oProductList = oView.byId("productList");
 			var oCategoryList = oView.byId("categoryList");
@@ -93,25 +97,31 @@ sap.ui.define([
 		},
 
 		onCategoryListItemPress: function (oEvent) {
+	debugger;
+
 			var oBindContext = oEvent.getSource().getBindingContext();
 			var oModel = oBindContext.getModel();
 			var sCategoryId = oModel.getData(oBindContext.getPath()).id;
 
 			this._router.navTo("category", {id: sCategoryId});
+
 			this._unhideMiddlePage();
 		},
 
 		onProductListSelect: function (oEvent) {
+			debugger;
 			var oItem = oEvent.getParameter("listItem");
 			this._showProduct(oItem);
 		},
 
 		onProductListItemPress: function (oEvent) {
+			debugger;
 			var oItem = oEvent.getSource();
 			this._showProduct(oItem);
 		},
 
 		_showProduct: function (oItem) {
+			debugger;
 			var oEntry = oItem.getBindingContext().getObject();
 
 			this._router.navTo("product", {
@@ -125,6 +135,7 @@ sap.ui.define([
 		 * @override
 		 */
 		onBack: function () {
+			debugger;
 			this.getRouter().navTo("home");
 		}
 	});

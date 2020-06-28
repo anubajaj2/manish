@@ -20,8 +20,9 @@
 		<headerContent>
 			<Button
 				icon="sap-icon://home"
-				press=".onBack"
-				visible="{appView>/smallScreenMode}"/>
+				press="onBack"
+				visible="{appView>/smallScreenMode}">
+			</Button>
 		</headerContent>
 		<subHeader>
 			<Toolbar id="searchBar33343">
@@ -38,13 +39,13 @@
 			<PullToRefresh
 				id="pullToRefresh"
 				visible="{device>/support/touch}"
-				refresh=".onRefresh"/>
+				refresh="onRefresh"/>
 			<!-- This list shows the search results -->
 			<List
 				visible="false"
 				id="productList"
 				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
-				selectionChange=".onProductListSelect"
+				selectionChange="onProductListSelect"
 				noDataText="{i18n>homeNoData}"
 				busyIndicatorDelay="0"
 				items="{
@@ -67,7 +68,7 @@
 							formatter : '.formatter.price'
 						}"
 						numberUnit="EUR"
-						press=".onProductListItemPress"
+						press="onProductListItemPress"
 						iconDensityAware="false">
 						<attributes>
 							<ObjectAttribute text="{SupplierName}"/>

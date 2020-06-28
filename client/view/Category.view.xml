@@ -7,7 +7,7 @@
 		title="{CategoryName}"
 		backgroundDesign="Solid"
 		showNavButton="true"
-		navButtonPress=".onBack">
+		navButtonPress="onBack">
 		<landmarkInfo>
 			<PageAccessibleLandmarkInfo
 				rootRole="Region"
@@ -23,13 +23,13 @@
 			<Button
 				id="masterListFilterButton"
 				icon="sap-icon://filter"
-				press=".onFilter"/>
+				press="onFilter"/>
 		</headerContent>
 		<content>
 			<List
 				id="productList"
 				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
-				selectionChange=".onProductDetails"
+				selectionChange="onProductDetails"
 				noDataText="{i18n>categoryNoData}"
 				busyIndicatorDelay="0"
 				items="{
@@ -51,17 +51,14 @@
 				<items>
 					<ObjectListItem
 						type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}"
-						icon="{
-							path : 'PictureUrl',
-							formatter : '.formatter.pictureUrl'
-						}"
+						icon="{PictureUrl}"
 						title="{Name}"
 						number="{
 							path : 'Price',
 							formatter : '.formatter.price'
 						}"
 						numberUnit="{CurrencyCode}"
-						press=".onProductDetails"
+						press="onProductDetails"
 						iconDensityAware="false"
 						tooltip="{i18n>openProductDetails} {Name}">
 						<attributes>
@@ -70,7 +67,7 @@
 							<ObjectAttribute visible="{device>/system/desktop}"
 											 active="true"
 											 text="{i18n>CompareWith}"
-											 press=".compareProducts"/>
+											 press="compareProducts"/>
 						</attributes>
 						<firstStatus>
 							<ObjectStatus

@@ -11,6 +11,6 @@
 			layout="{appView>/layout}"
 			backgroundDesign="Translucent"
 			class="sapUiDemoCart"
-			stateChange=".onStateChange">
+			stateChange="onStateChange">
 		</f:FlexibleColumnLayout>
 </mvc:View>

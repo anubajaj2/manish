@@ -1,5 +1,5 @@
 sap.ui.define([
-	"./BaseController",
+	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/core/UIComponent"
 ], function(BaseController, UIComponent) {
 	"use strict";

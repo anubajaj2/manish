@@ -1,8 +1,8 @@
 sap.ui.define([
-	"./BaseController",
+	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/Device",
-	"../model/formatter",
+	"sap/ui/demo/cart/model/formatter",
 	"sap/m/MessageBox"
 ], function(
 	BaseController,

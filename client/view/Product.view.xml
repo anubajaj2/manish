@@ -22,7 +22,7 @@
 					<Button
 						type="Back"
 						visible="{appView>/smallScreenMode}"
-						press=".onBack"/>
+						press="onBack"/>
 				</contentLeft>
 				<contentMiddle>
 					<Title
@@ -32,13 +32,13 @@
 				<contentRight>
 					<Button
 						icon="sap-icon://customer"
-						press=".onAvatarPress"
+						press="onAvatarPress"
 						tooltip="{i18n>avatarButtonTooltip}"/>
 					<ToggleButton
 						icon="sap-icon://cart"
 						pressed="{= ${appView>/layout}.startsWith('ThreeColumns') }"
 						tooltip="{i18n>toCartButtonTooltip}"
-						press=".onToggleCart">
+						press="onToggleCart">
 					</ToggleButton>
 				</contentRight>
 			</Bar>
@@ -49,7 +49,7 @@
 				<Button
 					text="{i18n>addToCartShort}"
 					type="Emphasized"
-					press=".onAddToCart" />
+					press="onAddToCart" />
 			</Toolbar>
 		</footer>
 		<content>

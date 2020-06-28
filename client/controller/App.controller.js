@@ -1,5 +1,5 @@
 sap.ui.define([
-	"./BaseController",
+	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/model/json/JSONModel"
 ], function (BaseController, JSONModel) {
 	"use strict";
@@ -7,6 +7,7 @@ sap.ui.define([
 	return BaseController.extend("sap.ui.demo.cart.controller.App", {
 
 		onInit : function () {
+			debugger;
 			var oViewModel,
 				fnSetAppNotBusy,
 				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
@@ -29,7 +30,7 @@ sap.ui.define([
 			this.getOwnerComponent().getModel().attachMetadataFailed(fnSetAppNotBusy);
 
 			// apply content density mode to root view
-			this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());
+			this.getView().addStyleClass(this.getOwnerComponent().getContentDensityClass());			
 		}
 
 	});

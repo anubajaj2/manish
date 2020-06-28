@@ -1,14 +1,14 @@
 sap.ui.define([
-	"./BaseController",
-	"../model/cart",
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/ui/demo/cart/model/cart",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/Device",
-	"../model/formatter",
+	"sap/ui/demo/cart/model/formatter",
 	"sap/m/MessageBox",
 	"sap/m/Link",
 	"sap/m/MessagePopover",
 	"sap/m/MessagePopoverItem",
-	"../model/EmailType"
+	"sap/ui/demo/cart/model/EmailType"
 ], function (
 	BaseController,
 	cart,
