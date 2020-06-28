@@ -1,0 +1,77 @@
+{
+  "name": "Photo",
+  "plural": "Photos",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Product": {
+      "type": "string",
+      "required": true
+    },
+    "SeqNo": {
+      "type": "number",
+      "required": 1
+    },
+    "Content": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "Filename": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "Filetype": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "ViewCount": {
+      "type": "number",
+      "required": false,
+      "default": 0
+    },
+    "LastDate": {
+      "type": "date",
+      "required": false
+    },
+    "CreatedOn": {
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToProduct":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Product"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

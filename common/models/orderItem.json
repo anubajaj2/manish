@@ -1,0 +1,95 @@
+{
+  "name": "OrderItem",
+  "plural": "OrderItems",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+
+  "properties": {
+    "OrderNo": {
+      "type": "string",
+      "required": true
+    },
+    "Material": {
+      "type": "string",
+      "required": true
+    },
+    "Qty": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "QtyD": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "Weight": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "WeightD": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "Making": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "MakingD": {
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToOrderHeader":{
+      "type":"belongsTo",
+      "model":"OrderHeader",
+      "foreignKey":"OrderNo"
+    },
+    "ToStock":{
+      "type":"hasMany",
+      "model":"StockMaint",
+      "foreignKey":"Material"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

@@ -1,0 +1,43 @@
+{
+  "name": "City",
+  "plural": "Cities",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "cityCode": {
+      "type": "string",
+      "required": true
+    },
+    "cityName": {
+      "type": "string",
+      "required": true
+    },
+    "state": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToCustomers":{
+      "type":"hasMany",
+      "model":"Customer",
+      "foreignKey": "City"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

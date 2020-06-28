@@ -1,0 +1,82 @@
+{
+  "name": "OrderHeader",
+  "plural": "OrderHeaders",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "OrderNo": {
+      "type": "number",
+      "required": true
+    },
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Customer": {
+      "type": "string",
+      "required": true,
+      "default": "null"
+    },
+    "GoldBhav22":{
+      "type": "number",
+      "required": false,
+      "default":0.00
+    },
+    "GoldBhav20":{
+      "type": "number",
+      "required": false,
+      "default":0.00
+    },
+    "Status": {
+      "type": "string",
+      "default": "N"
+    },
+    "ApprovedOn": {
+      "type": "date"
+    },
+    "CreatedOn": {
+      "type": "date",
+      "required": "null"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date",
+      "required": "null"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToCustomers":{
+      "type":"belongsTo",
+      "model":"Customer",
+      "foreignKey":"Customer"
+    },
+    "ToOrderItems":{
+      "type":"hasMany",
+      "model":"OrderItem",
+      "foreignKey":"OrderNo"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

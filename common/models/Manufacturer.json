@@ -1,0 +1,74 @@
+{
+  "name": "Manufacturer",
+  "plural": "Manufacturers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "City": {
+      "type": "string",
+      "required": false
+    },
+    "MobilePhone": {
+      "type": "string",
+      "required": false
+    },
+    "Address": {
+      "type": "string",
+      "required": false
+    },
+    "CustomerCode": {
+      "type": "string",
+      "required": true
+    },
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "SecondaryPhone": {
+      "type": "string",
+      "required": false
+    },
+    "Group": {
+      "type": "string",
+      "required": false
+    },
+    "Type": {
+      "type":"string",
+      "required": false
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToProducts":{
+      "type":"hasMany",
+      "model":"Product",
+      "foreignKey": "CreatedBy"
+    },
+    "ToCity":{
+      "type":"belongsTo",
+      "model":"City",
+      "foreignKey":"City"
+    },
+    "ToGroup":{
+      "type":"belongsTo",
+      "model":"Group",
+      "foreignKey":"Group"
+    }
+
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

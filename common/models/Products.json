@@ -11,68 +11,130 @@
       "type": "string",
       "required": true
     },
+    "Name": {
+      "type": "string",
+      "required": true
+    },
     "Category": {
       "type": "string",
       "required": true
     },
-    "Name": {
+    "SubCategory  ": {
       "type": "string",
-      "required": true
+      "required": false
+    },
+    "Type": {
+      "type": "string",
+      "default": "S"
+    },
+    "PairSize":{
+      "type": "number",
+      "default": 2
     },
     "ShortDescription": {
       "type": "string",
       "required": false
     },
+    "Type": {
+      "type": "string",
+      "default": "G"
+    },
     "SupplierName": {
       "type": "string",
       "required": false
+    },
+    "Karat":{
+      "type": "number",
+      "default": 2
     },
     "Weight": {
       "type": "string",
       "required": false
     },
-    "WeightUnit": {
+    "Gender": {
       "type": "string",
-      "required": false
-    },
-    "Price": {
-      "type": "string",
-      "required": false
+      "default":"F"
     },
     "Status": {
       "type": "string",
+      "required": false,
+      "default": "N"
+    },
+    "HindiName": {
+      "type": "string"
+    },
+    "Tunch": {
+      "type": "number",
+      "default":0,
+      "required": true
+    },
+    "Wastage": {
+      "type": "number",
+      "default":0,
+      "required": true
+    },
+    "Making": {
+      "type": "number",
+      "default":0,
       "required": false
     },
-    "CurrencyCode": {
-      "type": "string",
-      "required": false
+    "GrossWeight": {
+      "type": "number",
+      "default":0,
+      "required": true
     },
-    "DimensionWidth": {
-      "type": "string",
-      "required": false
+    "StoneWeight": {
+      "type": "number",
+      "default":0,
+      "required": true
     },
-    "DimensionDepth": {
-      "type": "string",
-      "required": false
+    "NetWeight": {
+      "type": "number",
+      "default":0,
+      "required": true
     },
-    "DimensionHeight": {
-      "type": "string",
-      "required": false
+    "Quantity": {
+      "type": "number",
+      "default":0,
+      "required": true
     },
-    "DimensionUnit": {
-      "type": "string",
-      "required": false
+    "ApprovedOn": {
+			"type": "date",
+			"default": "null"
+		},
+    "AlertQuantity": {
+      "type": "number",
+      "default":0,
+      "required": true
     },
-    "PictureUrl": {
-      "type": "string",
-      "required": false
-    }
+    "CreatedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		},
+		"ChangedOn": {
+			"type": "date",
+			"default": "null"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
+
   },
   "relations": {
     "ProductCategory":{
       "type":"belongsTo",
       "model":"Category",
       "foreignKey":"Category"
+    },
+    "ToSupplier": {
+      "type":"belongsTo",
+      "model":"Manufacturer",
+      "foreignKey":"CreatedBy"
     }
   },
   "validations": [],

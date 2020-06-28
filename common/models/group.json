@@ -1,0 +1,43 @@
+{
+  "name": "Group",
+  "plural": "Groups",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "groupCode": {
+      "type": "string",
+      "required": true
+    },
+    "groupName": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToCustomers":{
+      "type":"hasMany",
+      "model":"Customer",
+      "foreignKey": "Group"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

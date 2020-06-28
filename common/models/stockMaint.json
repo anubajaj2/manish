@@ -1,0 +1,76 @@
+{
+  "name": "StockMaint",
+  "plural": "StockMaints",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Product": {
+      "type": "string",
+      "required": false
+    },
+    "Quantity": {
+      "type": "number",
+      "default": 0,
+      "required": false
+    },
+    "Weight": {
+      "type": "number",
+      "default": 0,
+      "required": false
+    },
+    "Remarks": {
+      "type": "string",
+      "required": false
+    },
+    "OrderType": {
+      "type": "string",
+      "required": false
+    },
+    "OrderItemId": {
+      "type": "string",
+      "required": false
+    },
+    "CreatedOn": {
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToProducts":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Product"
+    },
+    "ToItems":{
+      "type":"belongsTo",
+      "model":"OrderItem",
+      "foreignKey":"OrderItemId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

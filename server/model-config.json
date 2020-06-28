@@ -63,5 +63,37 @@
   "FeaturedProduct":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "City":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "Customer":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "Group":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "Manufacturer":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "OrderHeader":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "OrderItem":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "Photo":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "StockMaint":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }
