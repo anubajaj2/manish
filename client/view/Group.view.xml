@@ -2,13 +2,74 @@
 	controllerName="sap.ui.demo.cart.controller.Group"
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		id="page"
-		title="Manage Group"
-		backgroundDesign="Solid">
-		<content>
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:footerbar="sap.ushell.ui.footerbar"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
-		</content>
-	</Page>
+	<semantic:FullscreenPage
+		id="Group"
+		navButtonPress="onNavBack"
+		showNavButton="true"
+		title="Manage Group"
+		busy="{objectView>/busy}"
+		busyIndicatorDelay="{objectView>/delay}">
+
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+			tooltip="fullscreen"
+			iconFirst="true" press="toggleFullScreen"/>
+    </semantic:customHeaderContent>
+
+		<semantic:content id="Header">
+			<f:Form id="GroupHeader" editable="true">
+			</f:Form>
+		</semantic:content>
+
+		<semantic:content>
+		<f:SimpleForm
+			minWidth="1024"
+			maxContainerCols="2"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			labelSpanL="3"
+			labelSpanM="3"
+			emptySpanL="4"
+			emptySpanM="4"
+			columnsL="1"
+			columnsM="1"
+			class="editableForm">
+			<f:content>
+ 			    <Label text="Group Code" labelFor="groupCode" required="true"/>
+   				<ComboBox value="{groupModel>/groupCode}" change="groupCodeCheck"
+						items="{groupModelInfo>/results}" valueState="{dataModel>/groupCodeState}" valueStateText="Group Code cannot be blank" enabled="{viewModel>/codeEnabled}">
+						<core:Item key="{groupModelInfo>groupCode}" text="{groupModelInfo>groupCode}" />
+					</ComboBox>
+
+				<Label text="Group Name"/>
+        <Input
+					id="groupName"
+					type="Text"
+					value="{groupModel>/groupName}">
+				</Input>
+
+				<Label text="Group Description"/>
+				<Input
+					id="groupDescription"
+					type="Text"
+					value="{groupModel>/description}">
+				</Input>
+
+			</f:content>
+		</f:SimpleForm>
+
+ 		</semantic:content>
+		<semantic:customFooterContent>
+				<Button text="{viewModel>/buttonText}" type="Accept" press="saveGroup"/>
+				<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
+				<Button text="Clear" type="Ghost" press="clearGroup"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
 </mvc:View>
