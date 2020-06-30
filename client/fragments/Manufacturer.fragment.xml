@@ -19,8 +19,15 @@
       columnsM="1"
       singleContainerFullSize="false">
       <f:content>
-        <Label text="Code"/>
-        <Input id="idCode" required="true" value="{local>/Manufacturer/Code}"/>
+        <Label text="Code" required = "true"/>
+        <ComboBox id="idCode" value="{local>/Manufacturer/Code}"
+          change="CodeCheck" items="{manufactureModelInfo>/results}"
+          valueState="{dataModel>/groupCodeState}"
+          valueStateText="Code cannot be blank"
+          enabled="{viewModel>/codeEnabled}">
+          <core:Item key="{manufactureModelInfo>groupCode}"
+          text="{manufactureModelInfo>groupCode}" />
+        </ComboBox>
         <Label text="Name"/>
         <Input id="idName" value="{local>/Manufacturer/Name}"/>
         <Label text="Address"/>
@@ -28,18 +35,29 @@
         <Label text="City"/>
         <Input id="idCity" value="{local>/Manufacturer/City}"/>
         <Label text="Contact" required="true"/>
-        <Input id="idContact" value="{local>/Manufacturer/Contact}"/>
+        <Input id="idContact" type="Number" value="{local>/Manufacturer/Contact}"/>
         <Label text="Group"/>
-        <!-- <ComboBox id="idGroup" value="{local>/Manufacturer/Group}" items="{ path: '/ZEMT_PRODUCTSSet'}"> <core:Item key="{Product}" text="{ProdName}"/> </ComboBox> -->
+        <ComboBox id="idgpCode" value="{local>/Manufacturer/Group}"
+          change="groupCodeCheck" items="{groupModelCode>/results}"
+          enabled="{viewModel>/codeEnabled}">
+          <core:Item key="{groupModelCode>groupCode}"
+          text="{groupModelCode>groupCode}" />
+        </ComboBox>
         <Label text="Email"/>
-        <Input id="idEmail" value="{local>/Manufacturer/Email}"/>
+        <Input id="idEmail" type="Email" change="checkEmail"
+          valueState="{dataModel>/emailState}"
+          valueStateText="Invalid Email id"
+         value="{
+					path : 'local>/Manufacturer/Email',
+					formatter:'.formatter.checkEmail'
+				      }"/>
         <Label text="Block"/>
-        <Switch type="AcceptReject" state="false">
+        <Switch id="idBlock" type="AcceptReject"
+          state="local>/Manufacturer/Block" change="onSwitch">
 				<layoutData>
 					<FlexItemData growFactor="1" />
 				</layoutData>
 			</Switch>
-        <!--<Input id="idBolock" value="{local>/headerData/Durationinmonths}"/>-->
       </f:content>
     </f:SimpleForm>
   </VBox>

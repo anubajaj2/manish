@@ -15,9 +15,9 @@
 						fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/>
 				</semantic:content>
 				<semantic:customFooterContent>
-						<Button text="{viewModel>/buttonText}" type="Accept" press="saveGroup"/>
+						<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>
 						<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
-						<Button text="Clear" type="Ghost" press="clearGroup"/>
+						<Button text="Clear" type="Ghost" press="clearScreen"/>
 				</semantic:customFooterContent>
 			</semantic:FullscreenPage>
 		<!-- </content>

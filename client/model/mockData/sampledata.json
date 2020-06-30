@@ -105,8 +105,18 @@
 		}
 	],
 	"BeneficiaryName": "",
+
+	"ProductCategories": {
+		"Category": "",
+		"SubCategory": "",
+		"Type": "",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
 	"Manufacturer":{
-		"Code":"",
+		"Code": "",
 		"Name":"",
 		"Address":"",
 		"City":"",
@@ -114,15 +124,6 @@
 		"Group":"",
 		"Email":"",
 		"Block":"",
-		"CreatedBy": "",
-		"CreatedOn": "",
-		"ChangedBy": "",
-		"ChangedOn": ""
-	},
-	"ProductCategories": {
-		"Category": "",
-		"SubCategory": "",
-		"Type": "",
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",
