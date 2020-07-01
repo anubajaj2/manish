@@ -123,7 +123,7 @@
 		"Contact":"",
 		"Group":"",
 		"Email":"",
-		"Block":"",
+		"Block":false,
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",

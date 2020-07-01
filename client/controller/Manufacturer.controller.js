@@ -59,7 +59,7 @@ sap.ui.define([
       // this.clearScreen();
     },
 
-    clearScreen: function() {
+    clearScreen: function(oEvent) {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
       var viewModel = this.getView().getModel("viewModel");
       var dataModel = this.getView().getModel("dataModel");
@@ -70,7 +70,7 @@ sap.ui.define([
       manufacturerModel.City = "";
       manufacturerModel.Contact = "";
       manufacturerModel.Email = "";
-      manufacturerModel.Block = "false";
+      manufacturerModel.Block = false;
       viewModel.setProperty("/codeEnabled", true);
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
