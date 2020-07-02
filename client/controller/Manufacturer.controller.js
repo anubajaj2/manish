@@ -58,7 +58,6 @@ sap.ui.define([
       //
       // this.clearScreen();
     },
-
     clearScreen: function(oEvent) {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
       var viewModel = this.getView().getModel("viewModel");
@@ -134,6 +133,17 @@ sap.ui.define([
       } else {
         oValidatedComboBox.setValueState("None");
       }
+    },
+    CodeCheck:function(oEvent){
+      debugger;
+      var input_source = oEvent.getSource();
+      input_source.setValue(oEvent.getParameter("newValue").toUpperCase());
+      debugger;
+      $('#idCode').keypress(function(event) {
+        if(event.keyCode == 13) {
+        $('#idName').focus();
+      }
+    });
     }
   });
 });

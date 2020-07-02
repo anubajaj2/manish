@@ -105,11 +105,19 @@
 		}
 	],
 	"BeneficiaryName": "",
-
+	"productType": [
+		{
+			"value": "PLAIN"
+		},
+		{
+			"value": "STUDDED"
+		}
+	],
 	"ProductCategories": {
 		"Category": "",
 		"SubCategory": "",
 		"Type": "",
+		"NumberOfProducts":0,
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",

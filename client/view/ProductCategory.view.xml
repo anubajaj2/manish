@@ -26,20 +26,41 @@
 					columnsM="1"
 					singleContainerFullSize="false">
 					<f:content>
-						<Label text="Category"/>
-						<Input id="idCategory" required="true" value="{local>/ProductCategories/Category}"/>
+							<Label text="Category" labelFor="Category" required="true"/>
+							<ComboBox id="idCategory" value="{local>/ProductCategories/Category}"
+								change="CodeCheck" showSecondaryValues= "true"
+								items="{ProductCatsModel>/results}"
+								valueState="{dataModel>/errorCodeState}"
+								valueStateText="Category cannot be blank"
+								enabled="{viewModel>/codeEnabled}">
+								<core:ListItem key="{ProductCatsModel>Category}"
+									 text="{ProductCatsModel>Category}-{ProductCatsModel>SubCategory}" />
+							</ComboBox>
+
 						<Label text="SubCategory"/>
-						<Input id="idSubCategory" value="{local>/ProductCategories/SubCategory}"/>
+						<ComboBox id="idSubCategory" value="{local>/ProductCategories/SubCategory}"
+							change="subCodeCheck" showSecondaryValues= "true"
+							items="{ProductCatsModel>/results}"
+							enabled="{viewModel>/codeEnabled}">
+							<core:ListItem key="{ProductCatsModel>SubCategory}"
+								 text="{ProductCatsModel>SubCategory}"/>
+						</ComboBox>
+
 						<Label text="Type"/>
-						<Input id="idType" value="{local>/ProductCategories/Type}"/>
+						<ComboBox value="{local>/ProductCategories/Type}"
+							change="typeCheck"
+							items="{local>/productType}">
+							<core:Item key="{local>value}"
+								 text="{local>value}" />
+						</ComboBox>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
 		</semantic:content>
 		<semantic:customFooterContent>
-			<Button text="{viewModel>/buttonText}" type="Accept" press="saveGroup"/>
-			<Button text="Delete" type="Reject" press="deleteGroup" enabled="{viewModel>/deleteEnabled}"/>
-			<Button text="Clear" type="Ghost" press="clearGroup"/>
+			<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>
+			<Button text="Delete" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Clear" type="Ghost" press="clearScreen"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 	<!-- </content> </Page> -->

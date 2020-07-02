@@ -156,7 +156,7 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 				return true;
 			}
 		 }
-		}
+	 }
 
 
 
