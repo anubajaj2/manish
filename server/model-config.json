@@ -56,7 +56,7 @@
       "dataSource": "mongoatlas",
       "public": true
   },
-  "Category": {
+  "ProductCategory": {
     "dataSource": "mongoatlas",
     "public": true
   },

@@ -22,6 +22,8 @@
 					<StandardListItem id="Preferences" icon="sap-icon://customize" title="Preferences" description=""></StandardListItem>
 					<StandardListItem id="Usage" icon="sap-icon://area-chart" title="Usage Statistics" visible="false" description=""></StandardListItem>
 					<StandardListItem id="AdminPanel" icon="sap-icon://key-user-settings" title="Admin Panel" description=""></StandardListItem>
+					<StandardListItem id="downloadQueries" icon="sap-icon://key-user-settings" title="download Queries" description=""></StandardListItem>
+
 				</items>
 			</List>
 		</content>

@@ -128,7 +128,7 @@
   "relations": {
     "ProductCategory":{
       "type":"belongsTo",
-      "model":"Category",
+      "model":"ProductCategory",
       "foreignKey":"Category"
     },
     "ToSupplier": {

@@ -283,6 +283,11 @@
 														"pattern": "ordercompleted",
 														"name": "ordercompleted",
 														"target": "ordercompleted"
+													},
+													{
+														"pattern": "downloadQueries",
+														"name": "downloadQueries",
+														"target": "downloadQueries"
 													}
 												]
 											}
@@ -480,6 +485,13 @@
 					"controlAggregation": "midColumnPages",
 					"viewLevel": 3,
 					"viewId": "Preferences"
+				},
+				"downloadQueries": {
+					"viewName": "downloadQueries",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "midColumnPages",
+					"viewLevel": 3,
+					"viewId": "downloadQueries"
 				}
 
 			}
