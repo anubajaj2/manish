@@ -1,5 +1,5 @@
 {
-  "name": "Category",
+  "name": "ProductCategory",
   "plural": "ProductCategories",
   "base": "PersistedModel",
   "idInjection": true,
