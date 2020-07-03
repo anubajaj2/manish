@@ -29,19 +29,17 @@
 							<Label text="Category" labelFor="Category" required="true"/>
 							<ComboBox id="idCategory" value="{local>/ProductCategories/Category}"
 								change="CodeCheck" showSecondaryValues= "true"
-								items="{ProductCatsModel>/results}"
+								items="{ProductCatsModel>/category}"
 								valueState="{dataModel>/errorCodeState}"
 								valueStateText="Category cannot be blank"
 								enabled="{viewModel>/codeEnabled}">
 								<core:ListItem key="{ProductCatsModel>Category}"
-									 text="{ProductCatsModel>Category}-{ProductCatsModel>SubCategory}" />
+									 text="{ProductCatsModel>Category}" />
 							</ComboBox>
 
 						<Label text="SubCategory"/>
 						<ComboBox id="idSubCategory" value="{local>/ProductCategories/SubCategory}"
-							change="subCodeCheck" showSecondaryValues= "true"
-							items="{ProductCatsModel>/results}"
-							enabled="{viewModel>/codeEnabled}">
+							 items="{ProductCatsModel>/subCatergory}">
 							<core:ListItem key="{ProductCatsModel>SubCategory}"
 								 text="{ProductCatsModel>SubCategory}"/>
 						</ComboBox>

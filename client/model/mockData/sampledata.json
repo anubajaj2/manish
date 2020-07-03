@@ -107,12 +107,13 @@
 	"BeneficiaryName": "",
 	"productType": [
 		{
-			"value": "PLAIN"
+			"value": "Plain"
 		},
 		{
-			"value": "STUDDED"
+			"value": "Studded"
 		}
 	],
+
 	"ProductCategories": {
 		"Category": "",
 		"SubCategory": "",
