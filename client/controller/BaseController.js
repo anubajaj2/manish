@@ -24,7 +24,47 @@ sap.ui.define([
 		getRouter: function () {
 			return UIComponent.getRouterFor(this);
 		},
+		loadCategories: function(){
+			var that = this;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+          "/ProductCategories", "GET", {}, {}, this)
+        .then(function(oData) {
+          var a = [];
+          var b = [];
+          for (var i = 0; i < oData.results.length; i++) {
+            if (a.indexOf(oData.results[i].Category) === -1) {
+              a.push(oData.results[i].Category);
+            }
+          }
 
+          for (var j = 0; j < a.length; j++) {
+            var object = {};
+            object.Category = a[j];
+            b.push(object);
+          }
+          //SubCategory
+          var c = [];
+          var d = [];
+          for (var i = 0; i < oData.results.length; i++) {
+            if (c.indexOf(oData.results[i].SubCategory) === -1) {
+              c.push(oData.results[i].SubCategory);
+            }
+          }
+
+          for (var j = 0; j < c.length; j++) {
+            var object = {};
+            object.SubCategory = c[j];
+            d.push(object);
+          }
+          that.getOwnerComponent().getModel("local").setProperty("/cat",{
+						category: b,
+            subCatergory: d
+					});
+        })
+        .catch(function(oError) {
+          MessageToast.show("cannot fetch the data");
+        });
+		},
 		/**
 		 * Convenience method for getting the view model by name.
 		 * @public

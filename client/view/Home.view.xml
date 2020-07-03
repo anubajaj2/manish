@@ -8,58 +8,8 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:grid="sap.ui.layout.cssgrid">
 <Page title="Item Names">
-<SplitContainer>
-	<masterPages>
-    <semantic:MasterPage>
-			<Panel id="panelForGridList1">
-				<List id="idSubCategoryTable"
-					   headerText="Category"
-						 mode="MultiSelect"
-						 items="{ path: '/ProductCategories' }"
-						 class="sapFDynamicPageAlignContent"
-             includeItemInSelection="true"
-						 width="auto">
-		 			 <items>
-						<StandardListItem
-						title="{SubCategory}"
-						type="Active"
-						press="onCategoryListItemPress">
-						</StandardListItem>
-					</items>
-				</List>
-				</Panel>
-    </semantic:MasterPage>
-	</masterPages>
-<detailPages>
-		<semantic:DetailPage>
-		<Panel id="panelForGridList" class="navigationExamples1">
-			<f:GridList
-						id="gridList"
-						items="{ path: '/ProductCategories' }"
-						growing="true"
-					  growingThreshold="20">
-
-					<f:GridListItem >
-							<VBox class="navigationExamples" >
-								<ToggleButton text="{Category}" enabled="true" pressed="false" press="onPress" width="100%" />
-							</VBox>
-					</f:GridListItem>
-		 	</f:GridList>
-		</Panel>
-		<Panel>
-				<FlexBox>
-						<ToggleButton id = "tg1" text="Studded" enabled="true" pressed="false" press="onPress"/>
-						<ToggleButton id = "tg2" text="Plain" enabled="true" pressed="false" press="onPress"/>
-				</FlexBox>
-		</Panel>
-		<Panel>
-				<FlexBox>
-					<Button id= "idBtn"  text="Advance search" />
-				</FlexBox>
-			</Panel>
-    </semantic:DetailPage>
-</detailPages>
-
-</SplitContainer>
+	<List mode="MultiSelect" items="{local>/cat/subCatergory}">
+		<DisplayListItem label="{local>SubCategory}" />
+	</List>
 </Page>
 </mvc:View>

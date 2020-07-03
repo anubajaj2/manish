@@ -19,7 +19,9 @@ sap.ui.define([
 			Viewed: [new Filter("Type", "EQ", "Viewed")],
 			Favorite: [new Filter("Type", "EQ", "Favorite")]
 		},
-
+		onGridItemPress: function(oEvent) {
+			console.log(oEvent.getContent()[0].getContent()[0].getTitle());
+		},
 		onInit: function () {
 			var oViewModel = new JSONModel({
 				welcomeCarouselShipping: 'sap/ui/demo/cart/img/ShopCarouselShipping.jpg',
