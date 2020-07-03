@@ -3,56 +3,98 @@ sap.ui.define([
 	"sap/ui/demo/cart/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"sap/ui/Device"
+	"sap/ui/Device",
+	"sap/ui/model/json/JSONModel"
 ], function (
 	BaseController,
 	formatter,
 	Filter,
 	FilterOperator,
-	Device) {
+	Device,
+	JSONModel,
+) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.Home", {
 		formatter : formatter,
 
+		ProductCategories:{
+			"Category":[],
+			"SubCategory":[]
+			},
+			sl1:{
+				"Category":[]
+				},
+			sl2:{
+				"SubCategory":[]
+				},
+
 		onInit: function () {
 			debugger;
-			this._router = this.getOwnerComponent().getRouter();
-			//this._router.getRoute("categories").attachMatched(this._onRouteMatched, this);
+		//	this._router = this.getOwnerComponent().getRouter();
+			//this._router.attachRouteMatched(this._onRouteMatched, this);
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.attachRouteMatched(this._onRouteMatched, this);
+		//oRouter.getRoute("categories").attachRoutePatternMatched(this._onRouteMatched, this);
+			//var oSubCatModel = new JSONModel();
+			//this.getView().setModel(oSubCatModel, "view");
+			//var oSubCatModel = new JSONModel();
+
+			//	var s13 = this.getView().getModel("view12")	.getData();
+			//this.getView().setModel(oSubCatModel, "view12");
+			//oSubCatModel.setData({oData:this.s12});
 		},
 
-		_onRouteMatched: function() {
 
-			// var bSmallScreen = this.getModel("appView").getProperty("/smallScreenMode");
-			// if (bSmallScreen) {
-			// 	this._setLayout("One");
-			// }
+		_onRouteMatched: function(oEvent) {
+			debugger;
+			//var oParameters = oEvent.getParameters();
+      //var sRouteName = oParameters.name; // Yay! Our route name!
+			var oLocalModel = this.getView().getModel("local");
 			var that = this;
-			// this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/ProductCategories",
-			// 									"POST", {}, {
-			// 										"Category": "Gold",
-			// 										"CategoryName": "Gold Set",
-			// 										"NumberOfProducts": 2
-			// 									}, this).then(function(data){
-			// 										that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-			// 										 "/Products",
-			// 																			"POST", {}, {
-			// 																				"Category": data.id,
-			// 																				"ProductId": "SET1",
-			// 																				"Name": "Set 1",
-			// 																				"ShortDescription":"demo set",
-			// 																				"SupplierName": "Bajaj & Co.",
-			// 																				"Weight":"150",
-			// 																				"WeightUnit": "gm",
-			// 																				"Price":"15000",
-			// 																				"Status":"A",
-			// 																				"CurrencyCode":"",
-			// 																				"PictureUrl": "https://5.imimg.com/data5/JJ/CP/MY-3749260/bridal-gold-necklace-set-500x500.jpg"
-			// 																			}, that);
-			// 																				alert("aaya");
-			// 									});
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/ProductCategories", "GET", {}, {}, this)
+			.then(function(oData){
 
-		},
+				for(var i =0 ;i < oData.results.length; i++){
+					that.ProductCategories.Category[i] = oData.results[i].Category;
+					that.ProductCategories.SubCategory[i] = oData.results[i].SubCategory;
+					that.sl1.Category[i] = that.ProductCategories.Category[i];
+					that.sl2.SubCategory[i] = that.ProductCategories.SubCategory[i];
+				}
+					var i = 0;
+					var j = 0;
+					for(i=0; i<Object.keys(that.sl1.Category).length; i++) {
+						for(j=(i+1); j<Object.keys(that.sl1.Category).length; j++) {
+							if(that.sl1.Category[i] === that.sl1.Category[j]){
+									that.sl1.Category.splice(j--, 1);
+								}	} }
+						var i = 0;
+						var j = 0;
+						for(i=0; i<Object.keys(that.sl2.SubCategory).length; i++) {
+							for(j=(i+1); j<Object.keys(that.sl2.SubCategory).length; j++) {
+								if(that.sl2.SubCategory[i] === that.sl2.SubCategory[j]){
+										that.sl2.SubCategory.splice(j--, 1);
+									}	}	}
+									if (Object.keys(that.sl2.SubCategory).length > 0) {
+										var oFilter;
+										var aFilter2 = [];
+										var that2 = that;
+										debugger;
+										for (var i = 0; i < Object.keys(that.sl2.SubCategory).length; i++) {
+											oFilter = new sap.ui.model.Filter("SubCategory", "EQ", "'" + that.sl2.SubCategory[i] + "'");
+											that2.aFilter2.push(oFilter);
+										}
+
+										that.getView().byId("idSubCategoryTable").getBinding("items").filter(that2.aFilter2);
+}//									var oSubCatModel = new JSONModel();
+									//	var s13 = this.getView().getModel("view12")	.getData();
+	//								this.getView().getModel(oSubCatModel, "view12");
+		//			        oSubCatModel.setData(that.s12);
+			}).catch(function(oError) {
+//				var oPopover = that.getErrorMessage(oError);
+			});
+
+			},
 
 		onSearch: function () {
 			debugger;

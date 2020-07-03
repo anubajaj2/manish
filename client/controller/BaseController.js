@@ -8,14 +8,19 @@ sap.ui.define([
 ], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper) {
 	"use strict";
 
+
 	return Controller.extend("sap.ui.demo.cart.controller.BaseController", {
 		cart: cart,
 		ODataHelper: ODataHelper,
+
 		/**
 		 * Convenience method for accessing the router.
 		 * @public
 		 * @returns {sap.ui.core.routing.Router} the router for this component
 		 */
+		onInit: function () {
+
+		},
 		getRouter: function () {
 			return UIComponent.getRouterFor(this);
 		},
@@ -65,7 +70,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent the change event
 		 */
 		onStateChange: function (oEvent) {
-			var sLayout = oEvent.getParameter("layout"),
+/*var sLayout = oEvent.getParameter("layout"),
 				iColumns = oEvent.getParameter("maxColumnsCount");
 
 			if (iColumns === 1) {
@@ -76,7 +81,7 @@ sap.ui.define([
 				if (sLayout === "OneColumn") {
 					this._setLayout("Two");
 				}
-			}
+			}*/
 		},
 
 		/**

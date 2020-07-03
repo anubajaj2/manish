@@ -71,8 +71,7 @@ sap.ui.define([
 			}
 
 			$.post('/api/Users/login', loginPayload)
-		    .done(function(data, status){
-						 debugger;
+		    .done(function(data, status){						 
 							that.getView().getModel("local").setProperty("/Authorization", data.id);
 							that.getView().getModel().setHeaders({
 								"Authorization": data.id
@@ -125,6 +124,8 @@ sap.ui.define([
 
 				})
 		    .fail(function(xhr, status, error) {
+					debugger;
+
 							sap.m.MessageBox.error("Login Failed, Please enter correct credentials");
 		    });
 

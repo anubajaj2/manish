@@ -21,6 +21,35 @@
 
 .comparebox > div {
     width: 48%;
-    margin-left: 1%;
-    margin-right: 1%;
 }
+
+.sapUiSizeCompact .sapMBtn {
+    height: 1px;
+    padding: 0px;
+	}
+
+	#__component0---homeView--tg2-inner, #__component0---homeView--tg1-inner{
+		margin-left: 10rem;
+		width: 115px;
+		height: 30px;
+		background-color: Grey;
+	}
+	#__component0---homeView--tg2	{
+	margin-left: 33px;
+}
+
+	#__component0---homeView--idBtn-inner {
+     border-radius: 30px;
+     align-content: center;
+     margin-left: 310Px;
+     background-color: blue;
+ }
+
+ #__component0---homeView--idBtn-BDI-content{
+	 color: White;
+ }
+
+.sapFGridListDefault {
+    display: grid;
+    grid-template-columns: repeat(6, 122px);
+    grid-gap:  2rem;}

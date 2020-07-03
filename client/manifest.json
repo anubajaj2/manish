@@ -187,14 +187,16 @@
 																"ManuHome",
 																"AddProduct"
 															]
-															},{
+															},
+															{
 															"pattern": "ChangeStock",
 															"name": "ChangeStock",
 															"target": [
 																"ManuHome",
 																"ChangeStock"
 															]
-															},{
+															},
+															{
 																"pattern": "MyApproval",
 																"name": "MyApproval",
 																"target": [
@@ -208,16 +210,16 @@
 												"pattern": "home",
 												"name": "home",
 												"target": [
-													"home",
-													"welcome"
+													"welcome",
+													"home"
+
 												],
 												"subroutes": [
 													{
 													"pattern": "categories",
 													"name": "categories",
 													"target": [
-														"home",
-														"welcome"
+														"home"
 													]
 												},
 													{
