@@ -1,0 +1,64 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout"
+  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+  <VBox class="sapUiSmallMargin">
+    <f:SimpleForm
+      id="selectionId"
+      editable="true"
+      layout="ResponsiveGridLayout"
+      labelSpanXL="4"
+      labelSpanL="3"
+      labelSpanM="4"
+      labelSpanS="12"
+      adjustLabelSpan="false"
+      emptySpanXL="0"
+      emptySpanL="4"
+      emptySpanM="0"
+      emptySpanS="0"
+      columnsXL="2"
+      columnsL="1"
+      columnsM="1"
+      singleContainerFullSize="false">
+      <f:content>
+        <Label text="Code" required = "true"/>
+        <ComboBox id="idCode" value="{local>/Manufacturer/Code}"
+          change="CodeCheck" items="{manufactureModelInfo>/results}"
+          valueState="{dataModel>/groupCodeState}"
+          valueStateText="Code cannot be blank"
+          enabled="{viewModel>/codeEnabled}">
+          <core:Item key="{manufactureModelInfo>groupCode}"
+          text="{manufactureModelInfo>groupCode}" />
+        </ComboBox>
+        <Label text="Name"/>
+        <Input id="idName" value="{local>/Manufacturer/Name}"/>
+        <Label text="Address"/>
+        <Input id="idAddress" value="{local>/Manufacturer/Address}"/>
+        <Label text="City"/>
+        <Input id="idCity" value="{local>/Manufacturer/City}"/>
+        <Label text="Contact" required="true"/>
+        <Input id="idContact" type="Number" value="{local>/Manufacturer/Contact}"/>
+        <Label text="Group"/>
+        <ComboBox id="idgpCode" value="{local>/Manufacturer/Group}"
+          change="groupCodeCheck" items="{groupModelCode>/results}"
+          enabled="{viewModel>/codeEnabled}">
+          <core:Item key="{groupModelCode>groupCode}"
+          text="{groupModelCode>groupCode}" />
+        </ComboBox>
+        <Label text="Email"/>
+        <Input id="idEmail" type="Email" change="checkEmail"
+          valueState="{dataModel>/emailState}"
+          valueStateText="Invalid Email id"
+         value="{
+					path : 'local>/Manufacturer/Email',
+					formatter:'.formatter.checkEmail'
+				      }"/>
+        <Label text="Block"/>
+        <Switch id="idBlock" type="AcceptReject"
+          state="{local>/Manufacturer/Block}" change="onSwitch">
+				<layoutData>
+					<FlexItemData growFactor="1" />
+				</layoutData>
+			</Switch>
+      </f:content>
+    </f:SimpleForm>
+  </VBox>
+</core:FragmentDefinition>

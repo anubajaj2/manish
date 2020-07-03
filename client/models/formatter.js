@@ -140,7 +140,23 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"], function(NumberFormat) {
 		formatCurrency: function (a,b){
 			var oCurrencyFormat = NumberFormat.getCurrencyInstance();
 			return oCurrencyFormat.format(a,b);
-		}
+		},
+
+		checkEmail: function(oInput) {
+			debugger;
+			if (oInput) {
+			var email = oInput.getValue();
+			var mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
+			if (!email.match(mailregex)) {
+				//alert("Invalid Email");
+				oInput.setValueState("Error");
+				return false;
+			} else {
+				oInput.setValueState("None");
+				return true;
+			}
+		 }
+	 }
 
 
 

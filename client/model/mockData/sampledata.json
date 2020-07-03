@@ -105,10 +105,33 @@
 		}
 	],
 	"BeneficiaryName": "",
+	"productType": [
+		{
+			"value": "PLAIN"
+		},
+		{
+			"value": "STUDDED"
+		}
+	],
 	"ProductCategories": {
 		"Category": "",
 		"SubCategory": "",
 		"Type": "",
+		"NumberOfProducts":0,
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+	},
+	"Manufacturer":{
+		"Code": "",
+		"Name":"",
+		"Address":"",
+		"City":"",
+		"Contact":"",
+		"Group":"",
+		"Email":"",
+		"Block":false,
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",
