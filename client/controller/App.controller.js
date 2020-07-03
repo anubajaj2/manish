@@ -6,7 +6,7 @@ sap.ui.define([
 
 	return BaseController.extend("sap.ui.demo.cart.controller.App", {
 
-		onInit : function () {			
+		onInit : function () {
 			var oViewModel,
 				fnSetAppNotBusy,
 				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
@@ -14,7 +14,7 @@ sap.ui.define([
 			oViewModel = new JSONModel({
 				busy : true,
 				delay : 0,
-				//layout : "TwoColumnsMidExpanded",
+				layout : "TwoColumnsMidExpanded",
 				smallScreenMode : true
 			});
 			this.setModel(oViewModel, "appView");
