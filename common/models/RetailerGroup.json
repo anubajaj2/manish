@@ -1,0 +1,44 @@
+{
+  "name": "RetailerGroup",
+  "plural": "RetailerGroups",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "RetailerId": {
+      "type": "string",
+      "required": true
+    },
+    "GroupId": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToGroup":{
+      "type":"belongsTo",
+      "model":"Group",
+      "foreignKey": "GroupId"
+    },
+    "ToManufacturer":{
+      "type":"belongsTo",
+      "model":"Customer",
+      "foreignKey": "RetailerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

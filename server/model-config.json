@@ -95,5 +95,13 @@
   "StockMaint":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "ManuGroup":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
+  "RetailerGroup":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }

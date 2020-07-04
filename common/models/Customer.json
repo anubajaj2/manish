@@ -27,15 +27,11 @@
       "type": "string",
       "required": true
     },
-    "SecondaryPhone": {
+    "EmailId": {
       "type": "string",
       "required": false
     },
-    "Group": {
-      "type": "string",
-      "required": false
-    },
-    "Type": {
+    "Status": {
       "type":"string",
       "required": false
     }
