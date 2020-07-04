@@ -23,11 +23,6 @@
     width: 48%;
 }
 
-.sapUiSizeCompact .sapMBtn {
-    height: 1px;
-    padding: 0px;
-	}
-
 	#__component0---homeView--tg2-inner, #__component0---homeView--tg1-inner{
 		margin-left: 10rem;
 		width: 115px;
