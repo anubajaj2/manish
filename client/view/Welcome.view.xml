@@ -53,8 +53,12 @@
 
 				<Panel width="auto" class="sapUiResponsiveMargin">
 					<content>
-							<ToggleButton id="togPlain" text="Plain"/>
-							<ToggleButton id="togStudded" text="Studded"/>
+						<HBox alignItems="Center" direction="Row" fitContainer="true"
+							width="100%" height="100%" justifyContent="Center" renderType="Span"
+							visible="true" displayInline="true">
+							<ToggleButton id="togPlain" class="sapUiLargeMargin" text="Plain"/>
+							<ToggleButton id="togStudded" class="sapUiLargeMargin" text="Studded"/>
+						</HBox>
 					</content>
 				</Panel>
 
