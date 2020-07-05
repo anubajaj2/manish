@@ -223,19 +223,18 @@
 													]
 												},
 													{
-														"pattern": "category/{id}",
-														"name": "category",
+														"pattern": "category/productSearch",
+														"name": "productSearch",
 														"target": [
-															"welcome",
-															"category"
+															"productSearch"
 														],
-														"titleTarget": "category"
+														"titleTarget": "productSearch"
 													},
 													{
 														"pattern": "category/{id}/product/{productId}",
 														"name": "product",
 														"target": [
-															"category",
+															"productSearch",
 															"product"
 														],
 														"titleTarget": "product"
@@ -244,7 +243,7 @@
 													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:",
 													  "name": "comparison",
 													  "target": [
-														"category",
+														"productSearch",
 														"comparison"
 													  ],
 													  "titleTarget": "comparison"
@@ -253,7 +252,7 @@
 													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:/cart",
 													  "name": "comparisonCart",
 													  "target": [
-														"category",
+														"productSearch",
 														"comparison",
 														"cart"
 													  ],
@@ -263,7 +262,7 @@
 														"pattern": "category/{id}/product/{productId}/cart",
 														"name": "productCart",
 														"target": [
-															"category",
+															"productSearch",
 															"product",
 															"cart"
 														],
@@ -317,18 +316,12 @@
 				  "controlAggregation": "midColumnPages",
 				  "title":"{Name}"
 				},
-				"category": {
-					"viewName": "Category",
+				"productSearch": {
+					"viewName": "productSearch",
 					"viewLevel": 2,
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewId": "category",
-					"title": {
-						"parts": [
-							"i18n>tabTitle",
-							"CategoryName"
-						]
-					}
+					"controlId": "__component0---idMainApp--idMainApp",
+					"controlAggregation": "pages",
+					"viewId": "productSearch"
 				},
 				"notFound": {
 					"viewName": "NotFound",

@@ -58,6 +58,9 @@ sap.ui.define([
 			});
 			//set filter
 			this.getOwnerComponent().getModel("local").setProperty("/searchFilter", oFilter);
+			
+			this.getRouter().navTo("productSearch");
+
 		},
 		onClear: function(){
 
