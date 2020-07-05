@@ -7,9 +7,28 @@
 	xmlns:core="sap.ui.core"
 	xmlns:l="sap.ui.layout"
 	xmlns:grid="sap.ui.layout.cssgrid">
-<Page title="Item Names">
-	<List mode="MultiSelect" items="{local>/cat/subCatergory}">
-		<DisplayListItem label="{local>SubCategory}" />
+<Page title="Type">
+	<List itemPress="onGridItemPress" items="{local>/cat/subCatergory}">
+		<DisplayListItem type="Active" label="{local>SubCategory}" />
 	</List>
+	<!-- <f:GridList
+		id="gridList"
+		headerText="Categories"
+		itemPress="onGridItemPress"
+		items="{local>/cat/subCatergory}">
+
+	<f:customLayout>
+		<grid:GridBoxLayout boxesPerRowConfig="XL1 L1 M1 S1" boxMinWidth="10rem"/>
+	</f:customLayout>
+
+	<f:GridListItem type="Active"
+		>
+		<VBox height="100%">
+			<VBox class="sapUiSmallMargin">
+				<Title text="{local>SubCategory}" />
+			</VBox>
+		</VBox>
+	</f:GridListItem>
+</f:GridList> -->
 </Page>
 </mvc:View>

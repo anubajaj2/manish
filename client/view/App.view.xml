@@ -9,8 +9,7 @@
 			busy="{appView>/busy}"
 			busyIndicatorDelay="{appView>/delay}"
 			layout="{appView>/layout}"
-			backgroundDesign="Translucent"
-			class="sapUiDemoCart"
+			backgroundDesign="Solid"
 			stateChange="onStateChange">
 		</f:FlexibleColumnLayout>
 </mvc:View>

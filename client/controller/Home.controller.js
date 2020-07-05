@@ -28,6 +28,15 @@ sap.ui.define([
 			debugger;
 			this._search();
 		},
+		onGridItemPress: function(oEvent) {
+			//alert("ay");
+			if(oEvent.getParameter("listItem").hasStyleClass("colorGreen")){
+					oEvent.getParameter("listItem").removeStyleClass("colorGreen");
+			}else{
+				oEvent.getParameter("listItem").addStyleClass("colorGreen");
+			}
+
+		},
 		onRefresh: function () {
 			debugger;
 			// trigger search again and hide pullToRefresh when data ready
