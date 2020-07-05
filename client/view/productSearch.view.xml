@@ -1,6 +1,10 @@
 <mvc:View
 	controllerName="sap.ui.demo.cart.controller.productSearch"
 	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.f"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:anubhav="sap.ui.demo.cart.controls"
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page
 		id="page"
@@ -8,81 +12,98 @@
 		backgroundDesign="Solid"
 		showNavButton="true"
 		navButtonPress="onBack">
-		<landmarkInfo>
-			<PageAccessibleLandmarkInfo
-				rootRole="Region"
-				rootLabel="{i18n>Category_rootLabel}"
-				contentRole="Main"
-				contentLabel="{i18n>Category_contentLabel}"
-				footerRole="Region"
-				footerLabel="{i18n>Category_footerLabel}"
-				headerRole="Region"
-				headerLabel="{i18n>Category_headerLabel}"/>
-		</landmarkInfo>
-		<headerContent>
-			<Button
-				id="masterListFilterButton"
-				icon="sap-icon://filter"
-				press="onFilter"/>
-		</headerContent>
 		<content>
-			<List
-				id="productList"
-				mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
-				selectionChange="onProductDetails"
-				noDataText="{i18n>categoryNoData}"
-				busyIndicatorDelay="0"
-				items="{
-					path : 'Products',
-					sorter : {
-						path : 'Name',
-						descending : false
-					}
-				}">
-				<infoToolbar>
-					<Toolbar
-						id="categoryInfoToolbar"
-						visible="false">
+			<f:GridList
+					id="gridList"
+					items="{
+						path: '/Products'
+					}"
+					growing="true"
+					growingThreshold="9"
+					itemPress="onImageOpen">
+
+				<f:headerToolbar>
+					<Toolbar>
 						<content>
-							<Title id="categoryInfoToolbarTitle"/>
+							<!-- <Title text="GridList, using custom header with SearchField" /> -->
+							<ToolbarSpacer/>
+							<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh" />
 						</content>
 					</Toolbar>
-				</infoToolbar>
-				<items>
-					<ObjectListItem
-						type="{= ${device>/system/phone} ? 'Active' : 'Inactive'}"
-						icon="{PictureUrl}"
-						title="{Name}"
-						number="{
-							path : 'Price',
-							formatter : '.formatter.price'
-						}"
-						numberUnit="{CurrencyCode}"
-						press="onProductDetails"
-						iconDensityAware="false"
-						tooltip="{i18n>openProductDetails} {Name}">
-						<attributes>
-							<ObjectAttribute visible="true"
-											 text="{SupplierName}"/>
-							<ObjectAttribute visible="{device>/system/desktop}"
-											 active="true"
-											 text="{i18n>CompareWith}"
-											 press="compareProducts"/>
-						</attributes>
-						<firstStatus>
+				</f:headerToolbar>
+
+				<f:customLayout>
+					<grid:GridBoxLayout/>
+				</f:customLayout>
+
+				<f:GridListItem defaultSpan="XL12 L12 M12 S12"
+				vSpacing="0"
+				hSpacing="0" mode="Active">
+					<FlexBox
+						height="3.5rem"
+						renderType="Bare">
+						<l:VerticalLayout>
+							<ObjectIdentifier
+								title="{Name}"
+								tooltip="{Name}"
+								titleActive="true"
+								titlePress=".onSelectProduct"
+								class="sapUiTinyMarginBottom"/>
 							<ObjectStatus
-								text="{
-									path : 'Status',
-									formatter : '.formatter.statusText'
-								}"
-								state="{
-									path : 'Status',
-									formatter : '.formatter.statusState'
-								}"/>
-						</firstStatus>
-					</ObjectListItem>
-				</items>
-			</List>
+								text="{Status}"
+								state="Success"/>
+						</l:VerticalLayout>
+					</FlexBox>
+					<FlexBox
+						renderType="Bare"
+						justifyContent="Center">
+						<anubhav:ImageHover
+							src="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
+							width="100%"
+							height="100%"
+							press=".onSelectProduct"
+							tooltip=""
+							mIn="onImageIn"
+							mOut="onImageOut"
+							alt="">
+							<anubhav:detailBox>
+								<LightBox>
+									<LightBoxItem
+											imageSrc="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
+											/>
+									<LightBoxItem
+											imageSrc="https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg"
+											/>
+								</LightBox>
+							</anubhav:detailBox>
+						</anubhav:ImageHover>
+					</FlexBox>
+					<Button
+						tooltip="{i18n>addToCart}"
+						press=".onAddToCart"
+						icon="sap-icon://cart-3"
+						type="Emphasized">
+						<layoutData>
+							<l:GridData span="XL4 L4 M4 S4"/>
+						</layoutData>
+					</Button>
+					<Text class="sapUiLargeMarginBegin"
+						text="138.80 gm">
+						<layoutData>
+							<l:GridData span="XL4 L4 M4 S4"/>
+						</layoutData>
+					</Text>
+					<!-- <VBox >
+						<VBox class="sapUiSmallMargin">
+							<layoutData>
+								<FlexItemData growFactor="1" shrinkFactor="0" />
+							</layoutData>
+							<Title text="{Name}" wrapping="true" />
+							<Label text="{Category}" wrapping="true" />
+						</VBox>
+					</VBox> -->
+				</f:GridListItem>
+			</f:GridList>
 		</content>
 	</Page>
 </mvc:View>
