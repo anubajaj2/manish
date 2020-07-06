@@ -88,7 +88,27 @@
       "default":0,
       "required": true
     },
+    "Size":{
+      "type": "number",
+      "default":0,
+      "required": true
+    },
+    "StonePc":{
+      "type": "number",
+      "default":0,
+      "required": true
+    },
+    "StoneRs":{
+      "type": "number",
+      "default":0,
+      "required": true
+    },
     "NetWeight": {
+      "type": "number",
+      "default":0,
+      "required": true
+    },
+    "OtherFee":{
       "type": "number",
       "default":0,
       "required": true
