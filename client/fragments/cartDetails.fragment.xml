@@ -1,0 +1,38 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		showHeader="false"
+		contentWidth="320px"
+		contentHeight="500px"
+		placement="Bottom"
+		
+		ariaLabelledBy="master-title">
+		<NavContainer
+			id="navCon">
+			<Page
+				id="master"
+				class="sapUiResponsivePadding--header"
+				title="Order Items">
+				<List
+					id="list" mode="Delete"
+					delete="onCartItemDelete"
+					items="{local>/cartItems}" >
+					<StandardListItem
+						title="{local>Name}"
+
+						description="{local>ProductId}"
+						icon="{local>ProductPicUrl}"
+						iconDensityAware="false"
+						iconInset="false" />
+				</List>
+				<footer>
+					<Toolbar>
+					<Button width="100%" text="Order Now!!" press="onOrder" />
+					<Button width="100%" text="Close" press="onCloseCart" />
+				</Toolbar>
+				</footer>
+			</Page>
+		</NavContainer>
+	</Popover>
+</core:FragmentDefinition>

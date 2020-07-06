@@ -12,6 +12,10 @@
 		backgroundDesign="Solid"
 		showNavButton="true"
 		navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://cart" tooltip="my order"
+				press="onCartClick" />
+		</headerContent>
 		<content>
 			<f:GridList
 					id="gridList"
@@ -27,7 +31,8 @@
 						<content>
 							<!-- <Title text="GridList, using custom header with SearchField" /> -->
 							<ToolbarSpacer/>
-							<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh" />
+							<Button text="Refresh" icon="sap-icon://refresh"
+								press="onRefresh" />
 						</content>
 					</Toolbar>
 				</f:headerToolbar>
@@ -101,15 +106,6 @@
 							</VBox>
 						</HBox>
 					</FlexBox>
-					<!-- <VBox >
-						<VBox class="sapUiSmallMargin">
-							<layoutData>
-								<FlexItemData growFactor="1" shrinkFactor="0" />
-							</layoutData>
-							<Title text="{Name}" wrapping="true" />
-							<Label text="{Category}" wrapping="true" />
-						</VBox>
-					</VBox> -->
 				</f:GridListItem>
 			</f:GridList>
 		</content>

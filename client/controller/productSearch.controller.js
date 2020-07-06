@@ -10,7 +10,8 @@ sap.ui.define([
 	"sap/m/Image",
 	"sap/m/Dialog",
 	"sap/m/Carousel",
-	"sap/m/Button"
+	"sap/m/Button",
+	"sap/m/MessageBox"
 ], function (
 	BaseController,
 	formatter,
@@ -20,7 +21,7 @@ sap.ui.define([
 	MessageToast,
 	JSONModel,
 	Fragment,
-	Image, Dialog, Carousel, Button) {
+	Image, Dialog, Carousel, Button, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.productSearch", {
@@ -32,7 +33,7 @@ sap.ui.define([
 		},
 		_onRouteMatched: function() {
 			//alert("yo");
-			debugger;
+			//debugger;
 		},
 		onImageOut: function(oEvent){
 			oEvent.getSource().setSrc("https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg");
@@ -40,15 +41,90 @@ sap.ui.define([
 		onImageIn: function(oEvent){
 			oEvent.getSource().setSrc("https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg");
 		},
+		addProductToCart: function(productRec){
+			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+			productRec.ProductPicUrl = "https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg";
+			cartItems.push(productRec);
+			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+		},
+		removeProductFromCart: function(productRec){
+			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+			for (var i = 0; i < cartItems.length; i++) {
+				if(cartItems[i].id === productRec.id){
+					cartItems.splice(i,1);
+					break;
+				}
+			}
+			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+		},
 		onAddToCart: function(oEvent){
 			var oBtn = oEvent.getSource();
+			//get binding path of parent list item
+			var sPath = oBtn.getParent().getBindingContext().getPath();
+
 			if(oBtn.getPressed()){
 				oBtn.setIcon("sap-icon://delete");
 				oBtn.setType("Emphasized");
+				this.addProductToCart(oBtn.getParent().getModel().getProperty(sPath));
 			}else{
 				oBtn.setIcon("sap-icon://cart-3");
 				oBtn.setType("Default");
+				this.removeProductFromCart(oBtn.getParent().getModel().getProperty(sPath));
 			}
+		},
+		onCartClick: function(oEvent){
+			var oButton = oEvent.getSource();
+			// create popover
+			if (!this._oPopoverCart) {
+				Fragment.load({
+					id: "popoverCart",
+					name: "sap.ui.demo.cart.fragments.cartDetails",
+					controller: this
+				}).then(function(oPopover){
+					this._oPopoverCart = oPopover;
+					this.getView().addDependent(this._oPopover);
+					this._oPopoverCart.setModel(
+						this.getOwnerComponent().getModel("local"),
+						"local"
+					);
+					this._oPopoverCart.openBy(oButton);
+				}.bind(this));
+			} else {
+				this._oPopoverCart.openBy(oButton);
+			}
+		},
+		getGridItemById: function(productId){
+			var gridList = this.getView().byId("gridList").getItems();
+			for (var i = 0; i < gridList.length; i++) {
+				if(gridList[i].getBindingContextPath().indexOf(productId) != -1){
+					return gridList[i];
+				}
+			}
+		},
+		getButtonInsideGrid: function(productId){
+			var oItem = this.getGridItemById(productId);
+			return oItem.getContent()[2].getItems()[0];
+		},
+		alldeleted:[],
+		onCartItemDelete: function(oEvent){
+			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
+			var productId = oObj.id;
+			//sPath = sPath.split("'")[1];
+			//oEvent.getSource().removeItem(oEvent.getParameter("listItem"));
+			 this.removeProductFromCart(oObj);
+			 // var oBtn = this.getButtonInsideGrid(productId);
+			 // oBtn.setIcon("sap-icon://cart-3");
+			 // oBtn.setType("Default");
+		},
+		onOrder: function(){
+			MessageToast.show("Order has been sent for approval, please check your email!");
+		},
+		onCloseCart: function(){
+			this._oPopoverCart.close();
+		},
+		afterCartClose: function(){
+			this._oPopoverCart.destroy();
+			this._oPopoverCart = null;
 		},
 		onImageOpen: function(){
 			if (!this.pressDialog) {
