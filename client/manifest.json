@@ -212,7 +212,6 @@
 												"target": [
 													"welcome",
 													"home"
-
 												],
 												"subroutes": [
 													{
@@ -231,47 +230,13 @@
 														"titleTarget": "productSearch"
 													},
 													{
-														"pattern": "category/{id}/product/{productId}",
-														"name": "product",
-														"target": [
-															"productSearch",
-															"product"
-														],
-														"titleTarget": "product"
-													},
-													{
-													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:",
-													  "name": "comparison",
-													  "target": [
-														"productSearch",
-														"comparison"
-													  ],
-													  "titleTarget": "comparison"
-													},
-													{
-													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:/cart",
+													  "pattern": "cart",
 													  "name": "comparisonCart",
 													  "target": [
-														"productSearch",
-														"comparison",
-														"cart"
-													  ],
-													  "titleTarget": "comparison"
-													},
-													{
-														"pattern": "category/{id}/product/{productId}/cart",
-														"name": "productCart",
-														"target": [
-															"productSearch",
 															"product",
 															"cart"
-														],
-														"titleTarget": "product"
-													},
-													{
-														"pattern": "cart",
-														"name": "cart",
-														"target": ["home", "welcome", "cart"]
+													  ],
+													  "titleTarget": "comparison"
 													},
 													{
 														"pattern": "checkout",
@@ -301,12 +266,11 @@
 					"viewLevel": 1
 				},
 				"product": {
-					"viewName": "Product",
+					"viewName": "productSearch",
 					"viewLevel": 3,
-					"viewId": "product",
+					"viewId": "productSearch",
 					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"title":"{Name}"
+					"controlAggregation": "midColumnPages"
 				},
 				"comparison": {
 				  "viewName": "Comparison",
@@ -340,7 +304,7 @@
 				},
 				"home": {
 					"viewName": "Home",
-					"viewLevel": 1,
+					"viewLevel": 2,
 					"controlId": "__xmlview0--layout",
 					"controlAggregation": "beginColumnPages",
 					"viewId": "homeView",
@@ -349,14 +313,9 @@
 				"cart": {
 					"viewName": "Cart",
 					"controlId": "__xmlview0--layout",
+					"viewLevel": 3,
 					"controlAggregation": "endColumnPages",
-					"viewId": "cartView",
-					"title": {
-						"parts": [
-							"i18n>tabTitle",
-							"i18n>tableTitleCart"
-						]
-					}
+					"viewId": "cartView"
 				},
 				"checkout": {
 					"viewName": "Checkout",

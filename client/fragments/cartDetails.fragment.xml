@@ -6,7 +6,7 @@
 		contentWidth="320px"
 		contentHeight="500px"
 		placement="Bottom"
-		
+
 		ariaLabelledBy="master-title">
 		<NavContainer
 			id="navCon">
@@ -28,8 +28,9 @@
 				</List>
 				<footer>
 					<Toolbar>
-					<Button width="100%" text="Order Now!!" press="onOrder" />
-					<Button width="100%" text="Close" press="onCloseCart" />
+					<Button width="50%" text="Order Now!!" press="onOrder" />
+					<Button width="25%" text="Close" press="onCloseCart" />
+					<Button width="25%" tooltop="Full Screen" press="onFullScreen" />
 				</Toolbar>
 				</footer>
 			</Page>

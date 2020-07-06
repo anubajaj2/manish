@@ -131,7 +131,7 @@ sap.ui.define([
 		 */
 		_setLayout: function (sColumns) {
 			if (sColumns) {
-				//this.getModel("appView").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
+				this.getModel("local").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
 			}
 		},
 

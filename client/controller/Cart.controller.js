@@ -13,7 +13,7 @@ sap.ui.define([
 ) {
 	"use strict";
 
-	var sCartModelName = "cartProducts";
+	var sCartModelName = "local";
 	var sSavedForLaterEntries = "savedForLaterEntries";
 	var sCartEntries = "cartEntries";
 
@@ -21,11 +21,11 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function () {
-			this._oRouter = this.getRouter();
-			this._oRouter.getRoute("cart").attachPatternMatched(this._routePatternMatched, this);
-			this._oRouter.getRoute("productCart").attachPatternMatched(this._routePatternMatched, this);
-			this._oRouter.getRoute("comparisonCart").attachPatternMatched(this._routePatternMatched, this);
-			// set initial ui configuration model
+			this._oRouter = this.getOwnerComponent().getRouter();
+			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			// this._oRouter.getRoute("productCart").attachPatternMatched(this._routePatternMatched, this);
+			// this._oRouter.getRoute("comparisonCart").attachPatternMatched(this._routePatternMatched, this);
+			// // set initial ui configuration model
 			var oCfgModel = new JSONModel({});
 			this.getView().setModel(oCfgModel, "cfg");
 			this._toggleCfgModel();
@@ -42,8 +42,8 @@ sap.ui.define([
 
 		_routePatternMatched: function () {
 			this._setLayout("Three");
-			var oCartModel = this.getModel("cartProducts");
-			var oCartEntries = oCartModel.getProperty("/cartEntries");
+			var oCartModel = this.getModel("local");
+			var oCartEntries = oCartModel.getProperty("/cartItems");
 			//enables the proceed and edit buttons if the cart has entries
 			if (Object.keys(oCartEntries).length > 0) {
 				oCartModel.setProperty("/showProceedButton", true);
@@ -183,7 +183,7 @@ sap.ui.define([
 					if (oAction !== MessageBox.Action.DELETE) {
 						return;
 					}
-					var oCartModel = oBindingContext.getModel();
+					var oCartModel = oBindingContext.getModel("local");
 					var oCollectionEntries = Object.assign({}, oCartModel.getData()[sCollection]);
 
 					delete oCollectionEntries[sEntryId];

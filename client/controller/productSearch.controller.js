@@ -73,25 +73,27 @@ sap.ui.define([
 			}
 		},
 		onCartClick: function(oEvent){
-			var oButton = oEvent.getSource();
-			// create popover
-			if (!this._oPopoverCart) {
-				Fragment.load({
-					id: "popoverCart",
-					name: "sap.ui.demo.cart.fragments.cartDetails",
-					controller: this
-				}).then(function(oPopover){
-					this._oPopoverCart = oPopover;
-					this.getView().addDependent(this._oPopover);
-					this._oPopoverCart.setModel(
-						this.getOwnerComponent().getModel("local"),
-						"local"
-					);
-					this._oPopoverCart.openBy(oButton);
-				}.bind(this));
-			} else {
-				this._oPopoverCart.openBy(oButton);
-			}
+			// var oButton = oEvent.getSource();
+			// // create popover
+			// if (!this._oPopoverCart) {
+			// 	Fragment.load({
+			// 		id: "popoverCart",
+			// 		name: "sap.ui.demo.cart.fragments.cartDetails",
+			// 		controller: this
+			// 	}).then(function(oPopover){
+			// 		this._oPopoverCart = oPopover;
+			// 		this.getView().addDependent(this._oPopover);
+			// 		this._oPopoverCart.setModel(
+			// 			this.getOwnerComponent().getModel("local"),
+			// 			"local"
+			// 		);
+			// 		this._oPopoverCart.openBy(oButton);
+			// 	}.bind(this));
+			// } else {
+			// 	this._oPopoverCart.openBy(oButton);
+			// }
+
+			this.getRouter().navTo("comparisonCart");
 		},
 		getGridItemById: function(productId){
 			var gridList = this.getView().byId("gridList").getItems();
@@ -112,9 +114,10 @@ sap.ui.define([
 			//sPath = sPath.split("'")[1];
 			//oEvent.getSource().removeItem(oEvent.getParameter("listItem"));
 			 this.removeProductFromCart(oObj);
-			 // var oBtn = this.getButtonInsideGrid(productId);
-			 // oBtn.setIcon("sap-icon://cart-3");
-			 // oBtn.setType("Default");
+			 var oBtn = this.getButtonInsideGrid(productId);
+			 oBtn.setIcon("sap-icon://cart-3");
+			 oBtn.setType("Default");
+			 oBtn.setPressed(false);
 		},
 		onOrder: function(){
 			MessageToast.show("Order has been sent for approval, please check your email!");
@@ -151,6 +154,9 @@ sap.ui.define([
 			}
 
 			this.pressDialog.open();
+		},
+		onFullScreen: function(){
+			this.getRouter().navTo("comparisonCart");
 		},
 		onSelectProduct: function(oEvent){
 			//popover of product details
@@ -207,7 +213,6 @@ sap.ui.define([
 		 * @override
 		 */
 		onBack: function () {
-			debugger;
 			this.getRouter().navTo("categories");
 		}
 	});

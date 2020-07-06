@@ -85,11 +85,9 @@ sap.ui.define([
 			return mStatusState[sStatus] || "None";
 		},
 		statusStateC: function (sStatus) {
-			debugger;
 			return mStatusStateC[sStatus] || "None";
 		},
 		statusText: function (sStatus) {
-			debugger;
 			return mStatusStateT[sStatus] || "None";
 		},
 		/**

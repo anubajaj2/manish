@@ -25,8 +25,8 @@
 				id="editButton"
 				icon="sap-icon://edit"
 				enabled="{parts: [
-					{path: 'cartProducts>/cartEntries'},
-					{path: 'cartProducts>/savedForLaterEntries'}
+					{path: 'local>/cartItems'},
+					{path: 'local>/savedForLaterEntries'}
 				 ], formatter : '.formatter.hasItems'}"
 				visible="{cfg>/notInDelete}"
 				press=".onEditOrDoneButtonPress"
@@ -37,7 +37,7 @@
 				<Text
 					id="totalPriceText"
 					text="{
-						path : 'cartProducts>/cartEntries',
+						path : 'local>/cartItems',
 						formatter : '.formatter.totalPrice'
 					} EUR"
 					class="sapUiTinyMarginBegin"/>
@@ -47,7 +47,7 @@
 					type="Accept"
 					text="{i18n>cartProceedButtonText}"
 					enabled="{
-						path: 'cartProducts>/cartEntries',
+						path: 'local>/cartItems',
 						formatter: '.formatter.hasItems'
 					}"
 					visible="{cfg>/notInDelete}"
@@ -63,16 +63,11 @@
 		<content>
 			<List
 				id="entryList"
-				footerText="{
-					path : 'cartProducts>/savedForLaterEntries',
-					formatter : '.formatter.footerTextForCart'
-				}"
 				mode="{cfg>/listMode}"
-				delete=".onCartEntriesDelete"
-				selectionChange=".onEntryListSelect"
+				delete="onCartItemDelete"
 				noDataText="{i18n>cartNoData}"
 				items="{
-					path : 'cartProducts>/cartEntries',
+					path : 'local>/cartItems',
 					sorter : {
 						path : 'Name',
 						descending : false
@@ -80,82 +75,25 @@
 				}">
 				<items>
 					<ObjectListItem
-						intro="{cartProducts>Quantity} x"
+						intro="{local>GrossWeight} x"
 						type="{cfg>/listItemType}"
 						icon="{
-							path : 'cartProducts>PictureUrl',
-							formatter : '.formatter.pictureUrl'
+							path : 'local>PictureUrl'
 						}"
-						title="{cartProducts>Name}"
+						title="{local>Name}"
 						number="{
-							path : 'cartProducts>Price',
-							formatter : '.formatter.price'
+							path : 'local>NetWeight'
 						}"
-						numberUnit="EUR"
-						press=".onEntryListPress"
+						numberUnit="gm"
 						iconDensityAware="false">
-						<attributes>
-							<ObjectAttribute
-								active="true"
-								press=".onSaveForLater"
-								text="{i18n>cartSaveForLaterLinkText}"/>
-						</attributes>
 						<firstStatus>
 							<ObjectStatus
 								text="{
-									path : 'cartProducts>Status',
+									path : 'local>Status',
 									formatter : '.formatter.statusText'
 								}"
 								state="{
-									path : 'cartProducts>Status',
-									formatter : '.formatter.statusState'
-								}"/>
-						</firstStatus>
-					</ObjectListItem>
-				</items>
-			</List>
-			<List
-				id="saveForLaterList"
-				mode="{cfg>/listMode}"
-				showNoData="false"
-				delete=".onSaveForLaterDelete"
-				selectionChange=".onEntryListSelect"
-				items="{
-					path : 'cartProducts>/savedForLaterEntries',
-					sorter : {
-						path : 'Name',
-						descending : false
-					}
-				}">
-				<items>
-					<ObjectListItem
-						type="{cfg>/listItemType}"
-						icon="{
-							path : 'cartProducts>PictureUrl',
-							formatter : '.formatter.pictureUrl'
-						}"
-						title="{cartProducts>Name}"
-						number="{
-							path : 'cartProducts>Price',
-							formatter : '.formatter.price'
-						}"
-						numberUnit="EUR"
-						press=".onEntryListPress"
-						iconDensityAware="false">
-						<attributes>
-							<ObjectAttribute
-								active="true"
-								press=".onAddBackToBasket"
-								text="{i18n>cartAddToCartLinkText}"/>
-						</attributes>
-						<firstStatus>
-							<ObjectStatus
-								text="{
-									path : 'cartProducts>Status',
-									formatter : '.formatter.statusText'
-								}"
-								state="{
-									path : 'cartProducts>Status',
+									path : 'local>Status',
 									formatter : '.formatter.statusState'
 								}"/>
 						</firstStatus>
