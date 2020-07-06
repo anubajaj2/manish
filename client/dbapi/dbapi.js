@@ -30,6 +30,11 @@ sap.ui.define([
 				if (!oParameters) {
 					oParameters = {};
 				}
+
+				oModel.setHeaders({
+					"Authorization": "5raqoMXdLPO009fFosvyBjDHkfPmFIevSAfJ2eL5i43SgsYxe10vHq5iz6RHa4U4"
+				});
+
 				oModel.setUseBatch(false);
 				switch (sMethod.toUpperCase()) {
 					case "GET":
