@@ -17,6 +17,22 @@
 .largeFont {
 
 }
+.textClass{
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.greenClass{
+		color: green;
+		font-weight: bold;
+}
+.orangeClass{
+		color: orange;
+		font-weight: bold;
+}
+.redClass{
+		color: red;
+		font-weight: bold;
+}
 .largeFont label{
 	font-size: 80
 }

@@ -14,7 +14,11 @@ sap.ui.define([
 		"D": "Discntinued",
 		"N": "Newly Arrived"
 	};
-
+	var mStatusStateC = {
+		"A": "greenClass",
+		"O": "orangeClass",
+		"D": "redClass"
+	};
 	var formatter = {
 		/**
 		 * Formats the price
@@ -80,7 +84,12 @@ sap.ui.define([
 		statusState: function (sStatus) {
 			return mStatusState[sStatus] || "None";
 		},
+		statusStateC: function (sStatus) {
+			debugger;
+			return mStatusStateC[sStatus] || "None";
+		},
 		statusText: function (sStatus) {
+			debugger;
 			return mStatusStateT[sStatus] || "None";
 		},
 		/**

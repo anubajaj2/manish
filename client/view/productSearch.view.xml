@@ -37,11 +37,10 @@
 				</f:customLayout>
 
 				<f:GridListItem defaultSpan="XL12 L12 M12 S12"
-				vSpacing="0"
-				hSpacing="0" mode="Active">
+				 mode="Active">
 					<FlexBox
 						height="1.5rem" class="sapUiSmallMargin"
-						renderType="Bare" justifyContent="Center">
+						renderType="Bare">
 						<l:VerticalLayout>
 							<ObjectIdentifier
 								title="{Name}"
@@ -63,16 +62,6 @@
 							mIn="onImageIn"
 							mOut="onImageOut"
 							alt="">
-							<!-- <anubhav:detailBox>
-								<LightBox>
-									<LightBoxItem
-											imageSrc="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
-											/>
-									<LightBoxItem
-											imageSrc="https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg"
-											/>
-								</LightBox>
-							</anubhav:detailBox> -->
 						</anubhav:ImageHover>
 					</FlexBox>
 					<FlexBox renderType="Bare" width="100%"
@@ -90,33 +79,27 @@
 							justifyContent="End" alignItems="End">
 							<VBox>
 								<HBox>
-									<Text class=""
-										title="Gross Wt."
+									<Text class="textClass"
 										text="{GrossWeight} gm">
 										<layoutData>
 											<l:GridData span="XL4 L4 M4 S4"/>
 										</layoutData>
 									</Text>
-									<Text class="sapUiTinyMarginBegin"
-										title="Tunch"
+									<Text class="sapUiTinyMarginBegin textClass"
 										text="{Tunch} T">
 										<layoutData>
 											<l:GridData span="XL4 L4 M4 S4"/>
 										</layoutData>
 									</Text>
 								</HBox>
-								<Text
-									state="
-									{ path: 'Status',
-									formatter: '.formatter.statusState' }"
-									text="
-									{ path: 'Status',
-									formatter: '.formatter.statusText' }">
-								</Text>
+								<ObjectStatus
+									text="{ path: 'Status',
+													formatter: '.formatter.statusText' }"
+									state="{ path: 'Status',
+													formatter: '.formatter.statusState' }">
+								</ObjectStatus>
 							</VBox>
 						</HBox>
-
-
 					</FlexBox>
 					<!-- <VBox >
 						<VBox class="sapUiSmallMargin">
