@@ -8,6 +8,12 @@ sap.ui.define([
 		"O": "Warning",
 		"D": "Error"
 	};
+	var mStatusStateT = {
+		"A": "Available",
+		"O": "Out of Stock",
+		"D": "Discntinued",
+		"N": "Newly Arrived"
+	};
 
 	var formatter = {
 		/**
@@ -25,7 +31,13 @@ sap.ui.define([
 			});
 			return numberFormat.format(sValue);
 		},
-
+		getCartIcon: function(selected) {
+			if (!selected) {
+				return 'sap-icon://cart-3';
+			}else{
+				return 'sap-icon://delete';
+			}
+		},
 		/**
 		 * Sums up the price for all products in the cart
 		 * @param {object} oCartEntries current cart entries
@@ -68,7 +80,9 @@ sap.ui.define([
 		statusState: function (sStatus) {
 			return mStatusState[sStatus] || "None";
 		},
-
+		statusText: function (sStatus) {
+			return mStatusStateT[sStatus] || "None";
+		},
 		/**
 		 * Returns the relative URL to a product picture
 		 * @param {string} sUrl image URL

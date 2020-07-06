@@ -40,6 +40,16 @@ sap.ui.define([
 		onImageIn: function(oEvent){
 			oEvent.getSource().setSrc("https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg");
 		},
+		onAddToCart: function(oEvent){
+			var oBtn = oEvent.getSource();
+			if(oBtn.getPressed()){
+				oBtn.setIcon("sap-icon://delete");
+				oBtn.setType("Emphasized");
+			}else{
+				oBtn.setIcon("sap-icon://cart-3");
+				oBtn.setType("Default");
+			}
+		},
 		onImageOpen: function(){
 			if (!this.pressDialog) {
 				this.pressDialog = new Dialog({

@@ -75,21 +75,49 @@
 							</anubhav:detailBox> -->
 						</anubhav:ImageHover>
 					</FlexBox>
-					<Button
-						tooltip="{i18n>addToCart}"
-						press=".onAddToCart"
-						icon="sap-icon://cart-3"
-						type="Emphasized">
-						<layoutData>
-							<l:GridData span="XL4 L4 M4 S4"/>
-						</layoutData>
-					</Button>
-					<Text class="sapUiLargeMarginBegin"
-						text="138.80 gm">
-						<layoutData>
-							<l:GridData span="XL4 L4 M4 S4"/>
-						</layoutData>
-					</Text>
+					<FlexBox renderType="Bare" width="100%"
+						justifyContent="Begin">
+						<ToggleButton
+							tooltip="{i18n>addToCart}"
+							press="onAddToCart" class="sapUiTinyMargin"
+							icon="sap-icon://cart-3"
+							>
+							<layoutData>
+								<l:GridData span="XL4 L4 M4 S4"/>
+							</layoutData>
+						</ToggleButton>
+						<HBox class="sapUiTinyMargin" direction="RowReverse"
+							justifyContent="End" alignItems="End">
+							<VBox>
+								<HBox>
+									<Text class=""
+										title="Gross Wt."
+										text="{GrossWeight} gm">
+										<layoutData>
+											<l:GridData span="XL4 L4 M4 S4"/>
+										</layoutData>
+									</Text>
+									<Text class="sapUiTinyMarginBegin"
+										title="Tunch"
+										text="{Tunch} T">
+										<layoutData>
+											<l:GridData span="XL4 L4 M4 S4"/>
+										</layoutData>
+									</Text>
+								</HBox>
+								<Text
+									state="
+									{ path: 'Status',
+									formatter: '.formatter.statusState' }"
+									text="
+									{ path: 'Status',
+									formatter: '.formatter.statusText' }">
+								</Text>
+							</VBox>
+						</HBox>
+
+
+					</FlexBox>
 					<!-- <VBox >
 						<VBox class="sapUiSmallMargin">
 							<layoutData>
