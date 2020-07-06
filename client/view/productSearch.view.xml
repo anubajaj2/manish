@@ -55,7 +55,7 @@
 						</l:VerticalLayout>
 					</FlexBox>
 					<FlexBox
-						renderType="Bare"
+						renderType="Bare" height="15rem" width="100%"
 						justifyContent="Center">
 						<anubhav:ImageHover
 							src="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
