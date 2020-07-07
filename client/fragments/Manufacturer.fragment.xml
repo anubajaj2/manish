@@ -20,13 +20,13 @@
       singleContainerFullSize="false">
       <f:content>
         <Label text="Code" required = "true"/>
-        <ComboBox id="idCode" value="{local>/Manufacturer/Code}"
+        <ComboBox id="idCode" value="{local>/Manufacturer/CustomerCode}"
           change="CodeCheck" items="{manufactureModelInfo>/results}"
           valueState="{dataModel>/groupCodeState}"
           valueStateText="Code cannot be blank"
           enabled="{viewModel>/codeEnabled}">
-          <core:Item key="{manufactureModelInfo>groupCode}"
-          text="{manufactureModelInfo>groupCode}" />
+          <core:Item key="{manufactureModelInfo>id}"
+          text="{manufactureModelInfo>CustomerCode}" />
         </ComboBox>
         <Label text="Name"/>
         <Input id="idName" value="{local>/Manufacturer/Name}"/>
@@ -35,25 +35,26 @@
         <Label text="City"/>
         <Input id="idCity" value="{local>/Manufacturer/City}"/>
         <Label text="Contact" required="true"/>
-        <Input id="idContact" type="Number" value="{local>/Manufacturer/Contact}"/>
+        <Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}"/>
         <Label text="Group"/>
-        <ComboBox id="idgpCode" value="{local>/Manufacturer/Group}"
-          change="groupCodeCheck" items="{groupModelCode>/results}"
-          enabled="{viewModel>/codeEnabled}">
-          <core:Item key="{groupModelCode>groupCode}"
+        <MultiComboBox id="idgpCode" value="{local>/groupSelected/GroupCode}"
+          items="{groupModelCode>/results}"
+          selectedKeys="{local>/groupSelected/GroupId}"
+          selectionChange="onSelectionChange">
+          <core:Item key="{groupModelCode>id}"
           text="{groupModelCode>groupCode}" />
-        </ComboBox>
+        </MultiComboBox>
         <Label text="Email"/>
         <Input id="idEmail" type="Email" change="checkEmail"
           valueState="{dataModel>/emailState}"
           valueStateText="Invalid Email id"
          value="{
-					path : 'local>/Manufacturer/Email',
-					formatter:'.formatter.checkEmail'
+					path : 'local>/Manufacturer/EmailId'
 				      }"/>
         <Label text="Block"/>
         <Switch id="idBlock" type="AcceptReject"
-          state="{local>/Manufacturer/Block}" change="onSwitch">
+          state="{viewModel>/blockStatus}"
+          change="onSwitch">
 				<layoutData>
 					<FlexItemData growFactor="1" />
 				</layoutData>
