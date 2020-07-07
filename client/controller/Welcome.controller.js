@@ -58,7 +58,7 @@ sap.ui.define([
 			});
 			//set filter
 			this.getOwnerComponent().getModel("local").setProperty("/searchFilter", oFilter);
-			
+
 			this.getRouter().navTo("productSearch");
 
 		},
@@ -82,7 +82,7 @@ sap.ui.define([
 		// 	}
 		// },
 		_onRouteMatched: function (oEvent) {
-
+			this.firstTwoDisplay();
 		}
 	});
 });

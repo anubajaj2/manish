@@ -5,7 +5,8 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"sap/ui/demo/cart/model/cart",
 	"sap/ui/demo/cart/dbapi/dbapi",
-], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper) {
+	"sap/f/LayoutType"
+], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType) {
 	"use strict";
 
 
@@ -20,6 +21,14 @@ sap.ui.define([
 		 */
 		onInit: function () {
 
+		},
+
+		firstTwoDisplay: function(){
+			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+		},
+		lastTwoDisplay: function(){
+			
+			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {
 			return UIComponent.getRouterFor(this);
