@@ -32,7 +32,7 @@
 						id="shoppingCartWizard"
 						complete="checkCompleted"
 						enableBranching="true"
-						finishButtonText="{i18n>checkoutWizardReviewbtn}">
+						finishButtonText="Finish">
 						<steps>
 							<WizardStep
 								id="contentsStep"
@@ -53,8 +53,7 @@
 										<ObjectListItem
 											intro="{local>Quantity} x"
 											icon="{
-												path : 'local>PictureUrl',
-												formatter : '.formatter.pictureUrl'
+												path : 'local>PictureUrl'
 											}"
 											title="{local>Name}"
 											number="{
@@ -88,153 +87,52 @@
 							<WizardStep
 								id="paymentTypeStep"
 								title="{i18n>checkoutPaymentTitle}"
-								complete="invoiceStep"
 								icon="sap-icon://money-bills">
-								<Text
-									class="sapUiSmallMarginBottom"
-									text="{i18n>checkoutPaymentText}"/>
-									<HBox
-										renderType="Bare"
-										alignItems="Center"
-										justifyContent="Center"
-										width="100%">
-										<SegmentedButton
-												select="setPaymentMethod"
-												id="paymentMethodSelection"
-												selectedKey="{/SelectedPayment}">
-												<items>
-													<SegmentedButtonItem
-														id="payViaCC"
-														key="Credit Card"
-														text="{i18n>checkoutPaymentCreditCard}"/>
-													<SegmentedButtonItem
-														id="payViaBank"
-														key="Bank Transfer"
-														text="{i18n>checkoutPaymentBankTransfer}"/>
-													<SegmentedButtonItem
-														id="payViaCOD"
-														key="Cash on Delivery"
-														text="{i18n>checkoutPaymentCod}"/>
-												</items>
-											</SegmentedButton>
-										</HBox>
-							</WizardStep>
-							<WizardStep
-								id="invoiceStep"
-								title="{i18n>checkoutInvoiceAddressTitle}"
-								subsequentSteps="deliveryAddressStep, deliveryTypeStep"
-								activate=".onCheckStepActivation"
-								complete="invoiceAddressComplete"
-								icon="sap-icon://sales-quote"
-								validated="false">
 								<form:SimpleForm
 									layout="ResponsiveGridLayout"
 									editable="true">
-									<Label text="{i18n>checkoutInvoiceAddressDifferentDeliveryAddress}">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<CheckBox
-										id="differentDeliveryAddress"
-										selected="{/DifferentDeliveryAddress}"
-										select="setDifferentDeliveryAddress">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</CheckBox>
 									<Label
-										text="{i18n>checkoutInvoiceAddress}"
+										text="Churi Size"
 										required="true"
-										labelFor="invoiceAddressAddress">
+										labelFor="TxtChuriSize">
 										<layoutData>
 											<layout:GridData span="XL4 L4 M4 S12"/>
 										</layoutData>
 									</Label>
 									<Input
-										id="invoiceAddressAddress"
-										placeholder="{i18n>addressText}"
+										id="TxtChuriSize"
+										placeholder="example 4.8"
 										value="{
-											path: '/InvoiceAddress/Address',
-											type: 'sap.ui.model.type.String',
-											constraints: {
-												minLength: 4,
-												search: '^[a-zA-Z-]+\\.?\\s?[0-9a-zA-Z\\s]*$'
-											}
-										}"
-										change="checkInvoiceStep">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</Input>
-									<Label
-										text="{i18n>checkoutInvoiceAddressCity}"
-										required="true"
-										labelFor="invoiceAddressCity">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<Input
-										id="invoiceAddressCity"
-										placeholder="{i18n>cityText}"
-										value="{
-											path: '/InvoiceAddress/City',
+											path: 'local>/SizeDetails/churiSize',
 											type: 'sap.ui.model.type.String',
 											constraints: {
 												minLength: 3,
-												search: '^[a-zA-Z\\s]+$'
+												search: '[0-9]+|[0-9]+.'
 											}
-										}"
-										change="checkInvoiceStep">
+										}">
 										<layoutData>
 											<layout:GridData span="XL8 L8 M8 S12"/>
 										</layoutData>
 									</Input>
 									<Label
-										text="{i18n>checkoutInvoiceAddressZip}"
+										text="Chain/Mala Size"
 										required="true"
-										labelFor="invoiceAddressZip">
+										labelFor="malaSize">
 										<layoutData>
 											<layout:GridData span="XL4 L4 M4 S12"/>
 										</layoutData>
 									</Label>
 									<Input
-										id="invoiceAddressZip"
-										placeholder="{i18n>zipCodeText}"
+										id="malaSize"
+										placeholder="Mala Size (inch.) e.g. 20.50"
 										value="{
-											path: '/InvoiceAddress/ZipCode',
+											path: 'local>/SizeDetails/malaSize',
 											type: 'sap.ui.model.type.String',
 											constraints: {
 												minLength: 3,
-												search: '^[0-9]+$'
+												search: '[0-9]+|[0-9]+.'
 											}
-										}"
-										change="checkInvoiceStep">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</Input>
-									<Label
-										text="{i18n>checkoutInvoiceAddressCountry}"
-										required="true"
-										labelFor="invoiceAddressCountry">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<Input
-										id="invoiceAddressCountry"
-										placeholder="{i18n>countryText}"
-										value="{
-											path: '/InvoiceAddress/Country',
-											type: 'sap.ui.model.type.String',
-											constraints: {
-												minLength: 2,
-												search: '^[a-zA-Z]+$'
-											}
-										}"
-										change="checkInvoiceStep">
+										}">
 										<layoutData>
 											<layout:GridData span="XL8 L8 M8 S12"/>
 										</layoutData>
@@ -249,13 +147,14 @@
 									<TextArea
 										rows="8"
 										placeholder="{i18n>noteText}"
-										value="{/InvoiceAddress/Note}">
+										value="{local>/SizeDetails/note}">
 										<layoutData>
 											<layout:GridData span="XL8 L8 M8 S12"/>
 										</layoutData>
 									</TextArea>
 								</form:SimpleForm>
 							</WizardStep>
+							</steps>
 					</Wizard>
 				</content>
 				<footer>
@@ -268,6 +167,42 @@
 								type="Emphasized"
 								press=".onShowMessagePopoverPress"/>
 						</contentLeft>
+					</Bar>
+				</footer>
+			</Page>
+			<Page
+				id="summaryPage"
+				backgroundDesign="Solid"
+				showHeader="false">
+				<landmarkInfo>
+					<PageAccessibleLandmarkInfo
+							rootRole="Region" rootLabel="{i18n>Checkout_rootLabel}"
+							contentRole="Main" contentLabel="{i18n>Checkout_summaryContentLabel}"
+							footerRole="Banner" footerLabel="{i18n>Checkout_footerLabel}"/>
+				</landmarkInfo>
+				<content>
+					<VBox alignItems="Center" direction="Column">
+						<Text class="orderConfirm" width="100%"
+							text="Your Order Number is {local>/orderNo}, Please check your email for more details" />
+						<Image src="model/shopthanks.gif" />
+						<Image src="model/thank-you-banner.jpg"/>
+					</VBox>
+
+				</content>
+				<footer>
+					<Bar id="summaryFooterBar">
+						<contentRight>
+							<Button
+								id="submitOrder"
+								type="Accept"
+								text="Create New Order"
+								press="restartOrder"></Button>
+							<Button
+								id="cancelOrder"
+								type="Reject"
+								text="Close App"
+								press="closeApp"></Button>
+						</contentRight>
 					</Bar>
 				</footer>
 			</Page>

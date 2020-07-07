@@ -13,7 +13,9 @@ sap.ui.define([
 	return Controller.extend("sap.ui.demo.cart.controller.BaseController", {
 		cart: cart,
 		ODataHelper: ODataHelper,
-
+		cleanApp: function() {
+			this.getOwnerComponent().getModel("local").setProperty("/cartItems",[]);
+		},
 		/**
 		 * Convenience method for accessing the router.
 		 * @public

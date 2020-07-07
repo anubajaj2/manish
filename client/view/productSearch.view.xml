@@ -41,7 +41,7 @@
 					<grid:GridBoxLayout/>
 				</f:customLayout>
 
-				<f:GridListItem defaultSpan="XL12 L12 M12 S12"
+				<f:GridListItem 
 				 mode="Active">
 					<FlexBox
 						height="1.5rem" class="sapUiSmallMargin"
@@ -70,7 +70,7 @@
 						</anubhav:ImageHover>
 					</FlexBox>
 					<FlexBox renderType="Bare" width="100%"
-						justifyContent="Begin">
+						>
 						<ToggleButton
 							tooltip="{i18n>addToCart}"
 							press="onAddToCart" class="sapUiTinyMargin"

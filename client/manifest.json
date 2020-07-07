@@ -226,8 +226,7 @@
 														"name": "productSearch",
 														"target": [
 															"productSearch"
-														],
-														"titleTarget": "productSearch"
+														]
 													},
 													{
 													  "pattern": "cart",

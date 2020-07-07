@@ -15,6 +15,12 @@
 			"value": false
 		}
 	],
+	"orderNo": "XXXXXX",
+	"SizeDetails":{
+		"malaSize": "",
+		"churiSize": "",
+		"note":""
+	},
 	"customersSet": [{
 			"key": "demo@gmail.com",
 			"value": "Ravi"

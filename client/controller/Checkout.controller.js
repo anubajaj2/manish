@@ -65,7 +65,7 @@ sap.ui.define([
 				}
 			);
 
-			this.setModel(oModel);
+			this.setModel( this.getOwnerComponent().getModel("local"), "local");
 
 			// previously selected entries in wizard
 			this._oHistory = {
@@ -77,11 +77,12 @@ sap.ui.define([
 			this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
 
 			// switch to single column view for checout process
-			this.getRouter().getRoute("checkout").attachMatched(function () {
-				this._setLayout("One");
-			}.bind(this));
+			this._oRouter = this.getOwnerComponent().getRouter();
+			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
 		},
-
+		_routePatternMatched: function(){
+			this._setLayout("One");
+		},
 		/**
 		 * Only validation on client side, does not involve a back-end server.
 		 * @param {sap.ui.base.Event} oEvent Press event of the button to display the MessagePopover
@@ -125,63 +126,6 @@ sap.ui.define([
 		_addDependent: function (oMessagePopover) {
 			this.getView().addDependent(oMessagePopover);
 		},
-
-		/**
-		 * Shows next WizardStep according to user selection
-		 */
-		goToPaymentStep: function () {
-			var selectedKey = this.getModel().getProperty("/SelectedPayment");
-			var oElement = this.byId("paymentTypeStep");
-			switch (selectedKey) {
-				case "Bank Transfer":
-					oElement.setNextStep(this.byId("bankAccountStep"));
-					break;
-				case "Cash on Delivery":
-					oElement.setNextStep(this.byId("cashOnDeliveryStep"));
-					break;
-				case "Credit Card":
-				default:
-					oElement.setNextStep(this.byId("creditCardStep"));
-					break;
-			}
-		},
-
-		/**
-		 * Shows warning message if user changes previously selected payment method
-		 */
-		setPaymentMethod: function () {
-			this._setDiscardableProperty({
-				message: this.getResourceBundle().getText("checkoutControllerChangePayment"),
-				discardStep: this.byId("paymentTypeStep"),
-				modelPath: "/SelectedPayment",
-				historyPath: "prevPaymentSelect"
-			});
-		},
-
-		/**
-		 * Shows warning message if user changes previously selected delivery address
-		 */
-		setDifferentDeliveryAddress: function () {
-			this._setDiscardableProperty({
-				message: this.getResourceBundle().getText("checkoutControllerChangeDelivery"),
-				discardStep: this.byId("invoiceStep"),
-				modelPath: "/DifferentDeliveryAddress",
-				historyPath: "prevDiffDeliverySelect"
-			});
-		},
-
-		/**
-		 * Called from WizardStep "invoiceStep"
-		 * shows next WizardStep "DeliveryAddressStep" or "DeliveryTypeStep" according to user selection
-		 */
-		invoiceAddressComplete: function () {
-			var sNextStepId = (this.getModel().getProperty("/DifferentDeliveryAddress"))
-				? "deliveryAddressStep"
-				: "deliveryTypeStep";
-			this.byId("invoiceStep").setNextStep(this.byId(sNextStepId));
-
-		},
-
 		/**
 		 * Called from <code>ordersummary</code>
 		 * shows warning message and cancels order if confirmed
@@ -219,74 +163,28 @@ sap.ui.define([
 		 * Checks the corresponding step after activation to decide whether the user can proceed or needs
 		 * to correct the input
 		 */
+		checkContentStep: function(){
+
+		},
+		checkPaymentTypeStepStep: function(){
+			return true;
+		},
 		onCheckStepActivation: function(oEvent) {
 			this._clearMessages();
 			var sWizardStepId = oEvent.getSource().getId();
 			switch (sWizardStepId) {
-			case this.createId("creditCardStep"):
-				this.checkCreditCardStep();
+			case this.createId("contentsStep"):
+				this.checkContentStep();
 				break;
-			case this.createId("cashOnDeliveryStep"):
-				this.checkCashOnDeliveryStep();
-				break;
-			case this.createId("invoiceStep"):
-				this.checkInvoiceStep();
-				break;
-			case this.createId("deliveryAddressStep"):
-				this.checkDeliveryAddressStep();
+			case this.createId("paymentTypeStep"):
+				this.checkPaymentTypeStepStep();
 				break;
 			}
 		},
 
-		/**
-		 * Validates the credit card step initially and after each input
-		 */
-		checkCreditCardStep: function () {
-			this._checkStep("creditCardStep", ["creditCardHolderName", "creditCardNumber", "creditCardSecurityNumber", "creditCardExpirationDate"]);
-		},
-
-		/**
-		 * Validates the cash on delivery step initially and after each input
-		 */
-		checkCashOnDeliveryStep: function () {
-			this._checkStep("cashOnDeliveryStep", ["cashOnDeliveryName", "cashOnDeliveryLastName", "cashOnDeliveryPhoneNumber", "cashOnDeliveryEmail"]);
-		},
-
-		/**
-		 * Validates the invoice step initially and after each input
-		*/
 		checkInvoiceStep: function () {
-			this._checkStep("invoiceStep", ["invoiceAddressAddress", "invoiceAddressCity", "invoiceAddressZip", "invoiceAddressCountry"]);
+			//this._checkStep("invoiceStep", ["invoiceAddressAddress", "invoiceAddressCity", "invoiceAddressZip", "invoiceAddressCountry"]);
 		},
-
-		/**
-		 * Validates the delivery address step initially and after each input
-		 */
-		checkDeliveryAddressStep: function () {
-			this._checkStep("deliveryAddressStep", ["deliveryAddressAddress", "deliveryAddressCity", "deliveryAddressZip", "deliveryAddressCountry"]);
-		},
-
-		/**
-		 * Checks if one or more of the inputs are empty
-		 * @param {array} aInputIds - Input ids to be checked
-		 * @returns {boolean}
-		 * @private
-		 */
-		_checkInputFields : function (aInputIds) {
-			var oView = this.getView();
-
-			return aInputIds.some(function (sInputId) {
-				var oInput = oView.byId(sInputId);
-				var oBinding = oInput.getBinding("value");
-				try {
-					oBinding.getType().validateValue(oInput.getValue());
-				} catch (oException) {
-					return true;
-				}
-				return false;
-			});
-		},
-
 		/**
 		 * Hides button to proceed to next WizardStep if validation conditions are not fulfilled
 		 * @param {string} sStepName - the ID of the step to be checked
@@ -317,82 +215,22 @@ sap.ui.define([
 				this.byId("wizardNavContainer").to(this.byId("summaryPage"));
 			}
 		},
-
+		restartOrder: function(){
+			this.cleanApp();
+			this._oRouter.navTo("categories");
+		},
+		closeApp: function(){
+			window.close();
+		},
 		/**
 		 * navigates to "home" for further shopping
 		 */
 		onReturnToShopButtonPress: function () {
-			this._setLayout("Two");
-			this.getRouter().navTo("home");
+			this.firstTwoDisplay();
+			this.getRouter().navTo("categories");
 		},
 
-		// *** the following functions are private "helper" functions ***
 
-		/**
-		 * Called from both <code>setPaymentMethod</code> and <code>setDifferentDeliveryAddress</code> functions.
-		 * Shows warning message if user changes previously selected choice
-		 * @private
-		 * @param {Object} oParams Object containing message text, model path and WizardSteps
-		 */
-		_setDiscardableProperty: function (oParams) {
-			var oWizard = this.byId("shoppingCartWizard");
-			if (oWizard.getProgressStep() !== oParams.discardStep) {
-				MessageBox.warning(oParams.message, {
-					actions: [MessageBox.Action.YES,
-						MessageBox.Action.NO],
-					onClose: function (oAction) {
-						if (oAction === MessageBox.Action.YES) {
-							oWizard.discardProgress(oParams.discardStep);
-							this._oHistory[oParams.historyPath] = this.getModel().getProperty(oParams.modelPath);
-						} else {
-							this.getModel().setProperty(oParams.modelPath, this._oHistory[oParams.historyPath]);
-						}
-					}.bind(this)
-				});
-			} else {
-				this._oHistory[oParams.historyPath] = this.getModel().getProperty(oParams.modelPath);
-			}
-		},
-
-		/**
-		 * Called from <code>handleWizardCancel</code> and <code>handleWizardSubmit</code> functions.
-		 * Shows warning message, resets shopping cart and wizard if confirmed and navigates to given route
-		 * @private
-		 * @param {string} sMessage message text
-		 * @param {string} sMessageBoxType message box type (e.g. warning)
-		 * @param {string} sRoute route to navigate to
-		 */
-		_handleSubmitOrCancel: function (sMessage, sMessageBoxType, sRoute) {
-			MessageBox[sMessageBoxType](sMessage, {
-				actions: [MessageBox.Action.YES,
-					MessageBox.Action.NO],
-				onClose: function (oAction) {
-					if (oAction === MessageBox.Action.YES) {
-						// resets Wizard
-						var oWizard = this.byId("shoppingCartWizard");
-						var oModel = this.getModel();
-						var oCartModel = this.getOwnerComponent().getModel("cartProducts");
-						this._navToWizardStep(this.byId("contentsStep"));
-						oWizard.discardProgress(oWizard.getSteps()[0]);
-						var oModelData = oModel.getData();
-						oModelData.SelectedPayment = "Credit Card";
-						oModelData.SelectedDeliveryMethod = "Standard Delivery";
-						oModelData.DifferentDeliveryAddress = false;
-						oModelData.CashOnDelivery = {};
-						oModelData.InvoiceAddress = {};
-						oModelData.DeliveryAddress = {};
-						oModelData.CreditCard = {};
-						oModel.setData(oModelData);
-						//all relevant cart properties are set back to default. Content is deleted.
-						var oCartModelData = oCartModel.getData();
-						oCartModelData.cartEntries = {};
-						oCartModelData.totalPrice = 0;
-						oCartModel.setData(oCartModelData);
-						this.getRouter().navTo(sRoute);
-					}
-				}.bind(this)
-			});
-		},
 
 		/**
 		 * gets customData from ButtonEvent

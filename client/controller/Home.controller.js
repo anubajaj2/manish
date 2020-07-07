@@ -23,6 +23,7 @@ sap.ui.define([
 		},
 		_onRouteMatched: function(oEvent) {
 				this.loadCategories();
+				this.firstTwoDisplay();
 			},
 		onSearch: function () {
 			debugger;
