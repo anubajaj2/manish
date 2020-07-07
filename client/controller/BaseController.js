@@ -26,8 +26,7 @@ sap.ui.define([
 		firstTwoDisplay: function(){
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
-		lastTwoDisplay: function(){
-			
+		lastTwoDisplay: function(oView){
 			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {

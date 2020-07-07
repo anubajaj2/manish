@@ -241,7 +241,9 @@
 													{
 														"pattern": "checkout",
 														"name": "checkout",
-														"target": "checkout"
+														"target": [
+															"checkoutfinal"
+														]
 													},
 													{
 														"pattern": "ordercompleted",
@@ -321,6 +323,14 @@
 					"viewName": "Checkout",
 					"controlId": "__xmlview0--layout",
 					"controlAggregation": "beginColumnPages",
+					"viewLevel": 1,
+					"title": "{i18n>checkoutTitle}",
+					"viewId": "checkoutView"
+				},
+				"checkoutfinal":{
+					"viewName": "Checkout",
+					"controlId": "__component0---idMainApp--idMainApp",
+					"controlAggregation": "pages",
 					"viewLevel": 1,
 					"title": "{i18n>checkoutTitle}",
 					"viewId": "checkoutView"

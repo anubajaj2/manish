@@ -24,10 +24,7 @@
 			<Button
 				id="editButton"
 				icon="sap-icon://edit"
-				enabled="{parts: [
-					{path: 'local>/cartItems'},
-					{path: 'local>/savedForLaterEntries'}
-				 ], formatter : '.formatter.hasItems'}"
+				enabled="true"
 				visible="{cfg>/notInDelete}"
 				press=".onEditOrDoneButtonPress"
 				tooltip="{i18n>cartEditButtonTooltip}"/>
@@ -46,10 +43,7 @@
 					id="proceedButton"
 					type="Accept"
 					text="{i18n>cartProceedButtonText}"
-					enabled="{
-						path: 'local>/cartItems',
-						formatter: '.formatter.hasItems'
-					}"
+					enabled="true"
 					visible="{cfg>/notInDelete}"
 					press=".onProceedButtonPress"/>
 				<Button

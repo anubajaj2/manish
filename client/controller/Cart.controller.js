@@ -23,8 +23,6 @@ sap.ui.define([
 		onInit: function () {
 			this._oRouter = this.getOwnerComponent().getRouter();
 			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
-			// this._oRouter.getRoute("productCart").attachPatternMatched(this._routePatternMatched, this);
-			// this._oRouter.getRoute("comparisonCart").attachPatternMatched(this._routePatternMatched, this);
 			// // set initial ui configuration model
 			var oCfgModel = new JSONModel({});
 			this.getView().setModel(oCfgModel, "cfg");
@@ -39,21 +37,59 @@ sap.ui.define([
 				this._orderBusyDialog.destroy();
 			}
 		},
-
+		onBack: function(){
+			this._oRouter.navTo("productSearch");
+		},
 		_routePatternMatched: function () {
-			this._setLayout("Three");
+			//this._setLayout("Three");
 			var oCartModel = this.getModel("local");
 			var oCartEntries = oCartModel.getProperty("/cartItems");
 			//enables the proceed and edit buttons if the cart has entries
 			if (Object.keys(oCartEntries).length > 0) {
 				oCartModel.setProperty("/showProceedButton", true);
 				oCartModel.setProperty("/showEditButton", true);
+			}else{
+				oCartModel.setProperty("/showProceedButton", false);
+				oCartModel.setProperty("/showEditButton", false);
 			}
 			//set selection of list back
 			var oEntryList = this.byId("entryList");
 			oEntryList.removeSelections();
+			this.lastTwoDisplay(this.getView());
 		},
-
+		onCartItemDelete: function(oEvent){
+			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
+			var productId = oObj.id;
+			//sPath = sPath.split("'")[1];
+			//oEvent.getSource().removeItem(oEvent.getParameter("listItem"));
+			 this.removeProductFromCart(oObj);
+			 var oBtn = this.getButtonInsideGrid(productId);
+			 oBtn.setIcon("sap-icon://cart-3");
+			 oBtn.setType("Default");
+			 oBtn.setPressed(false);
+		},
+		removeProductFromCart: function(productRec){
+			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+			for (var i = 0; i < cartItems.length; i++) {
+				if(cartItems[i].id === productRec.id){
+					cartItems.splice(i,1);
+					break;
+				}
+			}
+			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+		},
+		getGridItemById: function(productId){
+			var gridList = sap.ui.getCore().byId("__component0---productSearch--gridList").getItems();
+			for (var i = 0; i < gridList.length; i++) {
+				if(gridList[i].getBindingContextPath().indexOf(productId) != -1){
+					return gridList[i];
+				}
+			}
+		},
+		getButtonInsideGrid: function(productId){
+			var oItem = this.getGridItemById(productId);
+			return oItem.getContent()[2].getItems()[0];
+		},
 		onEditOrDoneButtonPress: function () {
 			this._toggleCfgModel();
 		},
