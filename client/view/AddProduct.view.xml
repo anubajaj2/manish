@@ -1,50 +1,31 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.AddProduct"
-	xmlns:f="sap.ui.layout.form"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:l="sap.ui.layout"
-	>
-	<Page
-		id="page"
-		title="Add New Product"
-		>
+<mvc:View controllerName="sap.ui.demo.cart.controller.AddProduct" xmlns:f="sap.ui.layout.form" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout">
+	<Page id="page" title="Add New Product">
 		<headerContent>
-			<Button icon= "sap-icon://copy" tooltip="Copy form existing" press="onPress"></Button>
+			<Button icon="sap-icon://copy" tooltip="Copy form existing" press="onPress"></Button>
 		</headerContent>
 		<content>
-			<f:SimpleForm
-				id="idSF"
-				editable="true"
-				layout="ResponsiveGridLayout"
-				labelSpanXL="12"
-				labelSpanL="12"
-				labelSpanM="12"
-				labelSpanS="12"
-				columnsXL="0"
-				columnsL="0"
-				columnsM="0"
-				emptySpanXL="0"
-				emptySpanL="0"
-				emptySpanM="0"
-				emptySpanS="0">
+			<f:SimpleForm id="idSF" editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+				columnsXL="0" columnsL="0" columnsM="0" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0">
 				<f:content>
 					<Label text="Product Code"/>
-			    <Input id="idName" value=""/>
+					<Input id="idName" value=""/>
 					<Label text="Category/SubCategory"/>
 					<Select id="idCS" items="" selectedKey="">
 						<items>
 							<core:Item text="{}" key="{}"/>
 						</items>
-					<layoutData><l:GridData span="L6 M6 S6"></l:GridData></layoutData>
+						<layoutData>
+							<l:GridData span="L6 M6 S6"></l:GridData>
+						</layoutData>
 					</Select>
-
 					<Select id="idCS1" items="" selectedKey="">
 						<items>
 							<core:Item text="{}" key="{}"/>
 						</items>
-						<layoutData><l:GridData span="L6 M6 S6"></l:GridData></layoutData>
+						<layoutData>
+							<l:GridData span="L6 M6 S6"></l:GridData>
+						</layoutData>
 					</Select>
 					<Label text="Gender"/>
 					<Select id="idGender" items="" selectedKey="">
@@ -60,10 +41,14 @@
 					<Label text="Quantity"/>
 					<Input id="idQty" value=""/>
 					<Button id="idUpimg" text="+ Upload Image" press="onUploadImg">
-          <layoutData><l:GridData span="L12 M12 S12"></l:GridData></layoutData>
+						<layoutData>
+							<l:GridData span="L12 M12 S12"></l:GridData>
+						</layoutData>
 					</Button>
 					<Button id="idCapimg" text="+ Capture Image" press="onCaptureImg">
-					<layoutData><l:GridData span="L12 M12 S12"></l:GridData></layoutData>
+						<layoutData>
+							<l:GridData span="L12 M12 S12"></l:GridData>
+						</layoutData>
 					</Button>
 				</f:content>
 			</f:SimpleForm>
@@ -71,8 +56,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-					<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
-					<Button text="Cancel" type="Reject" press="onCacel" id="idCancel"></Button>
+				<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
+				<Button text="Cancel" type="Reject" press="onCacel" id="idCancel"></Button>
 			</Toolbar>
 		</footer>
 	</Page>

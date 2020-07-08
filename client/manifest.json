@@ -203,6 +203,14 @@
 																	"ManuHome",
 																	"MyApproval"
 																]
+															},
+															{
+																"pattern": "Camera",
+																"name": "Camera",
+																"target": [
+																	"Camera",
+																	"AddProduct"
+																]
 															}
 													]
 												},
@@ -478,6 +486,13 @@
 					"controlAggregation": "beginColumnPages",
 					"viewLevel": 1,
 					"viewId": "ManuHome"
+				},
+				"Camera": {
+					"viewName": "Camera",
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "beginColumnPages",
+					"viewLevel": 1,
+					"viewId": "Camera"
 				},
 				"Preferences": {
 					"viewName": "Preferences",

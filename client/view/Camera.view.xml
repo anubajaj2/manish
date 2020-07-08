@@ -1,0 +1,44 @@
+<mvc:View height="100%" controllerName="sap.ui.demo.cart.controller.AddProduct" xmlns:mvc="sap.ui.core.mvc"
+	 xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:cards="sap.f.cards" xmlns:l="sap.ui.layout"
+	  xmlns:unified="sap.ui.unified" xmlns:core="sap.ui.core">
+	<Panel>
+		<f:SimpleForm id="idSF" editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			columnsXL="0" columnsL="0" columnsM="0" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0">
+			<f:content>
+				<Button id="idCapimg1" text="Capture Image" press="onCaptureImg1">
+					<layoutData>
+						<l:GridData span="L6 M6 S6"></l:GridData>
+					</layoutData>
+				</Button>
+				<Button id="idUpimg1" text="Upload Photos" press="onUploadImg1">
+					<layoutData>
+						<l:GridData span="L6 M6 S6"></l:GridData>
+					</layoutData>
+				</Button>
+			</f:content>
+		</f:SimpleForm>
+	</Panel>
+	<Panel>
+		<Carousel id="car" height="20%" pages="{ path: 'C>/images' }">
+			<customLayout>
+				<CarouselLayout visiblePagesCount="{settings>/pagesCount}"/>
+			</customLayout>
+			<Image src="" width="50px" height="50px"/>
+		</Carousel>
+	</Panel>
+	<Panel>
+		<FlexBox height="auto">
+			<items>
+				<Button text="Send to Carousal" width="100px" id="idSend" press="sendToCarousal"/>
+				<unified:FileUploader change="onFileChange" visible=""/>
+			</items>
+		</FlexBox>
+		<layoutData><l:SplitterLayoutData size="auto"/></layoutData>
+		<l:HorizontalLayout id="staticContentLayout">
+			<VBox class="sapUiSmallMargin" id="wow" width="auto" height="auto"></VBox>
+			<l:content>
+				<Button text="Take Photo" press="onTP"/>
+			</l:content>
+		</l:HorizontalLayout>
+	</Panel>
+</mvc:View>
