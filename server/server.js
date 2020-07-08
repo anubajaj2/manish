@@ -36,6 +36,31 @@ app.start = function() {
 	});
 };
 
+app.post('/changeUserStatus',
+	function(req, res) {
+		if (!req.body.emailId) {
+			res.send('No Email Id');
+			return;
+		}
+
+		this.AppUser = app.models.AppUser;
+		var _this = this;
+		_this.AppUser.findOne({ where: { "EmailId": req.body.emailId } }).then(function (appUser) {
+				if (appUser) {
+						appUser.updateAttributes({
+							blocked: req.body.bStat
+						});
+						res.send("Change Success");
+				}else{
+					res.send("User not found");
+				}
+		}).catch(function(err){
+			res.send("Error Occurred");
+		});
+
+	}
+);
+
 app.post('/updateLastLogin',
 	function(req, res) {
 		if (!req.body.emailId) {
