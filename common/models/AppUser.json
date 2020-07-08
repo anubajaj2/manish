@@ -36,6 +36,33 @@
     "ChangedBy": {
       "type": "string",
       "default": "null"
+    },
+    "blocked":{
+      "type": "boolean",
+      "default": "null"
+    },
+    "pwdChange":{
+      "type": "boolean",
+      "default": "null"
+    },
+    "lastLogin":{
+      "type": "date"
+    },
+    "softDelete":{
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "relations": {
+    "ToCreatedBy":{
+      "type":"belongsTo",
+      "model":"User",
+      "foreignKey":"CreatedBy"
+    },
+    "ToChangedBy":{
+      "type":"belongsTo",
+      "model":"User",
+      "foreignKey":"ChangedBy"
     }
   },
   "validations": [],
