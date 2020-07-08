@@ -76,8 +76,6 @@ sap.ui.define([
 		},
 
 		onCategoryListItemPress: function (oEvent) {
-	debugger;
-
 			var oBindContext = oEvent.getSource().getBindingContext();
 			var oModel = oBindContext.getModel();
 			var sCategoryId = oModel.getData(oBindContext.getPath()).id;
