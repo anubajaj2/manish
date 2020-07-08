@@ -38,7 +38,7 @@
         <Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}"/>
         <Label text="Group"/>
         <MultiComboBox id="idgpCode" value="{local>/groupSelected/GroupCode}"
-          items="{groupModelCode>/results}"
+          items="{groupModelCode>/results}" change="groupCodeCheck"
           selectedKeys="{local>/groupSelected/GroupId}"
           selectionChange="onSelectionChange">
           <core:Item key="{groupModelCode>id}"
