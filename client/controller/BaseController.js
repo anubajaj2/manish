@@ -24,11 +24,30 @@ sap.ui.define([
 		onInit: function () {
 
 		},
-
+		calculateOrderEstimate: function(){
+			var allItems = this._oLocalModel.getProperty("/cartItems");
+			var totalAmount = 0;
+			var totalGm = 0;
+			for (var i = 0; i < allItems.length; i++) {
+				var fineGold = allItems[i].GrossWeight - allItems[i].StoneWeight;
+				fineGold = fineGold * allItems[i].Tunch / 100;
+				fineGold = fineGold * parseInt(allItems[i].Qty);
+				var makingFee = allItems[i].GrossWeight * ( allItems[i].Making / 10 );
+				var amount = ( allItems[i].StonePc * allItems[i].StoneRs ) + allItems[i].OtherFee;
+				amount = amount + makingFee;
+				amount = amount * parseInt(allItems[i].Qty);
+				totalGm = totalGm + fineGold;
+				totalAmount = totalAmount + amount;
+				fineGold = 0; amount = 0;
+			}
+			this._oLocalModel.setProperty("/fineGm", totalGm);
+			this._oLocalModel.setProperty("/fineRs", totalAmount);
+		},
 		firstTwoDisplay: function(){
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
 		lastTwoDisplay: function(oView){
+
 			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {

@@ -50,37 +50,25 @@
 										}
 								}">
 									<items>
-										<ObjectListItem
-											intro="{local>Quantity} x"
-											icon="{
-												path : 'local>PictureUrl'
-											}"
-											title="{local>Name}"
-											number="{
-												path : 'local>Price',
-												formatter : '.formatter.price'
-											}"
-											numberUnit="EUR"
-											press=".onEntryListPress"
-											iconDensityAware="false">
-											<firstStatus>
-												<ObjectStatus
-													text="{
-														path : 'local>Status',
-														formatter : '.formatter.statusText'
-													}"
-													state="{
-														path : 'local>Status',
-														formatter : '.formatter.statusState'
-													}"/>
-											</firstStatus>
-										</ObjectListItem>
+										<CustomListItem>
+											<HBox alignContent="Stretch">
+												<HBox width="20%" height="50%">
+													<Image width="50%" height="70%" src="{local>ProductPicUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
+												</HBox>
+												<VBox>
+													<Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop" />
+													<Input change="onChangeQty" value="{local>Qty}" width="20%" length="3" placeholder="Qty" type="Number"/>
+												</VBox>
+											</HBox>
+										</CustomListItem>
 									</items>
 								</List>
 								<Bar>
 									<contentRight>
 										<Text
-											text="TotalAmount INR"/>
+											text="{local>/fineGm} gm"/>
+										<Text
+											text="{local>/fineRs} INR"/>
 									</contentRight>
 								</Bar>
 							</WizardStep>

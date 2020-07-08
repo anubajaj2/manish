@@ -44,6 +44,7 @@ sap.ui.define([
 		addProductToCart: function(productRec){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
 			productRec.ProductPicUrl = "https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg";
+			productRec.Qty = parseInt(1);
 			cartItems.push(productRec);
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
 		},
@@ -92,7 +93,7 @@ sap.ui.define([
 			// } else {
 			// 	this._oPopoverCart.openBy(oButton);
 			// }
-
+			this.lastTwoDisplay();
 			this.getRouter().navTo("comparisonCart");
 		},
 		getGridItemById: function(productId){

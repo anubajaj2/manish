@@ -23,65 +23,22 @@ sap.ui.define([
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.Checkout", {
-
-		types : {
-			email: new EmailType()
-		},
-
 		formatter: formatter,
-
 		onInit: function () {
-			var oModel = new JSONModel(
-				{
-					SelectedPayment: "Credit Card",
-					SelectedDeliveryMethod: "Standard Delivery",
-					DifferentDeliveryAddress: false,
-					CashOnDelivery: {
-						FirstName: "",
-						LastName: "",
-						PhoneNumber: "",
-						Email: ""
-					},
-					InvoiceAddress: {
-						Address: "",
-						City: "",
-						ZipCode: "",
-						Country: "",
-						Note: ""
-					},
-					DeliveryAddress: {
-						Address: "",
-						Country: "",
-						City: "",
-						ZipCode: "",
-						Note: ""
-					},
-					CreditCard: {
-						Name: "",
-						CardNumber: "",
-						SecurityCode: "",
-						Expire: ""
-					}
-				}
-			);
-
 			this.setModel( this.getOwnerComponent().getModel("local"), "local");
-
-			// previously selected entries in wizard
-			this._oHistory = {
-				prevPaymentSelect: null,
-				prevDiffDeliverySelect: null
-			};
-
+			this._oLocalModel =  this.getOwnerComponent().getModel("local");
 			// Assign the model object to the SAPUI5 core
 			this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
-
 			// switch to single column view for checout process
 			this._oRouter = this.getOwnerComponent().getRouter();
 			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
 		},
 		_routePatternMatched: function(){
 			this._setLayout("One");
+			this.calculateOrderEstimate();
+		},
+		onChangeQty: function(){
+			this.calculateOrderEstimate();
 		},
 		/**
 		 * Only validation on client side, does not involve a back-end server.

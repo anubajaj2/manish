@@ -66,7 +66,7 @@ sap.ui.define([
 
 		},
 		onInit: function () {
-			this.getRouter().attachRouteMatched(this._onRouteMatched, this);
+			this.getOwnerComponent().getRouter().getRoute("home").attachMatched(this._onRouteMatched, this);
 			// this.loadCategories();
 			// setTimeout(this._initLoad.bind(this),1000);
 		},
@@ -82,7 +82,7 @@ sap.ui.define([
 		// 	}
 		// },
 		_onRouteMatched: function (oEvent) {
-			this.firstTwoDisplay();
+			//this.firstTwoDisplay();
 		}
 	});
 });

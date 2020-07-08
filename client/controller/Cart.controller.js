@@ -56,6 +56,10 @@ sap.ui.define([
 			var oEntryList = this.byId("entryList");
 			oEntryList.removeSelections();
 			this.lastTwoDisplay(this.getView());
+			setTimeout(this.loads(this),3000);
+		},
+		loads: function () {
+				this.lastTwoDisplay(this.getView());
 		},
 		onCartItemDelete: function(oEvent){
 			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());

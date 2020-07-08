@@ -19,14 +19,18 @@ sap.ui.define([
 		formatter : formatter,
 		onInit: function () {
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.attachRouteMatched(this._onRouteMatched, this);
+			oRouter.getRoute("home").attachMatched(this._onRouteMatched, this);
+
 		},
+		_firstTime: true,
 		_onRouteMatched: function(oEvent) {
 				this.loadCategories();
-				this.firstTwoDisplay();
-			},
+				if(this._firstTime){
+						this.firstTwoDisplay();
+						this._firstTime = false;
+				}
+		},
 		onSearch: function () {
-			debugger;
 			this._search();
 		},
 		onGridItemPress: function(oEvent) {
