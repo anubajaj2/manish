@@ -80,6 +80,7 @@ sap.ui.define([
           MessageToast.show("cannot fetch the data");
         });
       this.clearScreen();
+      this.firstTwoDisplay();
     },
     clearScreen: function(oEvent) {
       var productCategory = this.getView().getModel("local").getProperty("/ProductCategories");

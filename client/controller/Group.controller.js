@@ -3,7 +3,7 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/core/routing/History",
-	"sap/ui/demo/cart/models/formatter",
+	"sap/ui/demo/cart/model/formatter",
 	"sap/m/MessageToast",
 	"sap/ui/model/Filter"
 ], function(BaseController, UIComponent, JSONModel,
@@ -115,7 +115,8 @@ sap.ui.define([
 				}).catch(function(oError) {
 						MessageToast.show("cannot fetch the data");
 				});
-this.clearGroup();
+				this.clearGroup();
+				this.firstTwoDisplay();
 		 },
 
 		 toggleFullScreen:function(){

@@ -227,8 +227,8 @@ sap.ui.define([
               debugger;
               function recursion() {
                 if (count < groupId.length) {
-                var return = that.updateGroupDetails(groupId , count , manufacturerId);
-                if (return === 'true') {
+                var status = that.updateGroupDetails(groupId , count , manufacturerId);
+                if (status === 'true') {
                   count++;
                   recursion();
                 }else {
