@@ -118,6 +118,10 @@
       "default":0,
       "required": true
     },
+    "Status":{
+      "type": "string",
+      "default":"P"      
+    },
     "ApprovedOn": {
 			"type": "date",
 			"default": "null"

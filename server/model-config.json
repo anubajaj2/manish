@@ -103,5 +103,9 @@
   "RetailerGroup":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "ProdPhoto":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }
