@@ -5,14 +5,17 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"sap/ui/demo/cart/model/cart",
 	"sap/ui/demo/cart/dbapi/dbapi",
-], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper) {
+	"sap/f/LayoutType"
+], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType) {
 	"use strict";
 
 
 	return Controller.extend("sap.ui.demo.cart.controller.BaseController", {
 		cart: cart,
 		ODataHelper: ODataHelper,
-
+		cleanApp: function() {
+			this.getOwnerComponent().getModel("local").setProperty("/cartItems",[]);
+		},
 		/**
 		 * Convenience method for accessing the router.
 		 * @public
@@ -20,6 +23,13 @@ sap.ui.define([
 		 */
 		onInit: function () {
 
+		},
+
+		firstTwoDisplay: function(){
+			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+		},
+		lastTwoDisplay: function(oView){
+			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {
 			return UIComponent.getRouterFor(this);
@@ -131,7 +141,7 @@ sap.ui.define([
 		 */
 		_setLayout: function (sColumns) {
 			if (sColumns) {
-				//this.getModel("appView").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
+				this.getModel("local").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
 			}
 		},
 

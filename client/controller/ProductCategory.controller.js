@@ -3,7 +3,7 @@ sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
-  "sap/ui/demo/cart/models/formatter"
+  "sap/ui/demo/cart/model/formatter"
 ], function(BaseController, UIComponent, JSONModel,
   MessageToast, formatter) {
   "use strict";
@@ -80,6 +80,7 @@ sap.ui.define([
           MessageToast.show("cannot fetch the data");
         });
       this.clearScreen();
+      this.firstTwoDisplay();
     },
     clearScreen: function(oEvent) {
       var productCategory = this.getView().getModel("local").getProperty("/ProductCategories");
@@ -97,9 +98,9 @@ sap.ui.define([
     },
     toggleFullScreen: function() {
       // debugger;
-      // var btnId = "idFullScreenBtn";
-      // var headerId = "__component0---idGroup--GroupHeader";
-      // this.toggleUiTable(btnId,headerId)
+      var btnId = "idFullScreenBtn";
+      var headerId = "__component0---idProduct--ProductHeader";
+      this.toggleUiTable(btnId,headerId)
     },
     CodeCheck: function(oEvent) {
       var input_source = oEvent.getSource();
@@ -114,7 +115,6 @@ sap.ui.define([
       // this.getView().getModel("local").setProperty("/ProductCategories/SubCategory", subCatergory);
       // this.productCheck(category, subCatergory);
     },
-
     productCheck: function(category, subCatergory, type) {
       var productJson = this.getView().getModel("ProductModel").getData().results;
 
@@ -172,7 +172,7 @@ sap.ui.define([
 
         } else {
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-              "/Category", "POST", {}, oSaveData, this)
+              "/ProductCategories", "POST", {}, oSaveData, this)
             .then(function(oData) {
               MessageToast.show("Data saved successfully");
               that._onRouteMatched();
@@ -224,6 +224,5 @@ sap.ui.define([
         }
       }
     }
-
   });
 });

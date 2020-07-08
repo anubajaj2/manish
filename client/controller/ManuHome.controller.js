@@ -13,13 +13,13 @@ sap.ui.define([
 						Filter) {
 	"use strict";
 
-	return BaseController.extend("sap.ui.demo.cart.controller.template", {
+	return BaseController.extend("sap.ui.demo.cart.controller.ManuHome", {
 		formatter: formatter,
 		onInit : function () {
-			var oRouter = this.getRouter();
-			oRouter.getRouter().attachMatched(this._onRouteMatched, this);
+			this._oRouter = this.getOwnerComponent().getRouter();
+			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
 		},
-		 _onRouteMatched : function(){
+		 _routePatternMatched : function(){
 			var that = this;
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
 			this.firstTwoDisplay();
@@ -33,9 +33,6 @@ sap.ui.define([
  						MessageToast.show("cannot fetch the data");
  				});
 		 },
-		_onObjectMatched : function (oEvent) {
-
-		},
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},

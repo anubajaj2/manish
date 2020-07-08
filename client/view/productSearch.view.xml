@@ -1,0 +1,113 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.productSearch"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.f"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:anubhav="sap.ui.demo.cart.controls"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		id="page"
+		title="{CategoryName}"
+		backgroundDesign="Solid"
+		showNavButton="true"
+		navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://cart" tooltip="my order"
+				press="onCartClick" />
+		</headerContent>
+		<content>
+			<f:GridList
+					id="gridList"
+					items="{
+						path: '/Products'
+					}"
+					growing="true"
+					growingThreshold="9"
+					itemPress="onImageOpen">
+
+				<f:headerToolbar>
+					<Toolbar>
+						<content>
+							<!-- <Title text="GridList, using custom header with SearchField" /> -->
+							<ToolbarSpacer/>
+							<Button text="Refresh" icon="sap-icon://refresh"
+								press="onRefresh" />
+						</content>
+					</Toolbar>
+				</f:headerToolbar>
+
+				<f:customLayout>
+					<grid:GridBoxLayout/>
+				</f:customLayout>
+
+				<f:GridListItem 
+				 mode="Active">
+					<FlexBox
+						height="1.5rem" class="sapUiSmallMargin"
+						renderType="Bare">
+						<l:VerticalLayout>
+							<ObjectIdentifier
+								title="{Name}"
+								tooltip="{Name}"
+								titleActive="true"
+								titlePress="onSelectProduct"
+								class="sapUiTinyMarginBottom"/>
+						</l:VerticalLayout>
+					</FlexBox>
+					<FlexBox
+						renderType="Bare" height="15rem" width="100%"
+						justifyContent="Center">
+						<anubhav:ImageHover
+							src="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
+							width="100%"
+							height="100%"
+							press="onImageOpen"
+							tooltip=""
+							mIn="onImageIn"
+							mOut="onImageOut"
+							alt="">
+						</anubhav:ImageHover>
+					</FlexBox>
+					<FlexBox renderType="Bare" width="100%"
+						>
+						<ToggleButton
+							tooltip="{i18n>addToCart}"
+							press="onAddToCart" class="sapUiTinyMargin"
+							icon="sap-icon://cart-3"
+							>
+							<layoutData>
+								<l:GridData span="XL4 L4 M4 S4"/>
+							</layoutData>
+						</ToggleButton>
+						<HBox class="sapUiTinyMargin" direction="RowReverse"
+							justifyContent="End" alignItems="End">
+							<VBox>
+								<HBox>
+									<Text class="textClass"
+										text="{GrossWeight} gm">
+										<layoutData>
+											<l:GridData span="XL4 L4 M4 S4"/>
+										</layoutData>
+									</Text>
+									<Text class="sapUiTinyMarginBegin textClass"
+										text="{Tunch} T">
+										<layoutData>
+											<l:GridData span="XL4 L4 M4 S4"/>
+										</layoutData>
+									</Text>
+								</HBox>
+								<ObjectStatus
+									text="{ path: 'Status',
+													formatter: '.formatter.statusText' }"
+									state="{ path: 'Status',
+													formatter: '.formatter.statusState' }">
+								</ObjectStatus>
+							</VBox>
+						</HBox>
+					</FlexBox>
+				</f:GridListItem>
+			</f:GridList>
+		</content>
+	</Page>
+</mvc:View>

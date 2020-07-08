@@ -220,7 +220,6 @@
 												"target": [
 													"welcome",
 													"home"
-
 												],
 												"subroutes": [
 													{
@@ -231,61 +230,27 @@
 													]
 												},
 													{
-														"pattern": "category/{id}",
-														"name": "category",
+														"pattern": "category/productSearch",
+														"name": "productSearch",
 														"target": [
-															"welcome",
-															"category"
-														],
-														"titleTarget": "category"
+															"productSearch"
+														]
 													},
 													{
-														"pattern": "category/{id}/product/{productId}",
-														"name": "product",
-														"target": [
-															"category",
-															"product"
-														],
-														"titleTarget": "product"
-													},
-													{
-													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:",
-													  "name": "comparison",
-													  "target": [
-														"category",
-														"comparison"
-													  ],
-													  "titleTarget": "comparison"
-													},
-													{
-													  "pattern": "category/{id}/compare/:item1Id:/:item2Id:/cart",
+													  "pattern": "cart",
 													  "name": "comparisonCart",
 													  "target": [
-														"category",
-														"comparison",
-														"cart"
-													  ],
-													  "titleTarget": "comparison"
-													},
-													{
-														"pattern": "category/{id}/product/{productId}/cart",
-														"name": "productCart",
-														"target": [
-															"category",
 															"product",
 															"cart"
-														],
-														"titleTarget": "product"
-													},
-													{
-														"pattern": "cart",
-														"name": "cart",
-														"target": ["home", "welcome", "cart"]
+													  ],
+													  "titleTarget": "comparison"
 													},
 													{
 														"pattern": "checkout",
 														"name": "checkout",
-														"target": "checkout"
+														"target": [
+															"checkoutfinal"
+														]
 													},
 													{
 														"pattern": "ordercompleted",
@@ -310,12 +275,11 @@
 					"viewLevel": 1
 				},
 				"product": {
-					"viewName": "Product",
+					"viewName": "productSearch",
 					"viewLevel": 3,
-					"viewId": "product",
+					"viewId": "productSearch",
 					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"title":"{Name}"
+					"controlAggregation": "midColumnPages"
 				},
 				"comparison": {
 				  "viewName": "Comparison",
@@ -325,18 +289,12 @@
 				  "controlAggregation": "midColumnPages",
 				  "title":"{Name}"
 				},
-				"category": {
-					"viewName": "Category",
+				"productSearch": {
+					"viewName": "productSearch",
 					"viewLevel": 2,
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewId": "category",
-					"title": {
-						"parts": [
-							"i18n>tabTitle",
-							"CategoryName"
-						]
-					}
+					"controlId": "__component0---idMainApp--idMainApp",
+					"controlAggregation": "pages",
+					"viewId": "productSearch"
 				},
 				"notFound": {
 					"viewName": "NotFound",
@@ -355,7 +313,7 @@
 				},
 				"home": {
 					"viewName": "Home",
-					"viewLevel": 1,
+					"viewLevel": 2,
 					"controlId": "__xmlview0--layout",
 					"controlAggregation": "beginColumnPages",
 					"viewId": "homeView",
@@ -364,19 +322,22 @@
 				"cart": {
 					"viewName": "Cart",
 					"controlId": "__xmlview0--layout",
+					"viewLevel": 3,
 					"controlAggregation": "endColumnPages",
-					"viewId": "cartView",
-					"title": {
-						"parts": [
-							"i18n>tabTitle",
-							"i18n>tableTitleCart"
-						]
-					}
+					"viewId": "cartView"
 				},
 				"checkout": {
 					"viewName": "Checkout",
 					"controlId": "__xmlview0--layout",
 					"controlAggregation": "beginColumnPages",
+					"viewLevel": 1,
+					"title": "{i18n>checkoutTitle}",
+					"viewId": "checkoutView"
+				},
+				"checkoutfinal":{
+					"viewName": "Checkout",
+					"controlId": "__component0---idMainApp--idMainApp",
+					"controlAggregation": "pages",
 					"viewLevel": 1,
 					"title": "{i18n>checkoutTitle}",
 					"viewId": "checkoutView"

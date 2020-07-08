@@ -3,7 +3,12 @@
 	padding: 0;
 	border-bottom-width: 0;
 }
-
+.orderConfirm{
+	color: blue;
+	font-size: 55;
+	font-family: cursive;
+	font-weight: bold;
+}
 .sapUiDemoCart .welcomeCarouselText {
 	color: white;
 	display: block;
@@ -13,6 +18,36 @@
 	font-size: 1.5rem;
 	width: 100%;
 	text-shadow: 0 0 0.125rem black;
+}
+.largeFont {
+
+}
+.textClass{
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.greenClass{
+		color: green;
+		font-weight: bold;
+}
+.orangeClass{
+		color: orange;
+		font-weight: bold;
+}
+.redClass{
+		color: red;
+		font-weight: bold;
+}
+.largeFont label{
+	font-size: 80
+}
+.colorGreen{
+	background-color: orange;
+	color: white;
+
+}
+.gridCenter{
+	text-align: center
 }
 
 .productPrice {

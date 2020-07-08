@@ -6,11 +6,10 @@
 	xmlns:mvc="sap.ui.core.mvc">
 		<f:FlexibleColumnLayout
 			id="layout"
-			busy="{appView>/busy}"
-			busyIndicatorDelay="{appView>/delay}"
-			layout="{appView>/layout}"
-			backgroundDesign="Translucent"
-			class="sapUiDemoCart"
+			busy="{local>/busy}"
+			busyIndicatorDelay="{local>/delay}"
+			layout="{local>/layout}"
+			backgroundDesign="Solid"
 			stateChange="onStateChange">
 		</f:FlexibleColumnLayout>
 </mvc:View>

@@ -102,7 +102,7 @@
 						<LightBox id="lightBox">
 							<imageContent>
 								<LightBoxItem
-									imageSrc="{path : 'PictureUrl', formatter : '.formatter.pictureUrl'}"
+									imageSrc="{path : 'PictureUrl'}"
 									title="{Name}"/>
 							</imageContent>
 						</LightBox>

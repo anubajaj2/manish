@@ -1,0 +1,63 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core">
+	<ResponsivePopover
+		title="{Name}" contentWidth="80%"
+		class="sapUiPopupWithPadding"
+		placement="Bottom" >
+		<beginButton>
+			<Button text="Close" press="handleCloseButton" />
+		</beginButton>
+		<content>
+      <VBox class="sapUiSmallMargin">
+    		<f:SimpleForm id="SimpleFormDisplay480_12120Dual"
+    			editable="false"
+    			layout="ResponsiveGridLayout"
+    			labelSpanXL="4"
+    			labelSpanL="4"
+    			labelSpanM="12"
+    			labelSpanS="12"
+    			adjustLabelSpan="false"
+    			emptySpanXL="0"
+    			emptySpanL="0"
+    			emptySpanM="0"
+    			emptySpanS="0"
+    			columnsXL="2"
+    			columnsL="2"
+    			columnsM="2"
+    			singleContainerFullSize="false" >
+    			<f:content>
+    				<core:Title text="Specifications" />
+    				<Label text="D NO" />
+    				<Text text="{ProductId}:{Name}" />
+    				<Label text="PICS" />
+    				<Text text="{PairSize}" />
+    				<Label text="G WT" />
+    				<Text text="{GrossWeight}" />
+    				<Label text="ST PC" />
+    				<Text text="{StonePc}" />
+            <Label text="WEISTAGE" />
+    				<Text text="{Wastage}" />
+            <Label text="T FINE" />
+    				<Text text="{Tunch}" />
+    				<core:Title text="" />
+    				<Label text="SIZE" />
+    				<Text text="{Size}" />
+    				<Label text="N WT" />
+    				<Text text="{NetWeight}" />
+            <Label text="ST WT" />
+    				<Text text="{StoneWeight}" />
+    				<Label text="ST RS" />
+    				<Text text="{StoneRs}" />
+    				<Label text="OTHER RS" />
+    				<Text text="{OtherFee}" />
+            <Label text="AMOUNT" />
+    				<Text text="" />
+    			</f:content>
+    		</f:SimpleForm>
+    	</VBox>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

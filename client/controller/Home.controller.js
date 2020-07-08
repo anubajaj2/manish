@@ -23,10 +23,20 @@ sap.ui.define([
 		},
 		_onRouteMatched: function(oEvent) {
 				this.loadCategories();
+				this.firstTwoDisplay();
 			},
 		onSearch: function () {
 			debugger;
 			this._search();
+		},
+		onGridItemPress: function(oEvent) {
+			//alert("ay");
+			if(oEvent.getParameter("listItem").hasStyleClass("colorGreen")){
+					oEvent.getParameter("listItem").removeStyleClass("colorGreen");
+			}else{
+				oEvent.getParameter("listItem").addStyleClass("colorGreen");
+			}
+
 		},
 		onRefresh: function () {
 			debugger;
@@ -66,8 +76,6 @@ sap.ui.define([
 		},
 
 		onCategoryListItemPress: function (oEvent) {
-	debugger;
-
 			var oBindContext = oEvent.getSource().getBindingContext();
 			var oModel = oBindContext.getModel();
 			var sCategoryId = oModel.getData(oBindContext.getPath()).id;

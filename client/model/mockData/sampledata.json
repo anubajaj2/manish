@@ -15,6 +15,12 @@
 			"value": false
 		}
 	],
+	"orderNo": "XXXXXX",
+	"SizeDetails":{
+		"malaSize": "",
+		"churiSize": "",
+		"note":""
+	},
 	"customersSet": [{
 			"key": "demo@gmail.com",
 			"value": "Ravi"
@@ -32,6 +38,7 @@
 			"value": "Micheale"
 		}
 	],
+	"cartItems":[],
 	"appUsers": [{
 			"Role": "Admin",
 			"User": "Anurag",
@@ -125,19 +132,34 @@
 		"ChangedOn": ""
 	},
 	"Manufacturer":{
-		"Code": "",
+		"CustomerCode": "",
 		"Name":"",
 		"Address":"",
 		"City":"",
-		"Contact":"",
-		"Group":"",
-		"Email":"",
-		"Block":false,
+		"MobilePhone":"",
+		"EmailId":"",
+		"Status":"",
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",
 		"ChangedOn": ""
 	},
+	"groupSelected":{
+	"GroupId":"",
+	"GroupCode":"",
+	"ManuId":""
+	},
+	"ManuGroup":{
+		"ManufacturerId":"",
+		"GroupId":"",
+		"CreatedBy": "",
+		"CreatedOn": "",
+		"ChangedBy": "",
+		"ChangedOn": ""
+		},
+"blockStatus":{
+	"block":false
+},
 	"Product": {
 		"ProductId": "",
 		"Name": "",

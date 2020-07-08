@@ -2,7 +2,7 @@ sap.ui.define([
 	"sap/ui/demo/cart/controller/BaseController",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast",
-	"sap/ui/demo/cart/models/formatter"
+	"sap/ui/demo/cart/model/formatter"
 ], function(Controller, MessageBox, MessageToast, Formatter) {
 	"use strict";
 
