@@ -1,6 +1,7 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.ProductApprove" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form">
-	<Page id="page" title="Manage Product Approvals" backgroundDesign="Solid">
+	<Page id="page" title="Manage Product Approvals" backgroundDesign="Solid" showNavButton="true"
+	navButtonPress="onBack">
 		<List
 			id="idListPA"
 			items="{local>/list/Products}"
@@ -9,6 +10,7 @@
 			itemPress="onItemPress">
 
 			<StandardListItem
+				type="Navigation"
 				title="{local>Name}"
 				description="{local>Tunch}"
 				icon="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
