@@ -144,11 +144,11 @@
 		"ChangedBy": "",
 		"ChangedOn": ""
 	},
-	"groupSelected":{
+	"groupSelected":[{
 	"GroupId":"",
 	"GroupCode":"",
 	"ManuId":""
-	},
+	}],
 	"ManuGroup":{
 		"ManufacturerId":"",
 		"GroupId":"",
