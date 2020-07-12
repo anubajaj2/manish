@@ -1,0 +1,45 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.GroupPermission" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm id="selectionId" editable="true" layout="ResponsiveGridLayout"
+			labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false"
+			emptySpanXL="0" emptySpanL="8" emptySpanM="7" emptySpanS="0"
+			columnsXL="2" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:toolbar>
+				<Toolbar id="TB1">
+					<Title id="Title1" text="{}"/>					
+				</Toolbar>
+			</f:toolbar>
+			<f:content>
+				<Label text="Can Upload"/>
+				<Switch id="idCanUp" type="AcceptReject" state="{viewModel>/blockStatus}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+				<Label text="Can View"/>
+				<Switch id="idCanVw" type="AcceptReject" state="{viewModel>/blockStatus}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+				<Label text="Product Cat"/>
+				<MultiComboBox id="idProdCat" value="{local>/groupSelected/GroupCode}" items="{groupModelCode>/results}" change="groupCodeCheck"
+					selectedKeys="{local>/groupSelected/GroupId}" selectionChange="onSelectionChange">
+					<core:Item key="{groupModelCode>id}" text="{groupModelCode>groupCode}"/>
+					<layoutData>
+						<l:GridData span="L6 M6 S6"></l:GridData>
+					</layoutData>
+				</MultiComboBox>
+				<Label text="Can Change Qty"/>
+				<Switch id="idCanCQ" type="AcceptReject" state="{viewModel>/blockStatus}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</mvc:View>
