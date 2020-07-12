@@ -25,11 +25,7 @@
     }
   },
   "relations": {
-    "Products":{
-      "type":"hasMany",
-      "model":"Product",
-      "foreignKey":"Category"
-    }
+    
   },
   "validations": [],
   "acls": [

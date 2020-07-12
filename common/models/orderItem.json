@@ -81,7 +81,17 @@
       "type":"hasMany",
       "model":"StockMaint",
       "foreignKey":"Material"
-    }
+    },
+    "ToCreatedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "CreatedBy"
+		},
+    "ToChangedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "ChangedBy"
+		}
   },
   "acls": [
     {

@@ -27,7 +27,7 @@
       "type": "string",
       "default": "S"
     },
-    "PairSize":{
+    "PairType":{
       "type": "number",
       "default": 2
     },
@@ -39,23 +39,15 @@
       "type": "string",
       "default": "G"
     },
-    "SupplierName": {
-      "type": "string",
-      "required": false
-    },
     "Karat":{
       "type": "number",
       "default": 2
-    },
-    "Weight": {
-      "type": "number",
-      "required": false
     },
     "Gender": {
       "type": "string",
       "default":"F"
     },
-    "Status": {
+    "OverallStatus": {
       "type": "string",
       "required": false,
       "default": "N"
@@ -78,53 +70,8 @@
       "default":0,
       "required": false
     },
-    "GrossWeight": {
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "StoneWeight": {
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "Size":{
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "StonePc":{
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "StoneRs":{
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "NetWeight": {
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "OtherFee":{
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "Quantity": {
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "Status":{
-      "type": "string",
-      "default":"P"      
-    },
     "ApprovedOn": {
-			"type": "date",
-			"default": "null"
+			"type": "date"
 		},
     "AlertQuantity": {
       "type": "number",
@@ -150,16 +97,26 @@
 
   },
   "relations": {
-    "ProductCategory":{
-      "type":"belongsTo",
-      "model":"ProductCategory",
-      "foreignKey":"Category"
+    "ToPhotos":{
+      "type":"hasMany",
+      "model":"ProdPhoto",
+      "foreignKey":"ProductId"
     },
-    "ToSupplier": {
-      "type":"belongsTo",
-      "model":"Manufacturer",
-      "foreignKey":"CreatedBy"
-    }
+    "ToWeights": {
+      "type":"hasMany",
+      "model":"ProdWeight",
+      "foreignKey":"ProductId"
+    },
+    "ToCreatedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "CreatedBy"
+		},
+    "ToChangedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "ChangedBy"
+		}
   },
   "validations": [],
   "acls": [

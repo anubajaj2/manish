@@ -1,0 +1,135 @@
+{
+  "name": "ProdWeight",
+  "plural": "ProdWeights",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ProductId": {
+      "type": "string",
+      "required": true
+    },
+    "PairSize": {
+      "type": "number",
+      "default":0
+    },
+    "StonePc":{
+      "type": "number",
+      "default":0
+    },
+    "StoneRs":{
+      "type": "number",
+      "default":0
+    },
+    "StoneAmt":{
+      "type": "number",
+      "default":0
+    },
+    "StoneWeight": {
+      "type": "number",
+      "default":0
+    },
+    "StonePc1":{
+      "type": "number",
+      "default":0
+    },
+    "StoneWeight1": {
+      "type": "number",
+      "default":0
+    },
+    "StoneRs1":{
+      "type": "number",
+      "default":0
+    },
+    "StoneAmt1":{
+      "type": "number",
+      "default":0
+    },
+    "MoPc":{
+      "type": "number",
+      "default":0
+    },
+    "MoWeight": {
+      "type": "number",
+      "default":0
+    },
+    "MoRs":{
+      "type": "number",
+      "default":0
+    },
+    "MoAmt":{
+      "type": "number",
+      "default":0
+    },
+    "OtherChrg":{
+      "type": "number",
+      "default":0
+    },
+    "GrossWeight": {
+      "type": "number",
+      "default":0
+    },
+    "LessWeight": {
+      "type": "number",
+      "default":0
+    },
+    "NetWeight": {
+      "type": "number",
+      "default":0
+    },
+    "Quantity": {
+      "type": "number",
+      "default":0
+    },
+    "Fine": {
+      "type": "number",
+      "default":0
+    },
+    "Amount": {
+      "type": "number",
+      "default":0
+    },
+    "Status":{
+      "type": "string",
+      "default":"P"
+    },
+    "Remarks":{
+      "type": "string",
+      "default":"P"
+    },
+    "CreatedOn": {
+			"type": "date"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"default": "null"
+		}
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToProduct":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey": "ProductId"
+    },
+    "ToCreatedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "CreatedBy"
+		}
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

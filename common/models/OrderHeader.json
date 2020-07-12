@@ -68,7 +68,17 @@
       "type":"hasMany",
       "model":"OrderItem",
       "foreignKey":"OrderNo"
-    }
+    },
+    "ToCreatedBy": {
+			"type": "belongsTo",
+			"model": "AppUser",
+			"foreignKey": "CreatedBy"
+		},
+    "ToChangedBy": {
+			"type": "belongsTo",
+			"model": "AppUser",
+			"foreignKey": "ChangedBy"
+		}
   },
   "acls": [
     {

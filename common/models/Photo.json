@@ -45,13 +45,6 @@
     "CreatedBy": {
       "type": "string",
       "default": "null"
-    },
-    "ChangedOn": {
-      "type": "date"
-    },
-    "ChangedBy": {
-      "type": "string",
-      "default": "null"
     }
   },
   "scope":{
