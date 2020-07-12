@@ -144,11 +144,11 @@
 		"ChangedBy": "",
 		"ChangedOn": ""
 	},
-	"groupSelected":{
+	"groupSelected":[{
 	"GroupId":"",
 	"GroupCode":"",
 	"ManuId":""
-	},
+	}],
 	"ManuGroup":{
 		"ManufacturerId":"",
 		"GroupId":"",
@@ -157,8 +157,29 @@
 		"ChangedBy": "",
 		"ChangedOn": ""
 		},
+		"RetailerGroup":{
+			"RetailerId":"",
+			"GroupId":"",
+			"CreatedBy": "",
+			"CreatedOn": "",
+			"ChangedBy": "",
+			"ChangedOn": ""
+			},
 "blockStatus":{
 	"block":false
+},
+"Customer":{
+	"CustomerCode": "",
+	"Name":"",
+	"Address":"",
+	"City":"",
+	"MobilePhone":"",
+	"EmailId":"",
+	"Status":"",
+	"CreatedBy": "",
+	"CreatedOn": "",
+	"ChangedBy": "",
+	"ChangedOn": ""
 },
 	"Product": {
 		"ProductId": "",

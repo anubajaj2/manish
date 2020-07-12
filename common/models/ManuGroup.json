@@ -7,11 +7,12 @@
     "validateUpsert": true
   },
   "properties": {
-    "ManufacturerId": {
+
+    "GroupId": {
       "type": "string",
       "required": true
     },
-    "GroupId": {
+    "ManufacturerId": {
       "type": "string",
       "required": true
     }
