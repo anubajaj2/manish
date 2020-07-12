@@ -6,9 +6,43 @@
 	<Page
 		id="page"
 		title="Manage Order Status"
-		backgroundDesign="Solid">
+		backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+		<headerContent>
+		 <Toolbar>
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
+		 </Toolbar>
+		</headerContent>
 		<content>
-
-		</content>
+			<List
+				id="idListOS"
+				items="{local>/list/OrderHeader}"
+				mode="MultiSelect"
+				includeItemInSelection="true"
+				itemPress="onItemPress">
+				<ObjectListItem
+					type="Navigation"
+					title="{local>OrderNo}">
+					<attributes>
+						<ObjectAttribute id="idOADate" text="{local>Date}"/>
+						<ObjectAttribute text="{local>Customer}" visible="true"/>
+					</attributes>
+					<firstStatus>
+						<ObjectStatus text="Value"/>
+				</firstStatus>
+				<secondStatus>
+						<ObjectStatus text="Qty"/>
+				</secondStatus>
+			</ObjectListItem>
+			</List>
+      </content>
+			<footer>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button text="Ready" type="" press="onReady" id="idReady"></Button>
+					<Button text="Delivered" type="" press="onDeliver" id="idDel"></Button>
+					<Button text="Cancel" type="" press="onCancel" id="idCancel"></Button>
+				</Toolbar>
+			</footer>
 	</Page>
 </mvc:View>

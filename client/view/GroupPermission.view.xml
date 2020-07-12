@@ -8,7 +8,17 @@
 		title="Group Permissions"
 		backgroundDesign="Solid">
 		<content>
-
+		<List
+			id="idListGP"
+			items="{local>/list/Groups}"
+			mode = "SingleSelectMaster"
+			includeItemInSelection="true"
+			itemPress="onItemPress"
+			growing="true" growingThreshold="10"
+			selectionChange="onSelectItem">
+			<StandardListItem
+				type="Navigation" title="{local>groupCode}"/>
+		</List>
 		</content>
 	</Page>
 </mvc:View>
