@@ -1,14 +1,25 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.Customers"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		id="page"
-		title="Manage Customer"
-		backgroundDesign="Solid">
-		<content>
-
-		</content>
-	</Page>
+<mvc:View controllerName="sap.ui.demo.cart.controller.Customers"
+	xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic">
+	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid">
+		<content> -->
+			<semantic:FullscreenPage id="Customer" navButtonPress="onNavBack"
+																showNavButton="true" title="Manage Customer">
+				<semantic:customHeaderContent>
+					<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
+					tooltip="fullscreen"
+					iconFirst="true" press="toggleFullScreen"/>
+		    </semantic:customHeaderContent>
+				<semantic:content id="Customer_screen1">
+					<core:Fragment id="Customer"
+						fragmentName="sap.ui.demo.cart.fragments.Customer" type="XML"/>
+				</semantic:content>
+				<semantic:customFooterContent>
+						<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>
+						<Button text="Delete" type="Reject" press="deleteCustomer" enabled="{viewModel>/deleteEnabled}"/>
+						<Button text="Clear" type="Ghost" press="clearScreen"/>
+				</semantic:customFooterContent>
+			</semantic:FullscreenPage>
+		<!-- </content>
+	</Page> -->
 </mvc:View>
