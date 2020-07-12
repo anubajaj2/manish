@@ -8,13 +8,17 @@ sap.ui.define([
 
 	return BaseController.extend("sap.ui.demo.cart.controller.AddProduct", {
 		onInit: function () {
-			this._router = UIComponent.getRouterFor(this);
+			this._oRouter = UIComponent.getRouterFor(this);
 
 			var oC = new JSONModel({
 					"images": []
 				});
 				this.getView().setModel(oC, "C");
 				this.a = [];
+				this._oRouter.getRoute("AddProduct").attachMatched(this._routePatternMatched, this);
+		},
+		_routePatternMatched: function(){
+				this.lastTwoDisplay();
 		},
 		onCaptureImg:function() {
 			this._router.navTo("Camera");
@@ -74,7 +78,7 @@ sap.ui.define([
 					onAfterRendering: function() {
 						var snapShotCanvas = document.getElementById(snapId);
 						var oContext = snapShotCanvas.getContext("2d");
-						oContext.drawImage(imageVal, 0, 0, snapShotCanvas.width, snapShotCanvas.height);						
+						oContext.drawImage(imageVal, 0, 0, snapShotCanvas.width, snapShotCanvas.height);
 					}
 
 				});

@@ -193,6 +193,7 @@
 															"name": "AddProduct",
 															"target": [
 																"ManuHome",
+																"Camera",
 																"AddProduct"
 															]
 															},
@@ -438,7 +439,7 @@
 				"AddProduct": {
 					"viewName": "AddProduct",
 					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
+					"controlAggregation": "endColumnPages",
 					"viewLevel": 3,
 					"viewId": "AddProduct"
 				},
@@ -466,7 +467,7 @@
 				"Camera": {
 					"viewName": "Camera",
 					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
+					"controlAggregation": "midColumnPages",
 					"viewLevel": 1,
 					"viewId": "Camera"
 				},

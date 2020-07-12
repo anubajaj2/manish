@@ -44,7 +44,7 @@ sap.ui.define([
 			this._oLocalModel.setProperty("/fineRs", totalAmount);
 		},
 		firstTwoDisplay: function(){
-			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+			//this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
 		lastTwoDisplay: function(oView){
 
