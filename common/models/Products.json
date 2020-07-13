@@ -19,7 +19,7 @@
       "type": "string",
       "required": true
     },
-    "SubCategory  ": {
+    "SubCategory": {
       "type": "string",
       "required": false
     },

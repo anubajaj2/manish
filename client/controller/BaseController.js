@@ -87,7 +87,8 @@ sap.ui.define([
           }
           that.getOwnerComponent().getModel("local").setProperty("/cat",{
 						category: b,
-            subCatergory: d
+            subCatergory: d,
+						type: ["Plain", "Studded"]
 					});
         })
         .catch(function(oError) {

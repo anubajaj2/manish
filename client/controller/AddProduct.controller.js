@@ -16,8 +16,11 @@ sap.ui.define([
 				this.getView().setModel(oC, "C");
 				this.a = [];
 				this._oRouter.getRoute("AddProduct").attachMatched(this._routePatternMatched, this);
+				this._oLocalModel = this.getOwnerComponent().getModel("local");
+
 		},
 		_routePatternMatched: function(){
+				this.loadCategories();
 				this.lastTwoDisplay();
 		},
 		onCaptureImg:function() {
@@ -84,6 +87,18 @@ sap.ui.define([
 				});
 				this.sendToCarousal();
 
+		},
+		onSave: function(){
+			debugger;
+			var productPayload = this._oLocalModel.getProperty("/Product");
+
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			"/Products", "POST", {}, productPayload, this)
+			 .then(function(data) {
+					 MessageToast.show("post Done");
+			 }).catch(function(oError) {
+					 MessageToast.show("cannot fetch the data");
+			 });
 		},
 			sendToCarousal: function(snapId) {
 				debugger;
