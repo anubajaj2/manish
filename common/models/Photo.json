@@ -8,31 +8,26 @@
   },
   "properties": {
     "Product": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "SeqNo": {
       "type": "number",
-      "required": 1
+      "default": 1
     },
     "Content": {
       "type": "string",
-      "required": true,
       "default": "null"
     },
     "Filename": {
       "type": "string",
-      "required": true,
       "default": "null"
     },
     "Filetype": {
       "type": "string",
-      "required": true,
       "default": "null"
     },
     "ViewCount": {
       "type": "number",
-      "required": false,
       "default": 0
     },
     "LastDate": {
