@@ -49,7 +49,6 @@ sap.ui.define([
 					}
 				]
 			}), "settings");
-			this.getView().setModel(new JSONModel({ allImages:[] }), "images");
 			this.getView().setModel(new JSONModel({
 				"items": ["jpg", "png"],
 				"selected": ["jpg", "png"]
@@ -85,6 +84,11 @@ sap.ui.define([
 		beforeUploadStarts: function(oEvent){
 			debugger;
 		},
+
+		onDelete: function(oEvent){
+
+
+		},
 		_allImages: [],
 		_reader: new FileReader(),
 		onUploadChange: function(oEvent) {
@@ -97,58 +101,58 @@ sap.ui.define([
 					//const img = document.createElement("img");
 					var reader = new FileReader();
 					reader.onload = function(e){
-						var vContent = e.currentTarget; //.result.replace("data:image/jpeg;base64,", "");
-						for (var i = 0; i < that._allImages.length; i++) {
-							if(!that._allImages[i].content){
-								that._allImages[i].content = vContent;
-								that.getView().getModel("images").setProperty("/allImages", that._allImages);
-								console.log(that._allImages);
-								break;
+						try {
+							var vContent = e.currentTarget.result; //.result.replace("data:image/jpeg;base64,", "");
+							for (var i = 0; i < that._allImages.length; i++) {
+								if(!that._allImages[i].Content){
+									that._allImages[i].Content = vContent;
+									that.getView().getModel("local").setProperty("/allImages", that._allImages);
+									//console.log(that._allImages);
+									break;
+								}
 							}
+						} catch (e) {
+
 						}
 					};
-					var img = {};
-					debugger;
-					img.src = URL.createObjectURL(files[i]);
-					img.width = 100;
-					img.height = 100;
-					img.id=new Date().toString();
+					var img = {
+						"Stream": "",
+						"Content": ""
+					};
+					img.Stream = URL.createObjectURL(files[i]);
 					reader.readAsDataURL(files[i]);
 					this._allImages.push(img);
-					// img.onload = () => {
-					// 	URL.revokeObjectURL(img.src);
-					// }
-					//resultDiv.appendChild(img);
 				}
 			}
 		},
 		handleUploadPress: function(oEvent){
 			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
-			debugger;
-			const fileUploader = this.getView().byId("fileUploader"),
-			resultDiv = document.querySelector("#__component0---Camera--result");
+			var imagesPost = [];
+			for (var i = 0; i < this._allImages.length; i++) {
+				if(!this._allImages[i].id){
+					imagesPost.push({
+						"SeqNo": i,
+						"Product": "demo",
+						"Stream": this._allImages[i].Stream,
+						"Content": this._allImages[i].Content,
+						"Filename": "",
+						"Filetype": "",
+						"ViewCount": 0,
+						"LastDate": new Date(),
+						"CreatedBy": "anu",
+						"CreatedOn": new Date()
+					});
+				}
+			}
+			var that = this;
+			$.post('/Photos', {"images": imagesPost})
+				.done(function(data, status){
+					 that._allImages = data.allImages;
+					 that.getView().getModel("local").setProperty("/allImages", that._allImages);
+				})
+				.fail(function(xhr, status, error) {
 
-			// var oItem = oEvent.getSource().getParent().getParent().getItems()[0];
-			// var fileName = '8.jpg';//oEvent.getParameter("fileName");
-			// var fileReader = new FileReader();
-			// var filetype = 'jpg' //oEvent.getParameter("fileType");
-			// //var oURL = sUrl;
-			// var base64_marker = 'data:' + filetype + ';base64,';
-			// 	fileReader.onload = function (oEvent) {
-			// 		var base64Index = evt.target.result.indexOf(base64_marker) + base64_marker.length;
-			// 		var base64 = oEvent.target.result.substring(base64Index);
-			// 		console.log(base64);
-			// 		//var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-			// 		// var attachment = {
-			// 		// 	"ATTACHMENTID": attachid,
-			// 		// 	"ATTACHMENTNAME": docName,
-			// 		// 	"ATTACHMENTCONTENT": base64
-			// 		// };
-			// 		//this.attach = attachment;
-			// 		//oStorage.put("oAttachment", attachment);
-			// 		this.getView().byId("UploadCollection").upload();
-			// 	};
-			// 	fileReader.readAsDataURL('C://' + fileName);
+				});
 
 		},
 		getRouter: function () {

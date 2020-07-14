@@ -16,8 +16,8 @@ app = module.exports = loopback();
 // app.use(bodyParser.urlencoded({
 // 	extended: true
 // }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(session({
 	secret: 'anuragApp'
 }));
@@ -36,34 +36,24 @@ app.start = function() {
 	});
 };
 app.post("/Photos",
-				function(req, res){
-					if (!req.files.myFileUpload) {
-						res.send('No files were uploaded.');
-						return;
-					}
+				 function(req, res){
 
-					var sampleFile;
-					var exceltojson;
-					debugger;
-					sampleFile = req.files.myFileUpload;
-					var createdBy = req.body.createdBy;
-					if (createdBy === "" || createdBy === null) {
-						res.json({
-							error_code: 1,
-							err_desc: "Name is empty"
-						});
-						return "Error";
-					}
-
-					//sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
-						if (err)
-						{
-							console.log("eror saving");
-						} else
-						{
-
+					var app = require('../server/server');
+					var Pics = app.models.Photo;
+					Pics.create(req.body.images,function (error, created) {
+						debugger;
+						if(error){
+							res.send({
+								error: error
+							});
+						}else{
+							res.send({
+								"allImages":created
+							});
 						}
 
+					}
+					);
 });
 
 app.post('/changeUserStatus',

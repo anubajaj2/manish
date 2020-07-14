@@ -6,13 +6,11 @@
 		<unified:FileUploader
 			id="fileUploader"
 			name="myFileUpload"
-			uploadUrl="/Photos"
 			fileType='{fileTypes>/items}'
 			multiple="true"
 			change="onUploadChange"
-			uploadStart="beforeUploadStarts"
 			tooltip="Upload your file to the local system"
-			uploadComplete="handleUploadComplete"/>
+			/>
 		<html:div id="result" />
 		<Button
 			text="Upload File"
@@ -21,7 +19,7 @@
 	<f:GridList
 			id="gridList"
 			items="{
-				path: 'images>/allImages'
+				path: 'local>/allImages'
 			}"
 			growing="true"
 			growingThreshold="9"
@@ -33,8 +31,8 @@
 				<content>
 					<!-- <Title text="GridList, using custom header with SearchField" /> -->
 					<ToolbarSpacer/>
-					<Button text="Refresh" icon="sap-icon://refresh"
-						press="onRefresh" />
+					<Button text="" icon="sap-icon://delete"
+						press="onDelete" />
 				</content>
 			</Toolbar>
 		</f:headerToolbar>
@@ -49,7 +47,7 @@
 				renderType="Div" height="10rem" width="100%"
 				justifyContent="Center">
 				<Image
-					src="{images>src}"
+					src="{local>Stream}"
 					width="100%"
 					height="100%"
 					press="onImageOpen"
