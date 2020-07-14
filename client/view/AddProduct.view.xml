@@ -6,36 +6,39 @@
 		</headerContent>
 		<content>
 			<f:SimpleForm id="idSF" editable="true" layout="ResponsiveGridLayout"
-				 labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
-				 columnsXL="0" columnsL="0" columnsM="0"
-				 emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0">
+				labelSpanXL="4"
+labelSpanL="3"
+labelSpanM="4"
+labelSpanS="12"
+adjustLabelSpan="false"
+emptySpanXL="0"
+emptySpanL="4"
+emptySpanM="0"
+emptySpanS="0"
+columnsXL="2"
+columnsL="1"
+columnsM="1"
+>
 				<f:content>
 					<Label text="Product Code"/>
 					<Input id="idName" value="{local>/Product/ProductId}"/>
-					<Label text="Category/SubCategory/Type"/>
+					<Label text="Category"/>
 					<Select id="idCS" items="{local>/cat/category}" selectedKey="{local>/Product/Category}">
 						<items>
 							<core:Item text="{local>Category}" key="{local>Category}"/>
 						</items>
-						<layoutData>
-							<l:GridData span="L6 M6 S6"></l:GridData>
-						</layoutData>
 					</Select>
+					<Label text="SubCategory"/>
 					<Select id="idCS1" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}">
 						<items>
 							<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 						</items>
-						<layoutData>
-							<l:GridData span="L6 M6 S6"></l:GridData>
-						</layoutData>
 					</Select>
+					<Label text="Type"/>
 					<Select id="idCS2" items="{local>/cat/type}" selectedKey="{local>/Product/Type}">
 						<items>
 							<core:Item text="{local>Type}" key="{local>Key}"/>
 						</items>
-						<layoutData>
-							<l:GridData span="L6 M6 S6"></l:GridData>
-						</layoutData>
 					</Select>
 
 					<Label text="Pair Type"/>
@@ -53,9 +56,6 @@
 							<core:Item text="9" key="9"/>
 							<core:Item text="10" key="10"/>
 						</items>
-						<layoutData>
-							<l:GridData span="L12 M12 S12"></l:GridData>
-						</layoutData>
 					</Select>
 
 					<Label text="Short Description"/>
