@@ -35,11 +35,25 @@ app.start = function() {
 
 	});
 };
+app.post("/DeletePhoto", function(req,res){
+	var app = require('../server/server');
+	var Pics = app.models.Photo;
+	if(!req.body.id){
+		return;
+	}
+	Pics.destroyById(req.body.id).then(function(token){
+		res.send("deleted");
+	});
+});
 app.post("/Photos",
 				 function(req, res){
 
 					var app = require('../server/server');
 					var Pics = app.models.Photo;
+					if(!req.body.images){
+						return;
+					}
+					var productId = req.body.images[0].Product;
 					Pics.create(req.body.images,function (error, created) {
 						debugger;
 						if(error){
@@ -47,9 +61,14 @@ app.post("/Photos",
 								error: error
 							});
 						}else{
-							res.send({
-								"allImages":created
+							//Read all images of the given product and send
+							Pics.find({ where: { Product: productId } }).
+							then(function (allImages) {
+								res.send({
+									"allImages":allImages
+								});
 							});
+
 						}
 
 					}

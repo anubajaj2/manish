@@ -21,76 +21,53 @@ sap.ui.define([
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("Camera").attachMatched(this._onRouteMatched, this);
-			var sPath = "model/mockData/uploadCollection.json";
-			this.getView().setModel(new JSONModel(sPath));
-			this.getView().setModel(new JSONModel(Device), "device");
-			this.getView().setModel(new JSONModel({
-				"maximumFilenameLength": 55,
-				"maximumFileSize": 1000,
-				"mode": ListMode.SingleSelectMaster,
-				"uploadEnabled": true,
-				"uploadButtonVisible": true,
-				"enableEdit": true,
-				"enableDelete": true,
-				"visibleEdit": true,
-				"visibleDelete": true,
-				"listSeparatorItems": [
-					ListSeparators.All,
-					ListSeparators.None
-				],
-				"showSeparators": ListSeparators.All,
-				"listModeItems": [
-					{
-						"key": ListMode.SingleSelectMaster,
-						"text": "Single"
-					}, {
-						"key": ListMode.MultiSelect,
-						"text": "Multi"
-					}
-				]
-			}), "settings");
-			this.getView().setModel(new JSONModel({
-				"items": ["jpg", "png"],
-				"selected": ["jpg", "png"]
-			}), "fileTypes");
-			var that = this;
-			this._reader.onload = function(e) {
-				//get an access to the content of the file
-
-			};
-
 		},
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
 			 this.firstTwoDisplay();
 		},
-		handleUploadComplete: function(oEvent) {
-			debugger;
-			var sResponse = oEvent.getParameter("response");
-			if (sResponse) {
-				var sMsg = "";
-				var m = /^\[(\d\d\d)\]:(.*)$/.exec(sResponse);
-				if (m[1] == "200") {
-					sMsg = "Return Code: " + m[1] + "\n" + m[2] + "(Upload Success)";
-					oEvent.getSource().setValue("");
-				} else {
-					sMsg = "Return Code: " + m[1] + "\n" + m[2] + "(Upload Error)";
-				}
-
-				MessageToast.show(sMsg);
+		getAllItems: function(oGrid){
+			var getSelectedItems = oGrid.getSelectedItems();
+			var paths = [];
+			for (var i = 0; i < getSelectedItems.length; i++) {
+				paths.push(getSelectedItems[i].getBindingContext("local").getPath());
 			}
+			return paths;
 		},
-		beforeUploadStarts: function(oEvent){
-			debugger;
-		},
-
 		onDelete: function(oEvent){
+			var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent());
+			sPaths = this.reverseSort(sPaths,"allImages");
+			var that = this;
+			for (var i = 0; i < sPaths.length; i++) {
+				var toBeDeleted = this.getView().getModel("local").getProperty(sPaths[i]);
+				if(toBeDeleted.id){
+					//To be deleted from server also
+					if (toBeDeleted.id !== "") {
+						$.post('/DeletePhoto', {"id": toBeDeleted.id})
+							.done(function(data, status){
+								 that.deleteImage(toBeDeleted.Stream);
+							})
+							.fail(function(xhr, status, error) {
 
-
+							});
+					}
+				}else{
+					this.deleteImage(toBeDeleted.Stream);
+				}
+			}
+			oEvent.getSource().getParent().getParent().removeSelections();
 		},
-		_allImages: [],
-		_reader: new FileReader(),
+		deleteImage: function (Stream) {
+			for (var j = 0; j < this._allImages.length; j++) {
+				if(this._allImages[j].Stream === Stream){
+					this._allImages.splice(j,1);
+					break;
+				}
+			}
+			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+		},
+
 		onUploadChange: function(oEvent) {
 			const files = oEvent.getParameter("files");
 			var that = this;
@@ -125,36 +102,7 @@ sap.ui.define([
 				}
 			}
 		},
-		handleUploadPress: function(oEvent){
-			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
-			var imagesPost = [];
-			for (var i = 0; i < this._allImages.length; i++) {
-				if(!this._allImages[i].id){
-					imagesPost.push({
-						"SeqNo": i,
-						"Product": "demo",
-						"Stream": this._allImages[i].Stream,
-						"Content": this._allImages[i].Content,
-						"Filename": "",
-						"Filetype": "",
-						"ViewCount": 0,
-						"LastDate": new Date(),
-						"CreatedBy": "anu",
-						"CreatedOn": new Date()
-					});
-				}
-			}
-			var that = this;
-			$.post('/Photos', {"images": imagesPost})
-				.done(function(data, status){
-					 that._allImages = data.allImages;
-					 that.getView().getModel("local").setProperty("/allImages", that._allImages);
-				})
-				.fail(function(xhr, status, error) {
 
-				});
-
-		},
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},

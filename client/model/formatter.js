@@ -53,7 +53,7 @@ sap.ui.define([
 			    }
 			    return new Blob([ab], { type: 'image/jpeg' });
 			};
-			var x = this.b64toBlob(base64Stream);
+			var x = b64toBlob(base64Stream);
 			return URL.createObjectURL(x);
 		},
 		/**

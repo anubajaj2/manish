@@ -5,14 +5,16 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"sap/ui/demo/cart/model/cart",
 	"sap/ui/demo/cart/dbapi/dbapi",
-	"sap/f/LayoutType"
-], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType) {
+	"sap/f/LayoutType",
+	"sap/ui/demo/cart/model/formatter"
+], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType, formatter) {
 	"use strict";
 
 
 	return Controller.extend("sap.ui.demo.cart.controller.BaseController", {
 		cart: cart,
 		ODataHelper: ODataHelper,
+		formatter:formatter,
 		cleanApp: function() {
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems",[]);
 		},
@@ -23,6 +25,55 @@ sap.ui.define([
 		 */
 		onInit: function () {
 
+		},
+		reverseSort: function(data, text){
+			var arr = [];
+			for (var i = 0; i < data.length; i++) {
+				arr.push(data[i].split('/')[data[i].split('/').length - 1]);
+			}
+			arr.sort(function(a, b){return b-a});
+			var retSet = [];
+			for (var i = 0; i < arr.length; i++) {
+				retSet.push("/" + text + "/" + arr[i]);
+			}
+			return retSet;
+		},
+		_allImages: [],
+		handleUploadPress: function(oEvent){
+			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
+			var imagesPost = [];
+			for (var i = 0; i < this._allImages.length; i++) {
+				if(!this._allImages[i].id){
+					imagesPost.push({
+						"SeqNo": i,
+						"Product": "demo",
+						"Stream": this._allImages[i].Stream,
+						"Content": this._allImages[i].Content,
+						"Filename": "",
+						"Filetype": "",
+						"ViewCount": 0,
+						"LastDate": new Date(),
+						"CreatedBy": "anu",
+						"CreatedOn": new Date()
+					});
+				}
+			}
+			var that = this;
+			$.post('/Photos', {"images": imagesPost})
+				.done(function(data, status){
+					 that._allImages = data.allImages;
+					 that.processImages();
+					 that.getView().getModel("local").setProperty("/allImages", that._allImages);
+				})
+				.fail(function(xhr, status, error) {
+
+				});
+
+		},
+		processImages: function(){
+			for (var i = 0; i < this._allImages.length; i++) {
+				this._allImages[i].Stream = formatter.getImageUrlFromContent(this._allImages[i].Content);
+			}
 		},
 		calculateOrderEstimate: function(){
 			var allItems = this._oLocalModel.getProperty("/cartItems");
