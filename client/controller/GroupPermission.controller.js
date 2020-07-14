@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/core/UIComponent",
 	"sap/m/MessageToast",
-	"sap/ui/model/json/JSONModel"
-], function(BaseController, UIComponent, MessageToast, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"sap/f/LayoutType"
+], function(BaseController, UIComponent, MessageToast, JSONModel, LayoutType) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.GroupPermission", {
@@ -17,6 +18,8 @@ sap.ui.define([
 		},
 		_onRouteMatched: function(oEvent) {
 				this.loadGroupPermissions();
+				this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+				this.firstTwoDisplay();
 			},
 
 			loadGroupPermissions: function(){
@@ -36,10 +39,13 @@ sap.ui.define([
 				},
 				onSelectItem: function(oEvent){
 					debugger;
-					//this.getModel("local").setProperty("/CurrentUser")
-          //this.getView().getId("Title1").setTitle("Group01")
-					this.getRouter().navTo("GroupPermission01");
-
+					var oListItem = oEvent.getParameter("listItem");
+					this.getRouter().navTo("GroupPermission01",{
+						id: oListItem.getTitle()
+					});
+					this.getOwnerComponent().getModel("local").setProperty("/list",{
+				 	Title:oListItem.getTitle()
+				 	});
 			}
 	});
 });

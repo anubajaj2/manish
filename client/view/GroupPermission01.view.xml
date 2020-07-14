@@ -9,7 +9,7 @@
 			singleContainerFullSize="false">
 			<f:toolbar>
 				<Toolbar id="TB1">
-					<Title id="Title1" text="{}"/>					
+					<Title id="Title1" text="Group {local>/list/Title}"/>
 				</Toolbar>
 			</f:toolbar>
 			<f:content>
