@@ -6,9 +6,94 @@
 	<Page
 		id="page"
 		title="Admin Panel"
-		backgroundDesign="Solid">
+		backgroundDesign="Solid"
+		showNavButton="true"
+		navButtonPress="onBack">
 		<content>
-
+			<Panel expandable="true" headerText="Retailer" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<Table id="idTable1" items="{local>/LeaveRequests}">
+						<columns>
+							<Column>
+								<Label text="Name"/>
+							</Column>
+							<Column>
+								<Label text="Email"/>
+							</Column>
+							<Column>
+								<Label text="Last login"/>
+							</Column>
+							<Column>
+								<Label text="Block"/>
+							</Column>
+							<Column>
+								<Label text="Reset Password"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="idColumnlist1">
+								<cells>
+									<Text text="{}" ></Text>
+								</cells>
+								<cells>
+									<Text text="{}" ></Text>
+								</cells>
+								<cells>
+									<Text text="{}" ></Text>
+								</cells>
+								<cells>
+									<Switch id="idSwitch" type="AcceptReject" state="{}" change="onSwitch"/>
+								</cells>
+								<cells>
+									<Input value="{}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>
+			<Panel expandable="true" headerText="Manufacturer" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<Table id="idTable2" items="{local>/Manufacturer}">
+						<columns>
+							<Column>
+								<Label text="Name"/>
+							</Column>
+							<Column>
+								<Label text="Email"/>
+							</Column>
+							<Column halign="Left">
+								<Label text="Last login"/>
+							</Column>
+							<Column halign="Left">
+								<Label text="Block"/>
+							</Column>
+							<Column halign="Left">
+								<Label text="Reset Password"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="idColumnlist2">
+								<cells>
+									<Text text="{local>Name}" ></Text>
+								</cells>
+								<cells>
+									<Text text="{local>EmailId}" ></Text>
+								</cells>
+								<cells>
+									<Text text="{}" ></Text>
+								</cells>
+								<cells>
+									<Switch id="idSwitch2" type="AcceptReject" state="{local>State}" change="onSwitch"/>
+								</cells>
+								<cells>
+									<Input value=""/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>
 		</content>
 	</Page>
 </mvc:View>

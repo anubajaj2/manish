@@ -88,7 +88,8 @@ sap.ui.define([
           that.getOwnerComponent().getModel("local").setProperty("/cat",{
 						category: b,
             subCatergory: d,
-						type: ["Plain", "Studded"]
+						type: [{Type:"Plain", Key:"P"},
+						       {Type:"Studded", Key:"S"}]
 					});
         })
         .catch(function(oError) {

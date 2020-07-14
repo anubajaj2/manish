@@ -148,7 +148,7 @@
 																]
 															},
 															{
-															"pattern": "GroupPermission01",
+															"pattern": "GroupPermission01/{id}",
 															"name": "GroupPermission01",
 																"target": [
 																	"AdminHome",
