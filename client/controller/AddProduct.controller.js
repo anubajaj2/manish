@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/core/UIComponent",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/HTML"
-], function(BaseController, UIComponent, JSONModel, HTML) {
+	"sap/ui/core/HTML",
+	"sap/m/MessageToast"
+], function(BaseController, UIComponent, JSONModel, HTML, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.AddProduct", {
@@ -88,18 +89,34 @@ sap.ui.define([
 				this.sendToCarousal();
 
 		},
-		onSave: function(){
+		onSave: function() {
 			debugger;
 			var productPayload = this._oLocalModel.getProperty("/Product");
-
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			"/Products", "POST", {}, productPayload, this)
-			 .then(function(data) {
-					 MessageToast.show("post Done");
-			 }).catch(function(oError) {
-					 MessageToast.show("cannot fetch the data");
-			 });
-		},
+			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
+			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
+			var skip = "";
+			if (productPayload.Tunch > "101") {
+				MessageToast.show("Please enter Tunch upto 100");
+				var skip = "X";
+			}
+			if (productPayload.Wastage > "101") {
+				MessageToast.show("Please enter Wastage upto 100");
+				var skip = "X";
+			}
+			if (productPayload.Making > "10000") {
+				MessageToast.show("Please enter Making less than 10000");
+				var skip = "X";
+			}
+			if (skip === "") {
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+						"/Products", "POST", {}, productPayload, this)
+						.then(function(data) {
+							MessageToast.show("Post Done");
+						}).catch(function(oError) {
+							MessageToast.show("Cannot Post the data");
+						});
+					}
+	},
 			sendToCarousal: function(snapId) {
 				debugger;
 				var snapId = "snap-" + this.a.length;
