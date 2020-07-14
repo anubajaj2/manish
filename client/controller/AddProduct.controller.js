@@ -95,15 +95,15 @@ sap.ui.define([
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
 			var skip = "";
-			if (productPayload.Tunch > "101") {
+			if (productPayload.Tunch > 101.00) {
 				MessageToast.show("Please enter Tunch upto 100");
 				var skip = "X";
 			}
-			if (productPayload.Wastage > "101") {
+			if (productPayload.Wastage > 101) {
 				MessageToast.show("Please enter Wastage upto 100");
 				var skip = "X";
 			}
-			if (productPayload.Making > "10000") {
+			if (productPayload.Making > 10000) {
 				MessageToast.show("Please enter Making less than 10000");
 				var skip = "X";
 			}
