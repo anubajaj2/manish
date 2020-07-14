@@ -1,6 +1,9 @@
 'use strict';
 
-module.exports = function(Account) {
+module.exports = function(Photo) {
+  Photo.observe("before save", function(ctx, next) {
+    debugger;
+  });
 	// var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	//validations
 	///Parse microsoft ISO Date while read : /Date(1540319400000)/
