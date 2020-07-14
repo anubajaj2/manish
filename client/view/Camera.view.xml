@@ -13,7 +13,8 @@
 						change="onUploadChange"
 						tooltip="Upload your file to the local system"
 						/>
-					<html:div id="result" />
+					<Button text="Take Photo"
+						id="idCapture" press="takePhoto" icon="sap-icon://camera"/>
 					<Button
 						text="Upload File"
 						press="handleUploadPress"/>

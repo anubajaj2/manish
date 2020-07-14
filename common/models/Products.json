@@ -77,17 +77,21 @@
       "default":0,
       "required": true
     },
+    "SoldOn":{
+      "type": "date"
+    },
+    "OrderId":{
+      "type":"string"
+    },
     "CreatedOn": {
-			"type": "date",
-			"default": "null"
+			"type": "date"
 		},
 		"CreatedBy": {
 			"type": "string",
 			"default": "null"
 		},
 		"ChangedOn": {
-			"type": "date",
-			"default": "null"
+			"type": "date"
 		},
 		"ChangedBy": {
 			"type": "string",
@@ -115,7 +119,12 @@
 			"type": "belongsTo",
 			"model": "User",
 			"foreignKey": "ChangedBy"
-		}
+		},
+    "ToOrder":{
+      "type": "belongsTo",
+			"model": "OrderHeader",
+			"foreignKey": "OrderId"
+    }
   },
   "validations": [],
   "acls": [

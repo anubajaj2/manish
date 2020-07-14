@@ -228,6 +228,8 @@
     "Fine": 0,
     "Amount": 0,
     "Status": "A",
+		"SoldOn": "",
+		"OrderId":"",
     "Remarks":"null",
     "CreatedOn": "",
     "CreatedBy": ""

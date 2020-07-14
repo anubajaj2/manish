@@ -53,7 +53,7 @@ sap.ui.define([
 						"Filetype": "",
 						"ViewCount": 0,
 						"LastDate": new Date(),
-						"CreatedBy": "anu",
+						"CreatedBy": this.getView().getModel("local").getProperty("/CurrentUser"),
 						"CreatedOn": new Date()
 					});
 				}
