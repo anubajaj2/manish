@@ -7,42 +7,42 @@
 		<content>
 			<f:SimpleForm id="idSF" editable="true" layout="ResponsiveGridLayout"
 				labelSpanXL="4"
-labelSpanL="3"
-labelSpanM="4"
-labelSpanS="12"
-adjustLabelSpan="false"
-emptySpanXL="0"
-emptySpanL="4"
-emptySpanM="0"
-emptySpanS="0"
-columnsXL="2"
-columnsL="1"
-columnsM="1"
->
+				labelSpanL="3"
+				labelSpanM="4"
+				labelSpanS="12"
+				adjustLabelSpan="false"
+				emptySpanXL="0"
+				emptySpanL="4"
+				emptySpanM="0"
+				emptySpanS="0"
+				columnsXL="2"
+				columnsL="1"
+				columnsM="1">
 				<f:content>
 					<Label text="Product Code"/>
-					<Input id="idName" value="{local>/Product/ProductId}"/>
+					<Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange"
+									showValueHelp="true" valueHelpRequest="onProductValueHelp"/>
 					<Label text="Category"/>
-					<Select id="idCS" items="{local>/cat/category}" selectedKey="{local>/Product/Category}">
+					<Select id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}">
 						<items>
 							<core:Item text="{local>Category}" key="{local>Category}"/>
 						</items>
 					</Select>
 					<Label text="SubCategory"/>
-					<Select id="idCS1" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}">
+					<Select id="idSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}">
 						<items>
 							<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 						</items>
 					</Select>
 					<Label text="Type"/>
-					<Select id="idCS2" items="{local>/cat/type}" selectedKey="{local>/Product/Type}">
+					<Select id="idType" items="{local>/cat/type}" selectedKey="{local>/Product/Type}">
 						<items>
 							<core:Item text="{local>Type}" key="{local>Key}"/>
 						</items>
 					</Select>
 
 					<Label text="Pair Type"/>
-					<Select id="idCS3" selectedKey="{local>/Product/PairType}">
+					<Select id="idPairType" selectedKey="{local>/Product/PairType}">
 						<items>
 							<core:Item text="0" key="0"/>
 							<core:Item text="1" key="1"/>

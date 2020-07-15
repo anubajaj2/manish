@@ -91,7 +91,11 @@ sap.ui.define([
 		},
 		onSave: function() {
 			debugger;
+      var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
+			var a = productPayload.ProductId;
+
+			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
 			var skip = "";
@@ -107,15 +111,28 @@ sap.ui.define([
 				MessageToast.show("Please enter Making less than 10000");
 				var skip = "X";
 			}
-			if (skip === "") {
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-						"/Products", "POST", {}, productPayload, this)
-						.then(function(data) {
-							MessageToast.show("Post Done");
-						}).catch(function(oError) {
-							MessageToast.show("Cannot Post the data");
-						});
-					}
+			//		Product Id Cannot be Duplicated
+			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
+
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			    "/Products", "GET", {	filters: [Filter1] }, {}, this)
+				.then(function(oData) {
+					if (oData.results.length != 0) {
+					MessageToast.show("Product Id Cannot be Duplicated");
+				}else{
+					if (skip === "") {
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+								"/Products", "POST", {}, productPayload, that)
+								.then(function(data) {
+									MessageToast.show("Post Done");
+								}).catch(function(oError) {
+									MessageToast.show("Cannot Post the data");
+								});
+							}
+				}
+			});
+
+
 	},
 			sendToCarousal: function(snapId) {
 				debugger;
@@ -141,8 +158,65 @@ sap.ui.define([
 
 				oCarousel.addPage(img);
 
+			},
+			onProductValueHelp: function(oEvent){
+       debugger;
+			 if (!this.ProductsearchPopup) {
+				 this.ProductsearchPopup = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.popup0", this);
+				 this.getView().addDependent(this.ProductsearchPopup);
+				 var title = this.getView().getModel("i18n").getProperty("Products");
+				 this.ProductsearchPopup.setTitle(title);
+				 //var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ, "Kata Center");
+				 this.ProductsearchPopup.bindAggregation("items", {
+					 path: '/Products',
+					// filters: [oFilter1],
+					 template: new sap.m.DisplayListItem({
+						 label: "{ProductId}"//,
+						// value: "{Name} - {city}"
+					 })
+				 });
+			 }
+			 this.ProductsearchPopup.open();
+		 },
+
+		 onConfirm: function(oEvent){
+		   debugger;
+		   var that = this;
+		   //Push the selected product id to the local model
+		    	var myData = this.getView().getModel("local").getProperty("/Product");
+		     	var selProd = oEvent.getParameter("selectedItem").getLabel();
+				 	myData.ProductId = selProd;
+
+		     if(selProd){
+
+		           this.getView().byId("idName").setValueState();
+		     }
+
+		   },
+
+			onEnter: function(oEvent){
+				debugger;
+				var that = this;
+				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
+						filters: [Filter1]
+					}, {}, this)
+					.then(function(oData) {
+						if (oData.results.length != 0) {
+						that.getView().byId("idCat").setValue(oData.results[0].Category);
+						that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
+						that.getView().byId("idType").setValue(oData.results[0].Type);
+						that.getView().byId("idPairType").setValue(oData.results[0].PairType);
+						that.getView().byId("idSD").setValue(oData.results[0].ShortDescription);
+						that.getView().byId("idGender").setValue(oData.results[0].Gender);
+						that.getView().byId("idKarat").setValue(oData.results[0].Karat);
+						that.getView().byId("idTunch").setValue(oData.results[0].Tunch);
+						that.getView().byId("idWastage").setValue(oData.results[0].Wastage);
+						that.getView().byId("idMkg").setValue(oData.results[0].Making);
+
+					}
+				});
 			}
-
-
 	});
 });
