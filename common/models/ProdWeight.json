@@ -93,7 +93,7 @@
     },
     "Status":{
       "type": "string",
-      "default":"P"
+      "default":"A"
     },
     "Remarks":{
       "type": "string",

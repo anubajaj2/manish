@@ -45,9 +45,31 @@ app.post("/DeletePhoto", function(req,res){
 		res.send("deleted");
 	});
 });
+
+app.use(function (req, res, next) {
+	// var Token = app.models.AccessToken;
+	// if(req.method === "GET"){
+	// 	next();
+	// }else{
+	// 	if(!req.headers.authorization){
+	// 		res.send("Secure API, Authorization Error");
+	// 		return;
+	// 	}
+	// 	Token.findById(req.headers.authorization).then(function(token){
+	// 		if(token){
+	// 			next();
+	// 		}else{
+	// 			res.send("Token Expired");
+	// 			return;
+	// 		}
+	// 	});
+	// }
+	next();
+
+});
+
 app.post("/Photos",
 				 function(req, res){
-
 					var app = require('../server/server');
 					var Pics = app.models.Photo;
 					if(!req.body.images){
@@ -73,6 +95,137 @@ app.post("/Photos",
 
 					}
 					);
+});
+
+
+app.post("/SoldProduct", function(req,res){
+	var app = require('../server/server');
+	var ProdWeight = app.models.ProdWeight;
+	var record = req.body.record;
+	if(!req.body.record.id){
+		return;
+	}
+	ProdWeight.findById(req.body.record.id).then(
+		function(record){
+			if(!record){
+				res.send(record);
+				return;
+			}
+			record.updateAttributes({
+				"Status": "S",
+				"SoldOn": new Date(),
+				"OrderId":record.OrderId,
+		    "Remarks":record.Remarks
+			});
+			res.send("updated " +  record.id);
+		}
+	);
+
+});
+
+app.post("/UpdateProdWeight", function(req,res){
+	var app = require('../server/server');
+	var ProdWeight = app.models.ProdWeight;
+	var record = req.body.record;
+	if(!req.body.record.id){
+		return;
+	}
+	ProdWeight.findById(req.body.record.id).then(
+		function(record){
+			if(!record){
+				res.send("record not found");
+				return;
+			}
+			record.updateAttributes({
+				"PairSize": record.PairSize,
+		    "StonePc":record.StonePc,
+		    "StoneRs":record.StoneRs,
+		    "StoneAmt":record.StoneAmt,
+		    "StoneWeight": record.StoneWeight,
+		    "StonePc1":record.StonePc1,
+		    "StoneWeight1": record.StoneWeight1,
+		    "StoneRs1":record.StoneRs1,
+		    "StoneAmt1":record.StoneAmt1,
+		    "MoPc":record.MoPc,
+		    "MoWeight": record.MoWeight,
+		    "MoRs":record.MoRs,
+		    "MoAmt":record.MoAmt,
+		    "OtherChrg":record.OtherChrg,
+		    "GrossWeight": record.GrossWeight,
+		    "LessWeight": record.LessWeight,
+		    "NetWeight": record.NetWeight,
+		    "Quantity": record.Quantity,
+		    "Fine": record.Fine,
+		    "Amount": record.Amount,
+		    "Remarks":record.Remarks
+			});
+			res.send("updated record with id ", record.id);
+		}
+	);
+
+});
+
+app.post("/GetProdWeights", function(req,res){
+	var app = require('../server/server');
+	var ProdWeight = app.models.ProdWeight;
+	if(!req.body.productId){
+		res.send("please pass productId");
+	}
+	var productId = req.body.productId;
+	ProdWeight.find({ where: { ProductId: productId } }).
+	then(function (ProdWeights) {
+		res.send({
+			"ProdWeights":ProdWeights
+			});
+		});
+});
+
+app.post("/DeleteProdWeights", function(req,res){
+	var app = require('../server/server');
+	var ProdWeight = app.models.ProdWeight;
+	var ProdWeights = req.body.ProdWeights;
+	if(!req.body.ProdWeights){
+		return;
+	}
+	for (var i = 0; i < ProdWeights.length; i++) {
+		ProdWeight.destroyById(ProdWeights[i].id).then(function(token){
+
+		});
+	}
+
+});
+
+app.post("/ProdWeights",
+				 function(req, res){
+					var app = require('../server/server');
+					var ProdWeight = app.models.ProdWeight;
+					if(!req.body.ProdWeights){
+						res.send("nothing to create");
+						return;
+					}
+					var productId = req.body.ProdWeights[0].ProductId;
+					ProdWeight.destroyAll({
+						ProductId: productId
+					},function(){
+						ProdWeight.create(req.body.ProdWeights,
+							function (error, created) {
+							if(error){
+								res.send({
+									error: error
+								});
+							}else{
+								//Read all images of the given product and send
+								ProdWeight.find({ where: { ProductId: productId } }).
+								then(function (ProdWeights) {
+									res.send({
+										"ProdWeights":ProdWeights
+										});
+									});
+								}
+							}
+						);
+					});
+
 });
 
 app.post('/changeUserStatus',
