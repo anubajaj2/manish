@@ -237,9 +237,9 @@ sap.ui.define([
 			}
 			var props = this._prepModelInitialValues();
 			var oModel = this.getView().getModel("local");
-			this.ProdWeights = oModel.getProperty("/ProdWeights");
-			this.ProdWeights.push(props);
-			oModel.setProperty("/ProdWeights", this.ProdWeights);
+			var ProdWeights = oModel.getProperty("/ProdWeights");
+			ProdWeights.push(props);
+			oModel.setProperty("/ProdWeights", ProdWeights);
 		},
 		onChange: function(oEvent) {
 
@@ -377,10 +377,10 @@ sap.ui.define([
 		    "Fine": 0,
 		    "Amount": 0,
 		    "Status": "A",
-				"SoldOn": "",
+				"SoldOn": new Date(),
 				"OrderId":"",
 		    "Remarks":"null",
-		    "CreatedOn": "",
+		    "CreatedOn": new Date(),
 		    "CreatedBy": ""
 			};
 			// return props;

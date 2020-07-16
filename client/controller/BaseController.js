@@ -67,7 +67,7 @@ sap.ui.define([
 			}
 
 			for (var i = 0; i < allWeights.length; i++) {
-				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || allWeights[i].Fine === "null"){
+				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
 					return { "status" : false, "error": "Fine cannot be calculated"};
 				}
 			}
@@ -81,14 +81,13 @@ sap.ui.define([
 			}
 
 			//check if image has product id to create association
-			for (var i = 0; i < this._allImages.length; i++) {
-				if(!this._allImages[i].id){
-					this._allImages[i].Product = ProductId;
+			for (var j = 0; j < this._allImages.length; j++) {
+				if(!this._allImages[j].id){
+					this._allImages[j].Product = ProductId;
 				}
 			}
 			this.getView().getModel("local").setProperty("/allImages",this._allImages);
-			this.getView().getModel("local").getProperty("/ProdWeights", allWeights);
-			return true;
+			this.getView().getModel("local").setProperty("/ProdWeights", allWeights);
 		},
 		performCameraSave: function(ProductId){
 			//Commit to be done
@@ -116,7 +115,7 @@ sap.ui.define([
 		},
 		massImageDelete: function(){
 			var that = this;
-			if(this._deletedImages.length = 0){
+			if(this._deletedImages.length === 0){
 				return;
 			}
 			$.post('/DeletePhotos', {"images": this._deletedImages})
@@ -130,7 +129,7 @@ sap.ui.define([
 	  upsertWeights: function(){
 			var that = this;
 			var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
-			if(allWeights.length = 0){
+			if(allWeights.length === 0){
 				return;
 			}
 			//check if product id is set properly
