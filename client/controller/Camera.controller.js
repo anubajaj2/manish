@@ -21,12 +21,13 @@ sap.ui.define([
 
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.getRoute("Camera").attachMatched(this._onRouteMatched, this);
+			oRouter.getRoute("AddProduct").attachMatched(this._onRouteMatched, this);
 		},
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
 			 this.firstTwoDisplay();
+			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){
 			var getSelectedItems = oGrid.getSelectedItems();
@@ -208,6 +209,187 @@ sap.ui.define([
 		},
 		_onBindingChange : function () {
 
+		},
+		onDeleteRow: function() {
+			// debugger;
+			var oItems = this.getView().byId("idTab").getSelectedItems();
+			// var oSelContexts = this.getView().byId("idTab").getSelectedItems();
+			var aRows = this.getView().getModel("local").getProperty("/ProdWeights");
+			if (oItems.length === aRows.length) {
+				aRows.splice(0, aRows.length);
+			} else {
+				var nCount = 0;
+				for (var i = 0; i < oItems.length; i++) {
+					nCount = nCount + 1;
+					var sBindPath = oItems[i].getBindingContextPath();
+					var nIndex = sBindPath.split("/")[sBindPath.split("/").length - 1];
+					if (nCount > 1) {
+						nIndex = nIndex - 1;
+					}
+					aRows.splice(nIndex, 1);
+				}
+			}
+
+			this.getView().getModel("local").getProperty("/ProdWeights",aRows);
+			this.getView().byId("idTab").removeSelections(true);
+			MessageToast.show("Successfully Deleted");
+	},
+		onInsert: function(oEvent) {
+			var tunch = this._oLocalModel.getProperty("/Product/Tunch");
+			var Wastage = this._oLocalModel.getProperty("/Product/Wastage");
+			if ((tunch === "" && Wastage === "") || (tunch === "0" && Wastage === "0" ) || (tunch === 0 && Wastage === 0)){
+				MessageToast.show("Please add Tunch First");
+				return;
+			}
+			var props = this._prepModelInitialValues();
+			var oModel = this.getView().getModel("local");
+			this._allWeights = oModel.getProperty("/ProdWeights");
+			this._allWeights.push(props);
+			oModel.setProperty("/ProdWeights", this._allWeights);
+		},
+		onChange: function(oEvent) {
+
+			var nVal = oEvent.getSource().getValue();
+			var sPath = oEvent.getSource().getBindingContext("local").getPath();
+			var nIndex = sPath.split("/")[sPath.split("/").length - 1];
+			var oModel = this.getView().getModel("local");
+			var tunch = oModel.getProperty("/Product/Tunch");
+			var Wastage = oModel.getProperty("/Product/Wastage");
+			tunch = parseFloat(tunch) + parseFloat(Wastage);
+			var StonePc = oModel.getProperty("/ProdWeights/" + nIndex + "/StonePc");
+			var StoneWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneWeight");
+			var StonePc1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StonePc1");
+			var StoneWeight1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneWeight1");
+			var MoPc = oModel.getProperty("/ProdWeights/" + nIndex + "/MoPc");
+			var MoWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/MoWeight");
+			var GrossWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/GrossWeight");
+			// var NetWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/NetWeight");
+			var Quantity = oModel.getProperty("/ProdWeights/" + nIndex + "/Quantity");
+			var StoneRs = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneRs");
+			var StoneRs1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneRs1");
+			var MoRs = oModel.getProperty("/ProdWeights/" + nIndex + "/MoRs");
+			var OTRs =  oModel.getProperty("/ProdWeights/" + nIndex + "/OtherChrg");
+			for (var i = 0; i < oEvent.getSource().getParent().getCells().length; i++) {
+				var sName = oEvent.getSource().getName();
+				if (sName === "StonePc") {
+					StonePc = nVal;
+					break;
+				} else if (sName === "StoneWeight") {
+					StoneWeight = nVal;
+					break;
+				} else if (sName === "StonePc1") {
+					StonePc1 = nVal;
+					break;
+				} else if (sName === "StoneWeight1") {
+					StoneWeight1 = nVal;
+					break;
+				} else if (sName === "MoPc") {
+					MoPc = nVal;
+					break;
+				} else if (sName === "MoWeight") {
+					MoWeight = nVal;
+					break;
+				} else if (sName === "GrossWeight") {
+					GrossWeight = nVal;
+					break;
+				} else if (sName === "StoneRs") {
+					StoneRs = nVal;
+					break;
+				} else if (sName === "StoneRs1") {
+					StoneRs1 = nVal;
+					break;
+				} else if (sName === "MoRs") {
+					MoRs = nVal;
+					break;
+				}else if (sName === "OtherChrg") {
+					OTRs = nVal;
+					break;
+				}
+			}
+
+			if (isNaN(nVal)) {
+				nVal = 0;
+			}
+
+			// LessWeight
+			nVal = (StonePc * StoneWeight) + (StonePc1 * StoneWeight1) + (MoPc * MoWeight);
+			oModel.setProperty("/ProdWeights/" + nIndex + "/LessWeight", nVal);
+
+			// NetWeight
+			nVal = GrossWeight - nVal;
+			nVal = nVal.toFixed(3);
+			oModel.setProperty("/ProdWeights/" + nIndex + "/NetWeight", nVal);
+
+			//Fine
+			nVal = nVal * Quantity;
+			nVal = nVal * tunch / 100;
+			oModel.setProperty("/ProdWeights/" + nIndex + "/Fine", nVal);
+
+			//Amount
+			nVal = ((StonePc * StoneRs) + (StoneRs1 * StoneWeight1) + (MoRs * MoWeight)) * Quantity;
+			nVal = nVal + parseInt(OTRs);
+			nVal = nVal.toFixed();
+			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
+
+		},
+		onSwitchOffHide: function() {
+			for (var i = 0; i < 19; i++) {
+				if (i >= 4 && i <= 11 || i === 16 || i === 2 || i === 7 || i === 11) {
+					var sId = "idCol" + i;
+					this.getView().byId(sId).setVisible(false);
+					continue;
+				}
+				sId = "idCol" + i;
+				this.getView().byId(sId).setVisible(true);
+			}
+		},
+		onSwitchChange: function(oEvent) {
+			if (oEvent.getSource().getState() === true) {
+				for (var i = 0; i < 19; i++) {
+					if (i === 16 || i === 2 || i === 7 || i === 11) {
+						var sId = "idCol" + i;
+						this.getView().byId(sId).setVisible(false);
+						continue;
+					}
+					sId = "idCol" + i;
+					this.getView().byId(sId).setVisible(true);
+				}
+			} else {
+				this.onSwitchOffHide();
+			}
+		},
+		_prepModelInitialValues: function() {
+
+			return {
+				"ProductId": "null",
+		    "PairSize": 0,
+		    "StonePc":0,
+		    "StoneRs":0,
+		    "StoneAmt":0,
+		    "StoneWeight": 0,
+		    "StonePc1":0,
+		    "StoneWeight1": 0,
+		    "StoneRs1":0,
+		    "StoneAmt1":0,
+		    "MoPc":0,
+		    "MoWeight": 0,
+		    "MoRs":0,
+		    "MoAmt":0,
+		    "OtherChrg":0,
+		    "GrossWeight": 0,
+		    "LessWeight": 0,
+		    "NetWeight": 0,
+		    "Quantity": 1,
+		    "Fine": 0,
+		    "Amount": 0,
+		    "Status": "A",
+				"SoldOn": "",
+				"OrderId":"",
+		    "Remarks":"null",
+		    "CreatedOn": "",
+		    "CreatedBy": ""
+			};
+			// return props;
 		}
 	});
 });

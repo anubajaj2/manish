@@ -26,6 +26,7 @@ sap.ui.define([
 		onInit: function () {
 
 		},
+		_allWeights: [],
 		reverseSort: function(data, text){
 			var arr = [];
 			for (var i = 0; i < data.length; i++) {
