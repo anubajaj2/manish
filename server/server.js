@@ -106,18 +106,18 @@ app.post("/SoldProduct", function(req,res){
 		return;
 	}
 	ProdWeight.findById(req.body.record.id).then(
-		function(record){
-			if(!record){
-				res.send(record);
+		function(product){
+			if(!product){
+				res.send("No Record Found");
 				return;
 			}
-			record.updateAttributes({
+			product.updateAttributes({
 				"Status": "S",
 				"SoldOn": new Date(),
 				"OrderId":record.OrderId,
 		    "Remarks":record.Remarks
 			});
-			res.send("updated " +  record.id);
+			res.send("updated " +  product.id);
 		}
 	);
 
@@ -131,12 +131,12 @@ app.post("/UpdateProdWeight", function(req,res){
 		return;
 	}
 	ProdWeight.findById(req.body.record.id).then(
-		function(record){
-			if(!record){
+		function(product){
+			if(!product){
 				res.send("record not found");
 				return;
 			}
-			record.updateAttributes({
+			product.updateAttributes({
 				"PairSize": record.PairSize,
 		    "StonePc":record.StonePc,
 		    "StoneRs":record.StoneRs,
@@ -159,7 +159,7 @@ app.post("/UpdateProdWeight", function(req,res){
 		    "Amount": record.Amount,
 		    "Remarks":record.Remarks
 			});
-			res.send("updated record with id ", record.id);
+			res.send("updated record with id ", product.id);
 		}
 	);
 
@@ -172,7 +172,10 @@ app.post("/GetProdWeights", function(req,res){
 		res.send("please pass productId");
 	}
 	var productId = req.body.productId;
-	ProdWeight.find({ where: { ProductId: productId } }).
+	ProdWeight.find({ where: {
+		and: [{ ProductId: productId },
+		{ Status: "A" }]
+	} }).
 	then(function (ProdWeights) {
 		res.send({
 			"ProdWeights":ProdWeights
@@ -204,8 +207,13 @@ app.post("/ProdWeights",
 						return;
 					}
 					var productId = req.body.ProdWeights[0].ProductId;
+					if (!productId) {
+						res.send("product id not passed");
+						return;
+					}
 					ProdWeight.destroyAll({
-						ProductId: productId
+						ProductId: productId,
+						Status : "A"
 					},function(){
 						ProdWeight.create(req.body.ProdWeights,
 							function (error, created) {
@@ -215,7 +223,10 @@ app.post("/ProdWeights",
 								});
 							}else{
 								//Read all images of the given product and send
-								ProdWeight.find({ where: { ProductId: productId } }).
+								ProdWeight.find({ where: {
+									and: [{ ProductId: productId },
+									{ Status: "A" }]
+								} }).
 								then(function (ProdWeights) {
 									res.send({
 										"ProdWeights":ProdWeights
