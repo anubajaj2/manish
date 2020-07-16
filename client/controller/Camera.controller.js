@@ -26,7 +26,6 @@ sap.ui.define([
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
-			 this.firstTwoDisplay();
 			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){
@@ -133,6 +132,7 @@ sap.ui.define([
 			// });
 
 		},
+
 		onDelete: function(oEvent){
 			var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent());
 			sPaths = this.reverseSort(sPaths,"allImages");
@@ -142,13 +142,7 @@ sap.ui.define([
 				if(toBeDeleted.id){
 					//To be deleted from server also
 					if (toBeDeleted.id !== "") {
-						$.post('/DeletePhoto', {"id": toBeDeleted.id})
-							.done(function(data, status){
-								 that.deleteImage(toBeDeleted.Stream);
-							})
-							.fail(function(xhr, status, error) {
-
-							});
+						that._deletedImages.push({id: toBeDeleted.id});
 					}
 				}else{
 					this.deleteImage(toBeDeleted.Stream);
@@ -243,9 +237,9 @@ sap.ui.define([
 			}
 			var props = this._prepModelInitialValues();
 			var oModel = this.getView().getModel("local");
-			this._allWeights = oModel.getProperty("/ProdWeights");
-			this._allWeights.push(props);
-			oModel.setProperty("/ProdWeights", this._allWeights);
+			this.ProdWeights = oModel.getProperty("/ProdWeights");
+			this.ProdWeights.push(props);
+			oModel.setProperty("/ProdWeights", this.ProdWeights);
 		},
 		onChange: function(oEvent) {
 

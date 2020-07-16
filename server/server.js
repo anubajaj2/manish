@@ -35,6 +35,34 @@ app.start = function() {
 
 	});
 };
+
+app.post("/GetAllPhotos", function(req,res){
+	var app = require('../server/server');
+	var Pics = app.models.Photo;
+	Pics.find({
+		fields:{
+			"id": "true"
+		}
+	}).then(function(all){
+		res.send(all);
+	});
+});
+
+app.post("/DeletePhoto", function(req,res){
+	var app = require('../server/server');
+	var Pics = app.models.Photo;
+	if(!req.body.images){
+		return;
+	}
+	var images = req.body.images;
+	for (var i = 0; i < images.length; i++) {
+		Pics.destroyById(images[i].id).then(function(token){
+			res.send("deleted");
+		});
+	}
+
+});
+
 app.post("/DeletePhoto", function(req,res){
 	var app = require('../server/server');
 	var Pics = app.models.Photo;

@@ -22,7 +22,6 @@ sap.ui.define([
 		 _routePatternMatched : function(){
 			var that = this;
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
-			this.firstTwoDisplay();
 		 },
 		 _odataExampleCall: function() {
 			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),

@@ -102,8 +102,8 @@
   "relations": {
     "ToPhotos":{
       "type":"hasMany",
-      "model":"ProdPhoto",
-      "foreignKey":"ProductId"
+      "model":"Photo",
+      "foreignKey":"Product"
     },
     "ToWeights": {
       "type":"hasMany",
