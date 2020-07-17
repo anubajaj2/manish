@@ -74,8 +74,8 @@
 					<Label text="Gender"/>
 					<Select id="idGender" selectedKey="{local>/Product/Gender}">
 						<items>
-							<core:Item text="Male" key="M"/>
 							<core:Item text="Female" key="F"/>
+							<core:Item text="Male" key="M"/>
 						</items>
 					</Select>
 
@@ -95,6 +95,7 @@
 			<Toolbar>
 				<ToolbarSpacer/>
 				<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
+				<Button text="Clear" type="Ghost" press="onClear" id="idClear"></Button>
 				<Button text="Cancel" type="Reject" press="onCacel" id="idCancel"></Button>
 			</Toolbar>
 		</footer>

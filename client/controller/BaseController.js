@@ -65,6 +65,9 @@ sap.ui.define([
 			if (parseInt(Product.Making) > 9999) {
 				return { "status" : false, "error": "Making not valid"};
 			}
+			if ((parseInt(Product.Tunch) + parseInt(Product.Wastage)) >= 100) {
+				return { "status" : false, "error": "Tunch+Wastage not valid"};
+			}
 
 			for (var i = 0; i < allWeights.length; i++) {
 				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
@@ -202,10 +205,11 @@ sap.ui.define([
 			this._oLocalModel.setProperty("/fineRs", totalAmount);
 		},
 		firstTwoDisplay: function(){
+			debugger;
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
 		lastTwoDisplay: function(oView){
-
+      debugger;
 			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {
@@ -319,6 +323,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_setLayout: function (sColumns) {
+			debugger;
 			if (sColumns) {
 				this.getModel("local").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
 			}
@@ -366,9 +371,8 @@ sap.ui.define([
 			var searchStr = oEvent.getParameter("value");
 			var oFilter = new sap.ui.model.Filter({
 				filters: [
-					new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, searchStr)//,
-				]//,
-				//and: false
+					new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, searchStr)
+				]
 			});
 			var oPopup = oEvent.getSource();
 			oPopup.getBinding("items").filter(oFilter);
