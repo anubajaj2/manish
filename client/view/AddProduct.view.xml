@@ -95,7 +95,7 @@
 			<Toolbar>
 				<ToolbarSpacer/>
 				<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
-				<Button text="Cancel" type="Reject" press="onCacel" id="idCancel"></Button>
+				<Button text="Clear" type="Reject" press="onCancel" id="idCancel"></Button>
 			</Toolbar>
 		</footer>
 	</Page>

@@ -25,6 +25,9 @@ sap.ui.define([
 				this.loadCategories();
 				this.lastTwoDisplay();
 		},
+		onCancel: function(){
+			this.cancelSave();
+		},
 		onCaptureImg:function() {
 			this._router.navTo("Camera");
 			this.getView().getModel("appView").setProperty("/layout", "TwoColumnsBeginExpanded");

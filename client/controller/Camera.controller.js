@@ -26,7 +26,7 @@ sap.ui.define([
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
-			 this.firstTwoDisplay();
+			 this.lastTwoDisplay();
 			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){

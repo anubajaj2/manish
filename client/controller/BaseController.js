@@ -107,6 +107,30 @@ sap.ui.define([
 				//if no records in weight table nothing will happen
 				this.upsertWeights();
 		},
+		loadProductData: function(productId){
+			var that = this;
+			if(productId !== "" && !productId){
+				return;
+			}
+			$.post('/GetAllPhotos', {"productId": productId})
+				.done(function(data, status){
+					that._deletedImages = [];
+					that._allImages = data.allImages;
+					that.processImages();
+					that.getView().getModel("local").setProperty("/allImages", that._allImages);
+				})
+				.fail(function(xhr, status, error) {
+
+				});
+			$.post('/GetProdWeights', {"productId": productId})
+				.done(function(data, status){
+					that.ProdWeights = data.ProdWeights;
+					that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
+				})
+				.fail(function(xhr, status, error) {
+
+				});
+		},
 		cancelSave: function(){
 			this._deletedImages = [];
 			this._allImages = [];
