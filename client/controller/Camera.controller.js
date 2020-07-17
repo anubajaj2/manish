@@ -153,18 +153,20 @@ sap.ui.define([
 			oEvent.getSource().getParent().getParent().removeSelections();
 		},
 		deleteImage: function (Stream) {
-			for (var j = 0; j < this._allImages.length; j++) {
-				if(this._allImages[j].Stream === Stream){
-					this._allImages.splice(j,1);
+			var _allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var j = 0; j < _allImages.length; j++) {
+				if(_allImages[j].Stream === Stream){
+					_allImages.splice(j,1);
 					break;
 				}
 			}
-			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+			this.getView().getModel("local").setProperty("/allImages",_allImages);
 		},
 
 		onUploadChange: function(oEvent) {
 			const files = oEvent.getParameter("files");
 			var that = this;
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
 			if (!files.length) {
 
 			} else {
@@ -172,14 +174,14 @@ sap.ui.define([
 					//const img = document.createElement("img");
 					var reader = new FileReader();
 					reader.onload = function(e){
+						var _allImages = that.getView().getModel("local").getProperty("/allImages");
 						try {
 							var vContent = e.currentTarget.result; //.result.replace("data:image/jpeg;base64,", "");
-							for (var i = 0; i < that._allImages.length; i++) {
-								if(!that._allImages[i].Content){
-									that._allImages[i].Content = vContent;
+							for (var i = 0; i < _allImages.length; i++) {
+								if(!_allImages[i].Content){
+									_allImages[i].Content = vContent;
 									that.checkChange = true;
-									that.getView().getModel("local").setProperty("/allImages", that._allImages);
-									//console.log(that._allImages);
+									that.getView().getModel("local").setProperty("/allImages", _allImages);
 									break;
 								}
 							}
@@ -193,7 +195,8 @@ sap.ui.define([
 					};
 					img.Stream = URL.createObjectURL(files[i]);
 					reader.readAsDataURL(files[i]);
-					this._allImages.push(img);
+					allImages.push(img);
+					this.getView().getModel("local").setProperty("/allImages", allImages);
 				}
 			}
 		},

@@ -40,7 +40,6 @@ sap.ui.define([
 			}
 			return retSet;
 		},
-		_allImages: [],
 		_deletedImages: [],
 		ProdWeights: [],
 		validateProductData: function(){
@@ -80,13 +79,14 @@ sap.ui.define([
 				allWeights[i].ProductId = ProductId;
 			}
 
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
 			//check if image has product id to create association
-			for (var j = 0; j < this._allImages.length; j++) {
-				if(!this._allImages[j].id){
-					this._allImages[j].Product = ProductId;
+			for (var j = 0; j < allImages.length; j++) {
+				if(!allImages[j].id){
+					allImages[j].Product = ProductId;
 				}
 			}
-			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+			this.getView().getModel("local").setProperty("/allImages",allImages);
 			this.getView().getModel("local").setProperty("/ProdWeights", allWeights);
 		},
 		performCameraSave: function(ProductId){
@@ -116,9 +116,8 @@ sap.ui.define([
 			$.post('/GetAllPhotos', {"productId": productId})
 				.done(function(data, status){
 					that._deletedImages = [];
-					that._allImages = data.allImages;
+					that.getView().getModel("local").setProperty("/allImages", data.allImages);
 					that.processImages();
-					that.getView().getModel("local").setProperty("/allImages", that._allImages);
 				})
 				.fail(function(xhr, status, error) {
 
@@ -142,7 +141,6 @@ sap.ui.define([
 					onClose: function(reply){
 							if(reply === "OK"){
 								that._deletedImages = [];
-								that._allImages = [];
 								that.getView().getModel("local").setProperty("/ProdWeights", []);
 								that.getView().getModel("local").setProperty("/allImages", []);
 								that.checkChange = false;
@@ -153,7 +151,7 @@ sap.ui.define([
 				})
 			}else{
 				this._deletedImages = [];
-				this._allImages = [];
+
 				this.getView().getModel("local").setProperty("/ProdWeights", []);
 				this.getView().getModel("local").setProperty("/allImages", []);
 				that.checkChange = false;
@@ -193,13 +191,14 @@ sap.ui.define([
 		handleUploadPress: function(oEvent){
 			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
 			var imagesPost = [];
-			for (var i = 0; i < this._allImages.length; i++) {
-				if(!this._allImages[i].id){
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var i = 0; i < allImages.length; i++) {
+				if(!allImages[i].id){
 					imagesPost.push({
 						"SeqNo": i,
-						"Product": this._allImages[i].Product,
-						"Stream": this._allImages[i].Stream,
-						"Content": this._allImages[i].Content,
+						"Product": allImages[i].Product,
+						"Stream": allImages[i].Stream,
+						"Content": allImages[i].Content,
 						"Filename": "",
 						"Filetype": "",
 						"ViewCount": 0,
@@ -215,9 +214,8 @@ sap.ui.define([
 			var that = this;
 			$.post('/Photos', {"images": imagesPost})
 				.done(function(data, status){
-					 that._allImages = data.allImages;
+					 that.getView().getModel("local").setProperty("/allImages", data.allImages);
 					 that.processImages();
-					 that.getView().getModel("local").setProperty("/allImages", that._allImages);
 				})
 				.fail(function(xhr, status, error) {
 
@@ -225,9 +223,11 @@ sap.ui.define([
 
 		},
 		processImages: function(){
-			for (var i = 0; i < this._allImages.length; i++) {
-				this._allImages[i].Stream = formatter.getImageUrlFromContent(this._allImages[i].Content);
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var i = 0; i < allImages.length; i++) {
+				allImages[i].Stream = formatter.getImageUrlFromContent(allImages[i].Content);
 			}
+			this.getView().getModel("local").setProperty("/allImages", allImages);
 		},
 		calculateOrderEstimate: function(){
 			var allItems = this._oLocalModel.getProperty("/cartItems");
