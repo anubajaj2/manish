@@ -26,10 +26,7 @@ sap.ui.define([
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
-<<<<<<< HEAD
 			 this.firstTwoDisplay();
-=======
->>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
 			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){
@@ -241,15 +238,9 @@ sap.ui.define([
 			}
 			var props = this._prepModelInitialValues();
 			var oModel = this.getView().getModel("local");
-<<<<<<< HEAD
-			this._allWeights = oModel.getProperty("/ProdWeights");
-			this._allWeights.push(props);
-			oModel.setProperty("/ProdWeights", this._allWeights);
-=======
 			var ProdWeights = oModel.getProperty("/ProdWeights");
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
->>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
 		},
 		onChange: function(oEvent) {
 
@@ -387,17 +378,10 @@ sap.ui.define([
 		    "Fine": 0,
 		    "Amount": 0,
 		    "Status": "A",
-<<<<<<< HEAD
-				"SoldOn": "",
-				"OrderId":"",
-		    "Remarks":"null",
-		    "CreatedOn": "",
-=======
 				"SoldOn": new Date(),
 				"OrderId":"",
 		    "Remarks":"null",
 		    "CreatedOn": new Date(),
->>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
 		    "CreatedBy": ""
 			};
 			// return props;
