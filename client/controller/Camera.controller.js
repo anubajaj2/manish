@@ -144,6 +144,7 @@ sap.ui.define([
 					//To be deleted from server also
 					if (toBeDeleted.id !== "") {
 						that._deletedImages.push({id: toBeDeleted.id});
+						that.checkChange = true;
 					}
 				}else{
 					this.deleteImage(toBeDeleted.Stream);
@@ -176,6 +177,7 @@ sap.ui.define([
 							for (var i = 0; i < that._allImages.length; i++) {
 								if(!that._allImages[i].Content){
 									that._allImages[i].Content = vContent;
+									that.checkChange = true;
 									that.getView().getModel("local").setProperty("/allImages", that._allImages);
 									//console.log(that._allImages);
 									break;
@@ -228,6 +230,7 @@ sap.ui.define([
 			this.getView().getModel("local").getProperty("/ProdWeights",aRows);
 			this.getView().byId("idTab").removeSelections(true);
 			MessageToast.show("Successfully Deleted");
+			that.checkChange = true;
 	},
 		onInsert: function(oEvent) {
 			var tunch = this._oLocalModel.getProperty("/Product/Tunch");
@@ -241,6 +244,7 @@ sap.ui.define([
 			var ProdWeights = oModel.getProperty("/ProdWeights");
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
+			that.checkChange = true;
 		},
 		onChange: function(oEvent) {
 
@@ -325,7 +329,7 @@ sap.ui.define([
 			nVal = nVal + parseInt(OTRs);
 			nVal = nVal.toFixed();
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
-
+			that.checkChange = true;
 		},
 		onSwitchOffHide: function() {
 			for (var i = 0; i < 19; i++) {

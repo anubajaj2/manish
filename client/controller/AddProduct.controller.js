@@ -28,71 +28,6 @@ sap.ui.define([
 		onCancel: function(){
 			this.cancelSave();
 		},
-		onCaptureImg:function() {
-			this._router.navTo("Camera");
-			this.getView().getModel("appView").setProperty("/layout", "TwoColumnsBeginExpanded");
-
-			debugger;
-			var oHtml = this.byId("htmlControl");
-
-			var that = this;
-
-			if (!oHtml) {
-				var sId = this.createId("htmlControl");
-				oHtml = new HTML(sId, {
-					content: "<video id='player' autoplay></video>"
-				});
-			}
-
-			var handleSuccess = function(stream) {
-				player.srcObject = stream;
-			}
-
-			navigator.mediaDevices.getUserMedia({
-				video: true
-			}).then(handleSuccess);
-
-			var oLayout = this.getView().byId("staticContentLayout");
-			oLayout.addContent(oHtml);
-		},
-		onUploadImg1:function() {
-			this._router.navTo("Camera");
-			this.getView().getModel("appView").setProperty("/layout", "TwoColumnsBeginExpanded");
-
-			this.getView().byId().setProperty("/visible", "true")
-		},
-		//takePhoto
-		onCaptureImg1: function() {
-			//Take the running image from the video stream of camera
-				var oVBox = this.getView().byId("wow");
-				var items = oVBox.getItems();
-				//var snapId = "snap-" + items.length;
-				var snapId = "snap-" + this.a.length;
-				var textId = snapId + "-text";
-				var imageVal = document.getElementById("player"); //this.imageVal;
-
-				if (items.length > 0) {
-					oVBox.removeItem(0);
-				}
-				//set that as a canvas element on HTML page
-				var oCanvas = new sap.ui.core.HTML({
-					content: "<canvas id='" + snapId + "' width='320px' height='320px' " +
-						" style='2px solid red'></canvas> " +
-						" <label id='" + textId + "'>" + this.attachName + "</label>"
-				});
-
-				oVBox.addItem(oCanvas);
-				oCanvas.addEventDelegate({
-					onAfterRendering: function() {
-						var snapShotCanvas = document.getElementById(snapId);
-						var oContext = snapShotCanvas.getContext("2d");
-						oContext.drawImage(imageVal, 0, 0, snapShotCanvas.width, snapShotCanvas.height);
-					}
-
-				});
-				this.sendToCarousal();
-
-		},
 		onSave: function() {
       var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
@@ -129,31 +64,6 @@ sap.ui.define([
 
 
 	},
-			sendToCarousal: function(snapId) {
-				debugger;
-				var snapId = "snap-" + this.a.length;
-				var stringImage = document.getElementById(snapId).toDataURL();
-
-				this.a.push(stringImage);
-
-				var oCModel = this.getView().getModel("C");
-				oCModel.setProperty("/images", this.a);
-
-				var oCarousel = this.getView().byId("car");
-
-				var imgId = "imgage" + this.a.length;
-				var imgSrc = "{C>/images/" + (this.a.length - 1) + "}";
-				var imgAlt = "Example picture " + this.a.length;
-				var img = new sap.m.Image(imgId, {
-					src: imgSrc,
-					alt: imgAlt,
-					densityAware: false,
-					decorative: false
-				});
-
-				oCarousel.addPage(img);
-
-			},
 			onProductValueHelp: function(oEvent){
        debugger;
 			 if (!this.ProductsearchPopup) {
@@ -175,9 +85,8 @@ sap.ui.define([
 		 },
 
 		 onConfirm: function(oEvent){
-		   debugger;
-		   var that = this;
-		   //Push the selected product id to the local model
+			   var that = this;
+			   //Push the selected product id to the local model
 		    	var myData = this.getView().getModel("local").getProperty("/Product");
 		     	var selProd = oEvent.getParameter("selectedItem").getLabel();
 				 	myData.ProductId = selProd;
@@ -186,19 +95,18 @@ sap.ui.define([
 
 		           this.getView().byId("idName").setValueState();
 		     }
-
 		   },
-
 			onEnter: function(oEvent){
 				debugger;
 				var that = this;
-				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
+				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue().toUpperCase());
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
 						filters: [Filter1]
 					}, {}, this)
 					.then(function(oData) {
 						if (oData.results.length != 0) {
+					  that.loadProductData(oData.results[0].id);
 						that.getView().byId("idCat").setValue(oData.results[0].Category);
 						that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
 						that.getView().byId("idType").setValue(oData.results[0].Type);

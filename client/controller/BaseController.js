@@ -106,6 +106,7 @@ sap.ui.define([
 				//this way no need to compare changes, or new recods
 				//if no records in weight table nothing will happen
 				this.upsertWeights();
+				this.checkChange = false;
 		},
 		loadProductData: function(productId){
 			var that = this;
@@ -131,11 +132,33 @@ sap.ui.define([
 
 				});
 		},
+		checkChange: false,
 		cancelSave: function(){
-			this._deletedImages = [];
-			this._allImages = [];
-			this.getView().getModel("local").setProperty("/ProdWeights", []);
-			this.getView().getModel("local").setProperty("/allImages", []);
+			var that = this;
+			if(this.checkChange === true){
+				MessageBox.confirm("Unsaved data will be lost",{
+					title: "Confirmation",
+					type: "Warning",
+					onClose: function(reply){
+							if(reply === "OK"){
+								that._deletedImages = [];
+								that._allImages = [];
+								that.getView().getModel("local").setProperty("/ProdWeights", []);
+								that.getView().getModel("local").setProperty("/allImages", []);
+								that.checkChange = false;
+							}else{
+								//do nothing
+							}
+					}
+				})
+			}else{
+				this._deletedImages = [];
+				this._allImages = [];
+				this.getView().getModel("local").setProperty("/ProdWeights", []);
+				this.getView().getModel("local").setProperty("/allImages", []);
+				that.checkChange = false;
+			}
+
 		},
 		massImageDelete: function(){
 			var that = this;
