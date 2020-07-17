@@ -104,10 +104,6 @@
     "dataSource": "mongoatlas",
     "public": true
   },
-  "ProdPhoto":{
-    "dataSource": "mongoatlas",
-    "public": true
-  },
   "ProdWeight":{
     "dataSource": "mongoatlas",
     "public": true

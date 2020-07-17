@@ -22,6 +22,8 @@
 					<Label text="Product Code"/>
 					<Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange"
 									showValueHelp="true" valueHelpRequest="onProductValueHelp"/>
+				  <Label text="Name"/>
+					<Input id="idPName" value="{local>/Product/Name}"/>
 					<Label text="Category"/>
 					<Select id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}">
 						<items>

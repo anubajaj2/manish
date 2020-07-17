@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/core/HTML",
-	"sap/m/MessageToast"
-], function(BaseController, UIComponent, JSONModel, HTML, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function(BaseController, UIComponent, JSONModel, HTML, MessageToast, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.AddProduct", {
@@ -90,27 +91,13 @@ sap.ui.define([
 
 		},
 		onSave: function() {
-			debugger;
       var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
 			var a = productPayload.ProductId;
-
 			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
-			var skip = "";
-			if (productPayload.Tunch > 100.00) {
-				MessageToast.show("Please enter Tunch upto 100");
-				var skip = "X";
-			}
-			if (productPayload.Wastage > 100) {
-				MessageToast.show("Please enter Wastage upto 100");
-				var skip = "X";
-			}
-			if (productPayload.Making > 9999) {
-				MessageToast.show("Please enter Making less than 10000");
-				var skip = "X";
-			}
+
 			//		Product Id Cannot be Duplicated
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
 
@@ -118,18 +105,23 @@ sap.ui.define([
 			    "/Products", "GET", {	filters: [Filter1] }, {}, this)
 				.then(function(oData) {
 					if (oData.results.length != 0) {
-					MessageToast.show("Product Id Cannot be Duplicated");
-				}else{
-					if (skip === "") {
-						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-								"/Products", "POST", {}, productPayload, that)
-								.then(function(data) {
-									MessageToast.show("Post Done");
-								}).catch(function(oError) {
-									MessageToast.show("Cannot Post the data");
-								});
-							}
-				}
+						MessageBox.error("Product Id Already Exist");
+					}else{
+						var result = that.validateProductData();
+						if (result.status) {
+							var that2 = that;
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+									"/Products", "POST", {}, productPayload, that)
+									.then(function(data) {
+										that2.performCameraSave(data.id);
+										MessageToast.show("Product Created Successfully");
+									}).catch(function(oError) {
+										MessageBox.error("Error while saving product data");
+									});
+						}else{
+							MessageBox.error(result.error);
+						}
+					}
 			});
 
 

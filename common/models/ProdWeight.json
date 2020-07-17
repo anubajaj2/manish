@@ -93,11 +93,15 @@
     },
     "Status":{
       "type": "string",
-      "default":"P"
+      "default":"A"
     },
     "Remarks":{
       "type": "string",
       "default":"P"
+    },
+    "OrderId":{
+      "type":"",
+      "default":"null"
     },
     "CreatedOn": {
 			"type": "date"
@@ -121,6 +125,11 @@
 			"type": "belongsTo",
 			"model": "User",
 			"foreignKey": "CreatedBy"
+		},
+    "ToOrder": {
+			"type": "belongsTo",
+			"model": "OrderHeader",
+			"foreignKey": "OrderId"
 		}
   },
   "acls": [

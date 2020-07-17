@@ -6,8 +6,9 @@ sap.ui.define([
 	"sap/ui/demo/cart/model/cart",
 	"sap/ui/demo/cart/dbapi/dbapi",
 	"sap/f/LayoutType",
-	"sap/ui/demo/cart/model/formatter"
-], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType, formatter) {
+	"sap/ui/demo/cart/model/formatter",
+	"sap/m/MessageBox"
+], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType, formatter, MessageBox) {
 	"use strict";
 
 
@@ -40,6 +41,108 @@ sap.ui.define([
 			return retSet;
 		},
 		_allImages: [],
+		_deletedImages: [],
+		ProdWeights: [],
+		validateProductData: function(){
+			var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
+			var Product = this.getView().getModel("local").getProperty("/Product");
+
+			if(Product.ProductId === "" || Product.ProductId === "null" ){
+				return { "status" : false, "error": "Product Id not valid"};
+			}
+			if(Product.Name === "" || Product.Name === "null" ){
+				return { "status" : false, "error": "Product Name not valid"};
+			}
+			if(Product.Tunch === "" || Product.Tunch === "null" || Product.Tunch === "0" || parseInt(Product.Tunch) === 0 ){
+				return { "status" : false, "error": "Tunch is not valid"};
+			}
+			if (parseInt(Product.Tunch) > 100) {
+				return { "status" : false, "error": "Tunch is not valid"};
+			}
+			if (parseInt(Product.Wastage) > 100) {
+				return { "status" : false, "error": "Wastage is not valid"};
+			}
+			if (parseInt(Product.Making) > 9999) {
+				return { "status" : false, "error": "Making not valid"};
+			}
+
+			for (var i = 0; i < allWeights.length; i++) {
+				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
+					return { "status" : false, "error": "Fine cannot be calculated"};
+				}
+			}
+			return { "status" : true, "error": ""};
+		},
+		prepareFinalData: function(ProductId){
+			//check if allWeights has product id to create association
+			var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
+			for (var i = 0; i < allWeights.length; i++) {
+				allWeights[i].ProductId = ProductId;
+			}
+
+			//check if image has product id to create association
+			for (var j = 0; j < this._allImages.length; j++) {
+				if(!this._allImages[j].id){
+					this._allImages[j].Product = ProductId;
+				}
+			}
+			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+			this.getView().getModel("local").setProperty("/ProdWeights", allWeights);
+		},
+		performCameraSave: function(ProductId){
+			//Commit to be done
+			//Validate everything before saving images, deleting images or upserting data
+				this.prepareFinalData(ProductId);
+				//delete the images which are marked for deletion from server
+				//based on collection for deletetioon this._deletedImages
+				//if no images to be deleted nothing happen
+				this.massImageDelete();
+				//upload only images which has no id
+				//all will be uploaded in one shot and ui will update with
+				//stored images back on screen
+				this.handleUploadPress();
+				//upsert all records of all weights again of "A" - Available only
+				//API will flush and recreate every record again
+				//this way no need to compare changes, or new recods
+				//if no records in weight table nothing will happen
+				this.upsertWeights();
+		},
+		cancelSave: function(){
+			this._deletedImages = [];
+			this._allImages = [];
+			this.getView().getModel("local").setProperty("/ProdWeights", []);
+			this.getView().getModel("local").setProperty("/allImages", []);
+		},
+		massImageDelete: function(){
+			var that = this;
+			if(this._deletedImages.length === 0){
+				return;
+			}
+			$.post('/DeletePhotos', {"images": this._deletedImages})
+				.done(function(data, status){
+					that._deletedImages = [];
+				})
+				.fail(function(xhr, status, error) {
+
+				});
+		},
+	  upsertWeights: function(){
+			var that = this;
+			var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
+			if(allWeights.length === 0){
+				return;
+			}
+			//check if product id is set properly
+			//and fine is calculated
+				$.post('/ProdWeights', {"ProdWeights": allWeights})
+					.done(function(data, status){
+						 that.ProdWeights = data.ProdWeights;
+						 that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
+					})
+					.fail(function(xhr, status, error) {
+						MessageBox.error("Internal error occurred");
+					});
+		},
 		handleUploadPress: function(oEvent){
 			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
 			var imagesPost = [];
@@ -47,7 +150,7 @@ sap.ui.define([
 				if(!this._allImages[i].id){
 					imagesPost.push({
 						"SeqNo": i,
-						"Product": "demo",
+						"Product": this._allImages[i].Product,
 						"Stream": this._allImages[i].Stream,
 						"Content": this._allImages[i].Content,
 						"Filename": "",
@@ -58,6 +161,9 @@ sap.ui.define([
 						"CreatedOn": new Date()
 					});
 				}
+			}
+			if(imagesPost.length === 0){
+				return;
 			}
 			var that = this;
 			$.post('/Photos', {"images": imagesPost})
@@ -96,7 +202,7 @@ sap.ui.define([
 			this._oLocalModel.setProperty("/fineRs", totalAmount);
 		},
 		firstTwoDisplay: function(){
-			//this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
 		lastTwoDisplay: function(oView){
 
