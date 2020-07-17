@@ -64,12 +64,15 @@ sap.ui.define([
 			if (parseInt(Product.Making) > 9999) {
 				return { "status" : false, "error": "Making not valid"};
 			}
-
+			if (allWeights.length <= 0) {
+				return { "status" : false, "error": "at least one weight required"};
+			}
 			for (var i = 0; i < allWeights.length; i++) {
 				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
 					return { "status" : false, "error": "Fine cannot be calculated"};
 				}
 			}
+
 			return { "status" : true, "error": ""};
 		},
 		prepareFinalData: function(ProductId){

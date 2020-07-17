@@ -69,6 +69,10 @@
       "default":0,
       "required": false
     },
+    "GrossWeight":{
+      "type": "number",
+      "required": true
+    },
     "ApprovedOn": {
 			"type": "date"
 		},

@@ -32,10 +32,15 @@ sap.ui.define([
       var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
 			var a = productPayload.ProductId;
+			var result = that.validateProductData();
+			if (result.status === false) {
+				MessageBox.error(result.error);
+				return;
+			}
 			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
-
+			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
 			//		Product Id Cannot be Duplicated
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
 
@@ -45,10 +50,8 @@ sap.ui.define([
 					if (oData.results.length != 0) {
 						MessageBox.error("Product Id Already Exist");
 					}else{
-						var result = that.validateProductData();
-						if (result.status) {
-							var that2 = that;
-							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+						var that2 = that;
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Products", "POST", {}, productPayload, that)
 									.then(function(data) {
 										that2.performCameraSave(data.id);
@@ -56,9 +59,6 @@ sap.ui.define([
 									}).catch(function(oError) {
 										MessageBox.error("Error while saving product data");
 									});
-						}else{
-							MessageBox.error(result.error);
-						}
 					}
 			});
 
