@@ -62,7 +62,140 @@
 						</FlexBox>
 					</f:GridListItem>
 				</f:GridList>
-
+				<Table id="idTab" items="{local>/ProdWeights}" mode="MultiSelect" selectionChange="onSelection">
+					<headerToolbar>
+						<Toolbar>
+							<Switch id="idSwitch" state="false" change="onSwitchChange"></Switch>
+							<ToolbarSpacer/>
+							<Button id="idAdd" icon="sap-icon://add" tooltip="Insert Row" press="onInsert"></Button>
+							<Button id="idDelete" icon="sap-icon://delete" tooltip="Delete Rows" press="onDeleteRow"></Button>
+						</Toolbar>
+					</headerToolbar>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Input value="{local>StonePc}" name="StonePc" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneRs}" name="StoneRs" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneAmt}" name="StoneAmt" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneWeight}" name="StoneWeight" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StonePc1}" name="StonePc1" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneWeight1}" name="StoneWeight1" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneRs1}" name="StoneRs1" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>StoneAmt1}" name="StoneAmt1" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>MoPc}" name="MoPc" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>MoWeight}" name="MoWeight" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>MoRs}" name="MoRs" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>MoAmt}" name="MoAmt" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>OtherChrg}" name="OtherChrg" liveChange="onChange" type="Number"></Input>
+								<Input value="{ path: 'local>GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" name="GrossWeight"
+									liveChange="onChange"></Input>
+								<!--<Input value="{path:'/number', type:'sap.ui.model.type.Float'}"/>-->
+								<Input value="{local>LessWeight}" enabled="false"></Input>
+								<Input value="{local>NetWeight}" enabled="false"></Input>
+								<Input value="{local>Quantity}"></Input>
+								<Input value="{local>Fine}" enabled="false"></Input>
+								<Input value="{local>Amount}" enabled="false"></Input>
+							</cells>
+						</ColumnListItem>
+					</items>
+					<columns>
+						<Column id="idCol0">
+							<header>
+								<Text text="StPc"></Text>
+							</header>
+						</Column>
+						<Column id="idCol1">
+							<header>
+								<Text text="StRs"></Text>
+							</header>
+						</Column>
+						<Column id="idCol2" visible="false">
+							<header>
+								<Text text="StAmt"></Text>
+							</header>
+						</Column>
+						<Column id="idCol3">
+							<header>
+								<Text text="StWt"></Text>
+							</header>
+						</Column>
+						<Column id="idCol4">
+							<header>
+								<Text text="StPc1"></Text>
+							</header>
+						</Column>
+						<Column id="idCol5">
+							<header>
+								<Text text="StWt1"></Text>
+							</header>
+						</Column>
+						<Column id="idCol6">
+							<header>
+								<Text text="StRs1"></Text>
+							</header>
+						</Column>
+						<Column id="idCol7" visible="false">
+							<header>
+								<Text text="StAmt1"></Text>
+							</header>
+						</Column>
+						<Column id="idCol8">
+							<header>
+								<Text text="MoPc"></Text>
+							</header>
+						</Column>
+						<Column id="idCol9">
+							<header>
+								<Text text="MoWt"></Text>
+							</header>
+						</Column>
+						<Column id="idCol10">
+							<header>
+								<Text text="MoRs"></Text>
+							</header>
+						</Column>
+						<Column id="idCol11" visible="false">
+							<header>
+								<Text text="MoAmt"></Text>
+							</header>
+						</Column>
+						<Column id="idCol12">
+							<header>
+								<Text text="OTChrg"></Text>
+							</header>
+						</Column>
+						<Column id="idCol13">
+							<header>
+								<Text text="Gr Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol14">
+							<header>
+								<Text text="Ls Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol15">
+							<header>
+								<Text text="Net Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol16" visible="false">
+							<header>
+								<Text text="Quantity"></Text>
+							</header>
+						</Column>
+						<Column id="idCol17">
+							<header>
+								<Text text="Fine"></Text>
+							</header>
+						</Column>
+						<Column id="idCol18">
+							<header>
+								<Text text="Amount"></Text>
+							</header>
+						</Column>
+					</columns>
+				</Table>
 			</content>
 		</Page>
 </mvc:View>
