@@ -111,11 +111,26 @@ sap.ui.define([
 				this.upsertWeights();
 				this.checkChange = false;
 		},
-		loadProductData: function(productId){
+		loadProdWeights: function(productId){
 			var that = this;
-			if(productId !== "" && !productId){
-				return;
-			}
+			return new Promise(function(resolve, reject) {
+				$.post('/GetProdWeights', {"productId": productId})
+					.done(function(data, status){
+						that.ProdWeights = data.ProdWeights;
+						that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
+						resolve(data);
+					})
+					.fail(function(xhr, status, error) {
+						reject(error);
+					});
+			});
+
+		},
+		loadProdInitImages: function(productId){
+
+		},
+		loadProdAllImages: function(productId){
+			var that = this;
 			$.post('/GetAllPhotos', {"productId": productId})
 				.done(function(data, status){
 					that._deletedImages = [];
@@ -125,14 +140,14 @@ sap.ui.define([
 				.fail(function(xhr, status, error) {
 
 				});
-			$.post('/GetProdWeights', {"productId": productId})
-				.done(function(data, status){
-					that.ProdWeights = data.ProdWeights;
-					that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
-				})
-				.fail(function(xhr, status, error) {
-
-				});
+		},
+		loadProductData: function(productId){
+			var that = this;
+			if(productId !== "" && !productId){
+				return;
+			}
+			this.loadProdAllImages(productId);
+			this.loadProdWeights(productId);
 		},
 		checkChange: false,
 		cancelSave: function(){

@@ -41,7 +41,7 @@
 					<grid:GridBoxLayout/>
 				</f:customLayout>
 
-				<f:GridListItem 
+				<f:GridListItem
 				 mode="Active">
 					<FlexBox
 						height="1.5rem" class="sapUiSmallMargin"
@@ -98,9 +98,9 @@
 									</Text>
 								</HBox>
 								<ObjectStatus
-									text="{ path: 'Status',
+									text="{ path: 'OverallStatus',
 													formatter: '.formatter.statusText' }"
-									state="{ path: 'Status',
+									state="{ path: 'OverallStatus',
 													formatter: '.formatter.statusState' }">
 								</ObjectStatus>
 							</VBox>

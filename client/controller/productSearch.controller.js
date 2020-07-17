@@ -11,7 +11,8 @@ sap.ui.define([
 	"sap/m/Dialog",
 	"sap/m/Carousel",
 	"sap/m/Button",
-	"sap/m/MessageBox"
+	"sap/m/MessageBox",
+	"sap/m/SelectDialog"
 ], function (
 	BaseController,
 	formatter,
@@ -21,7 +22,7 @@ sap.ui.define([
 	MessageToast,
 	JSONModel,
 	Fragment,
-	Image, Dialog, Carousel, Button, MessageBox) {
+	Image, Dialog, Carousel, Button, MessageBox, SelectDialog) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.productSearch", {
@@ -29,7 +30,7 @@ sap.ui.define([
 		onInit: function () {
 			this._oRouter = this.getOwnerComponent().getRouter();
 			this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
-
+			this._oLocalModel = this.getOwnerComponent().getModel("local");
 		},
 		_onRouteMatched: function() {
 			//alert("yo");
@@ -58,20 +59,72 @@ sap.ui.define([
 			}
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
 		},
+		closeWeights: function(oEvent){
+			var selectedItems = oEvent.getParameter("selectedItems");
+			if(selectedItems.length > 0){
+
+			}else{
+				this.oBtn.setPressed(false);
+			}
+			if(this.oBtn.getPressed()){
+				this.oBtn.setIcon("sap-icon://delete");
+				this.oBtn.setType("Emphasized");
+				this.addProductToCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
+			}else{
+				this.oBtn.setIcon("sap-icon://cart-3");
+				this.oBtn.setType("Default");
+				this.removeProductFromCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
+			}
+		},
+		selectedWeights: function(oEvent){
+			debugger;
+			var selectedItems = oEvent.getParameter("selectedItems");
+			if(selectedItems.length > 0){
+
+			}else{
+				this.oBtn.setPressed(false);
+			}
+			if(this.oBtn.getPressed()){
+				this.oBtn.setIcon("sap-icon://delete");
+				this.oBtn.setType("Emphasized");
+				this.addProductToCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
+			}else{
+				this.oBtn.setIcon("sap-icon://cart-3");
+				this.oBtn.setType("Default");
+				this.removeProductFromCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
+			}
+		},
 		onAddToCart: function(oEvent){
+
 			var oBtn = oEvent.getSource();
 			//get binding path of parent list item
 			var sPath = oBtn.getParent().getBindingContext().getPath();
+			this.oBtn = oBtn;
+			this.sPath = sPath;
+			var that = this;
+			this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
+			then(function(){
+				debugger;
+				var oDialog = new SelectDialog({
+					title: "Select weights",
+					multiSelect: true,
+					confirm: that.selectedWeights.bind(that),
+					close: that.closeWeights.bind(that)
+				});
+				that.getView().addDependent(oDialog);
+				oDialog.setModel(that._oLocalModel);
+				oDialog.bindAggregation("items",{
+					path : "/ProdWeights",
+					template: new sap.m.DisplayListItem({
+						label: "{NetWeight} gm",
+						value: "{Amount} INR"
+					})
+				});
+				oDialog.open();
+			});
 
-			if(oBtn.getPressed()){
-				oBtn.setIcon("sap-icon://delete");
-				oBtn.setType("Emphasized");
-				this.addProductToCart(oBtn.getParent().getModel().getProperty(sPath));
-			}else{
-				oBtn.setIcon("sap-icon://cart-3");
-				oBtn.setType("Default");
-				this.removeProductFromCart(oBtn.getParent().getModel().getProperty(sPath));
-			}
+
+
 		},
 		onCartClick: function(oEvent){
 			// var oButton = oEvent.getSource();

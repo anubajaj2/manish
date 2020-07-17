@@ -4,18 +4,17 @@ sap.ui.define([
 	"use strict";
 
 	var mStatusState = {
-		"A": "Success",
+		"N": "Success",
 		"O": "Warning",
 		"D": "Error"
 	};
 	var mStatusStateT = {
-		"A": "Available",
+		"N": "Available",
 		"O": "Out of Stock",
-		"D": "Discntinued",
-		"N": "Newly Arrived"
+		"D": "Discntinued"
 	};
 	var mStatusStateC = {
-		"A": "greenClass",
+		"N": "greenClass",
 		"O": "orangeClass",
 		"D": "redClass"
 	};
