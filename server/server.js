@@ -38,13 +38,15 @@ app.start = function() {
 
 app.post("/GetAllPhotos", function(req,res){
 	var app = require('../server/server');
+	if(!req.body.productId){
+		return;
+	}
 	var Pics = app.models.Photo;
-	Pics.find({
-		fields:{
-			"id": "true"
-		}
-	}).then(function(all){
-		res.send(all);
+	Pics.find({ where: { Product: req.body.productId } }).
+	then(function (allImages) {
+		res.send({
+			"allImages":allImages
+		});
 	});
 });
 

@@ -30,31 +30,31 @@
     			singleContainerFullSize="false" >
     			<f:content>
     				<core:Title text="Specifications" />
-    				<Label text="D NO" />
-    				<Text text="{ProductId}:{Name}" />
-    				<Label text="PICS" />
-    				<Text text="{PairSize}" />
+    				<Label text="Code" />
+    				<Text text="{ProductId}" />
+    				<Label text="Description" />
+    				<Text text="{ShortDescription}" />
     				<Label text="G WT" />
     				<Text text="{GrossWeight}" />
-    				<Label text="ST PC" />
-    				<Text text="{StonePc}" />
-            <Label text="WEISTAGE" />
-    				<Text text="{Wastage}" />
-            <Label text="T FINE" />
-    				<Text text="{Tunch}" />
+    				<Label text="Pair Type" />
+    				<Text text="{PairType}" />
+            <Label text="Category" />
+    				<Text text="{Category}" />
+            <Label text="Sub Category" />
+    				<Text text="{SubCategory}" />
     				<core:Title text="" />
-    				<Label text="SIZE" />
-    				<Text text="{Size}" />
-    				<Label text="N WT" />
-    				<Text text="{NetWeight}" />
-            <Label text="ST WT" />
-    				<Text text="{StoneWeight}" />
-    				<Label text="ST RS" />
-    				<Text text="{StoneRs}" />
-    				<Label text="OTHER RS" />
-    				<Text text="{OtherFee}" />
-            <Label text="AMOUNT" />
-    				<Text text="" />
+    				<Label text="Type" />
+    				<Text text="{Type}" />
+    				<Label text="Karat" />
+    				<Text text="{Karat}" />
+            <Label text="Gender" />
+    				<Text text="{Gender}" />
+    				<Label text="Tunch" />
+    				<Text text="{Tunch}" />
+    				<Label text="Wastage" />
+    				<Text text="{Wastage}" />
+            <Label text="Making" />
+    				<Text text="{Making}" />
     			</f:content>
     		</f:SimpleForm>
     	</VBox>
