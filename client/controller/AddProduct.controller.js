@@ -23,16 +23,28 @@ sap.ui.define([
 			debugger;
 				this.loadCategories();
 				this.lastTwoDisplay();
+<<<<<<< HEAD
 //<<<<<<< HEAD
 
 		},
 
 //=======
+=======
+<<<<<<< HEAD
+
+		},
+
+=======
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 		},
 		onCancel: function(){
 			this.cancelSave();
 		},
+<<<<<<< HEAD
 //>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+=======
+>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 		onSave: function() {
       var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
@@ -45,6 +57,7 @@ sap.ui.define([
 			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
+<<<<<<< HEAD
 //<<<<<<< HEAD
 
 			//Product Id Cannot be Duplicated
@@ -52,6 +65,15 @@ sap.ui.define([
 			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
 			//		Product Id Cannot be Duplicated
 //>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+=======
+<<<<<<< HEAD
+
+			//Product Id Cannot be Duplicated
+=======
+			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
+			//		Product Id Cannot be Duplicated
+>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -83,7 +105,10 @@ sap.ui.define([
 					}
 			});
 	},
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 			onProductValueHelp: function(oEvent){
        debugger;
 			 if (!this.ProductsearchPopup) {
@@ -122,17 +147,30 @@ sap.ui.define([
 					}, {}, this)
 					.then(function(oData) {
 						if (oData.results.length != 0) {
+<<<<<<< HEAD
 //<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 						that.getView().byId("idName").setProperty("editable", false );
 						that.getView().byId("idPName").setValue(oData.results[0].Name);
 						that.getView().byId("idCat").setSelectedKey(oData.results[0].Category);
 						that.getView().byId("idSubCat").setSelectedKey(oData.results[0].SubCategory);
+<<<<<<< HEAD
 //=======
 					  that.loadProductData(oData.results[0].id);
 	//					that.getView().byId("idCat").setValue(oData.results[0].Category);
 		//				that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
 						that.getView().byId("idType").setValue(oData.results[0].Type);
 //>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+=======
+=======
+					  that.loadProductData(oData.results[0].id);
+						that.getView().byId("idCat").setValue(oData.results[0].Category);
+						that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
+						that.getView().byId("idType").setValue(oData.results[0].Type);
+>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 						that.getView().byId("idPairType").setValue(oData.results[0].PairType);
 						that.getView().byId("idSD").setSelectedKey(oData.results[0].ShortDescription);
 						that.getView().byId("idKarat").setSelectedKey(oData.results[0].Karat);

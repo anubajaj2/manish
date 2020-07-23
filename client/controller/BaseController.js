@@ -64,16 +64,28 @@ sap.ui.define([
 			if (parseInt(Product.Making) > 9999) {
 				return { "status" : false, "error": "Making not valid"};
 			}
+<<<<<<< HEAD
 //<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 			if ((parseInt(Product.Tunch) + parseInt(Product.Wastage)) >= 100) {
 				return { "status" : false, "error": "Tunch+Wastage not valid"};
 			}
 
+<<<<<<< HEAD
 //=======
 			if (allWeights.length <= 0) {
 				return { "status" : false, "error": "at least one weight required"};
 			}
 //>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+=======
+=======
+			if (allWeights.length <= 0) {
+				return { "status" : false, "error": "at least one weight required"};
+			}
+>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
+>>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 			for (var i = 0; i < allWeights.length; i++) {
 				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
 					return { "status" : false, "error": "Fine cannot be calculated"};
