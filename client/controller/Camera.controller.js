@@ -289,6 +289,9 @@ Fragment, MessageBox) {
 			this.getView().getModel("local").setProperty(sPathMain + "/LessWeight", LessWeight);
 			this.getView().getModel("local").setProperty(sPathMain + "/Amount", TotalAmount);
 			allMain.NetWeight = allMain.GrossWeight - LessWeight;
+			if(allMain.NetWeight){
+				allMain.NetWeight = allMain.NetWeight.toFixed(3)
+			}
 			this.getView().getModel("local").setProperty(sPathMain + "/NetWeight", allMain.NetWeight);
 			this.weightPopup.close();
 		},
