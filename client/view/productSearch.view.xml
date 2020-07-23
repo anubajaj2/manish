@@ -38,7 +38,7 @@
 				</f:headerToolbar>
 
 				<f:customLayout>
-					<grid:GridBoxLayout/>
+					<grid:GridBoxLayout boxWidth="15rem"/>
 				</f:customLayout>
 
 				<f:GridListItem

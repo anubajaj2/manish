@@ -138,6 +138,7 @@ sap.ui.define([
 		},
 
 		onUploadChange: function(oEvent) {
+			debugger;
 			const files = oEvent.getParameter("files");
 			var that = this;
 			var allImages = this.getView().getModel("local").getProperty("/allImages");
