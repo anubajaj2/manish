@@ -41,7 +41,18 @@ sap.ui.define([
 				return 'sap-icon://delete';
 			}
 		},
+		lessWeightChecks: function(inp){
+			if(inp){
+				if(inp.length > 0){
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
 
+		},
 		getImageUrlFromContent: function(base64Stream){
 			var b64toBlob = function(dataURI) {
 			    var byteString = atob(dataURI.split(',')[1]);

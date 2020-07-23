@@ -60,11 +60,11 @@
 						</items>
 					</Select>
 
-					<Label text="Short Description"/>
-					<Input id="idSD" value="{local>/Product/ShortDescription}" maxLength="60"/>
+					<Label visible="false" text="Short Description"/>
+					<Input visible="false" id="idSD" value="{local>/Product/ShortDescription}" maxLength="60"/>
 
-					<Label text="Karat"/>
-					<Select id="idKarat" selectedKey="{local>/Product/Karat}">
+					<Label visible="false" text="Karat"/>
+					<Select visible="false" id="idKarat" selectedKey="{local>/Product/Karat}">
 						<items>
 							<core:Item text="22/22" key="22/22"/>
 							<core:Item text="22/20" key="22/20"/>

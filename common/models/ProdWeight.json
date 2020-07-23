@@ -15,53 +15,8 @@
       "type": "number",
       "default":0
     },
-    "StonePc":{
-      "type": "number",
-      "default":0
-    },
-    "StoneRs":{
-      "type": "number",
-      "default":0
-    },
-    "StoneAmt":{
-      "type": "number",
-      "default":0
-    },
-    "StoneWeight": {
-      "type": "number",
-      "default":0
-    },
-    "StonePc1":{
-      "type": "number",
-      "default":0
-    },
-    "StoneWeight1": {
-      "type": "number",
-      "default":0
-    },
-    "StoneRs1":{
-      "type": "number",
-      "default":0
-    },
-    "StoneAmt1":{
-      "type": "number",
-      "default":0
-    },
-    "MoPc":{
-      "type": "number",
-      "default":0
-    },
-    "MoWeight": {
-      "type": "number",
-      "default":0
-    },
-    "MoRs":{
-      "type": "number",
-      "default":0
-    },
-    "MoAmt":{
-      "type": "number",
-      "default":0
+    "Values": {
+      "type": "Object"
     },
     "OtherChrg":{
       "type": "number",

@@ -11,8 +11,11 @@ sap.ui.define([
 	"sap/ui/core/format/FileSizeFormat",
 	"sap/ui/Device",
 	"sap/ui/demo/cart/model/formatter",
-	"sap/m/Dialog"
-], function(BaseController, deepExtend, syncStyleClass, Controller, ObjectMarker, MessageToast, UploadCollectionParameter, MobileLibrary, JSONModel, FileSizeFormat, Device, formatter, Dialog) {
+	"sap/m/Dialog",
+	"sap/ui/core/Fragment",
+	"sap/m/MessageBox"
+], function(BaseController, deepExtend, syncStyleClass, Controller, ObjectMarker, MessageToast, UploadCollectionParameter, MobileLibrary, JSONModel, FileSizeFormat, Device, formatter, Dialog,
+Fragment, MessageBox) {
 	"use strict";
 	var ListMode = MobileLibrary.ListMode,
 	ListSeparators = MobileLibrary.ListSeparators;
@@ -28,11 +31,17 @@ sap.ui.define([
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
 			 this.lastTwoDisplay();
 		},
-		getAllItems: function(oGrid){
+		getAllItems: function(oGrid, sBool){
 			var getSelectedItems = oGrid.getSelectedItems();
 			var paths = [];
-			for (var i = 0; i < getSelectedItems.length; i++) {
-				paths.push(getSelectedItems[i].getBindingContext("local").getPath());
+			if(sBool){
+				for (var i = 0; i < getSelectedItems.length; i++) {
+					paths.push(getSelectedItems[i].getBindingContext().getPath());
+				}
+			}else{
+				for (var i = 0; i < getSelectedItems.length; i++) {
+					paths.push(getSelectedItems[i].getBindingContext("local").getPath());
+				}
 			}
 			return paths;
 		},
@@ -109,7 +118,7 @@ sap.ui.define([
 		},
 		imageVal: "",
 		onDelete: function(oEvent){
-			var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent());
+			var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent(),false);
 			sPaths = this.reverseSort(sPaths,"allImages");
 			var that = this;
 			for (var i = 0; i < sPaths.length; i++) {
@@ -186,33 +195,20 @@ sap.ui.define([
 
 		},
 		onDeleteRow: function() {
-			// debugger;
-			var oItems = this.getView().byId("idTab").getSelectedItems();
-			// var oSelContexts = this.getView().byId("idTab").getSelectedItems();
-			// var aRows = this.getView().getModel("local").getProperty("/ProdWeights");
-			// if (oItems.length === aRows.length) {
-			// 	aRows.splice(0, aRows.length);
-			// } else {
-			// 	var nCount = 0;
-			// 	for (var i = 0; i < oItems.length; i++) {
-			// 		nCount = nCount + 1;
-			// 		var sBindPath = oItems[i].getBindingContextPath();
-			// 		var nIndex = sBindPath.split("/")[sBindPath.split("/").length - 1];
-			// 		if (nCount > 1) {
-			// 			nIndex = nIndex - 1;
-			// 		}
-			// 		aRows.splice(nIndex, 1);
-			// 	}
-			// }
-			for (var i = 0; i < oItems.length; i++) {
-				this.getView().byId("idTab").removeItem(oItems[i]);
+			var oTable = this.getView().byId("idTab");
+			var sPaths = this.getAllItems(oTable);
+			var oModel = oTable.getModel("local");
+			sPaths = this.reverseSort(sPaths,"ProdWeights");
+			var Values = oModel.getProperty("/ProdWeights");
+			for (var i = 0; i < sPaths.length; i++) {
+				var sIdx = parseInt(sPaths[i].split("/")[2]);
+				Values.splice(sIdx,1);
 			}
+			oModel.setProperty("/ProdWeights",Values);
 
-			// this.getView().getModel("local").getProperty("/ProdWeights",aRows);
-			// this.getView().byId("idTab").removeSelections(true);
-			MessageToast.show("Successfully Deleted");
-			that.checkChange = true;
-	},
+			this.checkChange = true;
+
+		},
 		onInsert: function(oEvent) {
 			var tunch = this._oLocalModel.getProperty("/Product/Tunch");
 			var Wastage = this._oLocalModel.getProperty("/Product/Wastage");
@@ -225,7 +221,143 @@ sap.ui.define([
 			var ProdWeights = oModel.getProperty("/ProdWeights");
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
-			that.checkChange = true;
+			this.checkChange = true;
+		},
+		weightPopup: null,
+		oModelStone : {},
+		itemPath: "",
+		AllValues: [],
+		onLessPopup: function(oEvent){
+			var nVal = oEvent.getSource().getValue();
+			var sPath = oEvent.getSource().getBindingContext("local").getPath();
+			var nIndex = sPath.split("/")[sPath.split("/").length - 1];
+			var oModel = this.getView().getModel("local");
+			this.AllValues = [];
+			var AllValues = oModel.getProperty("/ProdWeights/" + nIndex + "/Values");
+			if(AllValues.length > 0){
+				this.AllValues = JSON.parse(JSON.stringify(AllValues));
+			}
+			this.itemPath = "/ProdWeights/" + nIndex + "/Values";
+			var that = this;
+			if(!this.weightPopup){
+				Fragment.load({
+					name: 'sap.ui.demo.cart.fragments.stones',
+					controller: this
+				}).then(function(oDialog){
+					that.weightPopup =	oDialog;
+					that.oModelStone = new sap.ui.model.json.JSONModel({
+						"items": AllValues
+					});
+					that.oModelStone.setDefaultBindingMode("TwoWay");
+					that.weightPopup.setModel(that.oModelStone);
+					that.weightPopup.setTitle("Less Weights");
+					that.getView().addDependent(that.weightPopup);
+					that.weightPopup.open();
+				});
+			}else{
+				that.oModelStone.setProperty("/items", AllValues);
+				that.weightPopup.open();
+			}
+		},
+		onStoneDeleteRow: function() {
+			var oTable = this.getView().getDependents()[0].getContent()[0];
+			var sPaths = this.getAllItems(oTable,true);
+			var oModel = oTable.getModel();
+			sPaths = this.reverseSort(sPaths,"items");
+			var Values = oModel.getProperty("/items");
+			for (var i = 0; i < sPaths.length; i++) {
+				var sIdx = parseInt(sPaths[i].split("/")[2]);
+				Values.splice(sIdx,1);
+			}
+			oModel.setProperty("/items",Values);
+			this.checkChange = true;
+		},
+		onOKStone: function(){
+			var items = this.oModelStone.getProperty("/items");
+			var TotalAmount = 0, LessWeight = 0;
+			for (var i = 0; i < items.length; i++) {
+				if(items[i].Amount <= 0 && items[i].Net <= 0){
+						MessageBox.error("Please enter valid values");
+						return;
+				}
+				TotalAmount = TotalAmount + items[i].Amount;
+				LessWeight = LessWeight + items[i].Net;
+			}
+		  this.getView().getModel("local").setProperty(this.itemPath,	items);
+			var sPathMain = this.itemPath.replace("/Values", "");
+			var allMain = this.getView().getModel("local").getProperty(sPathMain);
+			this.getView().getModel("local").setProperty(sPathMain + "/LessWeight", LessWeight);
+			this.getView().getModel("local").setProperty(sPathMain + "/Amount", TotalAmount);
+			allMain.NetWeight = allMain.GrossWeight - LessWeight;
+			this.getView().getModel("local").setProperty(sPathMain + "/NetWeight", allMain.NetWeight);
+			this.weightPopup.close();
+		},
+		onCloseStone: function(){
+			this.getView().getModel("local").setProperty(this.itemPath,	this.AllValues);
+			this.weightPopup.close();
+		},
+		onStChange: function(oEvent){
+			debugger;
+			var sName = oEvent.getSource().getName();
+			var sPath = oEvent.getSource().getParent().getBindingContextPath();
+			var oModel = oEvent.getSource().getParent().getModel();
+			var rowValues = oModel.getProperty(sPath);
+			var Val = 0, Rate = 0, Weight = 0, Amount = 0, Net = 0, Pc = 0;
+			Weight = parseFloat(rowValues.Weight);
+			Rate = parseFloat(rowValues.Rate);
+			Pc = parseFloat(rowValues.Pc);
+			switch (sName) {
+				case "Weight":
+					Weight = parseFloat(oEvent.getParameter("newValue"));
+					break;
+				case "Rate":
+					Rate = parseFloat(oEvent.getParameter("newValue"));
+						break;
+				case "Pc":
+						Pc = parseFloat(oEvent.getParameter("newValue"));
+						break;
+				default:
+			}
+			switch (rowValues.Type) {
+				case "Gm":
+						Amount = Rate;
+						Net = Weight;
+						break;
+				case "Pc":
+						Amount = Pc * Rate;
+						break;
+			}
+			if(isNaN(Amount)){
+				Amount = 0;
+			}
+			if(isNaN(Net)){
+				Net = 0;
+			}
+			oModel.setProperty(sPath + "/Amount", Amount);
+			oModel.setProperty(sPath + "/Net", Net);
+		},
+		onStoneInsert: function(oEvent) {
+			var props = {
+				"Item": "STW",
+				"Type": "Gm",
+				"Pc": 0,
+				"Weight": 0,
+				"Rate": 0,
+				"Amount": 0,
+				"Size": "",
+				"Labor": "",
+				"Tunch": 0,
+				"Extra1": "",
+				"Extra2": 0
+			};
+			var oTable = this.getView().getDependents()[0].getContent()[0];
+			var aData = oTable.getModel().getProperty("/items");
+			aData.push(props);
+			oTable.getModel().setProperty("/items",aData);
+			this.checkChange = true;
+		},
+		onFocus: function() {
+			MessageToast.show("ye");
 		},
 		onChange: function(oEvent) {
 
@@ -251,6 +383,22 @@ sap.ui.define([
 			if (isNaN(LessWeight)) {
 				LessWeight = 0;
 			}
+			for (var i = 0; i < oEvent.getSource().getParent().getCells().length; i++) {
+				var sName = oEvent.getSource().getName();
+				if (sName === "GrossWeight") {
+					GrossWeight = nVal;
+					break;
+				}else if (sName === "OtherChrg") {
+					OTRs = nVal;
+					break;
+				}else if (sName === "LessWeight") {
+					LessWeight = nVal;
+					break;
+				}else if (sName === "Quantity") {
+					Quantity = nVal;
+					break;
+				}
+			}
 
 			// NetWeight
 			nVal = GrossWeight - LessWeight;
@@ -266,7 +414,7 @@ sap.ui.define([
 			nVal = nVal + parseInt(OTRs);
 			nVal = nVal.toFixed();
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
-			that.checkChange = true;
+			this.checkChange = true;
 		},
 
 		_prepModelInitialValues: function() {

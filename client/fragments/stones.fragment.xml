@@ -1,0 +1,110 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog>
+		<Table id="idStones" items="{/items}" mode="MultiSelect">
+			<headerToolbar>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button id="idAdd" icon="sap-icon://add" tooltip="Insert Row" press="onStoneInsert"></Button>
+					<Button id="idDelete" icon="sap-icon://delete" tooltip="Delete Rows" press="onStoneDeleteRow"></Button>
+				</Toolbar>
+			</headerToolbar>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Select selectedKey="{Item}">
+							<core:Item text="Stone" key="STW" />
+							<core:Item text="Moti" key="MTW" />
+							<core:Item text="Other" key="OTHW" />
+							<core:Item text="St Pc." key="STP" />
+							<core:Item text="Mo Pc." key="MOP" />
+							<core:Item text="Ot. Charge" key="OTH" />
+						</Select>
+						<Select selectedKey="{Type}">
+							<core:Item text="Gm" key="Gm" />
+							<core:Item text="Pc" key="Pc" />
+						</Select>
+						<Input value="{Pc}" name="Pc" liveChange="onStChange"></Input>
+						<Input value="{ path: 'Weight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
+							name="Weight" liveChange="onStChange"></Input>
+						<Input value="{Rate}" name="Rate" liveChange="onStChange"></Input>
+						<Input value="{Amount}" enabled="false"></Input>
+						<Input value="{Net}" enabled="false"></Input>
+						<Input value="{Size}" visible="false"></Input>
+						<Input value="{Labor}" visible="false"></Input>
+						<Input value="{Tunch}" visible="false"></Input>
+						<Input value="{Extra1}" visible="false"></Input>
+						<Input value="{Extra2}" visible="false"></Input>
+					</cells>
+				</ColumnListItem>
+			</items>
+			<columns>
+				<Column id="idCol0">
+					<header>
+						<Text text="Item Name"></Text>
+					</header>
+				</Column>
+				<Column id="idCol1">
+					<header>
+						<Text text="Unit"></Text>
+					</header>
+				</Column>
+				<Column id="idCol2">
+					<header>
+						<Text text="Pcs."></Text>
+					</header>
+				</Column>
+				<Column id="idCol3">
+					<header>
+						<Text text="Wt."></Text>
+					</header>
+				</Column>
+				<Column id="idCol4">
+					<header>
+						<Text text="Rate"></Text>
+					</header>
+				</Column>
+				<Column id="idCol5">
+					<header>
+						<Text text="Value"></Text>
+					</header>
+				</Column>
+				<Column id="idCol6">
+					<header>
+						<Text text="Less Wt."></Text>
+					</header>
+				</Column>
+				<Column id="idCol7" visible="false">
+					<header>
+						<Text text="Net Wt."></Text>
+					</header>
+				</Column>
+				<Column id="idCol8" visible="false">
+					<header>
+						<Text text="Labor"></Text>
+					</header>
+				</Column>
+				<Column id="idCol9" visible="false">
+					<header>
+						<Text text="Tunch"></Text>
+					</header>
+				</Column>
+				<Column id="idCol10" visible="false">
+					<header>
+						<Text text="Extra1"></Text>
+					</header>
+				</Column>
+				<Column id="idCol11" visible="false">
+					<header>
+						<Text text="Extra2"></Text>
+					</header>
+				</Column>
+			</columns>
+		</Table>
+		<beginButton>
+			<Button text="OK" press="onOKStone" />
+		</beginButton>
+		<endButton>
+			<Button text="Close" press="onCloseStone" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

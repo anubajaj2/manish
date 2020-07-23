@@ -1,6 +1,7 @@
 <mvc:View height="100%" controllerName="sap.ui.demo.cart.controller.Camera" xmlns:mvc="sap.ui.core.mvc"
 	 xmlns="sap.m" xmlns:f="sap.f" xmlns:cards="sap.f.cards" xmlns:l="sap.ui.layout"
 	  xmlns:unified="sap.ui.unified" xmlns:core="sap.ui.core" xmlns:grid="sap.ui.layout.cssgrid"
+		xmlns:anubhav="sap.ui.demo.cart.controls"
 		xmlns:html="http://www.w3.org/1999/xhtml">
 		<Page>
 			<content>
@@ -75,12 +76,13 @@
 							<cells>
 								<Input value="{ path: 'local>GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" name="GrossWeight"
 									liveChange="onChange"></Input>
-								<Input value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
-										   showValueHelp="true" valueHelpSelected="onLessPopup"
-									></Input>
+								<anubhav:InputFocus value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
+										   showValueHelp="true"  name="LessWeight" valueHelpRequest="onLessPopup" focus="onFocus"
+											 valueHelpOnly="{path: '/Values', formatter: '.formatter.lessWeightChecks'}"
+									></anubhav:InputFocus>
+								<Input value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number"></Input>
+								<Input value="{local>Quantity}" name="Quantity"></Input>
 								<Input value="{local>NetWeight}" enabled="false"></Input>
-								<Input value="{local>OtherChrg}" name="OtherChrg" liveChange="onChange" type="Number"></Input>
-								<Input value="{local>Quantity}"></Input>
 								<Input value="{local>Fine}" enabled="false"></Input>
 								<Input value="{local>Amount}" enabled="false"></Input>
 							</cells>
@@ -97,19 +99,19 @@
 								<Text text="Ls Wt."></Text>
 							</header>
 						</Column>
-						<Column id="idCol2">
+						<Column id="idCol2" visible="false">
 							<header>
 								<Text text="OTChrg"></Text>
-							</header>
-						</Column>
-						<Column id="idCol3">
-							<header>
-								<Text text="Net Wt."></Text>
 							</header>
 						</Column>
 						<Column id="idCol4" visible="false">
 							<header>
 								<Text text="Quantity"></Text>
+							</header>
+						</Column>
+						<Column id="idCol3">
+							<header>
+								<Text text="Net Wt."></Text>
 							</header>
 						</Column>
 						<Column id="idCol5">
