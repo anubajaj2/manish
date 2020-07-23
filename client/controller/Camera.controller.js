@@ -411,6 +411,7 @@ Fragment, MessageBox) {
 			//Fine
 			nVal = nVal * Quantity;
 			nVal = nVal * tunch / 100;
+			nVal = nVal.toFixed(3);
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Fine", nVal);
 			nVal = 0;
 
