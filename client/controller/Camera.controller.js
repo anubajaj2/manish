@@ -244,31 +244,10 @@ sap.ui.define([
 			}
 			var props = this._prepModelInitialValues();
 			var oModel = this.getView().getModel("local");
-<<<<<<< HEAD
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-			this._allWeights = oModel.getProperty("/ProdWeights");
-			this._allWeights.push(props);
-			oModel.setProperty("/ProdWeights", this._allWeights);
-//=======
-			var ProdWeights = oModel.getProperty("/ProdWeights");
-			ProdWeights.push(props);
-			oModel.setProperty("/ProdWeights", ProdWeights);
-//>>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
-<<<<<<< HEAD
-//=======
-=======
-=======
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 			var ProdWeights = oModel.getProperty("/ProdWeights");
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
 			that.checkChange = true;
-<<<<<<< HEAD
-//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
-=======
->>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 		},
 		onChange: function(oEvent) {
 
@@ -406,29 +385,10 @@ sap.ui.define([
 		    "Fine": 0,
 		    "Amount": 0,
 		    "Status": "A",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-//<<<<<<< HEAD
-				"SoldOn": "",
-				"OrderId":"",
-		    "Remarks":"null",
-		    "CreatedOn": "",
-//=======
-=======
->>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 				"SoldOn": new Date(),
 				"OrderId":"",
 		    "Remarks":"null",
 		    "CreatedOn": new Date(),
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-//>>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
-=======
->>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 		    "CreatedBy": ""
 			};
 			// return props;

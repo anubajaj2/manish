@@ -32,7 +32,7 @@ sap.ui.define([
 				}
 
 				oModel.setHeaders({
-					"Authorization": "5raqoMXdLPO009fFosvyBjDHkfPmFIevSAfJ2eL5i43SgsYxe10vHq5iz6RHa4U4"
+					"Authorization": "w7CwHzuSL8VFu9Bfhy7td1PWnpTHW8ffomE0fP6c4k28mNFjDswSMZTFT86SBivh"
 				});
 
 				oModel.setUseBatch(false);

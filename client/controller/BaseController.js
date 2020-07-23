@@ -64,28 +64,9 @@ sap.ui.define([
 			if (parseInt(Product.Making) > 9999) {
 				return { "status" : false, "error": "Making not valid"};
 			}
-<<<<<<< HEAD
-//<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
-			if ((parseInt(Product.Tunch) + parseInt(Product.Wastage)) >= 100) {
-				return { "status" : false, "error": "Tunch+Wastage not valid"};
-			}
-
-<<<<<<< HEAD
-//=======
 			if (allWeights.length <= 0) {
 				return { "status" : false, "error": "at least one weight required"};
 			}
-//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
-=======
-=======
-			if (allWeights.length <= 0) {
-				return { "status" : false, "error": "at least one weight required"};
-			}
->>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
->>>>>>> 693b65b0b03054ea3340e77e81a1a87f95e6a1ac
 			for (var i = 0; i < allWeights.length; i++) {
 				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
 					return { "status" : false, "error": "Fine cannot be calculated"};
@@ -286,11 +267,10 @@ sap.ui.define([
 			this._oLocalModel.setProperty("/fineRs", totalAmount);
 		},
 		firstTwoDisplay: function(){
-			debugger;
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
 		},
 		lastTwoDisplay: function(oView){
-      debugger;
+
 			this.getModel("local").setProperty("/layout", LayoutType.ThreeColumnsMidExpanded);
 		},
 		getRouter: function () {
@@ -386,7 +366,6 @@ sap.ui.define([
 		onStateChange: function (oEvent) {
 /*var sLayout = oEvent.getParameter("layout"),
 				iColumns = oEvent.getParameter("maxColumnsCount");
-
 			if (iColumns === 1) {
 				this.getModel("appView").setProperty("/smallScreenMode", true);
 			} else {
@@ -404,7 +383,6 @@ sap.ui.define([
 		 * @private
 		 */
 		_setLayout: function (sColumns) {
-			debugger;
 			if (sColumns) {
 				this.getModel("local").setProperty("/layout", sColumns + "Column" + (sColumns === "One" ? "" : "sMidExpanded"));
 			}
@@ -452,8 +430,9 @@ sap.ui.define([
 			var searchStr = oEvent.getParameter("value");
 			var oFilter = new sap.ui.model.Filter({
 				filters: [
-					new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, searchStr)
-				]
+					new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, searchStr)//,
+				]//,
+				//and: false
 			});
 			var oPopup = oEvent.getSource();
 			oPopup.getBinding("items").filter(oFilter);
