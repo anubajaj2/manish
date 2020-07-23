@@ -27,7 +27,6 @@ sap.ui.define([
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
 			 this.lastTwoDisplay();
-			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){
 			var getSelectedItems = oGrid.getSelectedItems();
@@ -109,31 +108,6 @@ sap.ui.define([
 			}).then(handleSuccess);
 		},
 		imageVal: "",
-		setImage: function() {
-			//Take the running image from the video stream of camera
-			// var oVBox = this.getView().byId("wow");
-			// var items = oVBox.getItems();
-			// var snapId = 'anubhav-' + items.length;
-			// var textId = snapId + '-text';
-			// var imageVal = this.imageVal;
-			//
-			// //set that as a canvas element on HTML page
-			// var oCanvas = new sap.ui.core.HTML({
-			// 	content: "<canvas id='canvas' width='320px' height='320px' " +
-			// 		" style='2px solid red'></canvas> " +
-			// 		" <label id='" + textId + "'>" + this.attachName + "</label>"
-			// });
-			// oVBox.addItem(oCanvas);
-			// oCanvas.addEventDelegate({
-			// 	onAfterRendering: function() {
-			// 		var snapShotCanvas = document.getElementById(snapId);
-			// 		var oContext = snapShotCanvas.getContext('2d');
-			// 		oContext.drawImage(imageVal, 0, 0, snapShotCanvas.width, snapShotCanvas.height);
-			// 	}
-			// });
-
-		},
-
 		onDelete: function(oEvent){
 			var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent());
 			sPaths = this.reverseSort(sPaths,"allImages");
@@ -214,24 +188,27 @@ sap.ui.define([
 			// debugger;
 			var oItems = this.getView().byId("idTab").getSelectedItems();
 			// var oSelContexts = this.getView().byId("idTab").getSelectedItems();
-			var aRows = this.getView().getModel("local").getProperty("/ProdWeights");
-			if (oItems.length === aRows.length) {
-				aRows.splice(0, aRows.length);
-			} else {
-				var nCount = 0;
-				for (var i = 0; i < oItems.length; i++) {
-					nCount = nCount + 1;
-					var sBindPath = oItems[i].getBindingContextPath();
-					var nIndex = sBindPath.split("/")[sBindPath.split("/").length - 1];
-					if (nCount > 1) {
-						nIndex = nIndex - 1;
-					}
-					aRows.splice(nIndex, 1);
-				}
+			// var aRows = this.getView().getModel("local").getProperty("/ProdWeights");
+			// if (oItems.length === aRows.length) {
+			// 	aRows.splice(0, aRows.length);
+			// } else {
+			// 	var nCount = 0;
+			// 	for (var i = 0; i < oItems.length; i++) {
+			// 		nCount = nCount + 1;
+			// 		var sBindPath = oItems[i].getBindingContextPath();
+			// 		var nIndex = sBindPath.split("/")[sBindPath.split("/").length - 1];
+			// 		if (nCount > 1) {
+			// 			nIndex = nIndex - 1;
+			// 		}
+			// 		aRows.splice(nIndex, 1);
+			// 	}
+			// }
+			for (var i = 0; i < oItems.length; i++) {
+				this.getView().byId("idTab").removeItem(oItems[i]);
 			}
 
-			this.getView().getModel("local").getProperty("/ProdWeights",aRows);
-			this.getView().byId("idTab").removeSelections(true);
+			// this.getView().getModel("local").getProperty("/ProdWeights",aRows);
+			// this.getView().byId("idTab").removeSelections(true);
 			MessageToast.show("Successfully Deleted");
 			that.checkChange = true;
 	},
@@ -258,67 +235,24 @@ sap.ui.define([
 			var tunch = oModel.getProperty("/Product/Tunch");
 			var Wastage = oModel.getProperty("/Product/Wastage");
 			tunch = parseFloat(tunch) + parseFloat(Wastage);
-			var StonePc = oModel.getProperty("/ProdWeights/" + nIndex + "/StonePc");
-			var StoneWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneWeight");
-			var StonePc1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StonePc1");
-			var StoneWeight1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneWeight1");
-			var MoPc = oModel.getProperty("/ProdWeights/" + nIndex + "/MoPc");
-			var MoWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/MoWeight");
 			var GrossWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/GrossWeight");
+			var LessWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/LessWeight");
 			// var NetWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/NetWeight");
 			var Quantity = oModel.getProperty("/ProdWeights/" + nIndex + "/Quantity");
-			var StoneRs = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneRs");
-			var StoneRs1 = oModel.getProperty("/ProdWeights/" + nIndex + "/StoneRs1");
-			var MoRs = oModel.getProperty("/ProdWeights/" + nIndex + "/MoRs");
 			var OTRs =  oModel.getProperty("/ProdWeights/" + nIndex + "/OtherChrg");
-			for (var i = 0; i < oEvent.getSource().getParent().getCells().length; i++) {
-				var sName = oEvent.getSource().getName();
-				if (sName === "StonePc") {
-					StonePc = nVal;
-					break;
-				} else if (sName === "StoneWeight") {
-					StoneWeight = nVal;
-					break;
-				} else if (sName === "StonePc1") {
-					StonePc1 = nVal;
-					break;
-				} else if (sName === "StoneWeight1") {
-					StoneWeight1 = nVal;
-					break;
-				} else if (sName === "MoPc") {
-					MoPc = nVal;
-					break;
-				} else if (sName === "MoWeight") {
-					MoWeight = nVal;
-					break;
-				} else if (sName === "GrossWeight") {
-					GrossWeight = nVal;
-					break;
-				} else if (sName === "StoneRs") {
-					StoneRs = nVal;
-					break;
-				} else if (sName === "StoneRs1") {
-					StoneRs1 = nVal;
-					break;
-				} else if (sName === "MoRs") {
-					MoRs = nVal;
-					break;
-				}else if (sName === "OtherChrg") {
-					OTRs = nVal;
-					break;
-				}
-			}
 
 			if (isNaN(nVal)) {
 				nVal = 0;
 			}
-
-			// LessWeight
-			nVal = (StonePc * StoneWeight) + (StonePc1 * StoneWeight1) + (MoPc * MoWeight);
-			oModel.setProperty("/ProdWeights/" + nIndex + "/LessWeight", nVal);
+			if (isNaN(GrossWeight)) {
+				GrossWeight = 0;
+			}
+			if (isNaN(LessWeight)) {
+				LessWeight = 0;
+			}
 
 			// NetWeight
-			nVal = GrossWeight - nVal;
+			nVal = GrossWeight - LessWeight;
 			nVal = nVal.toFixed(3);
 			oModel.setProperty("/ProdWeights/" + nIndex + "/NetWeight", nVal);
 
@@ -326,57 +260,19 @@ sap.ui.define([
 			nVal = nVal * Quantity;
 			nVal = nVal * tunch / 100;
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Fine", nVal);
+			nVal = 0;
 
-			//Amount
-			nVal = ((StonePc * StoneRs) + (StoneRs1 * StoneWeight1) + (MoRs * MoWeight)) * Quantity;
 			nVal = nVal + parseInt(OTRs);
 			nVal = nVal.toFixed();
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
 			that.checkChange = true;
 		},
-		onSwitchOffHide: function() {
-			for (var i = 0; i < 19; i++) {
-				if (i >= 4 && i <= 11 || i === 16 || i === 2 || i === 7 || i === 11) {
-					var sId = "idCol" + i;
-					this.getView().byId(sId).setVisible(false);
-					continue;
-				}
-				sId = "idCol" + i;
-				this.getView().byId(sId).setVisible(true);
-			}
-		},
-		onSwitchChange: function(oEvent) {
-			if (oEvent.getSource().getState() === true) {
-				for (var i = 0; i < 19; i++) {
-					if (i === 16 || i === 2 || i === 7 || i === 11) {
-						var sId = "idCol" + i;
-						this.getView().byId(sId).setVisible(false);
-						continue;
-					}
-					sId = "idCol" + i;
-					this.getView().byId(sId).setVisible(true);
-				}
-			} else {
-				this.onSwitchOffHide();
-			}
-		},
+
 		_prepModelInitialValues: function() {
 
 			return {
 				"ProductId": "null",
 		    "PairSize": 0,
-		    "StonePc":0,
-		    "StoneRs":0,
-		    "StoneAmt":0,
-		    "StoneWeight": 0,
-		    "StonePc1":0,
-		    "StoneWeight1": 0,
-		    "StoneRs1":0,
-		    "StoneAmt1":0,
-		    "MoPc":0,
-		    "MoWeight": 0,
-		    "MoRs":0,
-		    "MoAmt":0,
 		    "OtherChrg":0,
 		    "GrossWeight": 0,
 		    "LessWeight": 0,
@@ -384,6 +280,7 @@ sap.ui.define([
 		    "Quantity": 1,
 		    "Fine": 0,
 		    "Amount": 0,
+				"Values": [],
 		    "Status": "A",
 				"SoldOn": new Date(),
 				"OrderId":"",
