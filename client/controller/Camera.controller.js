@@ -26,10 +26,7 @@ sap.ui.define([
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
-//<<<<<<< HEAD
-			// this.firstTwoDisplay();
-//=======
-//>>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
+			 this.lastTwoDisplay();
 			 this.onSwitchOffHide();
 		},
 		getAllItems: function(oGrid){
@@ -147,6 +144,7 @@ sap.ui.define([
 					//To be deleted from server also
 					if (toBeDeleted.id !== "") {
 						that._deletedImages.push({id: toBeDeleted.id});
+						that.checkChange = true;
 					}
 				}else{
 					this.deleteImage(toBeDeleted.Stream);
@@ -155,18 +153,20 @@ sap.ui.define([
 			oEvent.getSource().getParent().getParent().removeSelections();
 		},
 		deleteImage: function (Stream) {
-			for (var j = 0; j < this._allImages.length; j++) {
-				if(this._allImages[j].Stream === Stream){
-					this._allImages.splice(j,1);
+			var _allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var j = 0; j < _allImages.length; j++) {
+				if(_allImages[j].Stream === Stream){
+					_allImages.splice(j,1);
 					break;
 				}
 			}
-			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+			this.getView().getModel("local").setProperty("/allImages",_allImages);
 		},
 
 		onUploadChange: function(oEvent) {
 			const files = oEvent.getParameter("files");
 			var that = this;
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
 			if (!files.length) {
 
 			} else {
@@ -174,13 +174,14 @@ sap.ui.define([
 					//const img = document.createElement("img");
 					var reader = new FileReader();
 					reader.onload = function(e){
+						var _allImages = that.getView().getModel("local").getProperty("/allImages");
 						try {
 							var vContent = e.currentTarget.result; //.result.replace("data:image/jpeg;base64,", "");
-							for (var i = 0; i < that._allImages.length; i++) {
-								if(!that._allImages[i].Content){
-									that._allImages[i].Content = vContent;
-									that.getView().getModel("local").setProperty("/allImages", that._allImages);
-									//console.log(that._allImages);
+							for (var i = 0; i < _allImages.length; i++) {
+								if(!_allImages[i].Content){
+									_allImages[i].Content = vContent;
+									that.checkChange = true;
+									that.getView().getModel("local").setProperty("/allImages", _allImages);
 									break;
 								}
 							}
@@ -194,7 +195,8 @@ sap.ui.define([
 					};
 					img.Stream = URL.createObjectURL(files[i]);
 					reader.readAsDataURL(files[i]);
-					this._allImages.push(img);
+					allImages.push(img);
+					this.getView().getModel("local").setProperty("/allImages", allImages);
 				}
 			}
 		},
@@ -231,6 +233,7 @@ sap.ui.define([
 			this.getView().getModel("local").getProperty("/ProdWeights",aRows);
 			this.getView().byId("idTab").removeSelections(true);
 			MessageToast.show("Successfully Deleted");
+			that.checkChange = true;
 	},
 		onInsert: function(oEvent) {
 			var tunch = this._oLocalModel.getProperty("/Product/Tunch");
@@ -242,6 +245,7 @@ sap.ui.define([
 			var props = this._prepModelInitialValues();
 			var oModel = this.getView().getModel("local");
 //<<<<<<< HEAD
+//<<<<<<< HEAD
 			this._allWeights = oModel.getProperty("/ProdWeights");
 			this._allWeights.push(props);
 			oModel.setProperty("/ProdWeights", this._allWeights);
@@ -250,6 +254,12 @@ sap.ui.define([
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
 //>>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
+//=======
+			var ProdWeights = oModel.getProperty("/ProdWeights");
+			ProdWeights.push(props);
+			oModel.setProperty("/ProdWeights", ProdWeights);
+			that.checkChange = true;
+//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 		},
 		onChange: function(oEvent) {
 
@@ -334,7 +344,7 @@ sap.ui.define([
 			nVal = nVal + parseInt(OTRs);
 			nVal = nVal.toFixed();
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
-
+			that.checkChange = true;
 		},
 		onSwitchOffHide: function() {
 			for (var i = 0; i < 19; i++) {
@@ -387,17 +397,10 @@ sap.ui.define([
 		    "Fine": 0,
 		    "Amount": 0,
 		    "Status": "A",
-//<<<<<<< HEAD
-				"SoldOn": "",
-				"OrderId":"",
-		    "Remarks":"null",
-		    "CreatedOn": "",
-//=======
 				"SoldOn": new Date(),
 				"OrderId":"",
 		    "Remarks":"null",
 		    "CreatedOn": new Date(),
-//>>>>>>> 9a19aab8d7366ad80e2c7670c1bb1923f14c8b8d
 		    "CreatedBy": ""
 			};
 			// return props;

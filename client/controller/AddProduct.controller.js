@@ -23,18 +23,35 @@ sap.ui.define([
 			debugger;
 				this.loadCategories();
 				this.lastTwoDisplay();
+//<<<<<<< HEAD
 
 		},
 
+//=======
+		},
+		onCancel: function(){
+			this.cancelSave();
+		},
+//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 		onSave: function() {
       var that = this;
 			var productPayload = this._oLocalModel.getProperty("/Product");
 			var a = productPayload.ProductId;
+			var result = that.validateProductData();
+			if (result.status === false) {
+				MessageBox.error(result.error);
+				return;
+			}
 			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
+//<<<<<<< HEAD
 
 			//Product Id Cannot be Duplicated
+//=======
+			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
+			//		Product Id Cannot be Duplicated
+//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -54,10 +71,8 @@ sap.ui.define([
 								});
 							}
 					}else{
-						var result = that.validateProductData();
-						if (result.status) {
-							var that2 = that;
-							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+						var that2 = that;
+						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
 									"/Products", "POST", {}, productPayload, that)
 									.then(function(data) {
 										that2.performCameraSave(data.id);
@@ -65,9 +80,6 @@ sap.ui.define([
 									}).catch(function(oError) {
 										MessageBox.error("Error while saving product data");
 									});
-						}else{
-							MessageBox.error(result.error);
-						}
 					}
 			});
 	},
@@ -90,9 +102,8 @@ sap.ui.define([
 		 },
 
 		 onConfirm: function(oEvent){
-		   debugger;
-		   var that = this;
-		   //Push the selected product id to the local model
+			   var that = this;
+			   //Push the selected product id to the local model
 		    	var myData = this.getView().getModel("local").getProperty("/Product");
 		     	var selProd = oEvent.getParameter("selectedItem").getLabel();
 				 	myData.ProductId = selProd;
@@ -100,23 +111,28 @@ sap.ui.define([
 		     if(selProd){
 		       this.getView().byId("idName").setValueState();
 		     }
-
 		   },
-
 			onEnter: function(oEvent){
 				debugger;
 				var that = this;
-				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
+				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue().toUpperCase());
 
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
 						filters: [Filter1]
 					}, {}, this)
 					.then(function(oData) {
 						if (oData.results.length != 0) {
+//<<<<<<< HEAD
 						that.getView().byId("idName").setProperty("editable", false );
 						that.getView().byId("idPName").setValue(oData.results[0].Name);
 						that.getView().byId("idCat").setSelectedKey(oData.results[0].Category);
 						that.getView().byId("idSubCat").setSelectedKey(oData.results[0].SubCategory);
+//=======
+					  that.loadProductData(oData.results[0].id);
+	//					that.getView().byId("idCat").setValue(oData.results[0].Category);
+		//				that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
+						that.getView().byId("idType").setValue(oData.results[0].Type);
+//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 						that.getView().byId("idPairType").setValue(oData.results[0].PairType);
 						that.getView().byId("idSD").setSelectedKey(oData.results[0].ShortDescription);
 						that.getView().byId("idKarat").setSelectedKey(oData.results[0].Karat);

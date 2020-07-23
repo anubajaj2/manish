@@ -40,7 +40,6 @@ sap.ui.define([
 			}
 			return retSet;
 		},
-		_allImages: [],
 		_deletedImages: [],
 		ProdWeights: [],
 		validateProductData: function(){
@@ -65,15 +64,22 @@ sap.ui.define([
 			if (parseInt(Product.Making) > 9999) {
 				return { "status" : false, "error": "Making not valid"};
 			}
+//<<<<<<< HEAD
 			if ((parseInt(Product.Tunch) + parseInt(Product.Wastage)) >= 100) {
 				return { "status" : false, "error": "Tunch+Wastage not valid"};
 			}
 
+//=======
+			if (allWeights.length <= 0) {
+				return { "status" : false, "error": "at least one weight required"};
+			}
+//>>>>>>> 9a4414c2878eb74b8ca9188fd7f6a7fa45cf6b63
 			for (var i = 0; i < allWeights.length; i++) {
 				if(allWeights[i].Fine === "" || allWeights[i].Fine === "0" || parseInt(allWeights[i].Fine) === 0 || parseInt(allWeights[i].Fine) < 0 || allWeights[i].Fine === "null"){
 					return { "status" : false, "error": "Fine cannot be calculated"};
 				}
 			}
+
 			return { "status" : true, "error": ""};
 		},
 		prepareFinalData: function(ProductId){
@@ -83,13 +89,14 @@ sap.ui.define([
 				allWeights[i].ProductId = ProductId;
 			}
 
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
 			//check if image has product id to create association
-			for (var j = 0; j < this._allImages.length; j++) {
-				if(!this._allImages[j].id){
-					this._allImages[j].Product = ProductId;
+			for (var j = 0; j < allImages.length; j++) {
+				if(!allImages[j].id){
+					allImages[j].Product = ProductId;
 				}
 			}
-			this.getView().getModel("local").setProperty("/allImages",this._allImages);
+			this.getView().getModel("local").setProperty("/allImages",allImages);
 			this.getView().getModel("local").setProperty("/ProdWeights", allWeights);
 		},
 		performCameraSave: function(ProductId){
@@ -109,12 +116,72 @@ sap.ui.define([
 				//this way no need to compare changes, or new recods
 				//if no records in weight table nothing will happen
 				this.upsertWeights();
+				this.checkChange = false;
 		},
+		loadProdWeights: function(productId){
+			var that = this;
+			return new Promise(function(resolve, reject) {
+				$.post('/GetProdWeights', {"productId": productId})
+					.done(function(data, status){
+						that.ProdWeights = data.ProdWeights;
+						that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
+						resolve(data);
+					})
+					.fail(function(xhr, status, error) {
+						reject(error);
+					});
+			});
+
+		},
+		loadProdInitImages: function(productId){
+
+		},
+		loadProdAllImages: function(productId){
+			var that = this;
+			$.post('/GetAllPhotos', {"productId": productId})
+				.done(function(data, status){
+					that._deletedImages = [];
+					that.getView().getModel("local").setProperty("/allImages", data.allImages);
+					that.processImages();
+				})
+				.fail(function(xhr, status, error) {
+
+				});
+		},
+		loadProductData: function(productId){
+			var that = this;
+			if(productId !== "" && !productId){
+				return;
+			}
+			this.loadProdAllImages(productId);
+			this.loadProdWeights(productId);
+		},
+		checkChange: false,
 		cancelSave: function(){
-			this._deletedImages = [];
-			this._allImages = [];
-			this.getView().getModel("local").setProperty("/ProdWeights", []);
-			this.getView().getModel("local").setProperty("/allImages", []);
+			var that = this;
+			if(this.checkChange === true){
+				MessageBox.confirm("Unsaved data will be lost",{
+					title: "Confirmation",
+					type: "Warning",
+					onClose: function(reply){
+							if(reply === "OK"){
+								that._deletedImages = [];
+								that.getView().getModel("local").setProperty("/ProdWeights", []);
+								that.getView().getModel("local").setProperty("/allImages", []);
+								that.checkChange = false;
+							}else{
+								//do nothing
+							}
+					}
+				})
+			}else{
+				this._deletedImages = [];
+
+				this.getView().getModel("local").setProperty("/ProdWeights", []);
+				this.getView().getModel("local").setProperty("/allImages", []);
+				that.checkChange = false;
+			}
+
 		},
 		massImageDelete: function(){
 			var that = this;
@@ -149,13 +216,14 @@ sap.ui.define([
 		handleUploadPress: function(oEvent){
 			//https://sap.github.io/ui5-webcomponents/playground/components/FileUploader/
 			var imagesPost = [];
-			for (var i = 0; i < this._allImages.length; i++) {
-				if(!this._allImages[i].id){
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var i = 0; i < allImages.length; i++) {
+				if(!allImages[i].id){
 					imagesPost.push({
 						"SeqNo": i,
-						"Product": this._allImages[i].Product,
-						"Stream": this._allImages[i].Stream,
-						"Content": this._allImages[i].Content,
+						"Product": allImages[i].Product,
+						"Stream": allImages[i].Stream,
+						"Content": allImages[i].Content,
 						"Filename": "",
 						"Filetype": "",
 						"ViewCount": 0,
@@ -171,9 +239,8 @@ sap.ui.define([
 			var that = this;
 			$.post('/Photos', {"images": imagesPost})
 				.done(function(data, status){
-					 that._allImages = data.allImages;
+					 that.getView().getModel("local").setProperty("/allImages", data.allImages);
 					 that.processImages();
-					 that.getView().getModel("local").setProperty("/allImages", that._allImages);
 				})
 				.fail(function(xhr, status, error) {
 
@@ -181,9 +248,11 @@ sap.ui.define([
 
 		},
 		processImages: function(){
-			for (var i = 0; i < this._allImages.length; i++) {
-				this._allImages[i].Stream = formatter.getImageUrlFromContent(this._allImages[i].Content);
+			var allImages = this.getView().getModel("local").getProperty("/allImages");
+			for (var i = 0; i < allImages.length; i++) {
+				allImages[i].Stream = formatter.getImageUrlFromContent(allImages[i].Content);
 			}
+			this.getView().getModel("local").setProperty("/allImages", allImages);
 		},
 		calculateOrderEstimate: function(){
 			var allItems = this._oLocalModel.getProperty("/cartItems");
