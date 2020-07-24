@@ -50,7 +50,7 @@ app.post("/GetAllPhotos", function(req,res){
 	});
 });
 
-app.post("/DeletePhoto", function(req,res){
+app.post("/DeletePhotos", function(req,res){
 	var app = require('../server/server');
 	var Pics = app.models.Photo;
 	if(!req.body.images){
