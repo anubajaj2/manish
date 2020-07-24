@@ -41,6 +41,7 @@ sap.ui.define([
 					"Karat": "22/22",
 					"Gender": "F",
 					"OverallStatus": "N",
+					"ProdStatus":"A",
 					"HindiName": "",
 					"Tunch": 0,
 					"Wastage": 0,

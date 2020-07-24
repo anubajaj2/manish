@@ -215,8 +215,10 @@ sap.ui.define([
 		},
 		massImageDelete: function(){
 			var that = this;
-			this._deletedImages = this.getView().getModel("local").getProperty("/deleteImages");
-
+				this._deletedImages = this.getView().getModel("local").getProperty("/deleteImages");
+			if(!this._deletedImages){
+				return;
+			}
 			if(this._deletedImages.length === 0){
 				return;
 			}

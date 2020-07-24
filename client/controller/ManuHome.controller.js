@@ -35,8 +35,14 @@ sap.ui.define([
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
+		onSelectItem: function(oEvent){
+			var oListItem = oEvent.getParameter("listItem");
+			var sPath = oListItem.getBindingContextPath();
+			var viewId = oListItem.getId().split("--")[oListItem.getId().split("--").length - 1];
+			this._oRouter.navTo(viewId);
+		},
 		_bindView : function (sObjectPath) {
-
+			
 		},
 		_onBindingChange : function () {
 

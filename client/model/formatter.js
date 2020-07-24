@@ -4,19 +4,31 @@ sap.ui.define([
 	"use strict";
 
 	var mStatusState = {
-		"N": "Success",
+		"A": "Success",
 		"O": "Warning",
 		"D": "Error"
 	};
 	var mStatusStateT = {
-		"N": "Available",
+		"A": "Available",
 		"O": "Out of Stock",
 		"D": "Discntinued"
 	};
 	var mStatusStateC = {
-		"N": "greenClass",
+		"A": "greenClass",
 		"O": "orangeClass",
 		"D": "redClass"
+	};
+	var mProdState = {
+		"A": "Success",
+		"N": "Error"
+	};
+	var mProdStateT = {
+		"A": "Approved",
+		"N": "Not Approved"
+	};
+	var mProdStateC = {
+		"A": "greenClass",
+		"N": "orangeClass"
 	};
 	var formatter = {
 		/**
@@ -54,17 +66,20 @@ sap.ui.define([
 
 		},
 		getImageUrlFromContent: function(base64Stream){
-			var b64toBlob = function(dataURI) {
-			    var byteString = atob(dataURI.split(',')[1]);
-			    var ab = new ArrayBuffer(byteString.length);
-			    var ia = new Uint8Array(ab);
-			    for (var i = 0; i < byteString.length; i++) {
-			        ia[i] = byteString.charCodeAt(i);
-			    }
-			    return new Blob([ab], { type: 'image/jpeg' });
-			};
-			var x = b64toBlob(base64Stream);
-			return URL.createObjectURL(x);
+			if(base64Stream){
+				var b64toBlob = function(dataURI) {
+				    var byteString = atob(dataURI.split(',')[1]);
+				    var ab = new ArrayBuffer(byteString.length);
+				    var ia = new Uint8Array(ab);
+				    for (var i = 0; i < byteString.length; i++) {
+				        ia[i] = byteString.charCodeAt(i);
+				    }
+				    return new Blob([ab], { type: 'image/jpeg' });
+				};
+				var x = b64toBlob(base64Stream);
+				return URL.createObjectURL(x);
+			}
+
 		},
 		/**
 		 * Sums up the price for all products in the cart
@@ -270,6 +285,15 @@ sap.ui.define([
 		},
 		statusText: function (sStatus) {
 			return mStatusStateT[sStatus] || "None";
+		},
+		prodState: function (sStatus) {
+			return mProdState[sStatus] || "None";
+		},
+		prodStateC: function (sStatus) {
+			return mProdStateC[sStatus] || "None";
+		},
+		prodText: function (sStatus) {
+			return mProdStateT[sStatus] || "None";
 		},
 		/**
 		 * Returns the relative URL to a product picture
