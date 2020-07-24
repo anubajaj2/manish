@@ -35,6 +35,10 @@ app.start = function() {
 
 	});
 };
+app.get("/ToProdPhoto", function(req,res){
+	var app = require('../server/server');
+	debugger;
+});
 
 app.post("/GetAllPhotos", function(req,res){
 	var app = require('../server/server');

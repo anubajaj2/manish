@@ -13,7 +13,7 @@
 			      selectionChange="onSelectItem">
 				<items>
 					<StandardListItem id="AddProduct" icon="sap-icon://overview-chart" title="Add New Product" description=""></StandardListItem>
-					<StandardListItem id="ChangeStock" icon="sap-icon://customer" title="Manage Stock" description=""></StandardListItem>
+					<!-- <StandardListItem id="ChangeStock" icon="sap-icon://customer" title="Manage Stock" description=""></StandardListItem> -->
 					<StandardListItem id="MyApproval" icon="sap-icon://supplier" title="My Approvals" description=""></StandardListItem>
 				</items>
 			</List>

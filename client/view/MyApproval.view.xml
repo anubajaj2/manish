@@ -8,7 +8,8 @@
 		title="My Approval"
 		backgroundDesign="Solid">
 		<content>
-
+			<List id="myProducts">
+			</List>
 		</content>
 	</Page>
 </mvc:View>
