@@ -127,6 +127,7 @@ Fragment, MessageBox) {
 					//To be deleted from server also
 					if (toBeDeleted.id !== "") {
 						that._deletedImages.push({id: toBeDeleted.id});
+						that.getView().getModel("local").setProperty("/deleteImages", that._deletedImages);
 						that.getView().getModel("local").setProperty("/checkChange", true);
 					}
 				}else{

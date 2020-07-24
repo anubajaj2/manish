@@ -161,6 +161,7 @@ sap.ui.define([
 								that._deletedImages = [];
 								that.getView().getModel("local").setProperty("/ProdWeights", []);
 								that.getView().getModel("local").setProperty("/allImages", []);
+								that.getView().getModel("local").setProperty("/deleteImages", []);
 								that.getView().getModel("local").setProperty("/checkChange", false);
 								that.getView().getModel("local").setProperty("/Product",{
 									"id":"",
@@ -198,6 +199,7 @@ sap.ui.define([
 				this._deletedImages = [];
 				this.getView().getModel("local").setProperty("/ProdWeights", []);
 				this.getView().getModel("local").setProperty("/allImages", []);
+				this.getView().getModel("local").setProperty("/deleteImages", []);
 				that.getView().getModel("local").setProperty("/checkChange", false);
 				return true;
 			}
@@ -213,12 +215,14 @@ sap.ui.define([
 		},
 		massImageDelete: function(){
 			var that = this;
+			this._deletedImages = this.getView().getModel("local").getProperty("/deleteImages");
+
 			if(this._deletedImages.length === 0){
 				return;
 			}
 			$.post('/DeletePhotos', {"images": this._deletedImages})
 				.done(function(data, status){
-					that._deletedImages = [];
+					that.getView().getModel("local").setProperty("/deleteImages", []);
 				})
 				.fail(function(xhr, status, error) {
 
