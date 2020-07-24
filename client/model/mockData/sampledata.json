@@ -184,10 +184,11 @@
 		"ChangedOn": ""
 	},
 	"Product": {
+		"id":"",
 		"ProductId": "",
-		"Name": "null",
-		"Category": "null",
-		"SubCategory": "null",
+		"Name": "",
+		"Category": "",
+		"SubCategory": "",
 		"Type": "S",
 		"PairType": 2,
 		"ShortDescription": "null",

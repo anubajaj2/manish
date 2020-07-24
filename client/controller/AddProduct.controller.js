@@ -26,7 +26,39 @@ sap.ui.define([
 				this.lastTwoDisplay();
 		},
 		onCancel: function(){
-			this.cancelSave();
+
+			if(this.cancelSave() === true){
+				this._oLocalModel.setProperty("/Product",{
+					"id":"",
+					"ProductId": "",
+					"Name": "",
+					"Category": "",
+					"SubCategory": "",
+					"Type": "S",
+					"PairType": 2,
+					"ShortDescription": "null",
+					"ItemType": "G",
+					"Karat": "22/22",
+					"Gender": "F",
+					"OverallStatus": "N",
+					"HindiName": "",
+					"Tunch": 0,
+					"Wastage": 0,
+					"Making": 0,
+					"ApprovedOn": "",
+					"AlertQuantity": 0,
+					"CreatedBy": "",
+					"CreatedOn": "",
+					"ChangedBy": "",
+					"ChangedOn": ""
+				});
+				this.mode = "Create";
+				this.setMode();
+			}
+
+		},
+		onChange: function(){
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		onSave: function() {
       var that = this;
@@ -43,24 +75,47 @@ sap.ui.define([
 			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
 			//		Product Id Cannot be Duplicated
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
-
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			    "/Products", "GET", {	filters: [Filter1] }, {}, this)
-				.then(function(oData) {
-					if (oData.results.length != 0) {
-						MessageBox.error("Product Id Already Exist");
-					}else{
-						var that2 = that;
-						that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-									"/Products", "POST", {}, productPayload, that)
-									.then(function(data) {
-										that2.performCameraSave(data.id);
-										MessageToast.show("Product Created Successfully");
-									}).catch(function(oError) {
-										MessageBox.error("Error while saving product data");
-									});
-					}
-			});
+			if(this.mode === "Edit"){
+				delete productPayload.ToChangedBy;
+				delete productPayload.ToCreatedBy;
+				delete productPayload.ToOrder;
+				delete productPayload.ToPhotos;
+				delete productPayload.ToWeights;
+				console.log(productPayload);
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				    "/Products(\'"+ productPayload.id +"\')", "PUT", {}, productPayload, this)
+						.then(function(data) {
+							that.performCameraSave(productPayload.id);
+							MessageToast.show("Product Updated Successfully");
+							that.getView().getModel("local").setProperty("/checkChange", false);
+							that.mode = "Edit";
+							that.setMode();
+						}).catch(function(oError) {
+							MessageBox.error("Error while saving product data");
+						});
+			}else{
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				    "/Products", "GET", {	filters: [Filter1] }, {}, this)
+					.then(function(oData) {
+						if (oData.results.length != 0) {
+							MessageBox.error("Product Id Already Exist");
+						}else{
+							var that2 = that;
+							that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+										"/Products", "POST", {}, productPayload, that)
+										.then(function(data) {
+											that2.performCameraSave(data.id);
+											MessageToast.show("Product Created Successfully");
+											that2.getView().getModel("local").setProperty("/Product", data);
+											that2.getView().getModel("local").setProperty("/checkChange", false);
+											that2.mode = "Edit";
+											that2.setMode();
+										}).catch(function(oError) {
+											MessageBox.error("Error while saving product data");
+										});
+						}
+				});
+			}
 
 
 	},
@@ -96,28 +151,25 @@ sap.ui.define([
 		           this.getView().byId("idName").setValueState();
 		     }
 		   },
+
 			onEnter: function(oEvent){
 				debugger;
 				var that = this;
-				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue().toUpperCase());
-
+				var sValue = this.getView().byId("idName").getValue().toUpperCase();
+				this.getView().byId("idName").setValue(sValue);
+				var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", sValue);
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
 						filters: [Filter1]
 					}, {}, this)
 					.then(function(oData) {
 						if (oData.results.length != 0) {
+						MessageToast.show("Product Found");
 					  that.loadProductData(oData.results[0].id);
-						that.getView().byId("idCat").setValue(oData.results[0].Category);
-						that.getView().byId("idSubCat").setValue(oData.results[0].SubCategory);
-						that.getView().byId("idType").setValue(oData.results[0].Type);
-						that.getView().byId("idPairType").setValue(oData.results[0].PairType);
-						that.getView().byId("idSD").setValue(oData.results[0].ShortDescription);
-						that.getView().byId("idGender").setValue(oData.results[0].Gender);
-						that.getView().byId("idKarat").setValue(oData.results[0].Karat);
-						that.getView().byId("idTunch").setValue(oData.results[0].Tunch);
-						that.getView().byId("idWastage").setValue(oData.results[0].Wastage);
-						that.getView().byId("idMkg").setValue(oData.results[0].Making);
-
+						that.getView().getModel("local").setProperty("/Product",oData.results[0]);
+						that.mode = "Edit";
+						that.setMode();
+					}else{
+						MessageToast.show("Create as new product");
 					}
 				});
 			}

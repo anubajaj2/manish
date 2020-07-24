@@ -127,11 +127,12 @@ Fragment, MessageBox) {
 					//To be deleted from server also
 					if (toBeDeleted.id !== "") {
 						that._deletedImages.push({id: toBeDeleted.id});
-						that.checkChange = true;
+						that.getView().getModel("local").setProperty("/checkChange", true);
 					}
 				}else{
-					this.deleteImage(toBeDeleted.Stream);
+					//this.deleteImage(toBeDeleted.Stream);
 				}
+				this.deleteImage(toBeDeleted.Stream);
 			}
 			oEvent.getSource().getParent().getParent().removeSelections();
 		},
@@ -164,7 +165,7 @@ Fragment, MessageBox) {
 							for (var i = 0; i < _allImages.length; i++) {
 								if(!_allImages[i].Content){
 									_allImages[i].Content = vContent;
-									that.checkChange = true;
+									that.getView().getModel("local").setProperty("/checkChange", true);
 									that.getView().getModel("local").setProperty("/allImages", _allImages);
 									break;
 								}
@@ -206,7 +207,7 @@ Fragment, MessageBox) {
 			}
 			oModel.setProperty("/ProdWeights",Values);
 
-			this.checkChange = true;
+			this.getView().getModel("local").setProperty("/checkChange", true);
 
 		},
 		onInsert: function(oEvent) {
@@ -221,7 +222,7 @@ Fragment, MessageBox) {
 			var ProdWeights = oModel.getProperty("/ProdWeights");
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
-			this.checkChange = true;
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		weightPopup: null,
 		oModelStone : {},
@@ -270,7 +271,7 @@ Fragment, MessageBox) {
 				Values.splice(sIdx,1);
 			}
 			oModel.setProperty("/items",Values);
-			this.checkChange = true;
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		onOKStone: function(){
 			var oModel = this.getView().getModel("local");
@@ -349,6 +350,7 @@ Fragment, MessageBox) {
 			}
 			oModel.setProperty(sPath + "/Amount", Amount);
 			oModel.setProperty(sPath + "/Net", Net);
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		onStoneInsert: function(oEvent) {
 			var props = {
@@ -368,7 +370,7 @@ Fragment, MessageBox) {
 			var aData = oTable.getModel().getProperty("/items");
 			aData.push(props);
 			oTable.getModel().setProperty("/items",aData);
-			this.checkChange = true;
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		onFocus: function() {
 			MessageToast.show("ye");
@@ -429,7 +431,7 @@ Fragment, MessageBox) {
 			nVal = nVal + parseInt(OTRs);
 			nVal = nVal.toFixed();
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
-			this.checkChange = true;
+			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 
 		_prepModelInitialValues: function() {

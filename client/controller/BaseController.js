@@ -109,7 +109,7 @@ sap.ui.define([
 				//this way no need to compare changes, or new recods
 				//if no records in weight table nothing will happen
 				this.upsertWeights();
-				this.checkChange = false;
+				this.getView().getModel("local").setProperty("/checkChange", false);
 		},
 		loadProdWeights: function(productId){
 			var that = this;
@@ -149,10 +149,10 @@ sap.ui.define([
 			this.loadProdAllImages(productId);
 			this.loadProdWeights(productId);
 		},
-		checkChange: false,
+		mode: "Create",
 		cancelSave: function(){
 			var that = this;
-			if(this.checkChange === true){
+			if(that.getView().getModel("local").getProperty("/checkChange") === true){
 				MessageBox.confirm("Unsaved data will be lost",{
 					title: "Confirmation",
 					type: "Warning",
@@ -161,20 +161,55 @@ sap.ui.define([
 								that._deletedImages = [];
 								that.getView().getModel("local").setProperty("/ProdWeights", []);
 								that.getView().getModel("local").setProperty("/allImages", []);
-								that.checkChange = false;
+								that.getView().getModel("local").setProperty("/checkChange", false);
+								that.getView().getModel("local").setProperty("/Product",{
+									"id":"",
+									"ProductId": "",
+									"Name": "",
+									"Category": "",
+									"SubCategory": "",
+									"Type": "S",
+									"PairType": 2,
+									"ShortDescription": "null",
+									"ItemType": "G",
+									"Karat": "22/22",
+									"Gender": "F",
+									"OverallStatus": "N",
+									"HindiName": "",
+									"Tunch": 0,
+									"Wastage": 0,
+									"Making": 0,
+									"ApprovedOn": "",
+									"AlertQuantity": 0,
+									"CreatedBy": "",
+									"CreatedOn": "",
+									"ChangedBy": "",
+									"ChangedOn": ""
+								});
+								that.mode = "Create";
+								that.setMode();
 							}else{
 								//do nothing
+								return false;
 							}
 					}
 				})
 			}else{
 				this._deletedImages = [];
-
 				this.getView().getModel("local").setProperty("/ProdWeights", []);
 				this.getView().getModel("local").setProperty("/allImages", []);
-				that.checkChange = false;
+				that.getView().getModel("local").setProperty("/checkChange", false);
+				return true;
 			}
 
+		},
+		setMode: function(){
+			if (this.mode === "Edit") {
+				this.getView().byId("idName").setEnabled(false);
+				this.getView().byId("idPName").focus();
+			}else{
+				this.getView().byId("idName").setEnabled(true);
+			}
 		},
 		massImageDelete: function(){
 			var that = this;

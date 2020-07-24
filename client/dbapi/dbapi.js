@@ -1,4 +1,3 @@
-//write all Calls to Node Server Here CRUD Implementation
 //The method callCRUD will be used to communicate to the backend returns the JS promise
 //You can use the jQuery ajax or some other framework dependency to make REST Call
 sap.ui.define([
@@ -66,8 +65,8 @@ sap.ui.define([
 					case "PUT":
 						oModel.update(sUrl, oPayload, {
 							async: true,
-							filters: oParameters.filters,
-							sorters: oParameters.sorters,
+							filters: {},
+							sorters: {},
 							success: function(oData, oResponse) {
 								debugger;
 								resolve(oData);
