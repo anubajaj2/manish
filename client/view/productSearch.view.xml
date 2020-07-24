@@ -41,8 +41,7 @@
 					<grid:GridBoxLayout boxWidth="15rem"/>
 				</f:customLayout>
 
-				<f:GridListItem
-				 mode="Active">
+				<f:GridListItem>
 					<FlexBox
 						height="1.5rem" class="sapUiSmallMargin"
 						renderType="Bare">

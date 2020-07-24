@@ -21,9 +21,10 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function () {
+			debugger;
 			this._oRouter = this.getOwnerComponent().getRouter();
-			//this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
-			this._oRouter.getRoute("cart").attachMatched(this._routePatternMatched, this);
+			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			//this._oRouter.getRoute("cart").attachMatched(this._routePatternMatched, this);
 			// // set initial ui configuration model
 			var oCfgModel = new JSONModel({});
 			this.getView().setModel(oCfgModel, "cfg");
@@ -31,6 +32,7 @@ sap.ui.define([
 		},
 
 		onExit: function () {
+			debugger;
 			if (this._orderDialog) {
 				this._orderDialog.destroy();
 			}
@@ -39,9 +41,11 @@ sap.ui.define([
 			}
 		},
 		onBack: function(){
+			debugger;
 			this._oRouter.navTo("productSearch");
 		},
 		_routePatternMatched: function () {
+			debugger;
 			//this._setLayout("Three");
 			var oCartModel = this.getModel("local");
 			var oCartEntries = oCartModel.getProperty("/cartItems");
@@ -56,13 +60,15 @@ sap.ui.define([
 			//set selection of list back
 			var oEntryList = this.byId("entryList");
 			oEntryList.removeSelections();
-			this.lastTwoDisplay(this.getView());
+			//this.lastTwoDisplay(this.getView());
 			setTimeout(this.loads(this),3000);
 		},
 		loads: function () {
+			debugger;
 				this.lastTwoDisplay(this.getView());
 		},
 		onCartItemDelete: function(oEvent){
+			debugger;
 			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
 			var productId = oObj.id;
 			//sPath = sPath.split("'")[1];
@@ -74,6 +80,7 @@ sap.ui.define([
 			 oBtn.setPressed(false);
 		},
 		removeProductFromCart: function(productRec){
+			debugger;
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
 			for (var i = 0; i < cartItems.length; i++) {
 				if(cartItems[i].id === productRec.id){
@@ -84,6 +91,7 @@ sap.ui.define([
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
 		},
 		getGridItemById: function(productId){
+			debugger;
 			var gridList = sap.ui.getCore().byId("__component0---productSearch--gridList").getItems();
 			for (var i = 0; i < gridList.length; i++) {
 				if(gridList[i].getBindingContextPath().indexOf(productId) != -1){
@@ -92,14 +100,17 @@ sap.ui.define([
 			}
 		},
 		getButtonInsideGrid: function(productId){
+			debugger;
 			var oItem = this.getGridItemById(productId);
 			return oItem.getContent()[2].getItems()[0];
 		},
 		onEditOrDoneButtonPress: function () {
+			debugger;
 			this._toggleCfgModel();
 		},
 
 		_toggleCfgModel: function () {
+			debugger;
 			var oCfgModel = this.getView().getModel("cfg");
 			var oData = oCfgModel.getData();
 			var oBundle = this.getResourceBundle();
@@ -118,10 +129,12 @@ sap.ui.define([
 		},
 
 		onEntryListPress: function (oEvent) {
+			debugger;
 			this._showProduct(oEvent.getSource());
 		},
 
 		onEntryListSelect: function (oEvent) {
+			debugger;
 			this._showProduct(oEvent.getParameter("listItem"));
 		},
 
@@ -131,6 +144,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent Event object
 		 */
 		onSaveForLater: function (oEvent) {
+			debugger;
 			var oBindingContext = oEvent.getSource().getBindingContext(sCartModelName);
 			this._changeList(sSavedForLaterEntries, sCartEntries, oBindingContext);
 		},
@@ -141,6 +155,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent Event object
 		 */
 		onAddBackToBasket: function (oEvent) {
+			debugger;
 			var oBindingContext = oEvent.getSource().getBindingContext(sCartModelName);
 
 			this._changeList(sCartEntries, sSavedForLaterEntries, oBindingContext);
@@ -154,6 +169,7 @@ sap.ui.define([
 		 * @param {Object} oBindingContext Binding context of product
 		 */
 		_changeList: function (sListToAddItem, sListToDeleteItem, oBindingContext) {
+			debugger;
 			var oCartModel = oBindingContext.getModel();
 			var oProduct = oBindingContext.getObject();
 			var oModelData = oCartModel.getData();
@@ -177,6 +193,7 @@ sap.ui.define([
 		},
 
 		_showProduct: function (oItem) {
+			debugger;
 			var oEntry = oItem.getBindingContext(sCartModelName).getObject();
 
 			// close cart when showing a product on phone
@@ -194,10 +211,12 @@ sap.ui.define([
 		},
 
 		onCartEntriesDelete: function (oEvent) {
+			debugger;
 			this._deleteProduct(sCartEntries, oEvent);
 		},
 
 		onSaveForLaterDelete: function (oEvent) {
+			debugger;
 			this._deleteProduct(sSavedForLaterEntries, oEvent);
 		},
 
@@ -209,6 +228,7 @@ sap.ui.define([
 		 * @param {sap.ui.base.Event} oEvent Event object
 		 */
 		_deleteProduct: function (sCollection, oEvent) {
+			debugger;
 			var oBindingContext = oEvent.getParameter("listItem").getBindingContext(sCartModelName);
 			var sEntryId = oBindingContext.getObject().ProductId;
 			var oBundle = this.getResourceBundle();
@@ -221,6 +241,7 @@ sap.ui.define([
 					MessageBox.Action.CANCEL
 				],
 				onClose: function (oAction) {
+					debugger;
 					if (oAction !== MessageBox.Action.DELETE) {
 						return;
 					}
@@ -241,6 +262,8 @@ sap.ui.define([
 		 * @public
 		 */
 		onProceedButtonPress: function () {
+debugger;
+
 			this.getRouter().navTo("checkout");
 		}
 	});

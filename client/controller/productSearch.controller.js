@@ -95,7 +95,7 @@ sap.ui.define([
 			}
 		},
 		onAddToCart: function(oEvent){
-
+     debugger;
 			var oBtn = oEvent.getSource();
 			//get binding path of parent list item
 			var sPath = oBtn.getParent().getBindingContext().getPath();
@@ -127,6 +127,7 @@ sap.ui.define([
 
 		},
 		onCartClick: function(oEvent){
+			debugger;
 			// var oButton = oEvent.getSource();
 			// // create popover
 			// if (!this._oPopoverCart) {
@@ -146,7 +147,7 @@ sap.ui.define([
 			// } else {
 			// 	this._oPopoverCart.openBy(oButton);
 			// }
-			this.lastTwoDisplay();
+			//this.lastTwoDisplay();
 			this.getRouter().navTo("comparisonCart");
 		},
 		getGridItemById: function(productId){
@@ -213,6 +214,7 @@ sap.ui.define([
 			this.getRouter().navTo("comparisonCart");
 		},
 		onSelectProduct: function(oEvent){
+			debugger;
 			//popover of product details
 			var oButton = oEvent.getSource();
 			//get binding path of parent list item
