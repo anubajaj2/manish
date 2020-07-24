@@ -273,8 +273,9 @@ Fragment, MessageBox) {
 			this.checkChange = true;
 		},
 		onOKStone: function(){
+			var oModel = this.getView().getModel("local");
 			var items = this.oModelStone.getProperty("/items");
-			var TotalAmount = 0, LessWeight = 0;
+			var TotalAmount = 0, LessWeight = 0, Fine = 0;
 			for (var i = 0; i < items.length; i++) {
 				if(items[i].Amount <= 0 && items[i].Net <= 0){
 						MessageBox.error("Please enter valid values");
@@ -283,16 +284,26 @@ Fragment, MessageBox) {
 				TotalAmount = TotalAmount + items[i].Amount;
 				LessWeight = LessWeight + items[i].Net;
 			}
-		  this.getView().getModel("local").setProperty(this.itemPath,	items);
+		  oModel.setProperty(this.itemPath,	items);
 			var sPathMain = this.itemPath.replace("/Values", "");
-			var allMain = this.getView().getModel("local").getProperty(sPathMain);
-			this.getView().getModel("local").setProperty(sPathMain + "/LessWeight", LessWeight);
-			this.getView().getModel("local").setProperty(sPathMain + "/Amount", TotalAmount);
+			var allMain = oModel.getProperty(sPathMain);
+			oModel.setProperty(sPathMain + "/LessWeight", LessWeight);
+			oModel.setProperty(sPathMain + "/Amount", TotalAmount);
 			allMain.NetWeight = allMain.GrossWeight - LessWeight;
 			if(allMain.NetWeight){
 				allMain.NetWeight = allMain.NetWeight.toFixed(3)
+
+				var tunch = oModel.getProperty("/Product/Tunch");
+				var Wastage = oModel.getProperty("/Product/Wastage");
+				tunch = parseFloat(tunch) + parseFloat(Wastage);
+				var Quantity = allMain.Quantity;
+				Fine = allMain.NetWeight * Quantity;
+				Fine = Fine * tunch / 100;
+				Fine = Fine.toFixed(3);
+				oModel.setProperty(sPathMain + "/NetWeight", allMain.NetWeight);
+				oModel.setProperty(sPathMain + "/Fine", Fine);
 			}
-			this.getView().getModel("local").setProperty(sPathMain + "/NetWeight", allMain.NetWeight);
+
 			this.weightPopup.close();
 		},
 		onCloseStone: function(){
