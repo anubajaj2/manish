@@ -235,6 +235,9 @@ Fragment, MessageBox) {
 			var oModel = this.getView().getModel("local");
 			this.AllValues = [];
 			var AllValues = oModel.getProperty("/ProdWeights/" + nIndex + "/Values");
+			if(AllValues === undefined){
+				AllValues = [];
+			}
 			if(AllValues.length > 0){
 				this.AllValues = JSON.parse(JSON.stringify(AllValues));
 			}
