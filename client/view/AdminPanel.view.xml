@@ -9,6 +9,10 @@
 		backgroundDesign="Solid"
 		showNavButton="true"
 		navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 		<content>
 			<Panel expandable="true" headerText="Retailer" width="auto" class="sapUiResponsiveMargin">
 				<content>
@@ -42,7 +46,7 @@
 									<Text text="{}" ></Text>
 								</cells>
 								<cells>
-									<Switch id="idSwitch" type="AcceptReject" state="{}" change="onSwitch"/>
+									<Switch id="idSwitch" type="AcceptReject" change="onSwitch"/>
 								</cells>
 								<cells>
 									<Input value="{}"/>
@@ -62,13 +66,13 @@
 							<Column>
 								<Label text="Email"/>
 							</Column>
-							<Column halign="Left">
+							<Column>
 								<Label text="Last login"/>
 							</Column>
-							<Column halign="Left">
+							<Column>
 								<Label text="Block"/>
 							</Column>
-							<Column halign="Left">
+							<Column>
 								<Label text="Reset Password"/>
 							</Column>
 						</columns>
@@ -84,7 +88,7 @@
 									<Text text="{}" ></Text>
 								</cells>
 								<cells>
-									<Switch id="idSwitch2" type="AcceptReject" state="{local>State}" change="onSwitch"/>
+									<Switch id="idSwitch2" type="AcceptReject"  change="onSwitch"/>
 								</cells>
 								<cells>
 									<Input value=""/>

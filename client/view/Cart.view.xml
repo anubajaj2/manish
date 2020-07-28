@@ -9,6 +9,7 @@
 		showNavButton="{appView>/smallScreenMode}"
 		navButtonPress=".onBack"
 		showFooter="true">
+		
 		<landmarkInfo>
 			<PageAccessibleLandmarkInfo
 				rootRole="Region"
@@ -21,6 +22,7 @@
 				headerLabel="{i18n>Cart_headerLabel}"/>
 		</landmarkInfo>
 		<headerContent>
+
 			<Button
 				id="editButton"
 				icon="sap-icon://edit"
@@ -28,6 +30,8 @@
 				visible="{cfg>/notInDelete}"
 				press=".onEditOrDoneButtonPress"
 				tooltip="{i18n>cartEditButtonTooltip}"/>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<footer>
 			<Toolbar>

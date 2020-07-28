@@ -381,6 +381,12 @@ sap.ui.define([
 			return this.getView().setModel(oModel, sName);
 		},
 
+		logOutApp:function(){
+			debugger;
+			MessageBox.alert("Logout Successful");
+			window.top.location.href = "/";
+		},
+
 		/**
 		 * Getter for the resource bundle.
 		 * @public

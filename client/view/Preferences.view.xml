@@ -11,6 +11,10 @@
 		backgroundDesign="Solid"
 		showNavButton="true"
 		navButtonPress="onBack">
+		<headerContent>
+		 <Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+		 <Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 		<content>
 			<Panel expandable="true" headerText="Highlights" width="auto" class="sapUiResponsiveMargin">
 				<content>

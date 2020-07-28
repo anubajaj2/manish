@@ -8,7 +8,9 @@
 				<semantic:customHeaderContent>
 					<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 					tooltip="fullscreen"
-					iconFirst="true" press="toggleFullScreen"/>
+					iconFirst="true" press="toggleFullScreen"/>					
+					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		    </semantic:customHeaderContent>
 				<semantic:content id="Customer_screen1">
 					<core:Fragment id="Customer"

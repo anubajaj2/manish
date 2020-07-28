@@ -2,6 +2,10 @@
 	xmlns:f="sap.ui.layout.form">
 	<Page id="page" title="Manage Product Approvals" backgroundDesign="Solid" showNavButton="true"
 	navButtonPress="onBack">
+	<headerContent>
+		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+	</headerContent>
 		<List
 			id="idListPA"
 			items="{local>/list/Products}"

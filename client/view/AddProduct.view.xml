@@ -2,7 +2,9 @@
 	xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout">
 	<Page id="page" title="Add New Product">
 		<headerContent>
-			<Button icon="sap-icon://copy" tooltip="Copy form existing" press="onPress"></Button>
+			<Button icon="sap-icon://copy" tooltip="Copy form existing" press="onCopy"></Button>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>			
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
 			<f:SimpleForm id="idSF" editable="true" layout="ResponsiveGridLayout"

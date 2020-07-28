@@ -7,6 +7,10 @@
 		id="page"
 		title="Admin Home"
 		backgroundDesign="Solid">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 		<content>
 			<List id="idAdminHome" growing="true" growingThreshold="10"
 					mode="SingleSelectMaster" delete="onDelete"

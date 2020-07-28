@@ -21,6 +21,8 @@
 			<Button icon="sap-icon://full-screen" id="idFullScreenBtn"
 			tooltip="fullscreen"
 			iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
     </semantic:customHeaderContent>
 
 		<semantic:content id="Header">

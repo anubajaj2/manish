@@ -1,6 +1,11 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.GroupPermission" xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
 	xmlns:f="sap.ui.layout.form">
+	<Page>
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 	<VBox class="sapUiSmallMargin">
 		<f:SimpleForm id="selectionId" editable="true" layout="ResponsiveGridLayout"
 			labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false"
@@ -42,4 +47,5 @@
 			</f:content>
 		</f:SimpleForm>
 	</VBox>
+</Page>
 </mvc:View>

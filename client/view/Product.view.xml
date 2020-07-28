@@ -5,6 +5,10 @@
 	<Page
 		id="page"
 		backgroundDesign="Solid">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
 		<landmarkInfo>
 			<PageAccessibleLandmarkInfo
 				rootRole="Region"

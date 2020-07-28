@@ -15,6 +15,8 @@
 		<headerContent>
 			<Button icon="sap-icon://cart" tooltip="my order"
 				press="onCartClick" />
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
 			<f:GridList

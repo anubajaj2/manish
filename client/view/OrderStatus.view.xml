@@ -8,10 +8,9 @@
 		title="Manage Order Status"
 		backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
-		 <Toolbar>
-				<ToolbarSpacer/>
-				<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
-		 </Toolbar>
+			<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
+	 		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+	 		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
 			<List

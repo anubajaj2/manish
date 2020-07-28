@@ -26,6 +26,8 @@
 						type="Emphasized"
 						text="{i18n>returnToShopButtonText}"
 						press=".onReturnToShopButtonPress"/>
+					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>							
 				</headerContent>
 				<content>
 					<Wizard

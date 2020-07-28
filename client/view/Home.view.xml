@@ -8,6 +8,10 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:grid="sap.ui.layout.cssgrid">
 <Page title="Type">
+	<headerContent>
+		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+	</headerContent>
 	<List itemPress="onGridItemPress" items="{local>/cat/subCatergory}">
 		<DisplayListItem type="Active" label="{local>SubCategory}" />
 	</List>
