@@ -1,0 +1,90 @@
+{
+  "name": "BookedProd",
+  "plural": "BookedProds",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "OrderId": {
+      "type": "string",
+      "required": false
+    },
+    "ProductId": {
+      "type": "string",
+      "required": false
+    },
+    "WeightId": {
+      "type": "string",
+      "required": false
+    },
+    "SupplierId": {
+      "type": "string",
+      "required": false
+    },
+    "Status": {
+      "type": "string",
+      "required": false
+    },
+    "CreatedOn": {
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+    "ToProducts":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Product"
+    },
+    "ToOrder":{
+      "type":"belongsTo",
+      "model":"OrderHeader",
+      "foreignKey":"OrderId"
+    },
+    "ToWeight":{
+      "type":"belongsTo",
+      "model":"ProdWeight",
+      "foreignKey":"WeightId"
+    },
+    "ToSupplier":{
+      "type":"belongsTo",
+      "model":"AppUser",
+      "foreignKey":"SupplierId"
+    },
+    "ToCreatedBy":{
+      "type":"belongsTo",
+      "model":"AppUser",
+      "foreignKey":"CreatedBy"
+    },
+    "ToChangedBy":{
+      "type":"belongsTo",
+      "model":"AppUser",
+      "foreignKey":"ChangedBy"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

@@ -107,5 +107,9 @@
   "ProdWeight":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "BookedProd":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }
