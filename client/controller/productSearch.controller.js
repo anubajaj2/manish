@@ -32,15 +32,55 @@ sap.ui.define([
 			this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
 		},
-		_onRouteMatched: function() {
+		_onRouteMatched: function(oEvent) {
 			//alert("yo");
 			//debugger;
+			//if previous route is search then only we search
+			var oList = this.getView().byId("gridList")
+			// oList.bindItems({
+			// 	path : '/Products',
+			// 	parameters: {
+		  //      expand: "ToPhotos",
+			// 		 top: 1
+		  //   }
+			// });
+			oList.attachUpdateFinished(this.counter, this);
+		},
+		allImageURLs: [],
+		counter: function(oEvent){
+			// debugger;
+			var items = oEvent.getSource().getItems();
+			var oLocal = this.getView().getModel("local");
+			var oDataModel = this.getView().getModel();
+			for (var i = 0; i < items.length; i++) {
+			 var sPath = items[i].getBindingContextPath();
+			 var sImage = sPath + "/ToPhotos/0/Content" ;
+			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+			 if(!this.allImageURLs[sImage]){
+				 	this.allImageURLs[sImage] =  sUrl;
+			 }
+			 var sImage = sPath + "/ToPhotos/1/Content" ;
+			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+			 if(!this.allImageURLs[sImage]){
+				 	this.allImageURLs[sImage] =  sUrl;
+			 }
+			 debugger;
+			 //items[i].setIcon(sUrl);
+			 items[i].getContent()[1].getItems()[0].setSrc(sUrl);
+			}
 		},
 		onImageOut: function(oEvent){
-			oEvent.getSource().setSrc("https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg");
+			var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+			var sImage = sPath + "/ToPhotos/1/Content" ;
+			oEvent.getSource().setSrc(this.allImageURLs[sImage]);
 		},
+		rollback: "",
+		rollback2: "",
+		pimage: "",
 		onImageIn: function(oEvent){
-			oEvent.getSource().setSrc("https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg");
+				var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+				var sImage = sPath + "/ToPhotos/0/Content" ;
+				oEvent.getSource().setSrc(this.allImageURLs[sImage]);
 		},
 		addProductToCart: function(productRec){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
