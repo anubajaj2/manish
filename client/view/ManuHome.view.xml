@@ -7,7 +7,7 @@
 		id="page"
 		title="Manufacturer Cockpit"
 		backgroundDesign="Solid">
-		<headerContent>			
+		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
@@ -17,8 +17,8 @@
 			      selectionChange="onSelectItem">
 				<items>
 					<StandardListItem id="AddProduct" icon="sap-icon://overview-chart" title="Add New Product" description=""></StandardListItem>
-					<!-- <StandardListItem id="ChangeStock" icon="sap-icon://customer" title="Manage Stock" description=""></StandardListItem> -->
 					<StandardListItem id="MyApproval" icon="sap-icon://supplier" title="My Approvals" description=""></StandardListItem>
+					<StandardListItem id="ChangeStock" icon="sap-icon://appointment" title="Booked Products" description=""></StandardListItem>
 				</items>
 			</List>
 		</content>

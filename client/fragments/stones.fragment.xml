@@ -11,23 +11,26 @@
 			<items>
 				<ColumnListItem>
 					<cells>
-						<Select selectedKey="{Item}">
-							<core:Item text="Stone" key="STW" />
+						<Select selectedKey="{Item}" change="onItemChange">
+							<core:Item text="Color Stone" key="CST" />
+							<core:Item text="Diamond" key="DMD" />
+							<core:Item text="Mala Weight" key="MLW" />
 							<core:Item text="Moti" key="MTW" />
-							<core:Item text="Other" key="OTHW" />
-							<core:Item text="St Pc." key="STP" />
-							<core:Item text="Mo Pc." key="MOP" />
-							<core:Item text="Ot. Charge" key="OTH" />
+							<core:Item text="Others" key="OTH" />
+							<core:Item text="Polki" key="POL" />
+							<core:Item text="Stone" key="STW" />
+							<core:Item text="Surma" key="SRM" />
 						</Select>
-						<Select selectedKey="{Type}">
+						<Select selectedKey="{Type}" change="onStChange">
 							<core:Item text="Gm" key="Gm" />
 							<core:Item text="Pc" key="Pc" />
+							<core:Item text="Carat" key="Ct" />
 						</Select>
 						<Input value="{Pc}" name="Pc" liveChange="onStChange"></Input>
 						<Input value="{ path: 'Weight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
 							name="Weight" liveChange="onStChange"></Input>
 						<Input value="{Rate}" name="Rate" liveChange="onStChange"></Input>
-						<Input value="{Amount}" enabled="false"></Input>
+						<Input value="{MoreAmount}" enabled="false"></Input>
 						<Input value="{Net}" enabled="false"></Input>
 						<Input value="{Size}" visible="false"></Input>
 						<Input value="{Labor}" visible="false"></Input>

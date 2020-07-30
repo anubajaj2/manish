@@ -42,6 +42,10 @@
       "type": "number",
       "default":0
     },
+    "MoreAmount": {
+      "type": "number",
+      "default":0
+    },
     "Amount": {
       "type": "number",
       "default":0

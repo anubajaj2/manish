@@ -284,18 +284,18 @@ Fragment, MessageBox) {
 			var items = this.oModelStone.getProperty("/items");
 			var TotalAmount = 0, LessWeight = 0, Fine = 0;
 			for (var i = 0; i < items.length; i++) {
-				if(items[i].Amount <= 0 && items[i].Net <= 0){
+				if(items[i].MoreAmount <= 0 && items[i].Net <= 0){
 						MessageBox.error("Please enter valid values");
 						return;
 				}
-				TotalAmount = TotalAmount + items[i].Amount;
-				LessWeight = LessWeight + items[i].Net;
+				TotalAmount = TotalAmount + parseInt(items[i].MoreAmount);
+				LessWeight = LessWeight + parseFloat(items[i].Net);
 			}
 		  oModel.setProperty(this.itemPath,	items);
 			var sPathMain = this.itemPath.replace("/Values", "");
 			var allMain = oModel.getProperty(sPathMain);
 			oModel.setProperty(sPathMain + "/LessWeight", LessWeight);
-			oModel.setProperty(sPathMain + "/Amount", TotalAmount);
+
 			allMain.NetWeight = allMain.GrossWeight - LessWeight;
 			if(allMain.NetWeight){
 				allMain.NetWeight = allMain.NetWeight.toFixed(3)
@@ -309,6 +309,14 @@ Fragment, MessageBox) {
 				Fine = Fine.toFixed(3);
 				oModel.setProperty(sPathMain + "/NetWeight", allMain.NetWeight);
 				oModel.setProperty(sPathMain + "/Fine", Fine);
+
+				oModel.setProperty(sPathMain + "/MoreAmount", TotalAmount);
+				var Making = parseFloat(oModel.getProperty("/Product/Making"));
+				var MakingCharges = 0;
+				if(Making > 0){
+					TotalAmount =  ( Making * allMain.GrossWeight ) + TotalAmount;
+				}
+				oModel.setProperty(sPathMain + "/Amount", TotalAmount);
 			}
 
 			this.weightPopup.close();
@@ -316,6 +324,41 @@ Fragment, MessageBox) {
 		onCloseStone: function(){
 			this.getView().getModel("local").setProperty(this.itemPath,	this.AllValues);
 			this.weightPopup.close();
+		},
+		onItemChange: function(oEvent){
+			var sName = oEvent.getSource().getName();
+			var sPath = oEvent.getSource().getParent().getBindingContextPath();
+			var oModel = oEvent.getSource().getParent().getModel();
+			var rowValues = oModel.getProperty(sPath);
+			switch (rowValues.Item) {
+				case "CST" :
+						rowValues.Type = "Gm";
+						break;
+				case "MLW" :
+						rowValues.Type = "Gm";
+						break;
+				case "MTW" :
+						rowValues.Type = "Gm";
+						break;
+				case "SRM":
+						rowValues.Type = "Gm";
+						break;
+				case "OTH":
+						rowValues.Type = "Pc";
+						break;
+				case "STW":
+						rowValues.Type = "Pc";
+						break;
+				case "DMD" :
+						rowValues.Type = "Ct";
+						break;
+				case "POL" :
+						rowValues.Type = "Ct";
+						break;
+				default:
+			}
+			oModel.setProperty( sPath + "/Type", rowValues.Type);
+			this.onStChange(oEvent);
 		},
 		onStChange: function(oEvent){
 			debugger;
@@ -341,30 +384,40 @@ Fragment, MessageBox) {
 			}
 			switch (rowValues.Type) {
 				case "Gm":
-						Amount = Rate;
+						Amount = Rate * Weight;
 						Net = Weight;
 						break;
 				case "Pc":
 						Amount = Pc * Rate;
+						Net = Weight;
+						break;
+				case "Ct":
+						Amount = Rate * Weight;
+						Net = Weight / 5;
 						break;
 			}
 			if(isNaN(Amount)){
 				Amount = 0;
+			}else{
+				Amount = Amount.toFixed(0);
 			}
 			if(isNaN(Net)){
 				Net = 0;
+			}else{
+				Net = Net.toFixed(3);
 			}
-			oModel.setProperty(sPath + "/Amount", Amount);
+			oModel.setProperty(sPath + "/MoreAmount", Amount);
 			oModel.setProperty(sPath + "/Net", Net);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
 		onStoneInsert: function(oEvent) {
 			var props = {
-				"Item": "STW",
-				"Type": "Gm",
+				"Item": "OTH",
+				"Type": "Pc",
 				"Pc": 0,
 				"Weight": 0,
 				"Rate": 0,
+				"MoreAmount":0,
 				"Amount": 0,
 				"Size": "",
 				"Labor": "",
@@ -389,6 +442,7 @@ Fragment, MessageBox) {
 			var oModel = this.getView().getModel("local");
 			var tunch = oModel.getProperty("/Product/Tunch");
 			var Wastage = oModel.getProperty("/Product/Wastage");
+			var Making = oModel.getProperty("/Product/Making");
 			tunch = parseFloat(tunch) + parseFloat(Wastage);
 			var GrossWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/GrossWeight");
 			var LessWeight = oModel.getProperty("/ProdWeights/" + nIndex + "/LessWeight");
@@ -434,8 +488,14 @@ Fragment, MessageBox) {
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Fine", nVal);
 			nVal = 0;
 
-			nVal = nVal + parseInt(OTRs);
+			nVal = parseInt(oModel.getProperty("/ProdWeights/" + nIndex + "/MoreAmount"));
+			if(isNaN(nVal)){
+				nVal = 0;
+			}
+			var MakingCharges = parseFloat(GrossWeight) * parseFloat(Making);
+			nVal = nVal + parseInt(OTRs) + parseInt(MakingCharges);
 			nVal = nVal.toFixed();
+
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
@@ -451,6 +511,7 @@ Fragment, MessageBox) {
 		    "NetWeight": 0,
 		    "Quantity": 1,
 		    "Fine": 0,
+				"MoreAmount": 0,
 		    "Amount": 0,
 				"Values": [],
 		    "Status": "A",

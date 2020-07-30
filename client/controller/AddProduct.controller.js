@@ -24,6 +24,7 @@ sap.ui.define([
 		_routePatternMatched: function(){
 				this.loadCategories();
 				this.lastTwoDisplay();
+				this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
 		},
 		onCancel: function(){
 
@@ -127,10 +128,10 @@ sap.ui.define([
 				 this.getView().addDependent(this.ProductsearchPopup);
 				 var title = this.getView().getModel("i18n").getProperty("Products");
 				 this.ProductsearchPopup.setTitle(title);
-				 //var oFilter1 = new sap.ui.model.Filter("Type", sap.ui.model.FilterOperator.EQ, "Kata Center");
+				 var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
 				 this.ProductsearchPopup.bindAggregation("items", {
 					 path: '/Products',
-					// filters: [oFilter1],
+					 filters: [oFilter1],
 					 template: new sap.m.DisplayListItem({
 						 label: "{ProductId}"//,
 						// value: "{Name} - {city}"
@@ -154,7 +155,6 @@ sap.ui.define([
 		   },
 
 			onEnter: function(oEvent){
-				debugger;
 				var that = this;
 				var sValue = this.getView().byId("idName").getValue().toUpperCase();
 				this.getView().byId("idName").setValue(sValue);
@@ -164,13 +164,18 @@ sap.ui.define([
 					}, {}, this)
 					.then(function(oData) {
 						if (oData.results.length != 0) {
-						MessageToast.show("Product Found");
-					  that.loadProductData(oData.results[0].id);
-						that.getView().getModel("local").setProperty("/Product",oData.results[0]);
-						that.mode = "Edit";
-						that.setMode();
+							if(oData.results[0].CreatedBy === that.createdBy){
+								MessageToast.show("Product Already Exist");
+								that.loadProductData(oData.results[0].id);
+								that.getView().getModel("local").setProperty("/Product",oData.results[0]);
+								that.mode = "Edit";
+								that.setMode();
+							}else{
+								MessageToast.show("Product Already Exist, Please choose a different name");
+							}
 					}else{
 						MessageToast.show("Create as new product");
+						that.getView().byId("idPName").focus();
 					}
 				});
 			}

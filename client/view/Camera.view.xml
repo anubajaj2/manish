@@ -4,7 +4,7 @@
 		xmlns:anubhav="sap.ui.demo.cart.controls"
 		xmlns:html="http://www.w3.org/1999/xhtml">
 		<Page>
-			<headerContent>				
+			<headerContent>
 				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
 				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 			</headerContent>
@@ -82,7 +82,7 @@
 									liveChange="onChange"></Input>
 								<anubhav:InputFocus value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
 										   showValueHelp="true"  name="LessWeight" valueHelpRequest="onLessPopup" focus="onFocus"
-											 valueHelpOnly="{path: '/Values', formatter: '.formatter.lessWeightChecks'}"
+											 valueHelpOnly="true"
 									></anubhav:InputFocus>
 								<Input value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number"></Input>
 								<Input value="{local>Quantity}" name="Quantity"></Input>
