@@ -72,6 +72,7 @@ sap.ui.define([
 
 			$.post('/api/Users/login', loginPayload)
 		    .done(function(data, status){
+					debugger;
 							that.getView().getModel("local").setProperty("/Authorization", data.id);
 							that.getView().getModel().setHeaders({
 								"Authorization": data.id
@@ -101,9 +102,10 @@ sap.ui.define([
 												that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
 												that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
 												found = true;
-											}else{
-												that2.getView().getModel("local").setProperty("/Authorization", "");
-											}
+											}//else{
+												//debugger;
+												//that2.getView().getModel("local").setProperty("/Authorization", "");
+											//}
 										}
 										if(found === true){
 											that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
