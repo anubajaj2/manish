@@ -21,7 +21,8 @@ sap.ui.define([
       this.setModel(oViewDetailModel, "viewModel");
 
       var oRouter = this.getRouter();
-      oRouter.getRoute("Customers").attachMatched(this._onRouteMatched, this);
+      oRouter.attachRoutePatternMatched(this._onRouteMatched,this);
+      //oRouter.getRoute("Customers").attachMatched(this._onRouteMatched, this);
       // this._router = UIComponent.getRouterFor(this);
     },
     _onRouteMatched: function(oEvent) {
@@ -56,6 +57,7 @@ sap.ui.define([
           var oModelGroup = new JSONModel();
           oModelGroup.setData(oData);
           that.getView().setModel(oModelGroup, "groupModelCode");
+
         }).catch(function(oError) {
           MessageToast.show("cannot fetch the data");
         });
@@ -64,6 +66,7 @@ sap.ui.define([
     },
     clearScreen: function() {
       debugger;
+
       var customerModel = this.getView().getModel("local").getProperty("/Customer");
       var viewModel = this.getView().getModel("viewModel");
       var dataModel = this.getView().getModel("dataModel");
@@ -119,6 +122,11 @@ sap.ui.define([
       debugger;
       var input_source = oEvent.getSource();
       changeCheck = 'true';
+    },
+    onSwitch: function(changeCheck) {
+      debugger;
+      //var input_source = oEvent.getSource();
+      return this.onSwitch = true;
     },
 		customerCheck: function(code) {
       debugger;
@@ -231,8 +239,10 @@ sap.ui.define([
 				} else {
 					oSaveData.Status = "U";
 				}
+
 				var id = this.customerCheck(oSaveData.CustomerCode);
 				if (id) {
+
 					var oFilter = new sap.ui.model.Filter({
 						filters: [
 							new sap.ui.model.Filter("RetailerId",
@@ -256,6 +266,17 @@ sap.ui.define([
 							var status = that.updateGroupDetails(groupId, i, id);
 						}
 					}
+          //change user status
+          if (this.onSwitch === true){
+            debugger;
+              var changeUserStatus = {
+                emailId: oSaveData.EmailId,
+                name: oSaveData.Name,
+                bStat: viewModel.oData.blockStatus,
+                Authorization: this.getModel("local").getProperty("/Authorization")
+              };
+              this.changeUserStatus(changeUserStatus);
+          }
 
 				} else {
 					// var manufactureId = [];
@@ -275,6 +296,16 @@ sap.ui.define([
 							MessageToast.show("Data could not be saved");
 							that._onRouteMatched();
 						});
+
+        //Create new user
+        debugger;
+          var createUserPayload = {
+            name: oSaveData.Name,
+            emailId: oSaveData.EmailId,
+            role: "Customer",
+            Authorization: this.getModel("local").getProperty("/Authorization")
+          };
+      this.createUserPayload(createUserPayload);
 
 				} //id check
 			} else {
@@ -383,9 +414,27 @@ sap.ui.define([
         }
       }
     },
+    createUserPayload:function(createUserPayload){
+      debugger;
 
-    onEnter:function(){
-    this.getView().byId("__component0---Customers--Customer--idName").focus();
+      $.post('/createNewUser', createUserPayload)
+      .then(function(data){
+        debugger;
+      })
+      .fail(function(error) {
+        sap.m.MessageBox.error("User Creation failed");
+      });
+    },
+    changeUserStatus:function(changeUserStatus){
+      debugger;
+
+      $.post('/changeUserStatus', changeUserStatus)
+      .then(function(data){
+        debugger;
+      })
+      .fail(function(error) {
+        sap.m.MessageBox.error("Changing User Status failed");
+      });
     }
 
   });
