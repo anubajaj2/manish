@@ -116,8 +116,6 @@ sap.ui.define([
 			return new Promise(function(resolve, reject) {
 				$.post('/GetProdWeights', {"productId": productId})
 					.done(function(data, status){
-						that.ProdWeights = data.ProdWeights;
-						that.getView().getModel("local").setProperty("/ProdWeights", that.ProdWeights);
 						resolve(data);
 					})
 					.fail(function(xhr, status, error) {
@@ -293,19 +291,14 @@ sap.ui.define([
 			var totalAmount = 0;
 			var totalGm = 0;
 			for (var i = 0; i < allItems.length; i++) {
-				var fineGold = allItems[i].GrossWeight - allItems[i].StoneWeight;
-				fineGold = fineGold * allItems[i].Tunch / 100;
-				fineGold = fineGold * parseInt(allItems[i].Qty);
-				var makingFee = allItems[i].GrossWeight * ( allItems[i].Making / 10 );
-				var amount = ( allItems[i].StonePc * allItems[i].StoneRs ) + allItems[i].OtherFee;
-				amount = amount + makingFee;
-				amount = amount * parseInt(allItems[i].Qty);
+				var fineGold = allItems[i].NetWeight;
+				var amount = allItems[i].Amount;
 				totalGm = totalGm + fineGold;
 				totalAmount = totalAmount + amount;
 				fineGold = 0; amount = 0;
 			}
-			this._oLocalModel.setProperty("/fineGm", totalGm);
-			this._oLocalModel.setProperty("/fineRs", totalAmount);
+			this._oLocalModel.setProperty("/fineGm", totalGm.toFixed(3));
+			this._oLocalModel.setProperty("/fineRs", totalAmount.toFixed(0));
 		},
 		firstTwoDisplay: function(){
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);

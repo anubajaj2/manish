@@ -9,7 +9,7 @@
 		showNavButton="{appView>/smallScreenMode}"
 		navButtonPress=".onBack"
 		showFooter="true">
-		
+
 		<landmarkInfo>
 			<PageAccessibleLandmarkInfo
 				rootRole="Region"
@@ -73,18 +73,16 @@
 				}">
 				<items>
 					<ObjectListItem
-						intro="{local>GrossWeight} x"
+						intro="{local>GrossWeight} X {local>Tunch}"
 						type="{cfg>/listItemType}"
-						icon="{
-							path : 'local>PictureUrl'
-						}"
+						icon="{local>PictureUrl}"
 						title="{local>Name}"
 						number="{
 							path : 'local>NetWeight'
 						}"
 						numberUnit="gm"
 						iconDensityAware="false">
-						<firstStatus>
+						<!-- <firstStatus>
 							<ObjectStatus
 								text="{
 									path : 'local>Status',
@@ -94,7 +92,7 @@
 									path : 'local>Status',
 									formatter : '.formatter.statusState'
 								}"/>
-						</firstStatus>
+						</firstStatus> -->
 					</ObjectListItem>
 
 				</items>

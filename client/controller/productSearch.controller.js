@@ -54,6 +54,15 @@ sap.ui.define([
 			var oDataModel = this.getView().getModel();
 			for (var i = 0; i < items.length; i++) {
 			 var sPath = items[i].getBindingContextPath();
+			 debugger;
+			 var picsSize = oDataModel.getProperty(sPath + "/ToPhotos" );
+			 // for (var i = 0; i < picsSize.length; i++) {
+			 // 		var sImage = sPath + "/ToPhotos/" + i + "/Content" ;
+				// 	var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+	 			//   if(!this.allImageURLs[sImage]){
+	 			// 	 	 this.allImageURLs[sImage] =  sUrl;
+	 			//  }
+			 // }
 			 var sImage = sPath + "/ToPhotos/0/Content" ;
 			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
 			 if(!this.allImageURLs[sImage]){
@@ -64,7 +73,27 @@ sap.ui.define([
 			 if(!this.allImageURLs[sImage]){
 				 	this.allImageURLs[sImage] =  sUrl;
 			 }
-			 debugger;
+			 if(picsSize.length > 2){
+				 var sImage = sPath + "/ToPhotos/2/Content" ;
+  			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+  			 if(!this.allImageURLs[sImage]){
+  				 	this.allImageURLs[sImage] =  sUrl;
+  			 }
+			 }
+			 if(picsSize.length > 3){
+				 var sImage = sPath + "/ToPhotos/3/Content" ;
+  			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+  			 if(!this.allImageURLs[sImage]){
+  				 	this.allImageURLs[sImage] =  sUrl;
+  			 }
+			 }
+			 if(picsSize.length > 4){
+				 var sImage = sPath + "/ToPhotos/4/Content" ;
+  			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+  			 if(!this.allImageURLs[sImage]){
+  				 	this.allImageURLs[sImage] =  sUrl;
+  			 }
+			 }
 			 //items[i].setIcon(sUrl);
 			 items[i].getContent()[1].getItems()[0].setSrc(sUrl);
 			}
@@ -74,120 +103,105 @@ sap.ui.define([
 			var sImage = sPath + "/ToPhotos/1/Content" ;
 			oEvent.getSource().setSrc(this.allImageURLs[sImage]);
 		},
-		rollback: "",
-		rollback2: "",
-		pimage: "",
 		onImageIn: function(oEvent){
 				var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
 				var sImage = sPath + "/ToPhotos/0/Content" ;
 				oEvent.getSource().setSrc(this.allImageURLs[sImage]);
 		},
-		addProductToCart: function(productRec){
+		addProductToCart: function(productRec, allSelectedWeights, PictureUrl){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-			productRec.ProductPicUrl = "https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg";
-			productRec.Qty = parseInt(1);
-			cartItems.push(productRec);
+			var cartItem = {};
+			cartItem.Name = productRec.Name;
+			cartItem.ProductId = productRec.id;
+			cartItem.Tunch = productRec.Tunch;
+			cartItem.PictureUrl = PictureUrl;
+			for (var i = 0; i < allSelectedWeights.length; i++) {
+				cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
+				cartItem.NetWeight = allSelectedWeights[i].NetWeight;
+				cartItem.Amount = allSelectedWeights[i].Amount;
+				cartItem.WeightId = allSelectedWeights[i].id;
+				cartItems.push(JSON.parse(JSON.stringify(cartItem)));
+			}
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+			this.calculateOrderEstimate();
 		},
-		removeProductFromCart: function(productRec){
+		removeProductFromCart: function(productRec, selectedWeights){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
 			for (var i = 0; i < cartItems.length; i++) {
-				if(cartItems[i].id === productRec.id){
+				if(cartItems[i].WeightId === selectedWeights.id){
 					cartItems.splice(i,1);
 					break;
 				}
 			}
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
 		},
-		closeWeights: function(oEvent){
-			var selectedItems = oEvent.getParameter("selectedItems");
-			if(selectedItems.length > 0){
-
-			}else{
-				this.oBtn.setPressed(false);
-			}
-			if(this.oBtn.getPressed()){
-				this.oBtn.setIcon("sap-icon://delete");
-				this.oBtn.setType("Emphasized");
-				this.addProductToCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
-			}else{
-				this.oBtn.setIcon("sap-icon://cart-3");
-				this.oBtn.setType("Default");
-				this.removeProductFromCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
-			}
-		},
 		selectedWeights: function(oEvent){
-			debugger;
+			var allSelectedWeights = [];
 			var selectedItems = oEvent.getParameter("selectedItems");
+			var mainProduct = this.oBtn.getParent().getModel().getProperty(this.sPath);
 			if(selectedItems.length > 0){
+				for (var i = 0; i < selectedItems.length; i++) {
+					var selectedWeight = selectedItems[i].getModel().getProperty(selectedItems[i].getBindingContextPath());
+					var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+					addedWeights.push(selectedWeight);
+					this.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+					allSelectedWeights.push(selectedWeight);
+				}
+			}
 
-			}else{
-				this.oBtn.setPressed(false);
-			}
-			if(this.oBtn.getPressed()){
-				this.oBtn.setIcon("sap-icon://delete");
-				this.oBtn.setType("Emphasized");
-				this.addProductToCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
-			}else{
-				this.oBtn.setIcon("sap-icon://cart-3");
-				this.oBtn.setType("Default");
-				this.removeProductFromCart(this.oBtn.getParent().getModel().getProperty(this.sPath));
-			}
+			this.addProductToCart(mainProduct, allSelectedWeights, this.allImageURLs[this.sPath + "/ToPhotos/0/Content"]);
+
 		},
+		loadedWeights: [],
 		onAddToCart: function(oEvent){
-     debugger;
 			var oBtn = oEvent.getSource();
 			//get binding path of parent list item
 			var sPath = oBtn.getParent().getBindingContext().getPath();
 			this.oBtn = oBtn;
 			this.sPath = sPath;
 			var that = this;
-			this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
-			then(function(){
-				debugger;
-				var oDialog = new SelectDialog({
-					title: "Select weights",
-					multiSelect: true,
-					confirm: that.selectedWeights.bind(that),
-					close: that.closeWeights.bind(that)
+			//check if weight already maintained if yes dont load else load
+			//cross check with cart collection before sending weights to the popup
+			if(!this.loadedWeights[sPath]){
+				this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
+				then(function(data){
+					debugger;
+					that.loadedWeights[sPath] = data.ProdWeights;
+					that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
+					that.oDialog = new SelectDialog({
+						title: "Select weights",
+						multiSelect: true,
+						confirm: that.selectedWeights.bind(that),
+						close: that.closeWeights.bind(that)
+					});
+					that.getView().addDependent(that.oDialog);
+					that.oDialog.setModel(that._oLocalModel);
+					that.oDialog.bindAggregation("items",{
+						path : "/ProdWeights",
+						template: new sap.m.DisplayListItem({
+							label: "{NetWeight} gm",
+							value: "{Amount} INR"
+						})
+					});
+					that.oDialog.open();
 				});
-				that.getView().addDependent(oDialog);
-				oDialog.setModel(that._oLocalModel);
-				oDialog.bindAggregation("items",{
-					path : "/ProdWeights",
-					template: new sap.m.DisplayListItem({
-						label: "{NetWeight} gm",
-						value: "{Amount} INR"
-					})
-				});
-				oDialog.open();
-			});
-
-
-
+			}else{
+				var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
+				var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+				if(addedWeights.length > 0){
+					for (var i = 0; i < tempLoaded.length; i++) {
+						for (var j = 0; j < addedWeights.length; j++) {
+							if ( tempLoaded[i].id === addedWeights[j].id ){
+								tempLoaded.splice(i,1);
+							}
+						}
+					}
+				}
+				this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
+				this.oDialog.open();
+			}
 		},
 		onCartClick: function(oEvent){
-			debugger;
-			// var oButton = oEvent.getSource();
-			// // create popover
-			// if (!this._oPopoverCart) {
-			// 	Fragment.load({
-			// 		id: "popoverCart",
-			// 		name: "sap.ui.demo.cart.fragments.cartDetails",
-			// 		controller: this
-			// 	}).then(function(oPopover){
-			// 		this._oPopoverCart = oPopover;
-			// 		this.getView().addDependent(this._oPopover);
-			// 		this._oPopoverCart.setModel(
-			// 			this.getOwnerComponent().getModel("local"),
-			// 			"local"
-			// 		);
-			// 		this._oPopoverCart.openBy(oButton);
-			// 	}.bind(this));
-			// } else {
-			// 	this._oPopoverCart.openBy(oButton);
-			// }
-			//this.lastTwoDisplay();
 			this.getRouter().navTo("comparisonCart");
 		},
 		getGridItemById: function(productId){
@@ -206,8 +220,6 @@ sap.ui.define([
 		onCartItemDelete: function(oEvent){
 			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
 			var productId = oObj.id;
-			//sPath = sPath.split("'")[1];
-			//oEvent.getSource().removeItem(oEvent.getParameter("listItem"));
 			 this.removeProductFromCart(oObj);
 			 var oBtn = this.getButtonInsideGrid(productId);
 			 oBtn.setIcon("sap-icon://cart-3");
@@ -224,16 +236,24 @@ sap.ui.define([
 			this._oPopoverCart.destroy();
 			this._oPopoverCart = null;
 		},
-		onImageOpen: function(){
-			if (!this.pressDialog) {
+		onImageOpen: function(oEvent){
+			var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+			var aImages = [];
+			for (var i = 0; i < 5; i++) {
+				var sImage = sPath + "/ToPhotos/" + i + "/Content" ;
+				if(this.allImageURLs[sImage]){
+					aImages.push(new Image({src : this.allImageURLs[sImage]}));
+				}
+			}
+			// if(!this.allImageURLs[sImage]){
+			// 	 this.allImageURLs[sImage] =  sUrl;
+			// }
+			// if (!this.pressDialog) {
 				this.pressDialog = new Dialog({
 					title: "Available Images",
 					stretch: true,
 					content: new Carousel({
-						pages:[
-								new Image({src : "https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"}),
-								new Image({src : "https://img5.cfcdn.club/5e/cb/5ef37886b3ad099ddb939520191ec4cb_350x350.jpg"})
-						]
+						pages: aImages
 					}),
 					beginButton: new Button({
 						type: "Emphasized",
@@ -246,7 +266,7 @@ sap.ui.define([
 
 				//to get access to the global model
 				this.getView().addDependent(this.pressDialog);
-			}
+			// }
 
 			this.pressDialog.open();
 		},

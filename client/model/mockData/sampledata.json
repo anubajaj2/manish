@@ -17,6 +17,7 @@
 	],
 	"allImages" :[],
 	"ProdWeights": [],
+	"addedWeights":[],
 	"orderNo": "XXXXXX",
 	"SizeDetails":{
 		"malaSize": "",

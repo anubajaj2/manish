@@ -53,7 +53,7 @@
 						renderType="Bare">
 						<l:VerticalLayout>
 							<ObjectIdentifier
-								title="{Name}"
+								title="{ProductId} {Name}"
 								tooltip="{Name}"
 								titleActive="true"
 								titlePress="onSelectProduct"
@@ -76,15 +76,14 @@
 					</FlexBox>
 					<FlexBox renderType="Bare" width="100%"
 						>
-						<ToggleButton
+						<Button
 							tooltip="{i18n>addToCart}"
 							press="onAddToCart" class="sapUiTinyMargin"
-							icon="sap-icon://cart-3"
-							>
+							icon="sap-icon://cart-3">
 							<layoutData>
 								<l:GridData span="XL4 L4 M4 S4"/>
 							</layoutData>
-						</ToggleButton>
+						</Button>
 						<HBox class="sapUiTinyMargin" direction="RowReverse"
 							justifyContent="End" alignItems="End">
 							<VBox>

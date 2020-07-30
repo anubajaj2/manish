@@ -71,24 +71,27 @@ sap.ui.define([
 			debugger;
 			var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
 			var productId = oObj.id;
-			//sPath = sPath.split("'")[1];
-			//oEvent.getSource().removeItem(oEvent.getParameter("listItem"));
-			 this.removeProductFromCart(oObj);
-			 var oBtn = this.getButtonInsideGrid(productId);
-			 oBtn.setIcon("sap-icon://cart-3");
-			 oBtn.setType("Default");
-			 oBtn.setPressed(false);
+  		this.removeProductFromCart(oObj);
 		},
 		removeProductFromCart: function(productRec){
-			debugger;
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+			var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+
+			for (var j = 0; j < allWeightsSel.length; j++) {
+				if (allWeightsSel[j].id === productRec.WeightId ){
+					allWeightsSel.splice(j,1);
+					break;
+				}
+			}
+
 			for (var i = 0; i < cartItems.length; i++) {
-				if(cartItems[i].id === productRec.id){
+				if(cartItems[i].WeightId === productRec.WeightId){
 					cartItems.splice(i,1);
 					break;
 				}
 			}
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+			this.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
 		},
 		getGridItemById: function(productId){
 			debugger;

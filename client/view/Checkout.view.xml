@@ -27,7 +27,7 @@
 						text="{i18n>returnToShopButtonText}"
 						press=".onReturnToShopButtonPress"/>
 					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>							
+					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 				</headerContent>
 				<content>
 					<Wizard
@@ -59,7 +59,6 @@
 												</HBox>
 												<VBox>
 													<Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop" />
-													<Input change="onChangeQty" value="{local>Qty}" width="20%" length="3" placeholder="Qty" type="Number"/>
 												</VBox>
 											</HBox>
 										</CustomListItem>
