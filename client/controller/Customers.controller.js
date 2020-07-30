@@ -266,6 +266,17 @@ sap.ui.define([
 							var status = that.updateGroupDetails(groupId, i, id);
 						}
 					}
+          //change user status
+          if (this.onSwitch === true){
+            debugger;
+              var changeUserStatus = {
+                emailId: oSaveData.EmailId,
+                name: oSaveData.Name,
+                bStat: viewModel.oData.blockStatus,
+                Authorization: this.getModel("local").getProperty("/Authorization")
+              };
+              this.changeUserStatus(changeUserStatus);
+          }
 
 				} else {
 					// var manufactureId = [];
@@ -285,17 +296,7 @@ sap.ui.define([
 							MessageToast.show("Data could not be saved");
 							that._onRouteMatched();
 						});
-        //change user status
-        if (this.onSwitch === true){
-          debugger;
-            var changeUserStatus = {
-              name: oSaveData.Name,
-              bstat: viewModel.oData.blockStatus,
-              Authorization: this.getModel("local").getProperty("/Authorization")
-            };
-            this.changeUserStatus(changeUserStatus);
 
-        }
         //Create new user
         debugger;
           var createUserPayload = {
@@ -427,7 +428,7 @@ sap.ui.define([
     changeUserStatus:function(changeUserStatus){
       debugger;
 
-      $.post("/changeUserStatus", changeUserStatus)
+      $.post('/changeUserStatus', changeUserStatus)
       .then(function(data){
         debugger;
       })
