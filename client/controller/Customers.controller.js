@@ -4,12 +4,14 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "sap/ui/demo/cart/model/formatter"
-], function(BaseController, UIComponent, JSONModel,
-  MessageToast, formatter) {
+],
+   function(BaseController, UIComponent, JSONModel,
+  MessageToast, Formatter) {
   "use strict";
 	var customerId;
 	var changeCheck = 'false';
   return BaseController.extend("sap.ui.demo.cart.controller.Customers", {
+    formatter: Formatter,
     onInit: function() {
       var oViewDetailModel = new JSONModel({
         "buttonText": "Save",
@@ -36,6 +38,7 @@ sap.ui.define([
       });
       this.setModel(odataModel, "dataModel");
       debugger;
+
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/Customers", "GET", {}, {}, this)
         .then(function(oData) {
@@ -83,7 +86,7 @@ sap.ui.define([
       dataModel.setProperty("/emailState", "None");
       this.getView().getModel("local").setProperty("/Customer", customerModel);
     },
-    checkEmail: function(oInput) {
+/*    checkEmail: function(oInput) {
       if (oInput) {
         var email = oInput.getParameter("newValue");
         var dataModel = this.getView().getModel("dataModel");
@@ -95,20 +98,22 @@ sap.ui.define([
           this.getView().getModel("local").setProperty("/Customer/EmailId", email);
         }
       }
-    },
+    }, */
 		CodeCheck: function(oEvent) {
       debugger;
-      var input_source = oEvent.getSource();
-      var id = input_source.getSelectedKey();
-      var text = input_source.getSelectedItem().getText();
+      //var input_source = oEvent.getSource();
+      //var id = input_source.getSelectedKey();
+      //var text = input_source.getSelectedItem().getText();
+      var text = oEvent.getParameter("newValue");
       var viewModel = this.getView().getModel("viewModel");
       var customerId = this.customerCheck(text);
       debugger;
-      $('#idCode').keypress(function(event) {
-        if (event.keyCode == 13) {
-          $('#idName').focus();
-        }
-      });
+      this.getView().byId("__component0---Customers--Customer--idName").focus();
+      //$("#idCode").keydown(function(event) {
+      //  if (event.keyCode == 13) {
+      //    $('#idName').focus();
+      //  }
+      //});
     },
 		groupCodeCheck: function(oEvent) {
       debugger;
@@ -171,6 +176,7 @@ sap.ui.define([
                   that.getView().getModel("local").setProperty("/groupSelected/GroupCode", group[i].groupCode);
                   that.getView().getModel("local").setProperty("/groupSelected/GroupId", group[i].id);
                   that.getView().getModel("local").setProperty("/groupSelected/ManuId", oData.results[i].id);
+                  debugger;
                   seletedData.GroupCode = group[i].groupCode;
                   seletedData.GroupId = group[i].id;
                   seletedData.ManuId = group[i].oData.results[i].id;
@@ -182,11 +188,13 @@ sap.ui.define([
                 // MessageToast.show("Data could not be saved");
               });
           }
-          this.getView().getModel("local").setProperty("/Customer", oCustomer);
-          viewModel.setProperty("/buttonText", "Update");
-          viewModel.setProperty("/deleteEnabled", true);
-          viewModel.setProperty("/codeEnabled", false);
-          return found[0].id;
+
+            this.getView().getModel("local").setProperty("/Customer", oCustomer);
+            viewModel.setProperty("/buttonText", "Update");
+            this.update = "X";
+            viewModel.setProperty("/deleteEnabled", true);
+            viewModel.setProperty("/codeEnabled", false);
+            return found[0].id;
         } else {
           // return false;
         }
@@ -213,10 +221,12 @@ sap.ui.define([
 					oSaveData.City = oSaveData.City.toUpperCase();
 				}
 				if (oSaveData.EmailId && oSaveData.EmailId !== "") {
-					oSaveData.EmailId = oSaveData.EmailId.toUpperCase();
-				}
+          if (Formatter.checkEmail(this.getView().byId("__component0---Customers--Customer--idEmail")) !== true){
+            return this.getView().byId("__component0---Customers--Customer--idEmail").setValueState("Error");
+          }
+			  }
 
-				if (viewModel.oData.blockStatus === "true") {
+				if (viewModel.oData.blockStatus === true) {
 					oSaveData.Status = "B";
 				} else {
 					oSaveData.Status = "U";
@@ -268,12 +278,13 @@ sap.ui.define([
 
 				} //id check
 			} else {
-				var required = this.getView().byId("idCode");
+				var required = this.getView().byId("__component0---Customers--Customer--idCode");
 				required.setValueState("Error");
 				required.setValueStateText("Please enter a Code!");
 			}
 		},
 		updateGroupDetails: function(groupId, i, customerId) {
+      debugger;
       var that = this;
       var retailerGroup = this.getView().getModel("local").getProperty("/RetailerGroup");
       var oModel = this.getView().getModel();
@@ -312,6 +323,8 @@ sap.ui.define([
       }
     },
 		updateGroup: function(oFilter) {
+      debugger;
+
       var that = this;
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/RetailerGroups", "GET", oFilter, {}, this)
@@ -366,11 +379,14 @@ sap.ui.define([
               that._onRouteMatched();
               MessageToast.show("Could not delete the entry");
             });
-
           // that.updateGroupDetails(groupId, i, oData);
-
         }
       }
+    },
+
+    onEnter:function(){
+    this.getView().byId("__component0---Customers--Customer--idName").focus();
     }
+
   });
 });
