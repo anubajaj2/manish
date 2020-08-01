@@ -22,7 +22,10 @@ sap.ui.define([
 
 		},
 		_routePatternMatched: function(){
-				this.loadCategories();
+				//remove categories not set for Manufacturers
+				this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
+				//pattern to set
+				this.pattern = this.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
 				this.lastTwoDisplay();
 				this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
 		},

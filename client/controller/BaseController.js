@@ -351,7 +351,7 @@ sap.ui.define([
 		getRouter: function () {
 			return UIComponent.getRouterFor(this);
 		},
-		loadCategories: function(){
+		loadCategories: function(subCats){
 			var that = this;
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/ProductCategories", "GET", {}, {}, this)
@@ -363,28 +363,26 @@ sap.ui.define([
               a.push(oData.results[i]);
             }
           }
-
-          // for (var j = 0; j < a.length; j++) {
-          //   var object = {};
-					// 	object.id = a[j].id;
-          //   object.Category = a[j].Category;
-          //   b.push(object);
-          // }
           //SubCategory
           var c = [];
           var d = [];
-          for (var i = 0; i < oData.results.length; i++) {
-            if (c.indexOf(oData.results[i].SubCategory) === -1) {
-              c.push(oData.results[i]);
-            }
-          }
-
-          // for (var j = 0; j < c.length; j++) {
-          //   var object = {};
-          //   object.SubCategory = c[j].SubCategory;
-					// 	object.id = c[j].id;
-          //   d.push(object);
-          // }
+					if(subCats){
+						if(subCats.length > 0){
+							for (var i = 0; i < oData.results.length; i++) {
+								for (var j = 0; j < subCats.length; j++) {
+									if(subCats[j] === oData.results[i].id){
+										c.push(oData.results[i]);
+									}
+								}
+		          }
+						}
+					}else{
+						for (var i = 0; i < oData.results.length; i++) {
+	            if (c.indexOf(oData.results[i].SubCategory) === -1) {
+	              c.push(oData.results[i]);
+	            }
+	          }
+					}
 					a = that.removeDuplicates(a,"Category");
 					c = that.removeDuplicates(c,"SubCategory");
           that.getOwnerComponent().getModel("local").setProperty("/cat",{

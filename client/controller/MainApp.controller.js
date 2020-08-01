@@ -114,7 +114,17 @@ sap.ui.define([
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Admin"){
 												that2.oRouter.navTo("Group");
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Maker"){
+												var Filter1 = new sap.ui.model.Filter("EmailId", "EQ", that2.getView().byId("userid").getValue());
+												var that3 = that2;
+												that2.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+												 "/Manufacturers", "GET", {
+						 								filters: [Filter1]
+						 							}, {}, that2)
+													.then(function(oData) {
+														that3.getView().getModel("local").setProperty("/ManufacturerData",oData.results[0]);
+												});
 												that2.oRouter.navTo("AddProduct");
+
 											}
 										}else{
 											sap.m.MessageBox.error("The user is not authorized, Please Contact Mr. Amit");
