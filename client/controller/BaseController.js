@@ -116,6 +116,7 @@ sap.ui.define([
 			return new Promise(function(resolve, reject) {
 				$.post('/GetProdWeights', {"productId": productId})
 					.done(function(data, status){
+						that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
 						resolve(data);
 					})
 					.fail(function(xhr, status, error) {
