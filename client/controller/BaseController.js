@@ -158,10 +158,6 @@ sap.ui.define([
 					onClose: function(reply){
 							if(reply === "OK"){
 								that._deletedImages = [];
-								that.getView().getModel("local").setProperty("/ProdWeights", []);
-								that.getView().getModel("local").setProperty("/allImages", []);
-								that.getView().getModel("local").setProperty("/deleteImages", []);
-								that.getView().getModel("local").setProperty("/checkChange", false);
 								that.getView().getModel("local").setProperty("/Product",{
 									"id":"",
 									"ProductId": "",
@@ -196,7 +192,25 @@ sap.ui.define([
 				})
 			}else{
 				this._deletedImages = [];
-				this.getView().getModel("local").setProperty("/ProdWeights", []);
+				this.getView().getModel("local").setProperty("/ProdWeights", [{
+					"ProductId": "null",
+			    "PairSize": 0,
+			    "OtherChrg":0,
+			    "GrossWeight": 0,
+			    "LessWeight": 0,
+			    "NetWeight": 0,
+			    "Quantity": 1,
+			    "Fine": 0,
+					"MoreAmount": 0,
+			    "Amount": 0,
+					"Values": [],
+			    "Status": "A",
+					"SoldOn": new Date(),
+					"OrderId":"",
+			    "Remarks":"null",
+			    "CreatedOn": new Date(),
+			    "CreatedBy": ""
+				}]);
 				this.getView().getModel("local").setProperty("/allImages", []);
 				this.getView().getModel("local").setProperty("/deleteImages", []);
 				that.getView().getModel("local").setProperty("/checkChange", false);
@@ -209,7 +223,33 @@ sap.ui.define([
 				this.getView().byId("idName").setEnabled(false);
 				this.getView().byId("idPName").focus();
 			}else{
-				this.getView().byId("idName").setEnabled(true);
+				this._deletedImages = [];
+				this.getView().getModel("local").setProperty("/ProdWeights", [{
+					"ProductId": "null",
+			    "PairSize": 0,
+			    "OtherChrg":0,
+			    "GrossWeight": 0,
+			    "LessWeight": 0,
+			    "NetWeight": 0,
+			    "Quantity": 1,
+			    "Fine": 0,
+					"MoreAmount": 0,
+			    "Amount": 0,
+					"Values": [],
+			    "Status": "A",
+					"SoldOn": new Date(),
+					"OrderId":"",
+			    "Remarks":"null",
+			    "CreatedOn": new Date(),
+			    "CreatedBy": ""
+				}]);
+				this.getView().getModel("local").setProperty("/allImages", []);
+				this.getView().getModel("local").setProperty("/deleteImages", []);
+				this.getView().getModel("local").setProperty("/checkChange", false);
+				if(this.getView().byId("idName")){
+						this.getView().byId("idName").setEnabled(true);
+				}
+
 			}
 		},
 		massImageDelete: function(){
@@ -320,32 +360,36 @@ sap.ui.define([
           var b = [];
           for (var i = 0; i < oData.results.length; i++) {
             if (a.indexOf(oData.results[i].Category) === -1) {
-              a.push(oData.results[i].Category);
+              a.push(oData.results[i]);
             }
           }
 
-          for (var j = 0; j < a.length; j++) {
-            var object = {};
-            object.Category = a[j];
-            b.push(object);
-          }
+          // for (var j = 0; j < a.length; j++) {
+          //   var object = {};
+					// 	object.id = a[j].id;
+          //   object.Category = a[j].Category;
+          //   b.push(object);
+          // }
           //SubCategory
           var c = [];
           var d = [];
           for (var i = 0; i < oData.results.length; i++) {
             if (c.indexOf(oData.results[i].SubCategory) === -1) {
-              c.push(oData.results[i].SubCategory);
+              c.push(oData.results[i]);
             }
           }
 
-          for (var j = 0; j < c.length; j++) {
-            var object = {};
-            object.SubCategory = c[j];
-            d.push(object);
-          }
+          // for (var j = 0; j < c.length; j++) {
+          //   var object = {};
+          //   object.SubCategory = c[j].SubCategory;
+					// 	object.id = c[j].id;
+          //   d.push(object);
+          // }
+					a = that.removeDuplicates(a,"Category");
+					c = that.removeDuplicates(c,"SubCategory");
           that.getOwnerComponent().getModel("local").setProperty("/cat",{
-						category: b,
-            subCatergory: d,
+						category: a,
+            subCatergory: c,
 						type: [{Type:"Plain", Key:"P"},
 						       {Type:"Studded", Key:"S"}]
 					});
@@ -354,6 +398,20 @@ sap.ui.define([
           MessageToast.show("cannot fetch the data");
         });
 		},
+		removeDuplicates : function (originalArray, prop) {
+     var newArray = [];
+     var lookupObject  = {};
+
+     for(var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+     }
+
+     for(i in lookupObject) {
+         newArray.push(lookupObject[i]);
+     }
+      return newArray;
+ 		},
+
 		/**
 		 * Convenience method for getting the view model by name.
 		 * @public

@@ -38,16 +38,16 @@ sap.ui.define([
       });
       this.setModel(odataModel, "dataModel");
       debugger;
-      this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/Manufacturers", "GET", {}, {}, this)
-        .then(function(oData) {
-          debugger;
-          var oModelManufacturer = new JSONModel();
-          oModelManufacturer.setData(oData);
-          that.getView().setModel(oModelManufacturer, "manufactureModelInfo");
-        }).catch(function(oError) {
-          MessageToast.show("cannot fetch the data");
-        });
+      // this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+      //     "/Manufacturers", "GET", {}, {}, this)
+      //   .then(function(oData) {
+      //     debugger;
+      //     var oModelManufacturer = new JSONModel();
+      //     oModelManufacturer.setData(oData);
+      //     that.getView().setModel(oModelManufacturer, "manufactureModelInfo");
+      //   }).catch(function(oError) {
+      //     MessageToast.show("cannot fetch the data");
+      //   });
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
           "/Groups", "GET", {}, {}, this)
@@ -77,6 +77,9 @@ sap.ui.define([
       manufacturerModel.MobilePhone = "";
       manufacturerModel.EmailId = "";
       manufacturerModel.Status = "";
+      manufacturerModel.Pattern = "";
+      manufacturerModel.Categories = [];
+      manufacturerModel.Groups = [];
       viewModel.setProperty("/codeEnabled", true);
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
@@ -123,36 +126,27 @@ sap.ui.define([
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/ManuGroups", "GET", oFilter, {}, this)
               .then(function(oData) {
-                debugger;
-                var groups = that.getView().getModel("local").getProperty("/groupSelected");
-                var groupModelJson = that.getView().getModel("groupModelCode").getData().results;
-
-                function getGroupDetail(groupId) {
-                  return groupModelJson.filter(
-                    function(data) {
-                      return (data.id === groupId);
-                    });
-                }
-                for (var i = 0; i < oData.results.length; i++) {
-                  var groupId = oData.results[i].GroupId;
-                  var group = getGroupDetail(groupId);
-                  debugger;
-                  var seletedData = that.getView().getModel("local").getProperty("/groupSelected");
-                  that.getView().getModel("local").setProperty("/groupSelected/GroupCode", group[i].groupCode);
-                  that.getView().getModel("local").setProperty("/groupSelected/GroupId", group[i].id);
-                  that.getView().getModel("local").setProperty("/groupSelected/ManuId", oData.results[i].id);
-                  seletedData.GroupCode = group[i].groupCode;
-                  seletedData.GroupId = group[i].id;
-                  seletedData.ManuId = group[i].oData.results[i].id;
-                  var oData = JSON.parse(JSON.stringify(seletedData));
-                  groupID.push(oData);
-                }
+                that.getView().getModel("local").setProperty("/Manufacturer", oData.results[0]);
+                // for (var i = 0; i < oData.results.length; i++) {
+                //   var groupId = oData.results[i].GroupId;
+                //   var group = getGroupDetail(groupId);
+                //   debugger;
+                //   var seletedData = that.getView().getModel("local").getProperty("/groupSelected");
+                //   that.getView().getModel("local").setProperty("/groupSelected/GroupCode", group[i].groupCode);
+                //   that.getView().getModel("local").setProperty("/groupSelected/GroupId", group[i].id);
+                //   that.getView().getModel("local").setProperty("/groupSelected/ManuId", oData.results[i].id);
+                //   seletedData.GroupCode = group[i].groupCode;
+                //   seletedData.GroupId = group[i].id;
+                //   seletedData.ManuId = group[i].oData.results[i].id;
+                //   var oData = JSON.parse(JSON.stringify(seletedData));
+                //   groupID.push(oData);
+                // }
               })
               .catch(function(oError) {
                 // MessageToast.show("Data could not be saved");
               });
           }
-          this.getView().getModel("local").setProperty("/Manufacturer", manufacturer);
+
           viewModel.setProperty("/buttonText", "Update");
           viewModel.setProperty("/deleteEnabled", true);
           viewModel.setProperty("/codeEnabled", false);
@@ -346,11 +340,30 @@ sap.ui.define([
       var id = input_source.getSelectedKey();
       var text = input_source.getSelectedItem().getText();
       var viewModel = this.getView().getModel("viewModel");
-      var manufactureId = this.manufacturerCheck(text);
+      // var manufactureId = this.manufacturerCheck(text);
+
       debugger;
       $('#idCode').keypress(function(event) {
         if (event.keyCode == 13) {
           $('#idName').focus();
+        }
+      });
+    },
+    onEnter: function(oEvent){
+      var that = this;
+      var sValue = this.getView().byId("idCode").getValue().toUpperCase();
+      this.getView().byId("idCode").setValue(sValue);
+      var Filter1 = new sap.ui.model.Filter("CustomerCode", "EQ", sValue);
+      this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Manufacturers", "GET", {
+          filters: [Filter1]
+        }, {}, this)
+        .then(function(oData) {
+          if (oData.results.length != 0) {
+              MessageToast.show("Manufacturer Already Exist");
+              that.getView().getModel("local").setProperty("/Manufacturer",oData.results[0]);
+        }else{
+          MessageToast.show("Create as new Manufacturer");
+          that.getView().byId("idPName").focus();
         }
       });
     },

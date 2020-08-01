@@ -9,6 +9,11 @@
 	font-family: cursive;
 	font-weight: bold;
 }
+.highLightText{
+	font-size: 90;
+	font-family: monospace;
+	font-weight: 900;
+}
 .sapUiDemoCart .welcomeCarouselText {
 	color: white;
 	display: block;

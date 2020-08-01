@@ -1,6 +1,7 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.Manufacturer"
 	xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.m.semantic">
+	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout"
+	   xmlns:f="sap.ui.layout.form">
 	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid">
 		<content> -->
 			<semantic:FullscreenPage id="Manufacturer" navButtonPress="onNavBack"
@@ -10,11 +11,77 @@
 					tooltip="fullscreen"
 					iconFirst="true" press="toggleFullScreen"/>
 					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>					
+					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		    </semantic:customHeaderContent>
-				<semantic:content id="Manufacturer_screen1">
-					<core:Fragment id="Manufacturer"
-						fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/>
+				<semantic:content>
+					<VBox class="sapUiSmallMargin">
+				    <f:SimpleForm
+				      id="selectionId"
+				      editable="true"
+				      layout="ResponsiveGridLayout"
+				      labelSpanXL="4"
+				      labelSpanL="3"
+				      labelSpanM="4"
+				      labelSpanS="12"
+				      adjustLabelSpan="false"
+				      emptySpanXL="0"
+				      emptySpanL="4"
+				      emptySpanM="0"
+				      emptySpanS="0"
+				      columnsXL="2"
+				      columnsL="1"
+				      columnsM="1"
+				      singleContainerFullSize="false">
+				      <f:content>
+				        <Label text="Code" required = "true"/>
+				        <Input id="idCode" value="{local>/Manufacturer/CustomerCode}" submit="onEnter"
+				        liveChange="onLiveChange"
+				        showValueHelp="true" valueHelpRequest="onCustomerValueHelp"/>
+				        <Label text="Name"/>
+				        <Input id="idName" value="{local>/Manufacturer/Name}"/>
+				        <Label text="Address"/>
+				        <Input id="idAddress" value="{local>/Manufacturer/Address}"/>
+				        <Label text="City"/>
+				        <Input id="idCity" value="{local>/Manufacturer/City}"/>
+				        <Label text="Contact" required="true"/>
+				        <Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}"/>
+				        <Label text="Group"/>
+				        <MultiComboBox id="idgpCode" selectedKeys="{local>/Manufacturer/Groups}"
+				          items="{groupModelCode>/results}">
+				          <core:Item key="{groupModelCode>id}"
+				          text="{groupModelCode>groupCode}" />
+				        </MultiComboBox>
+				        <Label text="Display Categories"/>
+				        <MultiComboBox id="idCatCode" selectedKeys="{local>/Manufacturer/Categories}"
+				          items="{local>/cat/subCatergory}">
+				          <core:Item key="{local>id}"
+				          text="{local>SubCategory}" />
+				        </MultiComboBox>
+				        <Label text="Email"/>
+				        <Input id="idEmail" type="Email" change="checkEmail"
+				          valueState="{dataModel>/emailState}"
+				          valueStateText="Invalid Email id"
+				         value="{
+									path : 'local>/Manufacturer/EmailId'
+								      }"/>
+				        <Label text="Pattern"/>
+				        <Input id="idPattern"
+				         value="{
+									path : 'local>/Manufacturer/Pattern'
+								      }"/>
+				        <Label text="Block"/>
+				        <Switch id="idBlock" type="AcceptReject"
+				          state="{viewModel>/blockStatus}"
+				          change="onSwitch">
+								<layoutData>
+									<FlexItemData growFactor="1" />
+								</layoutData>
+							</Switch>
+				      </f:content>
+				    </f:SimpleForm>
+				  </VBox>
+					<!-- <core:Fragment id="Manufacturer"
+						fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/> -->
 				</semantic:content>
 				<semantic:customFooterContent>
 						<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>

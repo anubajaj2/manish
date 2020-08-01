@@ -27,6 +27,16 @@
       "type": "string",
       "required": true
     },
+    "Pattern": {
+      "type": "string",
+      "required": true
+    },
+    "Categories": {
+      "type": "object"
+    },
+    "Groups":{
+      "type": "object"
+    },
     "EmailId": {
       "type": "string",
       "required": false

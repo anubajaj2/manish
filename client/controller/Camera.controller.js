@@ -29,6 +29,8 @@ Fragment, MessageBox) {
 		_onRouteMatched : function(){
 			 var that = this;
 			 this._oLocalModel = this.getOwnerComponent().getModel("local");
+			 this.mode = "Create";
+			 this.setMode();
 			 this.lastTwoDisplay();
 		},
 		getAllItems: function(oGrid, sBool){
@@ -489,13 +491,19 @@ Fragment, MessageBox) {
 			nVal = 0;
 
 			nVal = parseInt(oModel.getProperty("/ProdWeights/" + nIndex + "/MoreAmount"));
-			if(isNaN(nVal)){
-				nVal = 0;
+
+			if(GrossWeight === ""){
+				GrossWeight = 0;
+			}
+			if(Making === ""){
+				Making = 0;
 			}
 			var MakingCharges = parseFloat(GrossWeight) * parseFloat(Making);
 			nVal = nVal + parseInt(OTRs) + parseInt(MakingCharges);
 			nVal = nVal.toFixed();
-
+			if(isNaN(nVal)){
+				nVal = 0;
+			}
 			oModel.setProperty("/ProdWeights/" + nIndex + "/Amount", nVal);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 		},

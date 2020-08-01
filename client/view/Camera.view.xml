@@ -86,9 +86,9 @@
 									></anubhav:InputFocus>
 								<Input value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number"></Input>
 								<Input value="{local>Quantity}" name="Quantity"></Input>
-								<Input value="{local>NetWeight}" enabled="false"></Input>
-								<Input value="{local>Fine}" enabled="false"></Input>
-								<Input value="{local>Amount}" enabled="false"></Input>
+								<Input value="{local>NetWeight}" class="highLightText" enabled="false"></Input>
+								<Input value="{local>Fine}" class="highLightText" enabled="false"></Input>
+								<Input value="{local>Amount}" class="highLightText" enabled="false"></Input>
 							</cells>
 						</ColumnListItem>
 					</items>

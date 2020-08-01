@@ -81,6 +81,7 @@ sap.ui.define([
 
 		 _onRouteMatched : function(){
 			var that = this;
+			this.loadCategories();
 			var viewModel = this.getView().getModel("viewModel");
 			viewModel.setProperty("/codeEnabled", true);
 			viewModel.setProperty("/buttonText", "Save");
