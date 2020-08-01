@@ -21,13 +21,38 @@ sap.ui.define([
 				this._oLocalModel = this.getOwnerComponent().getModel("local");
 
 		},
+		onPopUpSearch: function(oEvent) {
+			var searchStr = oEvent.getParameter("value");
+			var oFilter = new sap.ui.model.Filter({
+				filters: [
+					new sap.ui.model.Filter("ProductId", sap.ui.model.FilterOperator.Contains, searchStr)//,
+				]
+			});
+			var oPopup = oEvent.getSource();
+			oPopup.getBinding("items").filter(oFilter);
+		},
+		setAvailableProductCode: function(){
+			this.pattern = this.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
+			//read count of all products for current supplier
+			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
+			var that = this;
+			that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+			 "/Products/$count", "GET", {
+					filters: [oFilter1]
+				}, {}, that)
+				.then(function(count) {
+					count = parseInt(count) + 1;
+					that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
+			});
+
+		},
 		_routePatternMatched: function(){
 				//remove categories not set for Manufacturers
 				this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
 				//pattern to set
-				this.pattern = this.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
 				this.lastTwoDisplay();
 				this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
+				this.setAvailableProductCode();
 		},
 		onCancel: function(){
 
@@ -59,6 +84,7 @@ sap.ui.define([
 				});
 				this.mode = "Create";
 				this.setMode();
+				this.setAvailableProductCode();
 			}
 
 		},
@@ -150,13 +176,8 @@ sap.ui.define([
 		    	var myData = this.getView().getModel("local").getProperty("/Product");
 		     	var selProd = oEvent.getParameter("selectedItem").getLabel();
 				 	myData.ProductId = selProd;
-
-		     if(selProd){
-
-		           this.getView().byId("idName").setValueState();
-		     }
-		   },
-
+    	    this.getView().byId("idName").fireSubmit();
+  	  },
 			onEnter: function(oEvent){
 				var that = this;
 				var sValue = this.getView().byId("idName").getValue().toUpperCase();

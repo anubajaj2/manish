@@ -23,7 +23,7 @@
 				<f:content>
 					<Label text="Product Code"/>
 					<Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange"
-									showValueHelp="true" valueHelpRequest="onProductValueHelp"/>
+								 valueHelpOnly="true"	showValueHelp="true" valueHelpRequest="onProductValueHelp"/>
 				  <Label text="Remarks"/>
 					<Input id="idPName" value="{local>/Product/Name}"/>
 					<Label text="Category"/>

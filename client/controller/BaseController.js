@@ -521,30 +521,6 @@ sap.ui.define([
 			var oEntry =  arguments[0].getSource().getBindingContext().getObject();
 			var oCartModel = this.getView().getModel("cartProducts");
 			cart.addToCart(oResourceBundle, oEntry, oCartModel);
-		},
-		onPopUpSearch: function(oEvent) {
-			debugger;
-			var searchStr = oEvent.getParameter("value");
-			var oFilter = new sap.ui.model.Filter({
-				filters: [
-					new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ, searchStr)//,
-				]//,
-				//and: false
-			});
-			var oPopup = oEvent.getSource();
-			oPopup.getBinding("items").filter(oFilter);
-		},
-		/**
-		 * Clear comparison model
-		 * @protected
-		 */
-	/*	_clearComparison: function (){
-			var oModel = this.getOwnerComponent().getModel("comparison");
-			oModel.setData({
-				category: "",
-				item1: "",
-				item2: ""
-			});
-		} */
+		}
 	});
 });
