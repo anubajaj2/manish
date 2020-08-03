@@ -73,7 +73,8 @@ sap.ui.define([
       var group = this.getView().getModel("local").getProperty("/groupSelected");
       group.GroupCode = "";
       group.GroupId = "";
-      this.getView().getModel("local").setProperty("/groupSelected", group);
+      //this.getView().getModel("local").setProperty("/groupSelected", group);
+      this.getView().byId("__component0---Customers--Customer--idgpCode").clearSelection();//setSelectedKeys(null);//;//setValue("");
       customerModel.CustomerCode = "";
       customerModel.Name = "";
       customerModel.Address = "";
@@ -81,6 +82,7 @@ sap.ui.define([
       customerModel.MobilePhone = "";
       customerModel.EmailId = "";
       customerModel.Status = "";
+      this.getView().getModel("local").setProperty("/groupSelected", group);
       viewModel.setProperty("/codeEnabled", true);
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
@@ -89,44 +91,68 @@ sap.ui.define([
       dataModel.setProperty("/emailState", "None");
       this.getView().getModel("local").setProperty("/Customer", customerModel);
     },
-/*    checkEmail: function(oInput) {
-      if (oInput) {
-        var email = oInput.getParameter("newValue");
-        var dataModel = this.getView().getModel("dataModel");
-        var mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
-        if (!email.match(mailregex)) {
-          dataModel.setProperty("/emailState", "Error");
-        } else {
-          dataModel.setProperty("/emailState", "None");
-          this.getView().getModel("local").setProperty("/Customer/EmailId", email);
-        }
-      }
-    }, */
+
 		CodeCheck: function(oEvent) {
       debugger;
-      //var input_source = oEvent.getSource();
-      //var id = input_source.getSelectedKey();
-      //var text = input_source.getSelectedItem().getText();
       var text = oEvent.getParameter("newValue");
       var viewModel = this.getView().getModel("viewModel");
       var customerId = this.customerCheck(text);
       debugger;
       this.getView().byId("__component0---Customers--Customer--idName").focus();
-      //$("#idCode").keydown(function(event) {
+    //  $("#idCode").keydown(function(event) {
       //  if (event.keyCode == 13) {
-      //    $('#idName').focus();
-      //  }
-      //});
+        //  $('#idName').focus();
+        //}
+    //  });
     },
 		groupCodeCheck: function(oEvent) {
       debugger;
-      var input_source = oEvent.getSource();
-      changeCheck = 'true';
+    //this.getView().byId("__component0---Customers--Customer--idEmail").focus();
+      return changeCheck = 'true';
     },
-    onSwitch: function(changeCheck) {
+    onSelectionFinish:function(){
+      debugger;
+      this.getView().byId("__component0---Customers--Customer--idEmail").focus();
+      //  $('#__component0---Customers--Customer--idEmail').focus();
+
+    },
+    onNameEnt: function(oEvent) {
+      this.getView().byId("__component0---Customers--Customer--idName").setValue(oEvent.getParameter("value").toUpperCase());
+      this.getView().byId("__component0---Customers--Customer--idAddress").focus();
+    },
+    onAddrEnt: function(oEvent) {
+      this.getView().byId("__component0---Customers--Customer--idCity").focus();
+    },
+    onCityEnt: function(oEvent) {
+      this.getView().byId("__component0---Customers--Customer--idContact").focus();
+    },
+    onContEnt: function(oEvent) {
+      this.getView().byId("__component0---Customers--Customer--idgpCode").focus();
+    },
+    onEmailEnt: function(oEvent) {
+      this.getView().byId("__component0---Customers--Customer--idBlock").focus();
+    },
+    onSwitch: function() {
       debugger;
       //var input_source = oEvent.getSource();
       return this.onSwitch = true;
+    },
+    customerCheck1: function(code) {
+      var that = this;
+      var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+
+      function getcustomerDetail(code) {
+        return customerJson.filter(
+          function(data) {
+            return (data.CustomerCode === code);
+          });
+      }
+      if (customerJson && customerJson.length > 0) {
+        var found = getcustomerDetail(code);
+      }
+
+      return found[0].id;
+
     },
 		customerCheck: function(code) {
       debugger;
@@ -157,10 +183,10 @@ sap.ui.define([
             viewModel.setProperty("/blockStatus", false);
           }
           if (found[0].id) {
+
             var oFilter = new sap.ui.model.Filter({
               filters: [
-                new sap.ui.model.Filter("RetailerId",
-                  sap.ui.model.FilterOperator.Equals, found[0].id)
+                new sap.ui.model.Filter("RetailerId", sap.ui.model.FilterOperator.EQ, found[0].id)
               ]
             });
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -210,6 +236,7 @@ sap.ui.define([
     },
 		saveData: function(oEvent) {
 			debugger;
+
 			var that = this;
 			var dataModel = this.getView().getModel("dataModel");
 			var viewModel = this.getView().getModel("viewModel");
@@ -240,29 +267,28 @@ sap.ui.define([
 					oSaveData.Status = "U";
 				}
 
-				var id = this.customerCheck(oSaveData.CustomerCode);
+				var id = this.customerCheck1(oSaveData.CustomerCode);
 				if (id) {
-
-					var oFilter = new sap.ui.model.Filter({
-						filters: [
-							new sap.ui.model.Filter("RetailerId",
-								sap.ui.model.FilterOperator.Equals, id)
-						]
-					});
+          var oFilter =  new sap.ui.model.Filter("RetailerId",
+            sap.ui.model.FilterOperator.EQ, id);
+        if (changeCheck === 'false') {
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers('" + id + "')", "PUT", {},
 							oSaveData, this)
 						.then(function(oData) {
-							MessageToast.show("Data saved successfully");
-							that._onRouteMatched();
+
+							that.UpdateLocalModel();
+              that.clearScreen();
+              MessageToast.show("Data saved successfully");
 						}).catch(function(oError) {
 							MessageToast.show("Data could not be saved");
 						});
-					if (changeCheck === "true") {
+          }
+					if (changeCheck === 'true') {
 						debugger;
 						var that = this;
 						this.updateGroup(oFilter);
-						for (var i = 1; i < groupId.length; i++) {
+						for (var i = 0; i < groupId.length; i++) {
 							var status = that.updateGroupDetails(groupId, i, id);
 						}
 					}
@@ -285,7 +311,7 @@ sap.ui.define([
 						.then(function(oData) {
 							debugger;
 							var customerId = oData.id;
-							for (var i = 1; i < groupId.length; i++) {
+							for (var i = 0; i < groupId.length; i++) {
 								debugger;
 								var status = that.updateGroupDetails(groupId, i, customerId);
 							}
@@ -302,7 +328,7 @@ sap.ui.define([
           var createUserPayload = {
             name: oSaveData.Name,
             emailId: oSaveData.EmailId,
-            role: "Customer",
+            role: "Retailer",
             Authorization: this.getModel("local").getProperty("/Authorization")
           };
       this.createUserPayload(createUserPayload);
@@ -337,7 +363,7 @@ sap.ui.define([
             retailerGroup.CreatedBy = "";
             retailerGroup.CreatedOn = "";
             MessageToast.show("Data saved successfully");
-            that._onRouteMatched();
+            that.UpdateLocalGroupModel();
           })
           .catch(function(oError) {
             retailerGroup.RetailerId = "";
@@ -346,11 +372,7 @@ sap.ui.define([
             retailerGroup.ChangedOn = "";
             retailerGroup.CreatedBy = "";
             retailerGroup.CreatedOn = "";
-            // return false;
-            // MessageToast.show("Data could not be saved");
           });
-        // );
-        // return true;
       }
     },
 		updateGroup: function(oFilter) {
@@ -358,7 +380,7 @@ sap.ui.define([
 
       var that = this;
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/RetailerGroups", "GET", oFilter, {}, this)
+          "/RetailerGroups", "GET", {	filters: [oFilter] }, {}, this)
         .then(function(oData) {
           //again update all group codes
           for (var i = 0; i < oData.results.length; i++) {
@@ -435,7 +457,49 @@ sap.ui.define([
       .fail(function(error) {
         sap.m.MessageBox.error("Changing User Status failed");
       });
-    }
+    },
+    UpdateLocalModel:function(){
+
+        var that = this;
+        var code = this.getView().byId("__component0---Customers--Customer--idCode").getValue();
+        var customerJson = this.getView().getModel("customerModelInfo").getData().results;
+
+        function getcustomerDetail(code) {
+          return customerJson.filter(
+            function(data) {
+              return (data.CustomerCode === code);
+            });
+        }
+        if (customerJson && customerJson.length > 0) {
+          var customerModelInfo = getcustomerDetail(code);
+          if (customerModelInfo.length > 0) {
+            var viewModel = this.getView().getModel("viewModel");
+            var status = viewModel.getProperty("/blockStatus");
+            var oCustomer = this.getView().getModel("local").getProperty("/Customer");
+             customerModelInfo[0].CustomerCode = oCustomer.CustomerCode;
+             customerModelInfo[0].Address = oCustomer.Address;
+             customerModelInfo[0].Name = oCustomer.Name;
+             customerModelInfo[0].City = oCustomer.City ;
+             customerModelInfo[0].MobilePhone = oCustomer.MobilePhone;
+             customerModelInfo[0].EmailId = oCustomer.EmailId;
+             var group = this.getView().getModel("local").getProperty("/groupSelected");
+
+             debugger;
+             if (status === true) {
+               customerModelInfo[0].Status = "B" ;
+             } else if (status === false) {
+               customerModelInfo[0].Status = "U" ;
+             }
+            }
+          }
+        },
+
+        UpdateLocalGroupModel:function(){
+
+          var group = this.getView().getModel("local").getProperty("/groupSelected");
+
+        }
+
 
   });
 });
