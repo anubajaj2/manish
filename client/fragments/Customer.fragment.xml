@@ -37,13 +37,12 @@
         <Label text="Contact" required="true"/>
         <Input id="idContact" type="Number" value="{local>/Customer/MobilePhone}" submit="onContEnt"/>
         <Label text="Group"/>
-        <MultiComboBox id="idgpCode" value="{local>/groupSelected/GroupCode}"
-          items="{groupModelCode>/results}" change="groupCodeCheck"
-          selectedKeys="{local>/groupSelected/GroupId}"
+        <MultiComboBox id="idgpCode"
+          items="{groupModelCode>/results}"
+          selectedKeys="{local>/Customer/Groups}"
           selectionChange="onSelectionChange"
           selectionFinish="onSelectionFinish">
-          <core:Item key="{groupModelCode>id}"
-          text="{groupModelCode>groupCode}" />
+          <core:Item key="{groupModelCode>id}" text="{groupModelCode>groupCode}" />
         </MultiComboBox>
         <Label text="Email"/>
         <Input id="idEmail" type="Email" change="checkEmail"

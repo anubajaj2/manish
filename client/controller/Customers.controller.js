@@ -10,6 +10,8 @@ sap.ui.define([
   "use strict";
 	var customerId;
 	var changeCheck = 'false';
+  var groupID = [];
+
   return BaseController.extend("sap.ui.demo.cart.controller.Customers", {
     formatter: Formatter,
     onInit: function() {
@@ -62,7 +64,7 @@ sap.ui.define([
           MessageToast.show("cannot fetch the data");
         });
       //
-      this.clearScreen();
+    //  this.clearScreen();
     },
     clearScreen: function() {
       debugger;
@@ -73,7 +75,7 @@ sap.ui.define([
       var group = this.getView().getModel("local").getProperty("/groupSelected");
       group.GroupCode = "";
       group.GroupId = "";
-      //this.getView().getModel("local").setProperty("/groupSelected", group);
+      this.getView().getModel("local").setProperty("/groupSelected", group);
       this.getView().byId("__component0---Customers--Customer--idgpCode").clearSelection();//setSelectedKeys(null);//;//setValue("");
       customerModel.CustomerCode = "";
       customerModel.Name = "";
@@ -82,7 +84,7 @@ sap.ui.define([
       customerModel.MobilePhone = "";
       customerModel.EmailId = "";
       customerModel.Status = "";
-      this.getView().getModel("local").setProperty("/groupSelected", group);
+      customerModel.Groups = [];
       viewModel.setProperty("/codeEnabled", true);
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
@@ -149,9 +151,14 @@ sap.ui.define([
       }
       if (customerJson && customerJson.length > 0) {
         var found = getcustomerDetail(code);
+        if (found.length > 0) {
+          var id = found[0].id;
+        }else{
+          var id = "";
+        }
       }
 
-      return found[0].id;
+      return id;
 
     },
 		customerCheck: function(code) {
@@ -176,6 +183,7 @@ sap.ui.define([
           oCustomer.Name = found[0].Name;
           oCustomer.City = found[0].City;
           oCustomer.MobilePhone = found[0].MobilePhone;
+          oCustomer.Groups = found[0].Groups;
           oCustomer.EmailId = found[0].EmailId;
           if (found[0].Status === "B") {
             viewModel.setProperty("/blockStatus", true);
@@ -193,7 +201,8 @@ sap.ui.define([
                 "/RetailerGroups", "GET", oFilter, {}, this)
               .then(function(oData) {
                 debugger;
-                var groups = that.getView().getModel("local").getProperty("/groupSelected");
+              //  that.getView().getModel("local").setProperty("/Customer", oData.results[0]);
+               var groups = that.getView().getModel("local").getProperty("/groupSelected");
                 var groupModelJson = that.getView().getModel("groupModelCode").getData().results;
 
                 function getGroupDetail(groupId) {
@@ -222,10 +231,10 @@ sap.ui.define([
                 // MessageToast.show("Data could not be saved");
               });
           }
-
-            this.getView().getModel("local").setProperty("/Customer", oCustomer);
+          debugger;
+          this.getView().getModel("local").setProperty("/Customer", oCustomer);
             viewModel.setProperty("/buttonText", "Update");
-            this.update = "X";
+          //  this.update = "X";
             viewModel.setProperty("/deleteEnabled", true);
             viewModel.setProperty("/codeEnabled", false);
             return found[0].id;
@@ -241,7 +250,9 @@ sap.ui.define([
 			var dataModel = this.getView().getModel("dataModel");
 			var viewModel = this.getView().getModel("viewModel");
 			var customerData = this.getView().getModel("local").getProperty("/Customer");
-			var groupId = this.getView().getModel("local").getProperty("/groupSelected/GroupId");
+			//var groupId = this.getView().getModel("local").getProperty("/groupSelected/GroupId");
+      var groupId = this.getView().getModel("local").getProperty("/groupSelected");
+      //customerData.Groups = groupId;
 			if (customerData.CustomerCode !== "") {
 
 				var oSaveData = JSON.parse(JSON.stringify(customerData));
@@ -271,7 +282,7 @@ sap.ui.define([
 				if (id) {
           var oFilter =  new sap.ui.model.Filter("RetailerId",
             sap.ui.model.FilterOperator.EQ, id);
-        if (changeCheck === 'false') {
+      //  if (changeCheck === 'false') {
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers('" + id + "')", "PUT", {},
 							oSaveData, this)
@@ -283,12 +294,13 @@ sap.ui.define([
 						}).catch(function(oError) {
 							MessageToast.show("Data could not be saved");
 						});
-          }
+        //  }
 					if (changeCheck === 'true') {
 						debugger;
 						var that = this;
 						this.updateGroup(oFilter);
 						for (var i = 0; i < groupId.length; i++) {
+              debugger;
 							var status = that.updateGroupDetails(groupId, i, id);
 						}
 					}
@@ -310,17 +322,22 @@ sap.ui.define([
 							"/Customers", "POST", {}, oSaveData, this)
 						.then(function(oData) {
 							debugger;
-							var customerId = oData.id;
+
+            //  that.UpdateLocalModel(oData);
+              that.clearScreen();
+					/*		var customerId = oData.id;
 							for (var i = 0; i < groupId.length; i++) {
 								debugger;
 								var status = that.updateGroupDetails(groupId, i, customerId);
-							}
+							} */
+
 							MessageToast.show("Data saved sucessfully");
-							// that._onRouteMatched();
+							 that._onRouteMatched();
 						})
 						.catch(function(oError) {
 							MessageToast.show("Data could not be saved");
-							that._onRouteMatched();
+              that.clearScreen();
+							//that._onRouteMatched();
 						});
 
         //Create new user
@@ -363,7 +380,8 @@ sap.ui.define([
             retailerGroup.CreatedBy = "";
             retailerGroup.CreatedOn = "";
             MessageToast.show("Data saved successfully");
-            that.UpdateLocalGroupModel();
+            //that.UpdateLocalGroupModel();
+            that.UpdateLocalModel();
           })
           .catch(function(oError) {
             retailerGroup.RetailerId = "";
@@ -412,6 +430,7 @@ sap.ui.define([
               "/Customers('" + id + "')", "DELETE", {}, {}, this)
             .then(function(oData) {
               debugger;
+
               var groupId = that.getView().getModel("local").getProperty("/groupSelected");
               //again update all group codes
               for (var i = 0; i < groupId.length; i++) {
@@ -425,6 +444,7 @@ sap.ui.define([
                     debugger
                   })
               }
+              that.clearScreen();
               that._onRouteMatched();
               MessageToast.show("Entry Deleted Sucessfully");
             })
@@ -458,8 +478,8 @@ sap.ui.define([
         sap.m.MessageBox.error("Changing User Status failed");
       });
     },
-    UpdateLocalModel:function(){
-
+    UpdateLocalModel:function(data){
+      debugger;
         var that = this;
         var code = this.getView().byId("__component0---Customers--Customer--idCode").getValue();
         var customerJson = this.getView().getModel("customerModelInfo").getData().results;
@@ -476,12 +496,14 @@ sap.ui.define([
             var viewModel = this.getView().getModel("viewModel");
             var status = viewModel.getProperty("/blockStatus");
             var oCustomer = this.getView().getModel("local").getProperty("/Customer");
+
              customerModelInfo[0].CustomerCode = oCustomer.CustomerCode;
              customerModelInfo[0].Address = oCustomer.Address;
              customerModelInfo[0].Name = oCustomer.Name;
              customerModelInfo[0].City = oCustomer.City ;
              customerModelInfo[0].MobilePhone = oCustomer.MobilePhone;
              customerModelInfo[0].EmailId = oCustomer.EmailId;
+             customerModelInfo[0].Groups = oCustomer.Groups;
              var group = this.getView().getModel("local").getProperty("/groupSelected");
 
              debugger;
@@ -490,15 +512,37 @@ sap.ui.define([
              } else if (status === false) {
                customerModelInfo[0].Status = "U" ;
              }
-            }
-          }
-        },
+           }/*else{
+             var viewModel = this.getView().getModel("viewModel");
+             var status = viewModel.getProperty("/blockStatus");
+             var oCustomer = this.getView().getModel("local").getProperty("/Customer");
+              customerModelInfo[0] = data;
+            //  customerModelInfo[0] = customerJson[0];
+              customerModelInfo[0].CustomerCode = oCustomer.CustomerCode;
+              customerModelInfo[0].Address = oCustomer.Address;
+              customerModelInfo[0].Name = oCustomer.Name;
+              customerModelInfo[0].City = oCustomer.City ;
+              customerModelInfo[0].MobilePhone = oCustomer.MobilePhone;
+              customerModelInfo[0].EmailId = oCustomer.EmailId;
+              customerModelInfo[0].Groups = oCustomer.Groups;
+              var group = this.getView().getModel("local").getProperty("/groupSelected");
 
-        UpdateLocalGroupModel:function(){
+              debugger;
+              if (status === true) {
+                customerModelInfo[0].Status = "B" ;
+              } else if (status === false) {
+                customerModelInfo[0].Status = "U" ;
+              }
+
+           }*/
+          }
+        }
+
+      /*  UpdateLocalGroupModel:function(){
 
           var group = this.getView().getModel("local").getProperty("/groupSelected");
 
-        }
+        } */
 
 
   });

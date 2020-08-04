@@ -182,6 +182,7 @@
 		"MobilePhone":"",
 		"EmailId":"",
 		"Status":"",
+		"Groups":[],
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",
@@ -211,8 +212,7 @@
 		"CreatedOn": "",
 		"ChangedBy": "",
 		"ChangedOn": ""
-	},
-	"ProdWeights": [],
+	},	
 	"ProdWeight":{
 		"ProductId": "null",
     "PairSize": 0,

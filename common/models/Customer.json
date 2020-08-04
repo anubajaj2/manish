@@ -27,6 +27,9 @@
       "type": "string",
       "required": true
     },
+    "Groups":{
+      "type": "object"
+    },
     "EmailId": {
       "type": "string",
       "required": false
