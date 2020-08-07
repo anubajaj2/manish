@@ -202,6 +202,41 @@ sap.ui.define([
 						that.getView().byId("idPName").focus();
 					}
 				});
+				this.getView().byId("idPName").focus();
+			},
+			onEnterRemark:function(){
+				this.getView().byId("idCat").focus();
+			},
+			onMaking:function(){
+				this.getView().byId("idCat").focus();
+			},
+			onWastage:function(){
+				this.getView().byId("idMkg").focus();
+			},
+			onTunch:function(){
+				this.getView().byId("idWastage").focus();
+			},
+			onGender:function(){
+				this.getView().byId("idTunch").focus();
+			},      
+			onKarat:function(){
+				this.getView().byId("idGender").focus();
+			},
+			onSD:function(){
+				this.getView().byId("idCat").focus();
+			},
+			onPairType:function(){
+				this.getView().byId("idKarat").focus();
+			},
+			onCat:function(){
+				this.getView().byId("idSubCat").focus();
+			},
+			onSubCat:function(){
+				this.getView().byId("idType").focus();
+			},
+			onType:function(){
+				this.getView().byId("idPairType").focus();
 			}
+
 	});
 });

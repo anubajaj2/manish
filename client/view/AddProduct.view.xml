@@ -25,21 +25,21 @@
 					<Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange"
 								 valueHelpOnly="true"	showValueHelp="true" valueHelpRequest="onProductValueHelp"/>
 				  <Label text="Remarks"/>
-					<Input id="idPName" value="{local>/Product/Name}"/>
+					<Input id="idPName" value="{local>/Product/Name}" submit="onEnterRemark"/>
 					<Label text="Category"/>
-					<Select id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}">
+					<Select id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}" change="onCat">
 						<items>
 							<core:Item text="{local>Category}" key="{local>Category}"/>
 						</items>
 					</Select>
 					<Label text="SubCategory"/>
-					<Select id="idSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}">
+					<Select id="idSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}" change="onSubCat">
 						<items>
 							<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 						</items>
 					</Select>
 					<Label text="Type/Pair"/>
-					<Select  id="idType" items="{local>/cat/type}" selectedKey="{local>/Product/Type}">
+					<Select  id="idType" items="{local>/cat/type}" selectedKey="{local>/Product/Type}" change="onType">
 						<items>
 							<core:Item text="{local>Type}" key="{local>Key}"/>
 						</items>
@@ -49,7 +49,7 @@
 					</Select>
 
 					<!-- <Label text="Pair Type"/> -->
-					<Select width="50%"  id="idPairType" selectedKey="{local>/Product/PairType}">
+					<Select width="50%"  id="idPairType" selectedKey="{local>/Product/PairType}" change="onPairType">
 						<items>
 							<core:Item text="0" key="0"/>
 							<core:Item text="1" key="1"/>
@@ -69,10 +69,10 @@
 					</Select>
 
 					<Label visible="false" text="Short Description"/>
-					<Input visible="false" id="idSD" value="{local>/Product/ShortDescription}" maxLength="60"/>
+					<Input visible="false" id="idSD" value="{local>/Product/ShortDescription}" maxLength="60" submit="onSD"/>
 
 					<Label visible="true" text="Kt/Gen"/>
-					<Select visible="true" id="idKarat" selectedKey="{local>/Product/Karat}">
+					<Select visible="true" id="idKarat" selectedKey="{local>/Product/Karat}" change="onKarat">
 						<items>
 							<core:Item text="22 Caret" key="222"/>
 							<core:Item text="18 Caret" key="18"/>
@@ -84,7 +84,7 @@
 					</Select>
 
 					<!-- <Label text="Gender"/> -->
-					<Select id="idGender" selectedKey="{local>/Product/Gender}">
+					<Select id="idGender" selectedKey="{local>/Product/Gender}" change="onGender">
 						<items>
 							<core:Item text="Male" key="M"/>
 							<core:Item text="Female" key="F"/>
@@ -95,13 +95,13 @@
 					</Select>
 
 					<Label text="Tunch"/>
-					<Input id="idTunch" value="{local>/Product/Tunch}"/>
+					<Input id="idTunch" value="{local>/Product/Tunch}" submit="onTunch"/>
 
 					<Label text="Wastage"/>
-					<Input id="idWastage" value="{local>/Product/Wastage}"/>
+					<Input id="idWastage" value="{local>/Product/Wastage}" submit="onWastage"/>
 
 					<Label text="Making"/>
-					<Input id="idMkg" value="{local>/Product/Making}"/>
+					<Input id="idMkg" value="{local>/Product/Making}" submit="onMaking"/>
 
 				</f:content>
 			</f:SimpleForm>

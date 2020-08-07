@@ -78,17 +78,17 @@
 					<items>
 						<ColumnListItem>
 							<cells>
-								<Input value="{ path: 'local>GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" name="GrossWeight"
-									liveChange="onChange"></Input>
-								<anubhav:InputFocus value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
+								<Input id="td1" value="{ path: 'local>GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" name="GrossWeight"
+									liveChange="onChange" submit="ontd1"></Input>
+								<Input id="td2" value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
 										   showValueHelp="true"  name="LessWeight" valueHelpRequest="onLessPopup" focus="onFocus"
 											 valueHelpOnly="true"
-									></anubhav:InputFocus>
-								<Input value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number"></Input>
-								<Input value="{local>Quantity}" name="Quantity"></Input>
-								<Input value="{local>NetWeight}" class="highLightText" enabled="false"></Input>
-								<Input value="{local>Fine}" class="highLightText" enabled="false"></Input>
-								<Input value="{local>Amount}" class="highLightText" enabled="false"></Input>
+									></Input>
+								<Input  value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number" ></Input>
+								<Input id="td3" value="{local>Quantity}" name="Quantity"></Input>
+								<Input id="td4" value="{local>NetWeight}" class="highLightText" enabled="false"></Input>
+								<Input id="td5" value="{local>Fine}" class="highLightText" enabled="false"></Input>
+								<Input id="td6" value="{local>Amount}" class="highLightText" enabled="false"></Input>
 							</cells>
 						</ColumnListItem>
 					</items>

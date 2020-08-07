@@ -25,6 +25,7 @@ Fragment, MessageBox) {
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("AddProduct").attachMatched(this._onRouteMatched, this);
+
 		},
 		_onRouteMatched : function(){
 			 var that = this;
@@ -228,7 +229,175 @@ Fragment, MessageBox) {
 			ProdWeights.push(props);
 			oModel.setProperty("/ProdWeights", ProdWeights);
 			this.getView().getModel("local").setProperty("/checkChange", true);
+			this.getView().byId("td1").focus();
+			this.getView().byId("__component0---Camera--td1").focus();
+
+      this.add = 'X';
+
+			var oTable = this.getView().byId("idTab");
+			var that = this;
+			oTable.addEventDelegate({
+				onAfterRendering : function(oEvent) {
+						that.setupTabHandling(oTable);
+				}
+			}, oTable);
 		},
+		setupTabHandling : function(oTable) {
+		//oTable.addEventDelegate({
+		//	onAfterRendering : function(oEvent) {
+				var oTableID = oTable.getId();
+				var oRows = this.getView().byId(oTableID).getItems()
+				var noOfoRows = oRows.length;
+				var lastItemRow = this.getView().byId(oTableID).getItems()[noOfoRows-1];
+        var cells = lastItemRow.getAggregation("cells");
+				//var oRows = this.getRows();
+				var that = this;
+				if (this.add === 'X') {
+					cells[0].focus();
+
+					// jump to new row firstInput
+				//	thisRow = oRows.indexOf(oRows.filter(function(entry) {
+					//	return entry.getId() === oRow.getId();
+					//})[0]);
+				}
+		/*		$("#" + oTableID).focusin(function() {
+					// remember current focused cell
+					jQuery.sap.delayedCall(100, null, function() {
+						var oBody = $('#' + oTableID).find('tbody');
+						// find the focused input field
+						var oField = oBody.find('.sapMInputFocused')[0];
+						if (oField) {
+							// store ID of focused cell
+							that._FieldID = oField.id;
+						}
+					});
+				}); */
+
+		/*		var oBody = $('#' + oTableID).find('tbody');
+				// find the focused input field
+				var oField = oBody.find('.sapMInputFocused')[0];
+				if (oField) {
+					// store ID of focused cell
+					this._FieldID = oField.id;
+				}
+
+				$('#' + oTableID).on('keyup', function(e) {
+var cellID = cells[0].getId();
+					var oSelectedField = sap.ui.getCore().byId(that._FieldID);
+				//	var oRow = oSelectedField.getParent();
+				//	var oCells = oRow.getCells();
+					var aInputs = []; // all input fields per row
+					var firstInput = 0; // first input field in row
+					var lastInput = 0; // last input field in row
+
+					// get index of first and last input fields of table row
+					for (var i = 0; i < oCells.length; i++) {
+						if (oCells[i]._$input) {
+							aInputs.push(i);
+							if (!firstInput) {
+								firstInput = i;
+							}
+							lastInput = i;
+						}
+					} */
+
+					var oTargetCell, thisInput, thisRow, targetIndex;
+
+					// on TAB press - navigate one field forward
+				/*	if (e.which == 13 && !e.shiftKey) {
+						// get index of currently focused field
+						thisInput = oCells.indexOf(oCells.filter(function(entry) {
+							return entry.getId() === that._FieldID;
+						})[0]);
+
+						// is field last input in row?
+						if (thisInput === lastInput) {
+							// jump to next row
+							thisRow = oRows.indexOf(oRows.filter(function(entry) {
+								return entry.getId() === oRow.getId();
+							})[0]);
+
+							// is row last visible row on screen?
+							if (thisRow === oTable.getRows().length - 1) {
+								// last visible row - scroll one row down and keep focus
+								oTable._scrollNext();
+								jQuery.sap.delayedCall(100, null, function() {
+									var oTargetCell = oRows[thisRow].getCells()[firstInput];
+									oTargetCell.function () {
+
+									}ocus();
+								});
+							} else {
+								// not last visible row - set focus in next row
+								oTargetCell = oRows[thisRow + 1].getCells()[firstInput];
+								oTargetCell.focus();
+							}
+
+						} else {
+							// no row jump - focus next input cell in this row
+							targetIndex = 0;
+							for (i = 0; i < aInputs.length; i++) {
+								if (aInputs[i] === thisInput) {
+									// next entry is target cell
+									targetIndex = aInputs[i + 1];
+								}
+							}
+							oTargetCell = oRow.getCells()[targetIndex];
+							oTargetCell.focus();
+						}
+					}
+					// On SHIFT + TAB press - navigate one field backward
+					if (e.which == 13 && e.shiftKey) {
+						// get index of currently focused field
+						thisInput = oCells.indexOf(oCells.filter(function(entry) {
+							return entry.getId() === that._FieldID;
+						})[0]);
+
+						// is field first input in row?
+						if (thisInput === firstInput) {
+							// jump to previous row
+							thisRow = oRows.indexOf(oRows.filter(function(entry) {
+								return entry.getId() === oRow.getId();
+							})[0]);
+
+							// is row first visible row on screen?
+							if (thisRow === 0) {
+								// first visible row - scroll one row up and keep focus
+								oTable._scrollPrevious();
+								jQuery.sap.delayedCall(100, null, function() {
+									var oTargetCell = oRows[thisRow].getCells()[lastInput];
+									oTargetCell.focus();
+								});
+							} else {
+								// not last visible row - set focus in previous row
+								oTargetCell = oRows[thisRow - 1].getCells()[lastInput];
+								oTargetCell.focus();
+							}
+
+						} else {
+							// no row jump - focus previous input cell in this row
+							targetIndex = 0;
+							for (i = 0; i < aInputs.length; i++) {
+								if (aInputs[i] === thisInput) {
+									// next entry is target cell
+									targetIndex = aInputs[i - 1];
+								}
+							}
+							oTargetCell = oRow.getCells()[targetIndex];
+							oTargetCell.focus();
+						} */
+				//	}
+
+			//	});
+		//	}
+	//	}, oTable);
+	},
+	ontd1:function(){
+		//this.getView().byId("td2").focus();
+		//this.setupTabHandling(oTable);
+	},
+
+
 		weightPopup: null,
 		oModelStone : {},
 		itemPath: "",
