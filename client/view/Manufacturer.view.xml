@@ -34,38 +34,45 @@
 				      singleContainerFullSize="false">
 				      <f:content>
 				        <Label text="Code" required = "true"/>
-				        <Input id="idCode" value="{local>/Manufacturer/CustomerCode}" submit="onEnter"
-				        liveChange="onLiveChange"
-				        showValueHelp="true" valueHelpRequest="onCustomerValueHelp"/>
+				        <ComboBox id="idCode" value="{local>/Manufacturer/CustomerCode}"
+				          change="CodeCheck" items="{manufactureModelInfo>/results}"
+				          valueState="{dataModel>/groupCodeState}"
+				          valueStateText="Code cannot be blank"
+				          enabled="{viewModel>/codeEnabled}">
+				          <core:Item key="{manufactureModelInfo>id}"
+				          text="{manufactureModelInfo>CustomerCode}" />
+				        </ComboBox>
 				        <Label text="Name"/>
-				        <Input id="idName" value="{local>/Manufacturer/Name}"/>
+				        <Input id="idName" value="{local>/Manufacturer/Name}" submit="onNameEnt"/>
 				        <Label text="Address"/>
-				        <Input id="idAddress" value="{local>/Manufacturer/Address}"/>
+				        <Input id="idAddress" value="{local>/Manufacturer/Address}" submit="onAddrEnt"/>
 				        <Label text="City"/>
-				        <Input id="idCity" value="{local>/Manufacturer/City}"/>
+				        <Input id="idCity" value="{local>/Manufacturer/City}" submit="onCityEnt"/>
 				        <Label text="Contact" required="true"/>
-				        <Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}"/>
+				        <Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}" submit="onContEnt"/>
 				        <Label text="Group"/>
 				        <MultiComboBox id="idgpCode" selectedKeys="{local>/Manufacturer/Groups}"
-				          items="{groupModelCode>/results}">
+				          items="{groupModelCode>/results}"
+									selectionFinish="onSelectionFinish">
 				          <core:Item key="{groupModelCode>id}"
 				          text="{groupModelCode>groupCode}" />
 				        </MultiComboBox>
 				        <Label text="Display Categories"/>
 				        <MultiComboBox id="idCatCode" selectedKeys="{local>/Manufacturer/Categories}"
-				          items="{local>/cat/subCatergory}">
+				          items="{local>/cat/subCatergory}"
+									selectionFinish="onSelectionFinish1">
 				          <core:Item key="{local>id}"
 				          text="{local>SubCategory}" />
 				        </MultiComboBox>
 				        <Label text="Email"/>
-				        <Input id="idEmail" type="Email" change="checkEmail"
+				        <Input id="idEmail" type="Email" change="checkEmail" submit="onEmailEnt"
 				          valueState="{dataModel>/emailState}"
 				          valueStateText="Invalid Email id"
 				         value="{
 									path : 'local>/Manufacturer/EmailId'
 								      }"/>
 				        <Label text="Pattern"/>
-				        <Input id="idPattern"
+				        <Input id="idPattern" submit="onPatternEnt"
 				         value="{
 									path : 'local>/Manufacturer/Pattern'
 								      }"/>
