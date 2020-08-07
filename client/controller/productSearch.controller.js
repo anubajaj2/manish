@@ -153,6 +153,9 @@ sap.ui.define([
 
 		},
 		loadedWeights: [],
+		closeWeights: function(){
+			this.oDialog.close();
+		},
 		onAddToCart: function(oEvent){
 			var oBtn = oEvent.getSource();
 			//get binding path of parent list item
@@ -172,7 +175,7 @@ sap.ui.define([
 						title: "Select weights",
 						multiSelect: true,
 						confirm: that.selectedWeights.bind(that),
-						close: that.closeWeights.bind(that)
+						close: that.closeWeights
 					});
 					that.getView().addDependent(that.oDialog);
 					that.oDialog.setModel(that._oLocalModel);

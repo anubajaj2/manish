@@ -27,29 +27,29 @@
 				  <Label text="Remarks"/>
 					<Input id="idPName" value="{local>/Product/Name}" submit="onEnterRemark"/>
 					<Label text="Category"/>
-					<Select id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}" change="onCat">
+					<ComboBox id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}" change="onCat">
 						<items>
 							<core:Item text="{local>Category}" key="{local>Category}"/>
 						</items>
-					</Select>
+					</ComboBox>
 					<Label text="SubCategory"/>
-					<Select id="idSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}" change="onSubCat">
+					<ComboBox id="idSubCat"  submit="onEnterSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}" change="onSubCat">
 						<items>
 							<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 						</items>
-					</Select>
+					</ComboBox>
 					<Label text="Type/Pair"/>
-					<Select  id="idType" items="{local>/cat/type}" selectedKey="{local>/Product/Type}" change="onType">
+					<ComboBox  id="idType"  items="{local>/cat/type}" selectedKey="{local>/Product/Type}" change="onType">
 						<items>
 							<core:Item text="{local>Type}" key="{local>Key}"/>
 						</items>
 						<layoutData>
 							<l:GridData span="XL12 L12 M4 S8" />
 						</layoutData>
-					</Select>
+					</ComboBox>
 
 					<!-- <Label text="Pair Type"/> -->
-					<Select width="50%"  id="idPairType" selectedKey="{local>/Product/PairType}" change="onPairType">
+					<Select width="50%" id="idPairType" selectedKey="{local>/Product/PairType}" change="onEnterPairType">
 						<items>
 							<core:Item text="0" key="0"/>
 							<core:Item text="1" key="1"/>

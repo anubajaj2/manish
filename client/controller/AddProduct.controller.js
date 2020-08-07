@@ -61,8 +61,8 @@ sap.ui.define([
 					"id":"",
 					"ProductId": "",
 					"Name": "",
-					"Category": "",
-					"SubCategory": "",
+					"Category": this.getView().byId("idCat").getSelectedKey(),
+					"SubCategory": this.getView().byId("idSubCat").getSelectedKey(),
 					"Type": "S",
 					"PairType": 2,
 					"ShortDescription": "null",
@@ -207,6 +207,18 @@ sap.ui.define([
 			onEnterRemark:function(){
 				this.getView().byId("idCat").focus();
 			},
+			onEnterCat:function(){
+				this.getView().byId("idSubCat").focus();
+			},
+			onEnterSubCat:function(){
+				this.getView().byId("idType").focus();
+			},
+			onEnterType:function(){
+				this.getView().byId("idPairType").focus();
+			},
+			onEnterPairType:function(){
+				this.getView().byId("idSD").focus();
+			},
 			onMaking:function(){
 				this.getView().byId("idCat").focus();
 			},
@@ -218,7 +230,7 @@ sap.ui.define([
 			},
 			onGender:function(){
 				this.getView().byId("idTunch").focus();
-			},      
+			},
 			onKarat:function(){
 				this.getView().byId("idGender").focus();
 			},
