@@ -12,7 +12,7 @@
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
-			<List id="myProducts">
+			<List id="myProducts" growingThreshold="10" growing="true">
 			</List>
 		</content>
 	</Page>

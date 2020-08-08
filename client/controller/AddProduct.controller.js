@@ -10,6 +10,8 @@ sap.ui.define([
 
 	return BaseController.extend("sap.ui.demo.cart.controller.AddProduct", {
 		onInit: function () {
+
+
 			this._oRouter = UIComponent.getRouterFor(this);
 
 			var oC = new JSONModel({
@@ -19,7 +21,6 @@ sap.ui.define([
 				this.a = [];
 				this._oRouter.getRoute("AddProduct").attachMatched(this._routePatternMatched, this);
 				this._oLocalModel = this.getOwnerComponent().getModel("local");
-
 		},
 		onPopUpSearch: function(oEvent) {
 			var searchStr = oEvent.getParameter("value");
@@ -50,6 +51,9 @@ sap.ui.define([
 				//remove categories not set for Manufacturers
 				this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
 				//pattern to set
+				if(this.getOwnerComponent().getModel('local').getProperty('/Authorization')===""){
+					this.logOutApp();
+				}
 				this.lastTwoDisplay();
 				this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
 				this.setAvailableProductCode();

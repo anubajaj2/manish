@@ -20,11 +20,13 @@ sap.ui.define([
 	};
 	var mProdState = {
 		"A": "Success",
-		"N": "Error"
+		"N": "Error",
+		"R": "Error"
 	};
 	var mProdStateT = {
 		"A": "Approved",
-		"N": "Not Approved"
+		"N": "Not Approved",
+		"R": "Rejected"
 	};
 	var mProdStateC = {
 		"A": "greenClass",

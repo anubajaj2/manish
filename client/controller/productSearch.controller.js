@@ -66,13 +66,17 @@ sap.ui.define([
 			 var sImage = sPath + "/ToPhotos/0/Content" ;
 			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
 			 if(!this.allImageURLs[sImage]){
-				 	this.allImageURLs[sImage] =  sUrl;
+					this.allImageURLs[sImage] =  sUrl;
 			 }
-			 var sImage = sPath + "/ToPhotos/1/Content" ;
-			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-			 if(!this.allImageURLs[sImage]){
-				 	this.allImageURLs[sImage] =  sUrl;
+
+			 if(picsSize.length > 1){
+				 var sImage = sPath + "/ToPhotos/1/Content" ;
+				 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+				 if(!this.allImageURLs[sImage]){
+					 	this.allImageURLs[sImage] =  sUrl;
+				 }
 			 }
+
 			 if(picsSize.length > 2){
 				 var sImage = sPath + "/ToPhotos/2/Content" ;
   			 var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
@@ -99,9 +103,11 @@ sap.ui.define([
 			}
 		},
 		onImageOut: function(oEvent){
-			var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
-			var sImage = sPath + "/ToPhotos/1/Content" ;
-			oEvent.getSource().setSrc(this.allImageURLs[sImage]);
+				var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+				var sImage = sPath + "/ToPhotos/1/Content" ;
+				if(this.allImageURLs[sImage]){
+					oEvent.getSource().setSrc(this.allImageURLs[sImage]);
+				}
 		},
 		onImageIn: function(oEvent){
 				var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();

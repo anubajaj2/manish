@@ -8,17 +8,16 @@
 	</headerContent>
 		<List
 			id="idListPA"
-			items="{local>/list/Products}"
 			mode="MultiSelect"
 			includeItemInSelection="true"
-			itemPress="onItemPress">
-
-			<StandardListItem
+			growingThreshold="10"
+			growing="true">
+			<!-- <StandardListItem
 				type="Navigation"
 				title="{local>Name}"
 				description="{local>Tunch}"
 				icon="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
-				info="{local>Quantity}"/>
+				info="{local>Quantity}"/> -->
 		</List>
 
 		<footer>

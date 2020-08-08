@@ -29,7 +29,7 @@
 						}
 					}"
 					growing="true"
-					growingThreshold="9"
+					growingThreshold="12"
 					itemPress="onImageOpen">
 
 				<f:headerToolbar>
