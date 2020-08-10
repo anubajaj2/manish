@@ -33,9 +33,12 @@ sap.ui.define([
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
       viewModel.setProperty("/blockStatus", false);
+      viewModel.setProperty("/emailStatus", true);
+      viewModel.setProperty("/PatternStatus", true);
       var odataModel = new JSONModel({
         "groupCodeState": "None",
-        "emailState": "None"
+        "emailState": "None",
+        "PatternState": "None"
       });
       this.setModel(odataModel, "dataModel");
       debugger;
@@ -87,8 +90,23 @@ sap.ui.define([
       viewModel.setProperty("/blockStatus", false);
       dataModel.setProperty("/groupCodeState", "None");
       dataModel.setProperty("/emailState", "None");
+      dataModel.setProperty("/PatternState", "None");
+
       this.getView().getModel("local").setProperty("/Manufacturer", manufacturerModel);
     },
+
+    CheckdataExists: function(data) {
+      var that = this;
+      var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
+
+      function CheckdataExists(data) {
+        return manufacturerJson.filter(
+          function(exists) {
+            return data = "true";
+          });
+      }
+    },
+
     manufacturerCheck1: function(code) {
       var that = this;
       var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
@@ -177,10 +195,12 @@ sap.ui.define([
           viewModel.setProperty("/buttonText", "Update");
           viewModel.setProperty("/deleteEnabled", true);
           viewModel.setProperty("/codeEnabled", false);
+          viewModel.setProperty("/emailStatus", false);
+          viewModel.setProperty("/PatternStatus", false);
           return found[0].id;
         } else {
           // return false;
-        }
+        }t
       }
     },
     updateGroup: function(oFilter) {
@@ -227,9 +247,25 @@ sap.ui.define([
         if (oSaveData.City && oSaveData.City !== "") {
           oSaveData.City = oSaveData.City.toUpperCase();
         }
+        if (oSaveData.Pattern && oSaveData.Pattern !== "") {
+          //if (this.CheckdataExists(oSaveData.Pattern)  || ''){
+
+          //}
+
+          oSaveData.Pattern = oSaveData.Pattern.toUpperCase();
+          if (Formatter.noSpace(this.getView().byId("idPattern")) !== true){
+            return this.getView().byId("idPattern").setValueState("Error");
+          }
+        }
         if (oSaveData.EmailId && oSaveData.EmailId !== "") {
+          oSaveData.EmailId = oSaveData.EmailId.toLowerCase();
           if (Formatter.checkEmail(this.getView().byId("idEmail")) !== true){
             return this.getView().byId("idEmail").setValueState("Error");
+          }
+          if (Formatter.noSpace(this.getView().byId("idEmail")) !== true){
+              this.getView().byId("idEmail").valueStateText("No Space Allowed");
+          return  this.getView().byId("idEmail").setValueState("Error");
+
           }
         //  oSaveData.EmailId = oSaveData.EmailId.toUpperCase();
         }

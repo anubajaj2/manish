@@ -70,12 +70,16 @@
 				          valueStateText="Invalid Email id"
 				         value="{
 									path : 'local>/Manufacturer/EmailId'
-								      }"/>
+								      }"
+									enabled="{viewModel>/codeEnabled}"/>
 				        <Label text="Pattern"/>
 				        <Input id="idPattern" submit="onPatternEnt"
+									valueState="{dataModel>/PatternState}"
+									valueStateText="No Space Allowed"
 				         value="{
 									path : 'local>/Manufacturer/Pattern'
-								      }"/>
+								      }"
+									enabled="{viewModel>/codeEnabled}"/>
 				        <Label text="Block"/>
 				        <Switch id="idBlock" type="AcceptReject"
 				          state="{viewModel>/blockStatus}"

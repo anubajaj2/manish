@@ -230,6 +230,22 @@ sap.ui.define([
  			return oCurrencyFormat.format(a,b);
  		},
 
+		noSpace: function(oInput) {
+			debugger;
+			if (oInput) {
+ 			var Pattern = oInput.getValue();
+ 			var regex = "[ \t]";
+ 			if (Pattern.match(regex)) {
+ 				oInput.setValueState("Error");
+ 				return false;
+ 			} else {
+ 				oInput.setValueState("None");
+ 				return true;
+ 			}
+ 		 }
+
+		},
+
  		checkEmail: function(oInput) {
  			debugger;
  			if (oInput) {
