@@ -260,19 +260,23 @@ sap.ui.define([
 
       oSaveData.Pattern = oSaveData.Pattern.toUpperCase();
       if (Formatter.noSpace(this.getView().byId("idPattern")) !== true){
-        return this.getView().byId("idPattern").setValueState("Error");
+        return { "status" : false, "error": "No Space Allowed"};
+        //return this.getView().byId("idPattern").setValueState("Error");
         }
       }
       if (oSaveData.EmailId && oSaveData.EmailId !== "") {
         oSaveData.EmailId = oSaveData.EmailId.toLowerCase();
         if (Formatter.checkEmail(this.getView().byId("idEmail")) !== true){
-          return this.getView().byId("idEmail").setValueState("Error");
+          return { "status" : false, "error": "InValid EmailId"};
+          //return this.getView().byId("idEmail").setValueState("Error");
         }
         if (Formatter.noSpace(this.getView().byId("idEmail")) !== true){
-        this.getView().byId("idEmail").setValueStateText("No Space Allowed");
-        return  this.getView().byId("idEmail").setValueState("Error");
+        return { "status" : false, "error": "No Space Allowed"};
+        //this.getView().byId("idEmail").setValueStateText("No Space Allowed");
+        //return  this.getView().byId("idEmail").setValueState("Error");
         }
       }
+      return { "status" : true, "error": ""};
     },
     ValidateDataCreation:function(oSaveData){
 
@@ -302,7 +306,11 @@ sap.ui.define([
         } else {
           oSaveData.Status = "U";
         }
-        this.ValidateManufacturerData(oSaveData);
+        var result = this.ValidateManufacturerData(oSaveData);
+        if (result.status === false) {
+          MessageBox.error(result.error);
+          return;
+        }
 
         var id = this.manufacturerCheck1(oSaveData.CustomerCode);
         if (id) {

@@ -3,10 +3,11 @@ sap.ui.define([
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
-  "sap/ui/demo/cart/model/formatter"
+  "sap/ui/demo/cart/model/formatter",
+  "sap/m/MessageBox"
 ],
    function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter) {
+  MessageToast, Formatter, MessageBox) {
   "use strict";
 	var customerId;
 	var changeCheck = 'false';
@@ -35,6 +36,7 @@ sap.ui.define([
       viewModel.setProperty("/buttonText", "Save");
       viewModel.setProperty("/deleteEnabled", false);
       viewModel.setProperty("/blockStatus", false);
+      viewModel.setProperty("/emailStatus", true);
       var odataModel = new JSONModel({
         "groupCodeState": "None",
         "emailState": "None"
@@ -64,7 +66,7 @@ sap.ui.define([
           MessageToast.show("cannot fetch the data");
         });
       //
-    //  this.clearScreen();
+      this.clearScreen();
     },
     clearScreen: function() {
       debugger;
@@ -101,11 +103,7 @@ sap.ui.define([
       var customerId = this.customerCheck(text);
       debugger;
       this.getView().byId("__component0---Customers--Customer--idName").focus();
-    //  $("#idCode").keydown(function(event) {
-      //  if (event.keyCode == 13) {
-        //  $('#idName').focus();
-        //}
-    //  });
+
     },
 		groupCodeCheck: function(oEvent) {
       debugger;
@@ -232,16 +230,63 @@ sap.ui.define([
               });
           }
           debugger;
-          this.getView().getModel("local").setProperty("/Customer", oCustomer);
+            this.getView().getModel("local").setProperty("/Customer", oCustomer);
             viewModel.setProperty("/buttonText", "Update");
-          //  this.update = "X";
             viewModel.setProperty("/deleteEnabled", true);
             viewModel.setProperty("/codeEnabled", false);
+            viewModel.setProperty("/emailStatus", false);
             return found[0].id;
         } else {
-          // return false;
         }
       }
+    },
+    CheckEmailExists: function(data) {
+      var that = this;
+      var CustomerJson = this.getView().getModel("customerModelInfo").getData().results;
+
+      function CheckdataExists(data) {
+        return CustomerJson.filter(
+          function(exists) {
+            return exists.EmailId === data;
+          });
+      }
+       var Exists = CheckdataExists(data);
+       if ( Exists.length > 0){
+         return true;
+       }
+     },
+
+    ValidateCustomerData:function(oSaveData){
+      oSaveData.CustomerCode = oSaveData.CustomerCode.toUpperCase();
+      if (oSaveData.Name && oSaveData.Name !== "") {
+        oSaveData.Name = oSaveData.Name.toUpperCase();
+      }
+      if (oSaveData.Address && oSaveData.Address !== "") {
+        oSaveData.Address = oSaveData.Address.toUpperCase();
+      }
+      if (oSaveData.City && oSaveData.City !== "") {
+        oSaveData.City = oSaveData.City.toUpperCase();
+      }
+      if (oSaveData.EmailId && oSaveData.EmailId !== "") {
+        if (Formatter.checkEmail(this.getView().byId("__component0---Customers--Customer--idEmail")) !== true){
+          //return this.getView().byId("__component0---Customers--Customer--idEmail").setValueState("Error");
+          return { "status" : false, "error": "InValid EmailId"};
+        }
+        if (Formatter.noSpace(this.getView().byId("__component0---Customers--Customer--idEmail")) !== true){
+        return { "status" : false, "error": "No Space Allowed"};
+        }
+      }
+
+      return { "status" : true, "error": ""};
+    },
+
+    ValidateDataCreation:function(oSaveData){
+
+      if (this.CheckEmailExists(oSaveData.EmailId) === true){
+        return { "status" : false, "error": "EmailId already used for supplier"};
+      }
+
+        return { "status" : true, "error": ""};
     },
 		saveData: function(oEvent) {
 			debugger;
@@ -256,27 +301,17 @@ sap.ui.define([
 			if (customerData.CustomerCode !== "") {
 
 				var oSaveData = JSON.parse(JSON.stringify(customerData));
-				oSaveData.CustomerCode = oSaveData.CustomerCode.toUpperCase();
-				if (oSaveData.Name && oSaveData.Name !== "") {
-					oSaveData.Name = oSaveData.Name.toUpperCase();
-				}
-				if (oSaveData.Address && oSaveData.Address !== "") {
-					oSaveData.Address = oSaveData.Address.toUpperCase();
-				}
-				if (oSaveData.City && oSaveData.City !== "") {
-					oSaveData.City = oSaveData.City.toUpperCase();
-				}
-				if (oSaveData.EmailId && oSaveData.EmailId !== "") {
-          if (Formatter.checkEmail(this.getView().byId("__component0---Customers--Customer--idEmail")) !== true){
-            return this.getView().byId("__component0---Customers--Customer--idEmail").setValueState("Error");
-          }
-			  }
 
 				if (viewModel.oData.blockStatus === true) {
 					oSaveData.Status = "B";
 				} else {
 					oSaveData.Status = "U";
 				}
+        var result = this.ValidateCustomerData(oSaveData);
+        if (result.status === false) {
+          MessageBox.error(result.error);
+          return;
+        }
 
 				var id = this.customerCheck1(oSaveData.CustomerCode);
 				if (id) {
@@ -317,7 +352,11 @@ sap.ui.define([
           }
 
 				} else {
-					// var manufactureId = [];
+          var result = this.ValidateDataCreation(oSaveData);
+          if (result.status === false) {
+    				MessageBox.error(result.error);
+    				return;
+    			}
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 							"/Customers", "POST", {}, oSaveData, this)
 						.then(function(oData) {

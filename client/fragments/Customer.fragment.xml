@@ -51,7 +51,8 @@
          value="{
 					path : 'local>/Customer/EmailId'
 				      }"
-              submit= "onEmailEnt"/>
+              submit= "onEmailEnt"
+              enabled="{viewModel>/codeEnabled}"/>
         <Label text="Block"/>
         <Switch id="idBlock" type="AcceptReject"
           state="{viewModel>/blockStatus}"
