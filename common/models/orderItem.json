@@ -23,7 +23,7 @@
     "Qty": {
       "type": "number",
       "required": false,
-      "default":0
+      "default":1
     },
     "QtyD": {
       "type": "number",
