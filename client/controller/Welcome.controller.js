@@ -28,7 +28,7 @@ sap.ui.define([
 			var aItems = oView.byId("gridList").getItems();
 			for (var i = 0; i < aItems.length; i++) {
 				if(aItems[i].hasStyleClass("colorGreen")){
-					aFilter.push(new Filter("Category",FilterOperator.EQ,
+					aFilter.push(new Filter("Category", FilterOperator.EQ ,
 					aItems[i].getContent()[0].getItems()[0].getItems()[0].getText()
 					));
 				}
@@ -37,7 +37,7 @@ sap.ui.define([
 			var aItems2 = this.getView().getParent().getParent().getBeginColumnPages()[0].getContent()[0].getContent()[0].getItems();
 			for (var i = 0; i < aItems2.length; i++) {
 				if(aItems2[i].hasStyleClass("colorGreen")){
-					aFilter.push(new Filter("SubCategory",FilterOperator.EQ,
+					aFilter.push(new Filter("SubCategory", FilterOperator.EQ ,
 					aItems2[i].getLabel()
 					));
 				}
@@ -54,7 +54,7 @@ sap.ui.define([
 			}
 			var oFilter = new Filter({
 				filters: aFilter,
-				and:false
+				and:true
 			});
 			//set filter
 			this.getOwnerComponent().getModel("local").setProperty("/searchFilter", oFilter);

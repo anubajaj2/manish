@@ -28,15 +28,22 @@ sap.ui.define([
 	return BaseController.extend("sap.ui.demo.cart.controller.productSearch", {
 		formatter : formatter,
 		onInit: function () {
+			debugger;
 			this._oRouter = this.getOwnerComponent().getRouter();
-			this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
+			//this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
+			this._oRouter.attachRoutePatternMatched(this._onRouteMatched,this);
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
 		},
 		_onRouteMatched: function(oEvent) {
 			//alert("yo");
 			//debugger;
 			//if previous route is search then only we search
-			var oList = this.getView().byId("gridList")
+			var oList = this.getView().byId("gridList");
+			oList.getBinding("items");
+			var a = this._oLocalModel.getProperty("/searchFilter");
+			oList.getBinding("items").filter(a);
+
+
 			// oList.bindItems({
 			// 	path : '/Products',
 			// 	parameters: {
