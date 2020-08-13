@@ -301,7 +301,8 @@ sap.ui.define([
 
         var oSaveData = JSON.parse(JSON.stringify(manufacturerData));
 
-        if (viewModel.oData.blockStatus === "true") {
+        if (viewModel.getProperty("/blockStatus") === true) {
+          debugger;
           oSaveData.Status = "B";
         } else {
           oSaveData.Status = "U";
@@ -435,6 +436,7 @@ sap.ui.define([
     onSwitch: function(oEvent) {
       debugger;
       var status = oEvent.getParameters("Selected").state;
+    
       return this.onSwitch = true;
     },
 
