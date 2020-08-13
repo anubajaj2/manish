@@ -57,6 +57,11 @@ sap.ui.define([
 
 			orFilter.push(new Filter(aFilter));
 			aFilter = [];
+
+			aFilter.push(new Filter("ProdStatus",FilterOperator.EQ, "A"));
+
+			orFilter.push(new Filter(aFilter));
+			aFilter = [];
 			//read the type
 			if(oView.byId("togPlain").getPressed()){
 				aFilter.push(new Filter("Type",FilterOperator.EQ,"P"));
