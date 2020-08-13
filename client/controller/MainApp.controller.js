@@ -1,6 +1,11 @@
 sap.ui.define([
-	"sap/ui/demo/cart/controller/BaseController"
-], function(Controller) {
+	"sap/ui/demo/cart/controller/BaseController",
+	"sap/m/MessageToast",
+	"sap/m/Dialog",
+	"sap/m/DialogType",
+	"sap/m/Button",
+	"sap/m/ButtonType",
+], function(Controller, MessageToast, Dialog, DialogType, Button, ButtonType) {
 	"use strict";
 
 	return Controller.extend("sap.ui.demo.cart.controller.MainApp", {
@@ -101,16 +106,91 @@ sap.ui.define([
 											if( oData.results[i].TechnicalId === data.userId ){
 												that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
 												that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
+												that2.getView().getModel("local").setProperty("/pwdChange",oData.results[i].pwdChange);
 												found = true;
 											}//else{
 												//debugger;
 												//that2.getView().getModel("local").setProperty("/Authorization", "");
 											//}
 										}
+
 										if(found === true){
-											that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
+											if(that2.getView().getModel("local").getProperty("/pwdChange")===true){
+													var oSubmitDialog = new Dialog({
+														type: DialogType.Message,
+														title: "Change Password",
+														content: [
+															new sap.m.Input("newPassword",{
+																placeholder: "New password",
+																type : "Password",
+																liveChange: function (oEvent) {
+																	var sText = oEvent.getParameter("value");
+																	oSubmitDialog.getBeginButton().setEnabled(sText.length > 5);
+																}.bind(this)
+															}),
+															new sap.m.Input("confirmPassword", {
+																placeholder: "Confirm Passoword",
+																type : "Password"
+															})
+														],
+														beginButton: new Button({
+															type: ButtonType.Emphasized,
+															text: "Submit",
+															enabled: false,
+															press: function (oEvent) {
+																var newPassword = oEvent.getSource().oParent.getContent()[0].getValue();
+																var confirmPassword = oEvent.getSource().oParent.getContent()[1].getValue();
+																if(newPassword === confirmPassword){
+																	$.post('/changePassword', {
+																		"emailId" : that.getView().byId("userid").getValue(),
+																		"newPassword" : newPassword,
+																		"Authorization" : that.getView().getModel("local").getProperty("/Authorization"),
+																	})
+																    .done(function(data, status){
+																			MessageToast.show("Password Changed Successfully");
+																			oSubmitDialog.close();
+																		})
+																		.fail(function(xhr, status, error) {
+
+																					MessageToast.show("Password Change Failed");
+																    });
+
+																}
+																else{
+																	MessageToast.show("Password didn't matched");
+																}
+																debugger;
+
+															}.bind(this)
+														}),
+														endButton: new Button({
+															text: "Cancel",
+															press: function () {
+																oSubmitDialog.close();
+															}.bind(this)
+														})
+													});
+												 	oSubmitDialog.open();
+											 }
+											else{
+												that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
+												debugger;
 											if(that2.getView().getModel("local").getProperty("/Role") === "Retailer"){
-												that2.oRouter.navTo("categories");
+												var Filter1 = new sap.ui.model.Filter("EmailId", "EQ", that2.getView().byId("userid").getValue());
+												var that3 = that2;
+												that2.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+												 "/Customers", "GET", {
+						 								filters: [Filter1]
+						 							}, {}, that2)
+													.then(function(oData) {
+														that3.getView().getModel("local").setProperty("/CustomerData",oData.results[0]);
+														if(that3.getView().getModel("local").getProperty("/CustomerData/Status")==="U"){
+															that2.oRouter.navTo("categories");
+														}
+														else{
+															MessageToast.show("User is blocked, Please contact admin");
+														}
+												});
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Admin"){
 												that2.oRouter.navTo("Group");
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Maker"){
@@ -122,10 +202,15 @@ sap.ui.define([
 						 							}, {}, that2)
 													.then(function(oData) {
 														that3.getView().getModel("local").setProperty("/ManufacturerData",oData.results[0]);
+														if(that3.getView().getModel("local").getProperty("/ManufacturerData/Status")==="U"){
+															that2.oRouter.navTo("AddProduct");
+														}
+														else{
+															MessageToast.show("User is blocked, Please contact admin");
+														}
 												});
-												that2.oRouter.navTo("AddProduct");
-
 											}
+										}
 										}else{
 											sap.m.MessageBox.error("The user is not authorized, Please Contact Mr. Amit");
 										}

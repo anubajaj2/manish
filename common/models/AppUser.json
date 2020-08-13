@@ -43,7 +43,7 @@
     },
     "pwdChange":{
       "type": "boolean",
-      "default": "null"
+      "default": true
     },
     "lastLogin":{
       "type": "date"
