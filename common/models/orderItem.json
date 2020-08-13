@@ -16,10 +16,14 @@
       "type": "string",
       "required": true
     },
+    "WeightId": {
+      "type": "string",
+      "required": true
+    },
     "Qty": {
       "type": "number",
       "required": false,
-      "default":0
+      "default":1
     },
     "QtyD": {
       "type": "number",
