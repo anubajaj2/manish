@@ -5,6 +5,7 @@ sap.ui.define([
 	"sap/ui/Device",
 	"sap/ui/demo/cart/model/formatter",
 	"sap/m/MessageBox",
+	"sap/m/MessageToast",
 	"sap/m/Link",
 	"sap/m/MessagePopover",
 	"sap/m/MessagePopoverItem",
@@ -16,6 +17,7 @@ sap.ui.define([
 	Device,
 	formatter,
 	MessageBox,
+	MessageToast,
 	Link,
 	MessagePopover,
 	MessagePopoverItem,
@@ -169,6 +171,36 @@ sap.ui.define([
 			if (sap.ui.getCore().getMessageManager().getMessageModel().getData().length > 0) {
 				MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
 			} else {
+				var orderHeaderPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderHeader");
+				var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
+				var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+				var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+				orderHeaderPayload.OrderNo = 2;
+				orderHeaderPayload.Date = Date();
+				orderHeaderPayload.ApprovedOn = Date();
+				orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
+				var that = this;
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							"/OrderHeaders", "POST", {}, orderHeaderPayload, that)
+							.then(function(data) {
+								// cartItems.forEach((item,index)=>{
+								// 	orderItemPayload.OrderNo = data.id;
+								// 	oderItemPayload.Material = item.ProductId;
+								// 	orderItemPayload.WeightId = item.WeightId;
+								// 	debugger;
+								// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								// 				"/OrderItems", "POST", {}, orderItemPayload, this)
+								// 				.then(function(data) {
+								// 					// MessageToast.show("Product Created Successfully");
+								// 				}).catch(function(oError) {
+								// 					// MessageBox.error("Error while saving product data");
+								// 				});
+								// });
+								MessageToast.show("Product Created Successfully");
+							}).catch(function(oError) {
+								MessageBox.error("Error while saving product data");
+							});
+
 				this.byId("wizardNavContainer").to(this.byId("summaryPage"));
 			}
 		},

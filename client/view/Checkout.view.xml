@@ -55,7 +55,7 @@
 										<CustomListItem>
 											<HBox alignContent="Stretch">
 												<HBox width="20%" height="50%">
-													<Image width="50%" height="70%" src="{local>ProductPicUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
+													<Image width="50%" height="70%" src="{local>PictureUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
 												</HBox>
 												<VBox>
 													<Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop" />

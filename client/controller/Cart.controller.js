@@ -76,7 +76,7 @@ sap.ui.define([
 		removeProductFromCart: function(productRec){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
 			var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-
+			debugger;
 			for (var j = 0; j < allWeightsSel.length; j++) {
 				if (allWeightsSel[j].id === productRec.WeightId ){
 					allWeightsSel.splice(j,1);
