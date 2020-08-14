@@ -55,16 +55,14 @@
       "required": false
     },
     "CreatedOn": {
-			"type": "date",
-			"default": "null"
+			"type": "date"
 		},
 		"CreatedBy": {
 			"type": "string",
 			"default": "null"
 		},
 		"ChangedOn": {
-			"type": "date",
-			"default": "null"
+			"type": "date"
 		},
 		"ChangedBy": {
 			"type": "string",
