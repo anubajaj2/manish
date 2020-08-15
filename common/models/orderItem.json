@@ -20,6 +20,11 @@
       "type": "string",
       "required": true
     },
+    "Status": {
+      "type": "string",
+      "required": false,
+      "default":"N"
+    },
     "Qty": {
       "type": "number",
       "required": false,
@@ -54,6 +59,16 @@
       "type": "string",
       "required": false
     },
+    "Extra1": {
+      "type": "string",
+      "required": false,
+      "default":""
+    },
+    "Extra2": {
+      "type": "string",
+      "required": false,
+      "default":""
+    },
     "CreatedOn": {
 			"type": "date"
 		},
@@ -78,6 +93,16 @@
       "type":"belongsTo",
       "model":"OrderHeader",
       "foreignKey":"OrderNo"
+    },
+    "ToMaterial":{
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Material"
+    },
+    "ToWeight":{
+      "type":"belongsTo",
+      "model":"ProdWeight",
+      "foreignKey":"WeightId"
     },
     "ToStock":{
       "type":"hasMany",

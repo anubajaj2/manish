@@ -162,6 +162,22 @@ sap.ui.define([
 				oWizard.invalidateStep(oStep);
 			}
 		},
+		saveOrderItem : function(id,cartItems,orderItemPayload,that,index=0){
+			// MessageToast.show("Successfully"+id);
+			if(index<cartItems.length){
+				orderItemPayload.OrderNo = id;
+				orderItemPayload.Material = cartItems[index].ProductId;
+				orderItemPayload.WeightId = cartItems[index].WeightId;
+				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+							"/OrderItems", "POST", {}, orderItemPayload, that)
+							.then(function(data) {
+								that.saveOrderItem(id,cartItems,orderItemPayload,that,++index);
+								MessageToast.show("Order items saved successfully");
+							}).catch(function(oError) {
+								MessageBox.error("Error while saving order Item data");
+							});
+			}
+		},
 
 		/**
 		 * Called from  Wizard on <code>complete</code>
@@ -172,31 +188,19 @@ sap.ui.define([
 				MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
 			} else {
 				var orderHeaderPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderHeader");
-				var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
 				var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-				var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-				orderHeaderPayload.OrderNo = 2;
+				var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
+				// var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+				orderHeaderPayload.OrderNo = this.getOwnerComponent().getModel("local").getProperty("/orderNo");
 				orderHeaderPayload.Date = Date();
 				orderHeaderPayload.ApprovedOn = Date();
 				orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
 				var that = this;
-				that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-							"/OrderHeaders", "POST", {}, orderHeaderPayload, that)
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+							"/OrderHeaders", "POST", {}, orderHeaderPayload, this)
 							.then(function(data) {
-								// cartItems.forEach((item,index)=>{
-								// 	orderItemPayload.OrderNo = data.id;
-								// 	oderItemPayload.Material = item.ProductId;
-								// 	orderItemPayload.WeightId = item.WeightId;
-								// 	debugger;
-								// 	this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-								// 				"/OrderItems", "POST", {}, orderItemPayload, this)
-								// 				.then(function(data) {
-								// 					// MessageToast.show("Product Created Successfully");
-								// 				}).catch(function(oError) {
-								// 					// MessageBox.error("Error while saving product data");
-								// 				});
-								// });
-								MessageToast.show("Product Created Successfully");
+								that.saveOrderItem(data.id,cartItems,orderItemPayload,that);
+								// MessageToast.show("Product Created Successfully");
 							}).catch(function(oError) {
 								MessageBox.error("Error while saving product data");
 							});
@@ -204,6 +208,7 @@ sap.ui.define([
 				this.byId("wizardNavContainer").to(this.byId("summaryPage"));
 			}
 		},
+
 		restartOrder: function(){
 			this.cleanApp();
 			this._oRouter.navTo("categories");

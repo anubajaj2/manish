@@ -76,7 +76,6 @@ sap.ui.define([
 		removeProductFromCart: function(productRec){
 			var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
 			var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-			debugger;
 			for (var j = 0; j < allWeightsSel.length; j++) {
 				if (allWeightsSel[j].id === productRec.WeightId ){
 					allWeightsSel.splice(j,1);
@@ -265,8 +264,17 @@ sap.ui.define([
 		 * @public
 		 */
 		onProceedButtonPress: function () {
-debugger;
-
+			var customerId = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
+			var Filter = new sap.ui.model.Filter("Customer", "EQ", "'" + customerId + "'");
+			debugger;
+			var that = this;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					"/OrderHeaders", "GET", { filters: [Filter] }, {}, this)
+				.then(function(oData) {
+					that.getOwnerComponent().getModel("local").setProperty("/orderNo",oData.results.length+1);
+			}).catch(function(oError) {
+				MessageBox.error("Error while fetching order no.");
+			});
 			this.getRouter().navTo("checkout");
 		}
 	});

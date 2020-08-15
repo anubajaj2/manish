@@ -18,7 +18,7 @@
 	"allImages" :[],
 	"ProdWeights": [],
 	"addedWeights":[],
-	"orderNo": "XXXXXX",
+	"orderNo": "00000",
 	"SizeDetails":{
 		"malaSize": "",
 		"churiSize": "",
@@ -286,6 +286,8 @@
 	"OrderItem": {
 		"OrderNo": "",
 		"Material": "",
+		"WeightId" : "",
+		"Status" : "",
 		"Qty": 0,
 		"QtyD": 0,
 		"Weight": 0,
@@ -293,6 +295,8 @@
 		"Making": 0,
 		"MakingD": 0,
 		"Remarks": "",
+		"Extra1" : "",
+		"Extra2" : "",
 		"CreatedBy": "",
 		"CreatedOn": "",
 		"ChangedBy": "",
