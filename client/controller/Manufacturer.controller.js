@@ -174,9 +174,9 @@ sap.ui.define([
           manufacturer.EmailId = found[0].EmailId;
           manufacturer.Pattern = found[0].Pattern;
           if (found[0].Status === "B") {
-            viewModel.setProperty("/blockStatus", true);
-          } else if (found[0].Status === "U") {
             viewModel.setProperty("/blockStatus", false);
+          } else if (found[0].Status === "U") {
+            viewModel.setProperty("/blockStatus", true);
           }
 
           if (found[0].id) {
@@ -301,7 +301,7 @@ sap.ui.define([
 
         var oSaveData = JSON.parse(JSON.stringify(manufacturerData));
 
-        if (viewModel.getProperty("/blockStatus") === true) {
+        if (viewModel.getProperty("/blockStatus") === false) {
           debugger;
           oSaveData.Status = "B";
         } else {
@@ -436,7 +436,7 @@ sap.ui.define([
     onSwitch: function(oEvent) {
       debugger;
       var status = oEvent.getParameters("Selected").state;
-    
+
       return this.onSwitch = true;
     },
 

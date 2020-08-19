@@ -224,7 +224,8 @@ sap.ui.define([
 				this.getView().byId("idSD").focus();
 			},
 			onMaking:function(){
-				this.getView().byId("idCat").focus();
+				// this.getView().byId("idCat").focus();
+				this.getView().getParent().getParent().getCurrentMidColumnPage().byId("idTab").getItems()[0].getCells()[0].focus();
 			},
 			onWastage:function(){
 				this.getView().byId("idMkg").focus();
