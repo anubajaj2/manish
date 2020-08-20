@@ -601,9 +601,9 @@ sap.ui.define([
              var group = this.getView().getModel("local").getProperty("/groupSelected");
 
              debugger;
-             if (status === true) {
+             if (status === false) {
                manufactureModelInfo[0].Status = "B" ;
-             } else if (status === false) {
+             } else if (status === true) {
                manufactureModelInfo[0].Status = "U" ;
              }
            }

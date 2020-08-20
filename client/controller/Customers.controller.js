@@ -183,9 +183,9 @@ sap.ui.define([
           oCustomer.MobilePhone = found[0].MobilePhone;
           oCustomer.Groups = found[0].Groups;
           oCustomer.EmailId = found[0].EmailId;
-          if (found[0].Status === "B") {
+          if (found[0].Status === "U") {
             viewModel.setProperty("/blockStatus", true);
-          } else if (found[0].Status === "U") {
+          } else if (found[0].Status === "B") {
             viewModel.setProperty("/blockStatus", false);
           }
           if (found[0].id) {
@@ -302,7 +302,7 @@ sap.ui.define([
 
 				var oSaveData = JSON.parse(JSON.stringify(customerData));
 
-				if (viewModel.oData.blockStatus === true) {
+				if (viewModel.oData.blockStatus === false) {
 					oSaveData.Status = "B";
 				} else {
 					oSaveData.Status = "U";
@@ -546,9 +546,9 @@ sap.ui.define([
              var group = this.getView().getModel("local").getProperty("/groupSelected");
 
              debugger;
-             if (status === true) {
+             if (status === false) {
                customerModelInfo[0].Status = "B" ;
-             } else if (status === false) {
+             } else if (status === true) {
                customerModelInfo[0].Status = "U" ;
              }
            }/*else{
