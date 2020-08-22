@@ -93,6 +93,16 @@
 			"type": "belongsTo",
 			"model": "User",
 			"foreignKey": "ChangedBy"
+		},
+    "ToProduct": {
+			"type": "belongsTo",
+			"model": "Product",
+			"foreignKey": "Material"
+		},
+    "ToWeights": {
+			"type": "belongsTo",
+			"model": "ProdWeight",
+			"foreignKey": "WeightId"
 		}
   },
   "acls": [

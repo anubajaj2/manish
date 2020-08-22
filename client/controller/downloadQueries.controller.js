@@ -62,15 +62,15 @@ sap.ui.define([
 		updateInq: function(oEvent){
 				var that = this;
 				//gtest
-				// $.post('/upload', {
-				// 	files: oEvent.getSource().getFocusDomRef().files[0]
-				// })
-			  //   .done(function(data, status){
-				// 				sap.m.MessageBox.error("Done");
-				// 	})
-			  //   .fail(function(xhr, status, error) {
-				// 				sap.m.MessageBox.error("Error in upload");
-			  //   });
+				$.post('/upload', {
+					files: oEvent.getSource().getFocusDomRef().files[0]
+				})
+			    .done(function(data, status){
+								sap.m.MessageBox.error("Done");
+					})
+			    .fail(function(xhr, status, error) {
+								sap.m.MessageBox.error("Error in upload");
+			    });
 		},
 		TakeBackup: function(){
 			$.post('/TakeBackup')

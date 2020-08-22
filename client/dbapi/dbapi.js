@@ -30,9 +30,9 @@ sap.ui.define([
 					oParameters = {};
 				}
 
-				oModel.setHeaders({
-					"Authorization": "14t3G2vnQPEfBFWxZ7IBN73AxH3kgGjvnu4bDjQAGxD5o0zWD6FjytNABDxo36i0"
-				});
+				// oModel.setHeaders({
+				// 	"Authorization": "14t3G2vnQPEfBFWxZ7IBN73AxH3kgGjvnu4bDjQAGxD5o0zWD6FjytNABDxo36i0"
+				// });
 
 				oModel.setUseBatch(false);
 				switch (sMethod.toUpperCase()) {
