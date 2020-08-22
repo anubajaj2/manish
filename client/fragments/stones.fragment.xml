@@ -4,7 +4,6 @@
 			<headerToolbar>
 				<Toolbar>
 					<ToolbarSpacer/>
-					<Button id="idAdd" icon="sap-icon://add" tooltip="Insert Row" press="onStoneInsert"></Button>
 					<Button id="idDelete" icon="sap-icon://delete" tooltip="Delete Rows" press="onStoneDeleteRow"></Button>
 				</Toolbar>
 			</headerToolbar>
@@ -103,11 +102,10 @@
 				</Column>
 			</columns>
 		</Table>
-		<beginButton>
+		<buttons>
+			<Button id="idAdd" icon="sap-icon://add" tooltip="Insert Row" press="onStoneInsert"></Button>
 			<Button text="OK" press="onOKStone" />
-		</beginButton>
-		<endButton>
 			<Button text="Close" press="onCloseStone" />
-		</endButton>
+		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

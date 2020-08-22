@@ -80,7 +80,7 @@
 									path : 'local>/Manufacturer/Pattern'
 								      }"
 									enabled="{viewModel>/codeEnabled}"/>
-				        <Label text="Block"/>
+				        <Label text="Block/Unblock"/>
 				        <Switch id="idBlock" type="AcceptReject"
 				          state="{viewModel>/blockStatus}"
 				          change="onSwitch">

@@ -25,7 +25,21 @@ Fragment, MessageBox) {
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("AddProduct").attachMatched(this._onRouteMatched, this);
-
+			var that = this;
+			Fragment.load({
+				id :  'idStoneFragment',
+				name: 'sap.ui.demo.cart.fragments.stones',
+				controller: this
+			}).then(function(oDialog){
+				that.weightPopup =	oDialog;
+				that.oModelStone = new sap.ui.model.json.JSONModel({
+					"items": []
+				});
+				that.oModelStone.setDefaultBindingMode("TwoWay");
+				that.weightPopup.setModel(that.oModelStone);
+				that.weightPopup.setTitle("Less Weights");
+				that.getView().addDependent(that.weightPopup);
+			});
 		},
 		_onRouteMatched : function(){
 			 var that = this;
@@ -416,26 +430,9 @@ var cellID = cells[0].getId();
 				this.AllValues = JSON.parse(JSON.stringify(AllValues));
 			}
 			this.itemPath = "/ProdWeights/" + nIndex + "/Values";
-			var that = this;
-			if(!this.weightPopup){
-				Fragment.load({
-					name: 'sap.ui.demo.cart.fragments.stones',
-					controller: this
-				}).then(function(oDialog){
-					that.weightPopup =	oDialog;
-					that.oModelStone = new sap.ui.model.json.JSONModel({
-						"items": AllValues
-					});
-					that.oModelStone.setDefaultBindingMode("TwoWay");
-					that.weightPopup.setModel(that.oModelStone);
-					that.weightPopup.setTitle("Less Weights");
-					that.getView().addDependent(that.weightPopup);
-					that.weightPopup.open();
-				});
-			}else{
-				that.oModelStone.setProperty("/items", AllValues);
-				that.weightPopup.open();
-			}
+			this.oModelStone.setProperty("/items", AllValues);
+			this.weightPopup.open();
+			this.weightPopup.setInitialFocus(this.weightPopup.getButtons()[0]);
 		},
 		onStoneDeleteRow: function() {
 			var oTable = this.getView().getDependents()[0].getContent()[0];
@@ -581,6 +578,9 @@ var cellID = cells[0].getId();
 			oModel.setProperty(sPath + "/Net", Net);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 		},
+		focusTableInput : function(oEvent){
+			debugger;
+		},
 		onStoneInsert: function(oEvent) {
 			var props = {
 				"Item": "OTH",
@@ -601,6 +601,11 @@ var cellID = cells[0].getId();
 			aData.push(props);
 			oTable.getModel().setProperty("/items",aData);
 			this.getView().getModel("local").setProperty("/checkChange", true);
+			// sap.ui.core.Fragment.byId('idStoneFragment','idStones').getItems()[0].getCells()[2].focus();
+			// sap.ui.core.Fragment.byId('idStoneFragment','idStones').getItems()[this.tableItemFocus].focus();
+			setTimeout(function(){
+				oTable.getItems()[oTable.getItems().length-1].getCells()[2].focus();
+			},200);
 		},
 		onFocus: function() {
 			MessageToast.show("ye");
