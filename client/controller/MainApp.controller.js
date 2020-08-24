@@ -69,7 +69,7 @@ sap.ui.define([
 				"password": this.getView().byId("pwd").getValue(),
 			};
 			var that = this;
-
+			that.getView().setBusy(true);
 			if(!loginPayload.email || !loginPayload.password){
 				sap.m.MessageBox.error("User/password cannot be empty");
 				return; //--- Added - Swaroop
@@ -116,6 +116,7 @@ sap.ui.define([
 
 										if(found === true){
 											if(that2.getView().getModel("local").getProperty("/pwdChange")===true){
+												that2.getView().setBusy(false);
 													var oSubmitDialog = new Dialog({
 														type: DialogType.Message,
 														title: "Change Password",
@@ -141,17 +142,19 @@ sap.ui.define([
 																var newPassword = oEvent.getSource().oParent.getContent()[0].getValue();
 																var confirmPassword = oEvent.getSource().oParent.getContent()[1].getValue();
 																if(newPassword === confirmPassword){
+																	that2.getView().setBusy(true);
 																	$.post('/changePassword', {
 																		"emailId" : that.getView().byId("userid").getValue(),
 																		"newPassword" : newPassword,
 																		"Authorization" : that.getView().getModel("local").getProperty("/Authorization"),
 																	})
 																    .done(function(data, status){
+																			that2.getView().setBusy(false);
 																			MessageToast.show("Password Changed Successfully");
 																			oSubmitDialog.close();
 																		})
 																		.fail(function(xhr, status, error) {
-
+																					that2.getView().setBusy(false);
 																					MessageToast.show("Password Change Failed");
 																    });
 
@@ -159,7 +162,7 @@ sap.ui.define([
 																else{
 																	MessageToast.show("Password didn't matched");
 																}
-																debugger;
+																// debugger;
 
 															}.bind(this)
 														}),
@@ -174,7 +177,7 @@ sap.ui.define([
 											 }
 											else{
 												that2.getView().getModel("local").setProperty("/AppUsers", AppUsers);
-												debugger;
+												// debugger;
 											if(that2.getView().getModel("local").getProperty("/Role") === "Retailer"){
 												var Filter1 = new sap.ui.model.Filter("EmailId", "EQ", that2.getView().byId("userid").getValue());
 												var that3 = that2;
@@ -183,6 +186,7 @@ sap.ui.define([
 						 								filters: [Filter1]
 						 							}, {}, that2)
 													.then(function(oData) {
+														that2.getView().setBusy(false);
 														that3.getView().getModel("local").setProperty("/CustomerData",oData.results[0]);
 														if(that3.getView().getModel("local").getProperty("/CustomerData/Status")==="U"){
 															that2.oRouter.navTo("categories");
@@ -192,6 +196,7 @@ sap.ui.define([
 														}
 												});
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Admin"){
+												that2.getView().setBusy(false);
 												that2.oRouter.navTo("Group");
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Maker"){
 												var Filter1 = new sap.ui.model.Filter("EmailId", "EQ", that2.getView().byId("userid").getValue());
@@ -201,6 +206,7 @@ sap.ui.define([
 						 								filters: [Filter1]
 						 							}, {}, that2)
 													.then(function(oData) {
+														that2.getView().setBusy(false);
 														that3.getView().getModel("local").setProperty("/ManufacturerData",oData.results[0]);
 														if(that3.getView().getModel("local").getProperty("/ManufacturerData/Status")==="U"){
 															that2.oRouter.navTo("AddProduct");
@@ -210,19 +216,24 @@ sap.ui.define([
 														}
 												});
 											}
+											else{
+												that2.getView().setBusy(false);
+												sap.m.MessageBox.error("The user is not authorized, Please Contact Mr. Amit");
+											}
 										}
 										}else{
+											that.getView().setBusy(false);
 											sap.m.MessageBox.error("The user is not authorized, Please Contact Mr. Amit");
 										}
 									}
 								}).catch(function(oError) {
-
+									that.getView().setBusy(false);
 								});
 
 				})
 		    .fail(function(xhr, status, error) {
-					debugger;
-
+					// debugger;
+							that.getView().setBusy(false);
 							sap.m.MessageBox.error("Login Failed, Please enter correct credentials");
 		    });
 

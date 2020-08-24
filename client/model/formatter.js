@@ -21,12 +21,14 @@ sap.ui.define([
 	var mProdState = {
 		"A": "Success",
 		"N": "Error",
-		"R": "Error"
+		"R": "Error",
+		"D":"Success"
 	};
 	var mProdStateT = {
 		"A": "Approved",
 		"N": "Not Approved",
-		"R": "Rejected"
+		"R": "Rejected",
+		"D" : "Delevered"
 	};
 	var mProdStateC = {
 		"A": "greenClass",
@@ -124,6 +126,10 @@ sap.ui.define([
  			}
 
  		},
+		dateAndTime : function(date){
+			date = date.toString();
+			return date.slice(4,15)+", Time : "+date.slice(16,24)+" IST";
+		},
  		checkPhotoStat: function(value){
  			if(value){
  				if(value === "X"){

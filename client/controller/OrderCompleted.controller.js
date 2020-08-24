@@ -6,7 +6,7 @@ sap.ui.define([
 	return BaseController.extend("sap.ui.demo.cart.controller.OrderCompleted", {
 
 		onInit: function () {
-			this._oRouter = this.getRouter();
+			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		},
 
 		onReturnToShopButtonPress: function () {

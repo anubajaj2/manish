@@ -177,6 +177,10 @@ sap.ui.define([
 								MessageBox.error("Error while saving order Item data");
 							});
 			}
+			else{
+				that.getView().setBusy(false);
+				that.byId("wizardNavContainer").to(this.byId("summaryPage"));
+			}
 		},
 
 		/**
@@ -196,16 +200,20 @@ sap.ui.define([
 				orderHeaderPayload.ApprovedOn = Date();
 				orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
 				var that = this;
-				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-							"/OrderHeaders", "POST", {}, orderHeaderPayload, this)
-							.then(function(data) {
-								that.saveOrderItem(data.id,cartItems,orderItemPayload,that);
-								// MessageToast.show("Product Created Successfully");
-							}).catch(function(oError) {
-								MessageBox.error("Error while saving product data");
+				if(cartItems.length){
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								"/OrderHeaders", "POST", {}, orderHeaderPayload, this)
+								.then(function(data) {
+									that.saveOrderItem(data.id,cartItems,orderItemPayload,that);
+									// MessageToast.show("Product Created Successfully");
+								}).catch(function(oError) {
+									MessageBox.error("Error while saving product data");
 							});
-
-				this.byId("wizardNavContainer").to(this.byId("summaryPage"));
+					that.getView().setBusy(true);
+				}
+				else{
+					MessageBox.error("Cart is Empty");
+				}
 			}
 		},
 

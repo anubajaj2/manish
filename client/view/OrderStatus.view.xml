@@ -8,6 +8,7 @@
 		title="Manage Order Status"
 		backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
+			<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh" />
 			<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
 	 		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 	 		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
@@ -20,17 +21,20 @@
 				includeItemInSelection="true"
 				itemPress="onItemPress">
 				<ObjectListItem
-					type="Navigation"
-					title="{local>OrderNo}">
+					title = "{local>CustomerCode} - {local>CustomerName}"
+					number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }"
+					numberUnit = "INR">
 					<attributes>
-						<ObjectAttribute id="idOADate" text="{local>Date}"/>
-						<ObjectAttribute text="{local>Customer}" visible="true"/>
+						<ObjectAttribute text="Order No. : {local>OrderNo}" visible="true"/>
+						<ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>
 					</attributes>
 					<firstStatus>
-						<ObjectStatus text="Value"/>
+						<ObjectStatus text="Total Weight : {local>TotalWeight}"/>
 				</firstStatus>
 				<secondStatus>
-						<ObjectStatus text="Qty"/>
+						<ObjectStatus
+							text = "{	path: 'local>OrderStatus', formatter: '.formatter.prodText' }"
+							state = "{ path: 'local>OrderStatus', formatter: '.formatter.prodState' }"/>
 				</secondStatus>
 			</ObjectListItem>
 			</List>
@@ -38,9 +42,9 @@
 			<footer>
 				<Toolbar>
 					<ToolbarSpacer/>
-					<Button text="Ready" type="" press="onReady" id="idReady"></Button>
-					<Button text="Delivered" type="" press="onDeliver" id="idDel"></Button>
-					<Button text="Cancel" type="" press="onCancel" id="idCancel"></Button>
+					<Button text="Approve" type="" press="onApprove" id="idReady"></Button>
+					<Button text="Deliver" type="" press="onDelivered" id="idDel"></Button>
+					<Button text="Reject" type="" press="onReject" id="idCancel"></Button>
 				</Toolbar>
 			</footer>
 	</Page>
