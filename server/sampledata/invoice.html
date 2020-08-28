@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <title>Invoice</title>
+</head>
+
+<body>
+  <div style="height:100%; font-size:larger;">
+    <div class="headerContainer" style="height: 18%;background-color:rgba(51, 116, 116, 0.534);">
+        <div style="float: left; margin-left: 4%; ">
+            <h1>Mangalam Ornaments</h1>
+        </div>
+        <div style="float: right; margin-top: 4%; margin-right: 4%; width: 35%;">
+            601-603, APEX MALL
+            <br>
+            LALKOTHI TONK ROAD,
+            <br>
+            JAIPUR RJ 302015 IN
+        </div>
+    </div>
+    <div class="midContainer" style="height: 18%; background-color:azure; margin-top: 2%;">
+        <div style="height: 100%; width: 40%; float: left; margin-left: 4%;">
+            <div style="margin-top: 5%;">Order No. : {$Detail}</div>
+            <div style="margin-top: 5%;">Order Date : {$Detail}</div>
+        </div>
+        <div style="height: 100%; width: 35%; float: right; text-align: right; margin-right: 4%;">
+            <div style="margin-top: 4%; text-align: left;">Name : {$Detail}</div>
+            <div style="margin-top: 4%; text-align: left;">City&nbsp;&nbsp; : {$Detail}</div>
+            <div style="margin-top: 4%; text-align: left;">Mob. : {$Detail}</div>
+        </div>
+    </div>
+    <div class="itemContainer" style="margin-top: 2%; background-color:azure;">
+        <div style="height: 5%;">
+            <div style="width: 10%; float: left; margin-left: 4%;">Sr. No.</div>
+            <div style="width: 28%; float: left; text-align: center;"> Remarks</div>
+            <div style="width: 18%; float: left; text-align: center">Gross Weight</div>
+            <div style="width: 18%; float: left; text-align: center">Net Weight</div>
+            <div style="width: 18%; float: left; text-align: center; margin-right: 3%;">Amount.</div>
+        </div>
+        <hr>
+        $break;
+        <div style="height: 4%;">
+            <div style="width: 10%; float: left; margin-left: 4%;">{$ItemDetail}</div>
+            <div style="width: 28%; float: left; text-align: center;"> {$ItemDetail}</div>
+            <div style="width: 18%; float: left; text-align: center">{$ItemDetail}</div>
+            <div style="width: 18%; float: left; text-align: center">{$ItemDetail}</div>
+            <div style="width: 18%; float: left; text-align: center; margin-right: 3%;">{$ItemDetail}</div>
+        </div>
+        <hr>
+        $break;
+    </div>
+    <div class="totalContainer" style="margin-top: 4%; background-color:azure;">
+        <div style="height: 4%;">
+            <div style="width: 10%; float: left; margin-left: 4%;"><b>Total : </b></div>
+            <div style="width: 28%; float: left; text-align: center;">-</div>
+            <div style="width: 18%; float: left; text-align: center"><b>{$Total}</b></div>
+            <div style="width: 18%; float: left; text-align: center"><b>{$Total}</b></div>
+            <div style="width: 18%; float: left; text-align: center; margin-right: 3%;"><b>Rs. {$Total}</b></div>
+        </div>
+    </div>
+  </div>
+</body>
+
+</html>

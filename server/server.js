@@ -321,7 +321,40 @@ app.post('/updateLastLogin',
 
 	}
 );
-
+app.post('/invoice',
+	function(req,res){
+		fs.readFile('./server/sampledata/invoice.html',null,function(error,data){
+			if(error){
+				res.send("Error In Printing Invoice "+error);
+				return;
+			}
+			else{
+				var dataList = data.toString().split('$break;');
+				var oItems = '';
+				var oItem = dataList[1];
+				req.body.first.forEach((item)=>{
+					if(item){
+						item = item[0]+item.slice(1).toLowerCase();
+					}
+					dataList[0] = dataList[0].replace('{$Detail}',item);
+				});
+				req.body.second.forEach((item,index)=>{
+					oItem=oItem.replace('{$ItemDetail}',item);
+					if(++index%5===0 && index){
+						oItems+=oItem;
+						oItem = dataList[1];
+					}
+				});
+				req.body.third.forEach((item)=>{
+					dataList[2] = dataList[2].replace('{$Total}',item);
+				});
+				data = dataList[0]+oItems+dataList[2];
+				res.send(data);
+				return;
+			}
+		});
+	}
+);
 app.post('/changePassword',
 	function(req, res) {
 		if (!req.body.emailId) {

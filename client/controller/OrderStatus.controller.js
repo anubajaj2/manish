@@ -29,26 +29,43 @@ sap.ui.define([
 			var i = 0;
 			var totalWeight = 0;
 			var totalAmount = 0;
+			var totalNetWeight = 0;
+			var orderItemDetails = [];
 			that.orderStatusList = [];
 			// debugger;
 			orderHeader.get("OrderHeader").forEach((item,key)=>{
 				totalWeight = 0;
 				totalAmount = 0;
+				totalNetWeight=0;
+				orderItemDetails = [];
 				if(orderHeader.get("OrderItem").has(key)){
-					orderHeader.get("OrderItem").get(item.id).forEach((oItem)=>{
+					orderHeader.get("OrderItem").get(item.id).forEach((oItem,index)=>{
+						orderItemDetails.push(index+1);
+						var tempProd = orderHeader.get("Product").get(oItem.Material);
+						var tunch = tempProd.Tunch+tempProd.Wastage;
+						orderItemDetails.push(tempProd.Category.toLowerCase()+' - '+tempProd.SubCategory.toLowerCase() +
+						' ('+tunch+'Tunch) '+tempProd.Name.toLowerCase());
 						totalWeight+=orderHeader.get("Weight").get(oItem.WeightId).GrossWeight;
+						orderItemDetails.push(orderHeader.get("Weight").get(oItem.WeightId).GrossWeight);
+						totalNetWeight+=orderHeader.get("Weight").get(oItem.WeightId).NetWeight;
+						orderItemDetails.push(orderHeader.get("Weight").get(oItem.WeightId).NetWeight);
 						totalAmount+=orderHeader.get("Weight").get(oItem.WeightId).Amount;
+						orderItemDetails.push(orderHeader.get("Weight").get(oItem.WeightId).Amount);
 					});
 				}
 				that.orderStatusList[i++] = {
 					id : key,
 					CustomerName : orderHeader.get("Customer").get(item.Customer).Name,
 					CustomerCode : orderHeader.get("Customer").get(item.Customer).CustomerCode,
+					CustomerCity :  orderHeader.get("Customer").get(item.Customer).City,
+					CustomerMob : orderHeader.get("Customer").get(item.Customer).MobilePhone,
 					TotalWeight : totalWeight,
+					TotalNetWeight : totalNetWeight,
 					TotalAmount : totalAmount,
 					OrderDate : item.Date,
 					OrderNo : item.OrderNo,
-					OrderStatus : item.Status
+					OrderStatus : item.Status,
+					ItemDetails : orderItemDetails
 				};
 			});
 			that.getOwnerComponent().getModel("local").setProperty("/list", {
@@ -80,6 +97,29 @@ sap.ui.define([
 					MessageToast.show("Cannot fetch Order Status please Refresh");
 				});
 		},
+		loadProducts : function(orderHeader,that){
+			var oFilters = [];
+			orderHeader.get("Product").forEach((item,key)=>{
+				oFilters.push(new sap.ui.model.Filter("id","EQ", "'" + key + "'"));
+			});
+			// var oFilter = new sap.ui.model.Filter("Status","EQ", "P");
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					"/Products", "GET",
+					{filters: oFilters},
+					// {},
+					 {}, this)
+				.then(function(oData) {
+					oData.results.forEach((item)=>{
+						orderHeader.get("Product").set(item.id,item);
+					});
+					that.loadProdWeights(orderHeader,that);
+					// that.setOrderStatus(orderHeader,that);
+				})
+				.catch(function(oError) {
+					that.getView().setBusy(false);
+					MessageToast.show("Cannot fetch Order Status please Refresh");
+				});
+		},
 		loadOrderItems : function(orderHeader,that){
 			var oFilters = [];
 			orderHeader.get("OrderHeader").forEach((item,key)=>{
@@ -95,9 +135,10 @@ sap.ui.define([
 						if(orderHeader.get("OrderItem").has(item.OrderNo)){
 							orderHeader.get("OrderItem").get(item.OrderNo).push(item);
 							orderHeader.get("Weight").set(item.WeightId,"");
+							orderHeader.get("Product").set(item.Material,"");
 						}
 					});
-					that.loadProdWeights(orderHeader,that);
+					that.loadProducts(orderHeader,that);
 				})
 				.catch(function(oError) {
 					that.getView().setBusy(false);
@@ -198,6 +239,46 @@ sap.ui.define([
 		onRefresh : function(){
 			this.getView().setBusy(true);
 			this.loadOrderStatus();
+		},
+		getPrint : function(sPaths,that,pIndex=0){
+			if(pIndex<sPaths.length){
+				var index = sPaths[pIndex].split('/')[sPaths[pIndex].split('/').length-1];
+				var items = this.orderStatusList[index].ItemDetails.toString().split(',');
+				var orderCustomer = [
+					this.orderStatusList[index].OrderNo,
+					this.orderStatusList[index].OrderDate.toString().slice(4,16),
+					this.orderStatusList[index].CustomerName,
+					this.orderStatusList[index].CustomerCity,
+					this.orderStatusList[index].CustomerMob
+			].toString().split(',');
+				var total = [
+					this.orderStatusList[index].TotalWeight,
+					this.orderStatusList[index].TotalNetWeight,
+					this.orderStatusList[index].TotalAmount
+				].toString().split(',');
+				debugger;
+				$.post('/invoice', {
+					first : orderCustomer,
+					second : items,
+					third : total
+				}).done(function(data,status){
+					var myWindow = window.open("", "MsgWindow", "width=1200,height=700",true);
+					myWindow.document.write(data);
+					that.getPrint(sPaths,that,++pIndex);
+				}).fail(function(xhr,status,error){
+					that.getView().setBusy(false);
+					MessageToast.show("Error");
+				});
+			}
+			else{
+				that.getView().byId('idListOS').removeSelections();
+				that.getView().setBusy(false);
+			}
+		},
+		onPrint : function(){
+			var sPaths = this.getView().byId('idListOS').getSelectedContextPaths();
+			this.getView().setBusy(true);
+			this.getPrint(sPaths,this)
 		}
 		// onFilterOrderStatus: function(oEvent) {
 		// 	debugger;

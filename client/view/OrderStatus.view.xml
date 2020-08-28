@@ -42,9 +42,10 @@
 			<footer>
 				<Toolbar>
 					<ToolbarSpacer/>
-					<Button text="Approve" type="" press="onApprove" id="idReady"></Button>
+					<Button text="Approve" type="" press="onApprove" id="idApprove"></Button>
 					<Button text="Deliver" type="" press="onDelivered" id="idDel"></Button>
 					<Button text="Reject" type="" press="onReject" id="idCancel"></Button>
+					<Button text="Print" type="" press="onPrint" id="idPrint"></Button>
 				</Toolbar>
 			</footer>
 	</Page>
