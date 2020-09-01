@@ -9,7 +9,8 @@ sap.ui.define([
 	"sap/m/Link",
 	"sap/m/MessagePopover",
 	"sap/m/MessagePopoverItem",
-	"sap/ui/demo/cart/model/EmailType"
+	"sap/ui/demo/cart/model/EmailType",
+	'sap/ui/core/HTML'
 ], function (
 	BaseController,
 	cart,
@@ -21,7 +22,8 @@ sap.ui.define([
 	Link,
 	MessagePopover,
 	MessagePopoverItem,
-	EmailType) {
+	EmailType,
+	HTML) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.Checkout", {
@@ -162,6 +164,21 @@ sap.ui.define([
 				oWizard.invalidateStep(oStep);
 			}
 		},
+		getOrderSummary : function(cartItems,that){
+			var html = "";
+			var totalAmount = 0;
+			cartItems.forEach((oItem)=>{
+				html+="<li>Name : "+oItem.Category+" - "+oItem.SubCategory+" - "+oItem.Name+
+				"<br><br>Gross Weight : "+oItem.GrossWeight+" g"+
+				", Net Weight : "+oItem.NetWeight+" g"+
+				"<br><br>Amount : "+oItem.Amount+" INR</li><br><br>";
+				totalAmount+=oItem.Amount;
+			});
+			html = "<h2 style=\"color:green;\">Order Summary</h2><hr>"+"<ol>"+html+"</ol>"+"<h3>Total Amount : "+totalAmount+" INR<br><hr>";
+			var orderNo = that.getOwnerComponent().getModel("local").getProperty("/orderNo");
+			html+= "<p style=\"color:blue; font-weight:600;\">Your Order Number is " +orderNo+ " , Please check your email for more details</p>";
+			that.getOwnerComponent().getModel("local").setProperty("/OrderSummaryHTML",html);
+		},
 		saveOrderItem : function(id,cartItems,orderItemPayload,that,index=0){
 			// MessageToast.show("Successfully"+id);
 			if(index<cartItems.length){
@@ -179,6 +196,7 @@ sap.ui.define([
 			}
 			else{
 				that.getView().setBusy(false);
+				that.getOrderSummary(cartItems,that);
 				that.byId("wizardNavContainer").to(this.byId("summaryPage"));
 			}
 		},
@@ -199,6 +217,7 @@ sap.ui.define([
 				orderHeaderPayload.Date = Date();
 				orderHeaderPayload.ApprovedOn = Date();
 				orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
+				this.getOwnerComponent().getModel("local").setProperty("/OrderHeader",orderHeaderPayload);
 				var that = this;
 				if(cartItems.length){
 					this.ODataHelper.callOData(this.getOwnerComponent().getModel(),

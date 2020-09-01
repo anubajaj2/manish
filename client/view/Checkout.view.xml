@@ -170,13 +170,16 @@
 							footerRole="Banner" footerLabel="{i18n>Checkout_footerLabel}"/>
 				</landmarkInfo>
 				<content>
-					<VBox alignItems="Center" direction="Column">
+					<VBox alignItems="Center" direction="Column" class="sapUiMediumMargin">
+						<FormattedText htmlText="{local>/OrderSummaryHTML}"/>
+						<Image src="model/thank-you-banner.jpg"/>
+					</VBox>
+					<!-- <VBox alignItems="Center" direction="Column">
 						<Text class="orderConfirm" width="100%"
 							text="Your Order Number is {local>/orderNo}, Please check your email for more details" />
 						<Image src="model/shopthanks.gif" />
 						<Image src="model/thank-you-banner.jpg"/>
-					</VBox>
-
+					</VBox> -->
 				</content>
 				<footer>
 					<Bar id="summaryFooterBar">

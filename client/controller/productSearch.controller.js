@@ -127,6 +127,8 @@ sap.ui.define([
 			cartItem.Name = productRec.Name;
 			cartItem.ProductId = productRec.id;
 			cartItem.Tunch = productRec.Tunch;
+			cartItem.Category = productRec.Category;
+			cartItem.SubCategory = productRec.SubCategory;
 			cartItem.PictureUrl = PictureUrl;
 			for (var i = 0; i < allSelectedWeights.length; i++) {
 				cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
@@ -279,12 +281,12 @@ sap.ui.define([
 						}.bind(this)
 					})
 				});
-
 				//to get access to the global model
 				this.getView().addDependent(this.pressDialog);
 			// }
-
 			this.pressDialog.open();
+			debugger;	
+			this.pressDialog.setContentHeight("100%");
 		},
 		onFullScreen: function(){
 			this.getRouter().navTo("comparisonCart");

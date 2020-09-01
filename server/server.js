@@ -124,9 +124,7 @@ app.post("/Photos",
 									"allImages":allImages
 								});
 							});
-
 						}
-
 					}
 					);
 });
