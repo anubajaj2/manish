@@ -17,11 +17,13 @@ sap.ui.define([
 		formatter: formatter,
 		onInit : function () {
 			this._oRouter = this.getOwnerComponent().getRouter();
-			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			//this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			this._oRouter.getRoute("ManuHome").attachMatched(this._routePatternMatched, this);
 		},
 		 _routePatternMatched : function(){
 			var that = this;
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
+			this.firstTwoDisplay();
 		 },
 		 _odataExampleCall: function() {
 			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -42,7 +44,7 @@ sap.ui.define([
 			this._oRouter.navTo(viewId);
 		},
 		_bindView : function (sObjectPath) {
-			
+
 		},
 		_onBindingChange : function () {
 

@@ -31,7 +31,7 @@ sap.ui.define([
 			debugger;
 			this._oRouter = this.getOwnerComponent().getRouter();
 			//this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
-			this._oRouter.attachRoutePatternMatched(this._onRouteMatched,this);
+			this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
 		},
 		_onRouteMatched: function(oEvent) {
@@ -285,7 +285,7 @@ sap.ui.define([
 				this.getView().addDependent(this.pressDialog);
 			// }
 			this.pressDialog.open();
-			debugger;	
+			debugger;
 			this.pressDialog.setContentHeight("100%");
 		},
 		onFullScreen: function(){

@@ -35,7 +35,8 @@ sap.ui.define([
 			this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
 			// switch to single column view for checout process
 			this._oRouter = this.getOwnerComponent().getRouter();
-			this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			//this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
+			this._oRouter.getRoute("checkout").attachMatched(this._routePatternMatched, this);
 		},
 		_routePatternMatched: function(){
 			this._setLayout("One");

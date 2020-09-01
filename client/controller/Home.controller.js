@@ -25,10 +25,10 @@ sap.ui.define([
 		_firstTime: true,
 		_onRouteMatched: function(oEvent) {
 				this.loadCategories();
-				if(this._firstTime){
-						this.firstTwoDisplay();
-						this._firstTime = false;
-				}
+				//if(this._firstTime){
+				this.firstTwoDisplay();
+				//		this._firstTime = false;
+				//}
 		},
 		onSearch: function () {
 			this._search();
