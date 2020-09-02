@@ -1,97 +1,57 @@
-<mvc:View
-	height="100%"
-	controllerName="sap.ui.demo.cart.controller.Checkout"
-	xmlns:layout="sap.ui.layout"
-	xmlns:form="sap.ui.layout.form"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core">
-	<NavContainer id="wizardNavContainer">
-		<pages>
-			<Page
-				id="wizardContentPage"
-				title="{i18n>checkoutTitle}">
-				<landmarkInfo>
-					<PageAccessibleLandmarkInfo
-						rootRole="Region"
-						rootLabel="{i18n>Checkout_rootLabel}"
-						contentRole="Main"
-						contentLabel="{i18n>Checkout_contentLabel}"
-						footerRole="Region"
-						footerLabel="{i18n>Checkout_footerLabel}"/>
-				</landmarkInfo>
-				<headerContent>
-					<Button
-						id="returnToShopButton"
-						type="Emphasized"
-						text="{i18n>returnToShopButtonText}"
-						press=".onReturnToShopButtonPress"/>
-					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-				</headerContent>
-				<content>
-					<Wizard
-						id="shoppingCartWizard"
-						complete="checkCompleted"
-						enableBranching="true"
-						finishButtonText="Finish">
-						<steps>
-							<WizardStep
-								id="contentsStep"
-								nextStep="paymentTypeStep"
-								title="{i18n>checkoutContentsTitle}"
-								icon="sap-icon://cart">
-								<List
-									id="entryList"
-									noDataText="{i18n>cartNoData}"
-									items="{
+<mvc:View height="100%" controllerName="sap.ui.demo.cart.controller.Checkout" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core">
+  <NavContainer id="wizardNavContainer">
+    <!-- <pages> -->
+      <Page id="wizardContentPage" title="{i18n>checkoutTitle}">
+        <landmarkInfo>
+          <PageAccessibleLandmarkInfo rootRole="Region" rootLabel="{i18n>Checkout_rootLabel}" contentRole="Main" contentLabel="{i18n>Checkout_contentLabel}" footerRole="Region" footerLabel="{i18n>Checkout_footerLabel}"/>
+        </landmarkInfo>
+        <headerContent>
+          <Button id="returnToShopButton" type="Emphasized" text="{i18n>returnToShopButtonText}" press=".onReturnToShopButtonPress"/>
+          <Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+          <Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+        </headerContent>
+        <content>
+          <Wizard id="shoppingCartWizard" complete="checkCompleted" enableBranching="true" finishButtonText="Finish">
+            <steps>
+              <WizardStep id="contentsStep" nextStep="paymentTypeStep" title="{i18n>checkoutContentsTitle}" icon="sap-icon://cart">
+                <List id="entryList" noDataText="{i18n>cartNoData}" items="{
 										path : 'local>/cartItems',
 										sorter : {
 											path : 'Name',
 											descending : false
 										}
 								}">
-									<items>
-										<CustomListItem>
-											<HBox alignContent="Stretch">
-												<HBox width="20%" height="50%">
-													<Image width="50%" height="70%" src="{local>PictureUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />
-												</HBox>
-												<VBox>
-													<Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop" />
-												</VBox>
-											</HBox>
-										</CustomListItem>
-									</items>
-								</List>
-								<Bar>
-									<contentRight>
-										<Text
-											text="{local>/fineGm} gm"/>
-										<Text
-											text="{local>/fineRs} INR"/>
-									</contentRight>
-								</Bar>
-							</WizardStep>
-							<WizardStep
-								id="paymentTypeStep"
-								title="{i18n>checkoutPaymentTitle}"
-								icon="sap-icon://money-bills">
-								<form:SimpleForm
-									layout="ResponsiveGridLayout"
-									editable="true">
-									<Label
-										text="Churi Size"
-										required="true"
-										labelFor="TxtChuriSize">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<Input
-										id="TxtChuriSize"
-										placeholder="example 4.8"
-										value="{
+                  <items>
+                    <CustomListItem>
+                      <HBox alignContent="Stretch">
+                        <HBox width="20%" height="50%">
+                          <Image width="50%" height="70%" src="{local>PictureUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                        </HBox>
+                        <VBox>
+                          <Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop"/>
+                        </VBox>
+                      </HBox>
+                    </CustomListItem>
+                  </items>
+                </List>
+                <Bar>
+                  <contentRight>
+                    <Text text="{local>/fineGm} gm"/>
+                    <Text text="{local>/fineRs} INR"/>
+                  </contentRight>
+                </Bar>
+              </WizardStep>
+              <WizardStep id="paymentTypeStep" title="{i18n>checkoutPaymentTitle}" icon="sap-icon://money-bills">
+                <form:SimpleForm layout="ResponsiveGridLayout" editable="true">
+                  <Label text="Churi Size" required="true" labelFor="TxtChuriSize">
+                    <layoutData>
+                      <layout:GridData span="XL4 L4 M4 S12"/>
+                    </layoutData>
+                  </Label>
+                  <Input
+                    id="TxtChuriSize"
+                    placeholder="example 4.8"
+                    value="{
 											path: 'local>/SizeDetails/churiSize',
 											type: 'sap.ui.model.type.String',
 											constraints: {
@@ -99,22 +59,19 @@
 												search: '[0-9]+|[0-9]+.'
 											}
 										}">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</Input>
-									<Label
-										text="Chain/Mala Size"
-										required="true"
-										labelFor="malaSize">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<Input
-										id="malaSize"
-										placeholder="Mala Size (inch.) e.g. 20.50"
-										value="{
+                    <layoutData>
+                      <layout:GridData span="XL8 L8 M8 S12"/>
+                    </layoutData>
+                  </Input>
+                  <Label text="Chain/Mala Size" required="true" labelFor="malaSize">
+                    <layoutData>
+                      <layout:GridData span="XL4 L4 M4 S12"/>
+                    </layoutData>
+                  </Label>
+                  <Input
+                    id="malaSize"
+                    placeholder="Mala Size (inch.) e.g. 20.50"
+                    value="{
 											path: 'local>/SizeDetails/malaSize',
 											type: 'sap.ui.model.type.String',
 											constraints: {
@@ -122,82 +79,56 @@
 												search: '[0-9]+|[0-9]+.'
 											}
 										}">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</Input>
-									<Label
-										text="{i18n>checkoutInvoiceAddressNote}"
-										required="false">
-										<layoutData>
-											<layout:GridData span="XL4 L4 M4 S12"/>
-										</layoutData>
-									</Label>
-									<TextArea
-										rows="8"
-										placeholder="{i18n>noteText}"
-										value="{local>/SizeDetails/note}">
-										<layoutData>
-											<layout:GridData span="XL8 L8 M8 S12"/>
-										</layoutData>
-									</TextArea>
-								</form:SimpleForm>
-							</WizardStep>
-							</steps>
-					</Wizard>
-				</content>
-				<footer>
-					<Bar id="wizardFooterBar" visible="{= ${message>/}.length === 0 ? false : true}">
-						<contentLeft>
-							<Button
-								id="showPopoverButton"
-								icon="sap-icon://message-popup"
-								text="{= ${message>/}.length }"
-								type="Emphasized"
-								press=".onShowMessagePopoverPress"/>
-						</contentLeft>
-					</Bar>
-				</footer>
-			</Page>
-			<Page
-				id="summaryPage"
-				backgroundDesign="Solid"
-				showHeader="false">
-				<landmarkInfo>
-					<PageAccessibleLandmarkInfo
-							rootRole="Region" rootLabel="{i18n>Checkout_rootLabel}"
-							contentRole="Main" contentLabel="{i18n>Checkout_summaryContentLabel}"
-							footerRole="Banner" footerLabel="{i18n>Checkout_footerLabel}"/>
-				</landmarkInfo>
-				<content>
-					<VBox alignItems="Center" direction="Column" class="sapUiMediumMargin">
-						<FormattedText htmlText="{local>/OrderSummaryHTML}"/>
-						<Image src="model/thank-you-banner.jpg"/>
-					</VBox>
-					<!-- <VBox alignItems="Center" direction="Column">
-						<Text class="orderConfirm" width="100%"
-							text="Your Order Number is {local>/orderNo}, Please check your email for more details" />
-						<Image src="model/shopthanks.gif" />
-						<Image src="model/thank-you-banner.jpg"/>
-					</VBox> -->
-				</content>
-				<footer>
-					<Bar id="summaryFooterBar">
-						<contentRight>
-							<Button
-								id="submitOrder"
-								type="Accept"
-								text="Create New Order"
-								press="restartOrder"></Button>
-							<Button
-								id="cancelOrder"
-								type="Reject"
-								text="Close App"
-								press="closeApp"></Button>
-						</contentRight>
-					</Bar>
-				</footer>
-			</Page>
-		</pages>
-	</NavContainer>
+                    <layoutData>
+                      <layout:GridData span="XL8 L8 M8 S12"/>
+                    </layoutData>
+                  </Input>
+                  <Label text="{i18n>checkoutInvoiceAddressNote}" required="false">
+                    <layoutData>
+                      <layout:GridData span="XL4 L4 M4 S12"/>
+                    </layoutData>
+                  </Label>
+                  <TextArea rows="8" placeholder="{i18n>noteText}" value="{local>/SizeDetails/note}">
+                    <layoutData>
+                      <layout:GridData span="XL8 L8 M8 S12"/>
+                    </layoutData>
+                  </TextArea>
+                </form:SimpleForm>
+              </WizardStep>
+            </steps>
+          </Wizard>
+        </content>
+        <footer>
+          <Bar id="wizardFooterBar" visible="{= ${message>/}.length === 0 ? false : true}">
+            <contentLeft>
+              <Button id="showPopoverButton" icon="sap-icon://message-popup" text="{= ${message>/}.length }" type="Emphasized" press=".onShowMessagePopoverPress"/>
+            </contentLeft>
+          </Bar>
+        </footer>
+      </Page>
+      <Page id="summaryPage" backgroundDesign="Solid" showHeader="false">
+        <landmarkInfo>
+          <PageAccessibleLandmarkInfo rootRole="Region" rootLabel="{i18n>Checkout_rootLabel}" contentRole="Main" contentLabel="{i18n>Checkout_summaryContentLabel}" footerRole="Banner" footerLabel="{i18n>Checkout_footerLabel}"/>
+        </landmarkInfo>
+        <content>
+          <VBox alignItems="Center" direction="Column" class="sapUiMediumMargin">
+						<Image src="model/top-banner.jpg"/>
+            <FormattedText htmlText="{local>/OrderSummaryHTML}"/>
+            <Image src="model/thank-you-banner.jpg"/>
+            <!-- <Image src="model/shopthanks.gif"/> -->
+          </VBox>
+          <!-- <VBox alignItems="Center" direction="Column"> <Text class="orderConfirm" width="100%" text="Your Order Number is {local>/orderNo}, Please check your email for more details" /> <Image src="model/shopthanks.gif" /> <Image
+          src="model/thank-you-banner.jpg"/> </VBox> -->
+        </content>
+        <footer>
+          <Bar id="summaryFooterBar">
+            <contentRight>
+              <Button id="submitOrder" type="Accept" text="Create New Order" press="restartOrder"></Button>
+              <Button id="cancelOrder" type="Reject" text="Close App" press="closeApp"></Button>
+            </contentRight>
+          </Bar>
+        </footer>
+      </Page>
+    <!-- </pages> -->
+  </NavContainer>
 </mvc:View>

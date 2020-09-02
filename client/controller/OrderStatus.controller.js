@@ -121,14 +121,14 @@ sap.ui.define([
 				});
 		},
 		loadOrderItems : function(orderHeader,that){
-			// var oFilters = [];
-			// orderHeader.get("OrderHeader").forEach((item,key)=>{
-			// 	oFilters.push(new sap.ui.model.Filter("OrderNo","EQ", "'" + key + "'"));
-			// });
+			var oFilters = [];
+			orderHeader.get("OrderHeader").forEach((item,key)=>{
+				oFilters.push(new sap.ui.model.Filter("OrderNo","EQ", "'" + key + "'"));
+			});
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/OrderItems", "GET",
-					// {filters: oFilters},
-					{},
+					{filters: oFilters},
+					// {},
 					 {}, this)
 				.then(function(oData) {
 					oData.results.forEach((item)=>{
