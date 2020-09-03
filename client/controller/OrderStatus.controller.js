@@ -59,7 +59,7 @@ sap.ui.define([
 					CustomerCode : orderHeader.get("Customer").get(item.Customer).CustomerCode,
 					CustomerCity :  orderHeader.get("Customer").get(item.Customer).City,
 					CustomerMob : orderHeader.get("Customer").get(item.Customer).MobilePhone,
-					TotalWeight : totalWeight,
+					TotalWeight : totalWeight.toFixed(2),
 					TotalNetWeight : totalNetWeight,
 					TotalAmount : totalAmount,
 					OrderDate : item.Date,

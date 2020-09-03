@@ -127,7 +127,7 @@ sap.ui.define([
 							that.setMode();
 							setTimeout(()=>{
 								that.onCancel();
-							},500);
+							},700);
 						}).catch(function(oError) {
 							MessageBox.error("Error while saving product data");
 						});
@@ -150,7 +150,7 @@ sap.ui.define([
 											that2.setMode();
 											setTimeout(()=>{
 												that2.onCancel();
-											},500);
+											},700);
 										}).catch(function(oError) {
 											MessageBox.error("Error while saving product data");
 										});
@@ -168,17 +168,14 @@ sap.ui.define([
 				 var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
 				 this.ProductsearchPopup.bindAggregation("items", {
 					 path: '/Products',
-					 // parameters: {
-						// 		 expand: 'ToPhotos/0',
-						// 		 top: 1
-					 // },
+					 parameters: {
+								 expand: 'ToPhotos',
+								 top: 1
+					 },
 					 filters: [oFilter1],
 					 template: new sap.m.StandardListItem({
 						 title : "{ProductId}",
-						 description : "{Category} / {SubCategory} / {Name}"//,
-						 // icon : "",
-						 // iconDensityAware : false,
-						 // iconInset : false
+						 description : "{Category} / {SubCategory} / {Name}"
 					 })
 				 });
 			 }

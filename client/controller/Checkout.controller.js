@@ -186,7 +186,7 @@ sap.ui.define([
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Name : " + customer.Name + " &nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0,24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
-        " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight + " g</p>";
+        " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
       var orderNo = that.getOwnerComponent().getModel("local").getProperty("/orderNo");
       html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + orderNo + " , Please check your email for more details</p>";
       that.getOwnerComponent().getModel("local").setProperty("/OrderSummaryHTML", html);
