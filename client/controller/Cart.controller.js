@@ -26,9 +26,9 @@ sap.ui.define([
       //this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
       this._oRouter.getRoute("comparisonCart").attachMatched(this._routePatternMatched, this);
       // // set initial ui configuration model
-      var oCfgModel = new JSONModel({});
-      this.getView().setModel(oCfgModel, "cfg");
-      this._toggleCfgModel();
+      // var oCfgModel = new JSONModel({});
+      // this.getView().setModel(oCfgModel, "cfg");
+      // this._toggleCfgModel();
     },
 
     onExit: function() {
@@ -68,10 +68,17 @@ sap.ui.define([
       this.lastTwoDisplay(this.getView());
     },
     onCartItemDelete: function(oEvent) {
-      debugger;
+      var that = this;
       var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
-      var productId = oObj.id;
-      this.removeProductFromCart(oObj);
+      MessageBox.confirm("Item will be deleted!", {
+        title: "Confirm",
+        onClose: (oAction)=>{
+          if(oAction==="OK"){
+            that.removeProductFromCart(oObj);
+          }
+        },
+        styleClass: "sapUiSizeCompact",
+      });
     },
     removeProductFromCart: function(productRec) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
@@ -106,29 +113,29 @@ sap.ui.define([
       var oItem = this.getGridItemById(productId);
       return oItem.getContent()[2].getItems()[0];
     },
-    onEditOrDoneButtonPress: function() {
-      debugger;
-      this._toggleCfgModel();
-    },
-
-    _toggleCfgModel: function() {
-      debugger;
-      var oCfgModel = this.getView().getModel("cfg");
-      var oData = oCfgModel.getData();
-      var oBundle = this.getResourceBundle();
-      var bDataNoSetYet = !oData.hasOwnProperty("inDelete");
-      var bInDelete = (bDataNoSetYet ? true : oData.inDelete);
-      var sPhoneMode = (Device.system.phone ? "None" : "SingleSelectMaster");
-      var sPhoneType = (Device.system.phone ? "Active" : "Inactive");
-
-      oCfgModel.setData({
-        inDelete: !bInDelete,
-        notInDelete: bInDelete,
-        listMode: (bInDelete ? sPhoneMode : "Delete"),
-        listItemType: (bInDelete ? sPhoneType : "Inactive"),
-        pageTitle: (bInDelete ? oBundle.getText("appTitle") : oBundle.getText("cartTitleEdit"))
-      });
-    },
+    // onEditOrDoneButtonPress: function() {
+    //   debugger;
+    //   this._toggleCfgModel();
+    // },
+    //
+    // _toggleCfgModel: function() {
+    //   debugger;
+    //   var oCfgModel = this.getView().getModel("cfg");
+    //   var oData = oCfgModel.getData();
+    //   var oBundle = this.getResourceBundle();
+    //   var bDataNoSetYet = !oData.hasOwnProperty("inDelete");
+    //   var bInDelete = (bDataNoSetYet ? true : oData.inDelete);
+    //   var sPhoneMode = (Device.system.phone ? "None" : "SingleSelectMaster");
+    //   var sPhoneType = (Device.system.phone ? "Active" : "Inactive");
+    //
+    //   oCfgModel.setData({
+    //     inDelete: !bInDelete,
+    //     notInDelete: bInDelete,
+    //     listMode: (bInDelete ? sPhoneMode : "Delete"),
+    //     listItemType: (bInDelete ? sPhoneType : "Inactive"),
+    //     pageTitle: (bInDelete ? oBundle.getText("appTitle") : oBundle.getText("cartTitleEdit"))
+    //   });s
+    // },
 
     onEntryListPress: function(oEvent) {
       debugger;

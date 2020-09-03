@@ -40,7 +40,7 @@ sap.ui.define([
     },
     _routePatternMatched: function() {
       this._setLayout("One");
-      if(this.getView().byId("wizardNavContainer")._pageStack.length>1){
+      if (this.getView().byId("wizardNavContainer")._pageStack.length > 1) {
         this.getView().byId("wizardNavContainer")._pageStack.pop();
         this.getView().byId("shoppingCartWizard").setCurrentStep(this.getView().byId("shoppingCartWizard").getSteps()[0]);
       }
@@ -174,14 +174,17 @@ sap.ui.define([
       var totalAmount = 0;
       var totalWeight = 0;
       cartItems.forEach((oItem) => {
-        html += "<li><p style=\"font-weight:500;font-size:larger;\"> Name : " + oItem.Category + " - " + oItem.SubCategory + " - " + oItem.Name +
+        html += "<li><p style=\"font-weight:500;font-size:larger;\"> Item : " + oItem.Category + " / " + oItem.SubCategory + " / " + oItem.Name +
           "<br> Gross Weight : " + oItem.GrossWeight + " g" +
           ", &nbsp;&nbsp;&nbsp;&nbsp;Net Weight : " + oItem.NetWeight + " g" +
           "<br>Amount : " + oItem.Amount + " INR</p></li>";
         totalAmount += oItem.Amount;
         totalWeight += oItem.GrossWeight;
       });
-      html = "<h1 style=\"color:green; font-weight:800; font-size:xx-large;\">Order Summary</h1><hr>" + "<ol>" + html + "</ol>" +
+      var customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData");
+      html = "<h1 style=\"color:green; font-weight:800; font-size:xx-large;\">Order Summary</h1><hr>" +
+        "<p style=\"color:green; font-weight:600; font-size:x-large;\">Name : " + customer.Name + " &nbsp;&nbsp;&nbsp;&nbsp; " +
+        " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0,24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight + " g</p>";
       var orderNo = that.getOwnerComponent().getModel("local").getProperty("/orderNo");

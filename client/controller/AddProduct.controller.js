@@ -125,6 +125,9 @@ sap.ui.define([
 							that.getView().getModel("local").setProperty("/checkChange", false);
 							that.mode = "Edit";
 							that.setMode();
+							setTimeout(()=>{
+								that.onCancel();
+							},500);
 						}).catch(function(oError) {
 							MessageBox.error("Error while saving product data");
 						});
@@ -145,14 +148,15 @@ sap.ui.define([
 											that2.getView().getModel("local").setProperty("/checkChange", false);
 											that2.mode = "Edit";
 											that2.setMode();
+											setTimeout(()=>{
+												that2.onCancel();
+											},500);
 										}).catch(function(oError) {
 											MessageBox.error("Error while saving product data");
 										});
 						}
 				});
 			}
-
-
 	},
 			onProductValueHelp: function(oEvent){
        debugger;
@@ -164,10 +168,17 @@ sap.ui.define([
 				 var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
 				 this.ProductsearchPopup.bindAggregation("items", {
 					 path: '/Products',
+					 // parameters: {
+						// 		 expand: 'ToPhotos/0',
+						// 		 top: 1
+					 // },
 					 filters: [oFilter1],
-					 template: new sap.m.DisplayListItem({
-						 label: "{ProductId}"//,
-						// value: "{Name} - {city}"
+					 template: new sap.m.StandardListItem({
+						 title : "{ProductId}",
+						 description : "{Category} / {SubCategory} / {Name}"//,
+						 // icon : "",
+						 // iconDensityAware : false,
+						 // iconInset : false
 					 })
 				 });
 			 }
@@ -178,7 +189,7 @@ sap.ui.define([
 			   var that = this;
 			   //Push the selected product id to the local model
 		    	var myData = this.getView().getModel("local").getProperty("/Product");
-		     	var selProd = oEvent.getParameter("selectedItem").getLabel();
+		     	var selProd = oEvent.getParameter("selectedItem").getTitle();
 				 	myData.ProductId = selProd;
     	    this.getView().byId("idName").fireSubmit();
   	  },

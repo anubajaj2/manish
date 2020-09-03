@@ -43,8 +43,8 @@ sap.ui.define([
 						orderItemDetails.push(index+1);
 						var tempProd = orderHeader.get("Product").get(oItem.Material);
 						var tunch = tempProd.Tunch+tempProd.Wastage;
-						orderItemDetails.push(tempProd.Category.toLowerCase()+' - '+tempProd.SubCategory.toLowerCase() +
-						' ('+tunch+'Tunch) '+tempProd.Name.toLowerCase());
+						orderItemDetails.push(tempProd.Category.toLowerCase()+' / '+tempProd.SubCategory.toLowerCase() +
+						' / '+tempProd.Name.toLowerCase()+' ('+tunch+'Tunch) ');
 						totalWeight+=orderHeader.get("Weight").get(oItem.WeightId).GrossWeight;
 						orderItemDetails.push(orderHeader.get("Weight").get(oItem.WeightId).GrossWeight);
 						totalNetWeight+=orderHeader.get("Weight").get(oItem.WeightId).NetWeight;

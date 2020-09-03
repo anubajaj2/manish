@@ -4,7 +4,7 @@
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page
 		id="page"
-		title="{cfg>/pageTitle}"
+		title="Cart"
 		backgroundDesign="Solid"
 		showNavButton="{appView>/smallScreenMode}"
 		navButtonPress=".onBack"
@@ -23,13 +23,13 @@
 		</landmarkInfo>
 		<headerContent>
 
-			<Button
+			<!-- <Button
 				id="editButton"
 				icon="sap-icon://edit"
 				enabled="true"
 				visible="{cfg>/notInDelete}"
 				press=".onEditOrDoneButtonPress"
-				tooltip="{i18n>cartEditButtonTooltip}"/>
+				tooltip="{i18n>cartEditButtonTooltip}"/> -->
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
@@ -48,20 +48,19 @@
 					type="Accept"
 					text="{i18n>cartProceedButtonText}"
 					enabled="true"
-					visible="{cfg>/notInDelete}"
 					press=".onProceedButtonPress"/>
-				<Button
+				<!-- <Button
 					id="doneButton"
 					text="{i18n>cartDoneButtonText}"
 					enabled="true"
 					visible="{cfg>/inDelete}"
-					press=".onEditOrDoneButtonPress"/>
+					press=".onEditOrDoneButtonPress"/> -->
 			</Toolbar>
 		</footer>
 		<content>
 			<List
 				id="entryList"
-				mode="{cfg>/listMode}"
+				mode="Delete"
 				delete="onCartItemDelete"
 				noDataText="{i18n>cartNoData}"
 				items="{
@@ -74,7 +73,7 @@
 				<items>
 					<ObjectListItem
 						intro="{local>GrossWeight} X {local>Tunch}"
-						type="{cfg>/listItemType}"
+						type="Inactive"
 						icon="{local>PictureUrl}"
 						title="{local>Name}"
 						number="{

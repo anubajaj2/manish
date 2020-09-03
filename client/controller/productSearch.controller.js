@@ -294,12 +294,24 @@ sap.ui.define([
       this.getRouter().navTo("comparisonCart");
     },
     onSelectProduct: function(oEvent) {
-      debugger;
       //popover of product details
       var oButton = oEvent.getSource();
       //get binding path of parent list item
       var sPath = oButton.getParent().getBindingContext().getPath();
-
+      // this.sPath = sPath;
+      var that = this;
+      if (!this.loadedWeights[sPath]) {
+        this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2])
+        .then(function(data) {
+          that.loadedWeights[sPath] = data.ProdWeights;
+          that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
+        });
+      }else {
+        var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
+        var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+        this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
+      }
+      debugger;
       if (!this._oPopover) {
         Fragment.load({
           name: "sap.ui.demo.cart.fragments.productDetails",
@@ -314,7 +326,6 @@ sap.ui.define([
         this._oPopover.bindElement(sPath);
         this._oPopover.openBy(oButton);
       }
-
     },
     handleCloseButton: function() {
       this._oPopover.close();
