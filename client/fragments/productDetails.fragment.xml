@@ -64,7 +64,7 @@
 						<t:Column >
 							<Label text="Item Name"/>
 							<t:template>
-								<Text text="{local>Item}" wrapping="false"/>
+								<Text text="{path : 'local>Item', formatter : '.formatter.getItemName'}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
@@ -82,19 +82,25 @@
 						<t:Column >
 							<Label text="Weight"/>
 							<t:template>
-								<Text text="{local>Weight}" wrapping="false"/>
+								<Text text="{local>Weight} gm" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="Rate"/>
 							<t:template>
-								<Text text="{local>Rate}" wrapping="false"/>
+								<Text text="{path : 'local>Rate', formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Less Weight"/>
+							<t:template>
+								<Text text="{local>Net} gm" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="Total Amount"/>
 							<t:template>
-								<Text text="{local>MoreAmount}" wrapping="false"/>
+								<Text text="{path : 'local>MoreAmount', formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/>
 							</t:template>
 						</t:Column>
 					</t:columns>

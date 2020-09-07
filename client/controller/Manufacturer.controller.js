@@ -25,7 +25,6 @@ sap.ui.define([
       oRouter.getRoute("Manufacturer").attachMatched(this._onRouteMatched, this);
     },
     _onRouteMatched: function(oEvent) {
-      debugger;
       var that = this;
       var viewModel = this.getView().getModel("viewModel");
       viewModel.setProperty("/codeEnabled", true);
@@ -65,7 +64,6 @@ sap.ui.define([
       //this.clearScreen();
     },
     clearScreen: function() {
-      debugger;
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
       var viewModel = this.getView().getModel("viewModel");
       var dataModel = this.getView().getModel("dataModel");
@@ -147,11 +145,15 @@ sap.ui.define([
       return id;
 
     },
+    onManufacturerSelect : function(oEvent){
+      var sPath = oEvent.getParameter('rowContext').getPath()+'/CustomerCode';
+      var code = this.getView().getModel('manufactureModelInfo').getProperty(sPath);
+      this.manufacturerCheck(code);
+    },
     manufacturerCheck: function(code) {
-      debugger;
       var that = this;
       var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
-
+      debugger;
       function getmanufacturerDetail(code) {
         return manufacturerJson.filter(
           function(data) {

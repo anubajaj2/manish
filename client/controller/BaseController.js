@@ -328,7 +328,7 @@ sap.ui.define([
 			this.getView().getModel("local").setProperty("/allImages", allImages);
 		},
 		calculateOrderEstimate: function(){
-			var allItems = this._oLocalModel.getProperty("/cartItems");
+			var allItems = this.getModel("local").getProperty("/cartItems");
 			var totalAmount = 0;
 			var totalGm = 0;
 			for (var i = 0; i < allItems.length; i++) {
@@ -338,8 +338,8 @@ sap.ui.define([
 				totalAmount = totalAmount + amount;
 				fineGold = 0; amount = 0;
 			}
-			this._oLocalModel.setProperty("/fineGm", totalGm.toFixed(3));
-			this._oLocalModel.setProperty("/fineRs", totalAmount.toFixed(0));
+			this.getModel("local").setProperty("/fineGm", totalGm.toFixed(3));
+			this.getModel("local").setProperty("/fineRs", totalAmount);
 		},
 		firstTwoDisplay: function(){
 			this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
@@ -432,7 +432,7 @@ sap.ui.define([
 		},
 
 		logOutApp:function(){
-			debugger;
+
 			MessageBox.alert("Logout Successful");
 			window.top.location.href = "/";
 		},
@@ -490,7 +490,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_unhideMiddlePage: function () {
-			debugger;
+
 			// TODO: bug in sap.f router, open ticket and remove this method afterwards
 			setTimeout(function () {
 			this.getOwnerComponent().getRootControl().getContent()[0].getPages()[1].byId("layout").getCurrentMidColumnPage().removeStyleClass("sapMNavItemHidden");

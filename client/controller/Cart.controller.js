@@ -98,6 +98,7 @@ sap.ui.define([
       }
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
       this.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
+      this.calculateOrderEstimate();
     },
     getGridItemById: function(productId) {
       debugger;

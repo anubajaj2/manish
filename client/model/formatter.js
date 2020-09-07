@@ -130,6 +130,18 @@ sap.ui.define([
 			date = date.toString();
 			return date.slice(4,15)+", Time : "+date.slice(16,24)+" IST";
 		},
+		getItemName : function(key){
+			switch (key) {
+				case "CST": return "Color Stone";
+				case "DMD": return "Diamond";
+				case "MLW": return "Mala Weight";
+				case "MTW": return "Moti";
+				case "POL": return "Polki";
+				case "STW": return "Stone";
+				case "SRM": return "Surma";
+				default : return "Others";
+			}
+		},
  		checkPhotoStat: function(value){
  			if(value){
  				if(value === "X"){
@@ -224,7 +236,6 @@ sap.ui.define([
  		},
 
  		formatStatusValue: function(sValue) {
- 			debugger;
  			switch (sValue) {
  				case "L": return "Live";
  				case "V": return "Video";

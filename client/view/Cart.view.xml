@@ -37,10 +37,7 @@
 			<Toolbar>
 				<Text
 					id="totalPriceText"
-					text="{
-						path : 'local>/cartItems',
-						formatter : '.formatter.totalPrice'
-					} EUR"
+					text="{path :'local>/fineGm', formatter : '.formatter.getIndianCurr'} INR"
 					class="sapUiTinyMarginBegin"/>
 				<ToolbarSpacer/>
 				<Button
