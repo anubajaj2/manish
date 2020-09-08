@@ -8,7 +8,8 @@ var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
 var fs = require('fs');
-// var json2xls = require('json2xls');
+var path = require('path');
+var json2xls = require('json2xls');
 var app = express();
 app = module.exports = loopback();
 
@@ -28,7 +29,7 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
-// app.use(json2xls.middleware);
+app.use(json2xls.middleware);
 app.start = function() {
   // start the web server
   return app.listen(function() {
@@ -43,13 +44,47 @@ app.start = function() {
   });
 };
 
-// app.get('/ExcelRetailer', function(req, res) {
-//   var oTable = app.model.Customer;
-//   oTable.find({}).then(function(data) {
-//     res.xls('data.xlsx', data);
-//   });
-//
-// });
+app.post("/DownloadRetailersData", function(req, res) {
+  var app = require('../server/server');
+  var Customer = app.models.Customer;
+  var json = [];
+  Customer.find({})
+    .then(function(data) {
+      data.forEach((item) => {
+        json.push({
+          "Name": item.Name,
+          "Code": item.CustomerCode,
+          "City": item.City,
+          "Address": item.Address,
+          "Mobile": item.MobilePhone,
+          "E-mail": item.EmailId
+        });
+      });
+      var xls = json2xls(json);
+      var currentdate = new Date();
+      // debugger;
+      var fileDate = currentdate.getDate() + "_" + (currentdate.getMonth() + 1) + "_" +
+        currentdate.getFullYear() + "_" + currentdate.getHours() + "" + currentdate.getMinutes() + "" +
+        currentdate.getSeconds();
+      var tempFilePath = './server/retailerReports/Retailers' +fileDate+ '.xlsx';
+      // debugger;
+      // var filePath = 'data.xlsx';
+      fs.writeFileSync(tempFilePath, xls, 'binary');
+      res.xls('data.xlsx', json);
+      // // Coding to download in a folder
+      // var options = {
+      //   root: path.join(__dirname)
+      // };
+      // res.sendFile(tempFilePath, options, function(err) {
+      //   if (err) {
+      //     console.log('Not Sent:', 'Retailers.xlsx'+err);
+      //     // next(err);
+      //   } else {
+      //     console.log('Sent:', 'Retailers.xlsx');
+      //   }
+      // });
+    });
+});
 
 app.get("/ToProdPhoto", function(req, res) {
   var app = require('../server/server');

@@ -68,9 +68,24 @@ sap.ui.define([
         //
         this.clearScreen();
       },
+
+      onDownloadRetailersData: function(oEvent) {
+        var that = this;
+        $.post("/DownloadRetailersData", {})
+          .done(function(eData, status) {
+            var data = new Blob([eData], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+            var url = window.URL.createObjectURL(data);
+            var link = that.getView().byId("downloadLink");
+            link.setText("Download");
+            link.setHref(url);
+          })
+          .fail(function(xhr, status, error) {
+
+          });
+      },
       clearScreen: function() {
-
-
         var customerModel = this.getView().getModel("local").getProperty("/Customer");
         var viewModel = this.getView().getModel("viewModel");
         var dataModel = this.getView().getModel("dataModel");
@@ -159,8 +174,8 @@ sap.ui.define([
         return id;
 
       },
-      onCustomerSelect : function(oEvent){
-        var sPath = oEvent.getParameter('rowContext').getPath()+'/CustomerCode';
+      onCustomerSelect: function(oEvent) {
+        var sPath = oEvent.getParameter('rowContext').getPath() + '/CustomerCode';
         var code = this.getView().getModel('customerModelInfo').getProperty(sPath);
         this.customerCheck(code);
       },

@@ -13,6 +13,8 @@
 					<t:extension>
 						<OverflowToolbar>
 							<Title id="title" text="Retailers"/>
+							<Button icon="sap-icon://download" tooltip="Download" press="onDownloadRetailersData"/>
+							<Link id = "downloadLink"/>
 						</OverflowToolbar>
 					</t:extension>
 					<t:columns>
