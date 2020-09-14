@@ -9,12 +9,15 @@
 		<semantic:content id="Customer_screen1">
 			<core:Fragment id="Customer" fragmentName="sap.ui.demo.cart.fragments.Customer" type="XML"/>
 			<VBox>
-				<t:Table rows="{customerModelInfo>/results}" selectionMode="Single" rowSelectionChange="onCustomerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="8" visibleRowCountMode="Auto">
+				<t:Table rows="{customerModelInfo>/results}" id ="customerTable" selectionMode="Single" rowSelectionChange="onCustomerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="8" visibleRowCountMode="Auto">
 					<t:extension>
 						<OverflowToolbar>
 							<Title id="title" text="Retailers"/>
 							<Button icon="sap-icon://download" tooltip="Download" press="onDownloadRetailersData"/>
 							<Link id = "downloadLink"/>
+							<ToolbarSpacer/>
+							<SearchField width="71%" class="sapUiSmallMargin"/>
+							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" />
 						</OverflowToolbar>
 					</t:extension>
 					<t:columns>

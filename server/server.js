@@ -67,22 +67,25 @@ app.post("/DownloadRetailersData", function(req, res) {
         currentdate.getFullYear() + "_" + currentdate.getHours() + "" + currentdate.getMinutes() + "" +
         currentdate.getSeconds();
       var tempFilePath = './server/retailerReports/Retailers' +fileDate+ '.xlsx';
+      var filePath = './retailerReports/Retailers' +fileDate+ '.xlsx';
       // debugger;
       // var filePath = 'data.xlsx';
       fs.writeFileSync(tempFilePath, xls, 'binary');
-      res.xls('data.xlsx', json);
+      // var base64 = xls.toString('base64');
+      // res.send(base64);
+      // res.xls('data.xlsx', json);
       // // Coding to download in a folder
-      // var options = {
-      //   root: path.join(__dirname)
-      // };
-      // res.sendFile(tempFilePath, options, function(err) {
-      //   if (err) {
-      //     console.log('Not Sent:', 'Retailers.xlsx'+err);
-      //     // next(err);
-      //   } else {
-      //     console.log('Sent:', 'Retailers.xlsx');
-      //   }
-      // });
+      var options = {
+        root: path.join(__dirname)
+      };
+      res.sendFile(filePath, options, function(err) {
+        if (err) {
+          console.log('Not Sent:', 'Retailers.xlsx'+err);
+          // next(err);
+        } else {
+          console.log('Sent:', 'Retailers.xlsx');
+        }
+      });
     });
 });
 

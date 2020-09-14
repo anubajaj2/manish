@@ -327,6 +327,7 @@ sap.ui.define([
               "/Manufacturers('" + id + "')", "PUT", {},
               oSaveData, this)
             .then(function(oData) {
+              that._onRouteMatched();
               MessageToast.show("Data saved successfully");
               that.UpdateLocalModel();
               that.clearScreen();

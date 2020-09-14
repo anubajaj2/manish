@@ -67,8 +67,8 @@ sap.ui.define([
           "id": "",
           "ProductId": "",
           "Name": "",
-          "Category": this.getView().byId("idCat").getSelectedKey(),
-          "SubCategory": this.getView().byId("idSubCat").getSelectedKey(),
+          "Category": "",//this.getView().byId("idCat").getSelectedKey(),
+          "SubCategory": "",//this.getView().byId("idSubCat").getSelectedKey(),
           "Type": "S",
           "PairType": 2,
           "ShortDescription": "null",
@@ -129,7 +129,7 @@ sap.ui.define([
             that.setMode();
             setTimeout(() => {
               that.onCancel();
-            }, 700);
+            }, 900);
           }).catch(function(oError) {
             MessageBox.error("Error while saving product data");
           });

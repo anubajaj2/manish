@@ -270,25 +270,41 @@ sap.ui.define([
       // }
       // if (!this.pressDialog) {
       this.pressDialog = new Dialog({
-        title: "Available Images",
-        stretch: true,
+        // title: "Available Images",
+        // stretch: true,
+        // contentHeight: "110%",
+        contentWidth : "75%",
+        resizable : true,
+        showHeader : false,
+        draggable : true,
         content: new Carousel({
           pages: aImages
         }),
-        beginButton: new Button({
-          type: "Emphasized",
-          text: "Close",
-          press: function() {
-            this.pressDialog.close();
-          }.bind(this)
+        customHeader: new sap.m.OverflowToolbar({
+          design : "Transparent",
+          style : "Clear",
+          content : [new sap.m.ToolbarSpacer(), new Button({
+            type: "Emphasized",
+            icon : "sap-icon://decline",
+            press: function() {
+              this.pressDialog.close();
+            }.bind(this)
+          })]
         })
+        // beginButton: new Button({
+        //   type: "Emphasized",
+        //   icon : "sap-icon://decline",
+        //   press: function() {
+        //     this.pressDialog.close();
+        //   }.bind(this)
+        // })
       });
       //to get access to the global model
       this.getView().addDependent(this.pressDialog);
       // }
       this.pressDialog.open();
-      debugger;
-      this.pressDialog.setContentHeight("100%");
+      this.pressDialog.setInitialFocus(this.pressDialog.getCustomHeader().getContent()[1])
+      // this.pressDialog.setContentHeight("100%");
     },
     onFullScreen: function() {
       this.getRouter().navTo("comparisonCart");

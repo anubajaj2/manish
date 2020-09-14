@@ -73,10 +73,16 @@ sap.ui.define([
         var that = this;
         $.post("/DownloadRetailersData", {})
           .done(function(eData, status) {
-            var data = new Blob([eData], {
-              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            });
-            var url = window.URL.createObjectURL(data);
+            var blob = eData;
+            // var bin = atob(eData.toString('base64'));
+            // var ab = s2ab(bin);
+            // var data = new Blob([eData], {
+            //   type: 'application/vnd.ms-excel'
+            // });
+            // var url = window.URL.createObjectURL(data);
+            // var url = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + encodeURIComponent(eData);
+            // var url = Formatter.getExcelUrlFromContent(eData);
+            var url = window.URL.createObjectURL(new Blob([blob], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
             var link = that.getView().byId("downloadLink");
             link.setText("Download");
             link.setHref(url);
@@ -323,8 +329,6 @@ sap.ui.define([
         };
       },
       saveData: function(oEvent) {
-
-
         var that = this;
         var dataModel = this.getView().getModel("dataModel");
         var viewModel = this.getView().getModel("viewModel");
@@ -359,6 +363,7 @@ sap.ui.define([
 
                 that.UpdateLocalModel();
                 that.clearScreen();
+                that._onRouteMatched();
                 MessageToast.show("Data saved successfully");
               }).catch(function(oError) {
                 MessageToast.show("Data could not be saved");
