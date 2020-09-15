@@ -126,7 +126,8 @@ sap.ui.define([
       onCustomerSearch : function(oEvent){
         var search = oEvent.getSource().getValue();
         var filters = [new Filter({path: 'CustomerCode',operator: FilterOperator.Contains,value1: search}),
-                       new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search})];
+                       new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search}),
+                     new Filter({path: 'Name',operator: FilterOperator.Contains,value1: search})];
         oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({filters:filters,and:false}));
       },
       CodeCheck: function(oEvent) {
@@ -228,9 +229,9 @@ sap.ui.define([
             }
             if (found[0].id) {
 
-              var oFilter = new sap.ui.model.Filter({
+              var oFilter = new Filter({
                 filters: [
-                  new sap.ui.model.Filter("RetailerId", sap.ui.model.FilterOperator.EQ, found[0].id)
+                  new Filter("RetailerId", FilterOperator.EQ, found[0].id)
                 ]
               });
               this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -365,8 +366,8 @@ sap.ui.define([
 
           var id = this.customerCheck1(oSaveData.CustomerCode);
           if (id) {
-            var oFilter = new sap.ui.model.Filter("RetailerId",
-              sap.ui.model.FilterOperator.EQ, id);
+            var oFilter = new Filter("RetailerId",
+              FilterOperator.EQ, id);
             //  if (changeCheck === 'false') {
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
                 "/Customers('" + id + "')", "PUT", {},

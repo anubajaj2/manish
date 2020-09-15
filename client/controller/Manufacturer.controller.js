@@ -4,9 +4,11 @@ sap.ui.define([
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageToast",
   "sap/ui/demo/cart/model/formatter",
-  "sap/m/MessageBox"
+  "sap/m/MessageBox",
+  "sap/ui/model/Filter",
+  "sap/ui/model/FilterOperator"
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
@@ -65,9 +67,10 @@ sap.ui.define([
     },
     onManufacturerSearch : function(oEvent){
       var search = oEvent.getSource().getValue();
-      var filters = [new sap.ui.model.Filter({path: 'CustomerCode',operator: sap.ui.model.FilterOperator.Contains,value1: search}),
-                     new sap.ui.model.Filter({path: 'EmailId',operator: sap.ui.model.FilterOperator.Contains,value1: search})];
-      oEvent.getSource().getParent().getParent().getBinding("rows").filter(new sap.ui.model.Filter({filters:filters,and:false}));
+      var filters = [new Filter({path: 'CustomerCode',operator: FilterOperator.Contains,value1: search}),
+                     new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search}),
+                    new Filter({path: 'Name',operator: FilterOperator.Contains,value1: search})];
+      oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({filters:filters,and:false}));
     },
     clearScreen: function() {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
@@ -188,10 +191,10 @@ sap.ui.define([
           }
 
           if (found[0].id) {
-            var oFilter = new sap.ui.model.Filter({
+            var oFilter = new Filter({
               filters: [
-                new sap.ui.model.Filter("ManufacturerId",
-                  sap.ui.model.FilterOperator.EQ, found[0].id)
+                new Filter("ManufacturerId",
+                  FilterOperator.EQ, found[0].id)
               ]
             });
             this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -323,10 +326,10 @@ sap.ui.define([
 
         var id = this.manufacturerCheck1(oSaveData.CustomerCode);
         if (id) {
-          var oFilter = new sap.ui.model.Filter({
+          var oFilter = new Filter({
             filters: [
-              new sap.ui.model.Filter("ManufacturerId",
-                sap.ui.model.FilterOperator.EQ, id)
+              new Filter("ManufacturerId",
+                FilterOperator.EQ, id)
             ]
           });
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -478,7 +481,7 @@ sap.ui.define([
       var that = this;
       var sValue = this.getView().byId("idCode").getValue().toUpperCase();
       this.getView().byId("idCode").setValue(sValue);
-      var Filter1 = new sap.ui.model.Filter("CustomerCode", "EQ", sValue);
+      var Filter1 = new Filter("CustomerCode", "EQ", sValue);
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Manufacturers", "GET", {
           filters: [Filter1]
         }, {}, this)
