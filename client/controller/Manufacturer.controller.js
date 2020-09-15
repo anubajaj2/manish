@@ -63,6 +63,12 @@ sap.ui.define([
       //
       //this.clearScreen();
     },
+    onManufacturerSearch : function(oEvent){
+      var search = oEvent.getSource().getValue();
+      var filters = [new sap.ui.model.Filter({path: 'CustomerCode',operator: sap.ui.model.FilterOperator.Contains,value1: search}),
+                     new sap.ui.model.Filter({path: 'EmailId',operator: sap.ui.model.FilterOperator.Contains,value1: search})];
+      oEvent.getSource().getParent().getParent().getBinding("rows").filter(new sap.ui.model.Filter({filters:filters,and:false}));
+    },
     clearScreen: function() {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
       var viewModel = this.getView().getModel("viewModel");

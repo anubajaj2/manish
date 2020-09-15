@@ -4,10 +4,15 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/ui/demo/cart/model/formatter",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    'sap/ui/model/Filter',
+    'sap/ui/model/FilterOperator'
   ],
   function(BaseController, UIComponent, JSONModel,
-    MessageToast, Formatter, MessageBox) {
+    MessageToast, Formatter, MessageBox,
+    Filter,
+    FilterOperator
+  ) {
     "use strict";
     var customerId;
     var changeCheck = 'false';
@@ -82,7 +87,9 @@ sap.ui.define([
             // var url = window.URL.createObjectURL(data);
             // var url = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + encodeURIComponent(eData);
             // var url = Formatter.getExcelUrlFromContent(eData);
-            var url = window.URL.createObjectURL(new Blob([blob], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+            var url = window.URL.createObjectURL(new Blob([blob], {
+              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            }));
             var link = that.getView().byId("downloadLink");
             link.setText("Download");
             link.setHref(url);
@@ -116,7 +123,12 @@ sap.ui.define([
         dataModel.setProperty("/emailState", "None");
         this.getView().getModel("local").setProperty("/Customer", customerModel);
       },
-
+      onCustomerSearch : function(oEvent){
+        var search = oEvent.getSource().getValue();
+        var filters = [new Filter({path: 'CustomerCode',operator: FilterOperator.Contains,value1: search}),
+                       new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search})];
+        oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({filters:filters,and:false}));
+      },
       CodeCheck: function(oEvent) {
 
         var text = oEvent.getParameter("newValue");
@@ -472,8 +484,7 @@ sap.ui.define([
         }
       },
       updateGroup: function(oFilter) {
-
-
+        s
         var that = this;
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/RetailerGroups", "GET", {

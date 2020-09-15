@@ -80,7 +80,7 @@
 							<Button icon="sap-icon://download" tooltip="Download" press="onDownloadRetailersData"/>
 							<Link id = "downloadLink"/>
 							<ToolbarSpacer/>
-							<SearchField width="71%" class="sapUiSmallMargin"/>
+							<SearchField width="71%" liveChange="onManufacturerSearch" class="sapUiSmallMargin"/>
 							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" />
 						</OverflowToolbar>
 					</t:extension>
