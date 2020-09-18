@@ -90,7 +90,7 @@ sap.ui.define([
 
           } else {
             MessageToast.show(result);
-            that2.ProductsearchPopup = null;
+            that.ProductsearchPopup = null;
           }
         })
         .fail(function(xhr, status, error) {
