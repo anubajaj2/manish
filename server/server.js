@@ -88,7 +88,41 @@ app.post("/DownloadRetailersData", function(req, res) {
       });
     });
 });
-
+app.post("/DeleteProduct", function(req, res) {
+  var app = require('../server/server');
+  var that = this;
+  if (!req.body.productCode) {
+    return;
+  }
+  var products = app.models.Product;
+  products.findOne({
+    where: {
+      ProductId: req.body.productCode
+    }
+  }).
+  then(function(product) {
+    if(!product){
+      res.send("Product doesn't exist!");
+      return;
+    }
+    that.productId = product.id;
+    var orderItems = app.models.OrderItem;
+    orderItems.findOne({
+      where : {
+        Material : product.id
+      }
+    }).
+    then(function(result){
+      debugger;
+      if(!result){
+        res.send("id :"+that.productId);
+      }
+      else{
+        res.send("No!, Order is created with this product");
+      }
+    });
+  });
+});
 app.get("/ToProdPhoto", function(req, res) {
   var app = require('../server/server');
   debugger;

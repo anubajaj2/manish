@@ -238,6 +238,13 @@
 														"home"
 													]
 												},
+												{
+												"pattern": "orders",
+												"name": "orders",
+												"target": [
+													"customerOrders"
+												]
+											},
 													{
 														"pattern": "category/productSearch",
 														"name": "productSearch",
@@ -320,12 +327,27 @@
 					"viewId": "welcomeView",
 					"controlAggregation": "midColumnPages"
 				},
+				"customerItems": {
+					"viewName": "CustomerItems",
+					"viewLevel": 1,
+					"controlId": "__xmlview0--layout",
+					"viewId": "customerItemsView",
+					"controlAggregation": "midColumnPages"
+				},
 				"home": {
 					"viewName": "Home",
 					"viewLevel": 2,
 					"controlId": "__xmlview0--layout",
 					"controlAggregation": "beginColumnPages",
 					"viewId": "homeView",
+					"title": "{i18n>appTitle}"
+				},
+				"customerOrders": {
+					"viewName": "CustomerOrders",
+					"viewLevel": 2,
+					"controlId": "__xmlview0--layout",
+					"controlAggregation": "beginColumnPages",
+					"viewId": "customerOrderView",
 					"title": "{i18n>appTitle}"
 				},
 				"cart": {

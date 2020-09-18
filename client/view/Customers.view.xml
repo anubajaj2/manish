@@ -17,7 +17,7 @@
 							<Link id = "downloadLink"/>
 							<ToolbarSpacer/>
 							<SearchField width="71%" liveChange="onCustomerSearch" class="sapUiSmallMargin"/>
-							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" />
+							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" press="onCustomerFilter"/>
 						</OverflowToolbar>
 					</t:extension>
 					<t:columns>

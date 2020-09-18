@@ -7,8 +7,9 @@ sap.ui.define([
 	"sap/ui/demo/cart/dbapi/dbapi",
 	"sap/f/LayoutType",
 	"sap/ui/demo/cart/model/formatter",
+	"sap/ui/core/Fragment",
 	"sap/m/MessageBox"
-], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType, formatter, MessageBox) {
+], function(Controller, MessageToast, UIComponent, History, cart, ODataHelper, LayoutType, formatter, Fragment, MessageBox) {
 	"use strict";
 
 
@@ -25,7 +26,46 @@ sap.ui.define([
 		 * @returns {sap.ui.core.routing.Router} the router for this component
 		 */
 		onInit: function () {
+		},
+		closePopover: function () {
+			this._oPopover.destroy();
+			this._oPopover = null;
+		},
+		onUserPress: function (oEvent) {
+			var oButton = oEvent.getSource();
+			// create popover
+			if (!this._oPopover) {
+				Fragment.load({
+					id: "popoverNavCon",
+					name: "sap.ui.demo.cart.fragments.Profile",
+					controller: this
+				}).then(function(oPopover){
+					this._oPopover = oPopover;
+					this.getView().addDependent(this._oPopover);
+					this._oPopover.openBy(oButton);
+				}.bind(this));
+			} else {
+				this._oPopover.openBy(oButton);
+			}
+		},
 
+		showProfile : function (oEvent) {
+			this._oPopover.setContentWidth("25%");
+			this._oPopover.setContentHeight("75%");
+			var oNavCon = Fragment.byId("popoverNavCon", "navCon");
+			var oDetailPage = Fragment.byId("popoverNavCon", "detail");
+			oNavCon.to(oDetailPage);
+			this._oPopover.focus();
+		},
+		onOrders : function(){
+			this.getRouter().navTo("orders");
+		},
+		onNavBack : function (oEvent) {
+			this._oPopover.setContentWidth("18%");
+			this._oPopover.setContentHeight("11%");
+			var oNavCon = Fragment.byId("popoverNavCon", "navCon");
+			oNavCon.back();
+			this._oPopover.focus();
 		},
 		_allWeights: [],
 		reverseSort: function(data, text){
@@ -222,7 +262,30 @@ sap.ui.define([
 			if (this.mode === "Edit") {
 				this.getView().byId("idName").setEnabled(false);
 				this.getView().byId("idPName").focus();
-			}else{
+			}
+			else if(this.mode="Copy"){
+				var prodWeights = this.getView().getModel("local").getProperty("/ProdWeights");
+				prodWeights.forEach((item)=>{
+					item.ProductId = "";
+					item.SoldOn = new Date();
+					item.CreatedOn = new Date();
+					delete item.id;
+				});
+				this.getView().getModel("local").setProperty("/ProdWeights",prodWeights);
+				var allImages = this.getView().getModel("local").getProperty("/allImages");
+				allImages.forEach((item)=>{
+					item.Product = "";
+					item.CreatedOn = new Date();
+					delete item.id;
+				});
+				this.getView().getModel("local").setProperty("/allImages",allImages);
+				this.getView().getModel("local").setProperty("/deleteImages", []);
+				this.getView().getModel("local").setProperty("/checkChange", false);
+				if(this.getView().byId("idName")){
+						this.getView().byId("idName").setEnabled(true);
+				}
+			}
+				else {
 				this._deletedImages = [];
 				this.getView().getModel("local").setProperty("/ProdWeights", [{
 					"ProductId": "null",

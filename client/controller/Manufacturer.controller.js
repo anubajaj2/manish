@@ -6,9 +6,10 @@ sap.ui.define([
   "sap/ui/demo/cart/model/formatter",
   "sap/m/MessageBox",
   "sap/ui/model/Filter",
-  "sap/ui/model/FilterOperator"
+  "sap/ui/model/FilterOperator",
+  "sap/m/SelectDialog"
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox, Filter, FilterOperator) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
@@ -158,6 +159,55 @@ sap.ui.define([
       var sPath = oEvent.getParameter('rowContext').getPath()+'/CustomerCode';
       var code = this.getView().getModel('manufactureModelInfo').getProperty(sPath);
       this.manufacturerCheck(code);
+    },
+    onCustomerFilter : function(oEvent){
+      if(!this.oDialog){
+        var manufacturerInfo = this.getView().getModel("manufactureModelInfo").getProperty("/results");
+        var s = new Set();
+        manufacturerInfo.forEach((item)=>{
+          s.add(item.City);
+        });
+        manufacturerInfo = [];
+        s.forEach((item)=>{
+          manufacturerInfo.push({"City" : item});
+        });
+        this.getView().getModel("manufactureModelInfo").setProperty("/uniqueCities",manufacturerInfo);
+        this.oDialog = new SelectDialog({
+          title: "Select weights",
+          multiSelect: true,
+          search : this.searchCity.bind(this),
+          confirm: this.filterConfirm.bind(this),
+          cancel : this.filterCancel.bind(this)
+        });
+        this.getView().addDependent(this.oDialog);
+        this.oDialog.setModel(this.getView().getModel("manufactureModelInfo"));
+        this.oDialog.bindAggregation("items", {
+          path: "/uniqueCities",
+          template: new sap.m.DisplayListItem({
+            label: "{City}"
+          })
+        });
+        this.oDialog.open();
+      }
+      else{
+        this.oDialog.open();
+      }
+    },
+    searchCity : function(oEvent){
+      var search = oEvent.getParameter("value");
+      var oFilter = new Filter({path: 'City',operator: FilterOperator.Contains,value1: search});
+      this.oDialog.getBinding('items').filter([oFilter]);
+    },
+    filterConfirm : function(oEvent){
+      var selectedItems = oEvent.getParameter("selectedItems");
+      var filters = []
+      selectedItems.forEach((item)=>{
+        filters.push(new Filter({path: 'City',operator: FilterOperator.Contains,value1: item.getLabel()}));
+      });
+      this.getView().byId('customerTable').getBinding('rows').filter(new Filter({filters:filters,and:false}));
+    },
+    filterCancel : function(){
+      this.getView().byId('customerTable').getBinding('rows').filter([]);
     },
     manufacturerCheck: function(code) {
       var that = this;

@@ -1,6 +1,6 @@
 sap.ui.define([
   "sap/ui/demo/cart/controller/BaseController",
-	"sap/ui/demo/cart/model/formatter",
+  "sap/ui/demo/cart/model/formatter",
   "sap/ui/core/UIComponent",
   "sap/ui/model/json/JSONModel",
   "sap/ui/core/HTML",
@@ -60,15 +60,52 @@ sap.ui.define([
       this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
       this.setAvailableProductCode();
     },
-    onCancel: function() {
+    onDelete: function() {
+      var that = this;
+      var productId = this.getView().byId("idName").getValue();
+      $.post('/DeleteProduct', {
+          "productCode": productId
+        })
+        .done(function(result, status) {
+          if (result.startsWith("id")) {
+            var prodWeights = that.getView().getModel("local").getProperty("/ProdWeights");
+    				prodWeights.forEach((item)=>{
+              that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/ProdWeights('" + item.id + "')",
+                "DELETE", {}, {}, that);
+    				});
+            var allImages = that.getView().getModel("local").getProperty("/allImages");
+    				allImages.forEach((item)=>{
+              that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Photos('" + item.id + "')",
+                "DELETE", {}, {}, that);
+    				});
+            var id = result.split(":")[1];
+            var that2 = that;
+            that.ODataHelper.callOData(that.getOwnerComponent().getModel(), "/Products('" + id + "')",
+              "DELETE", {}, {}, that)
+              .then(function(result){
+                that2.onCancel();
+                MessageToast.show("Product deleted successfully");
+                that2.ProductsearchPopup = null;
+              });
 
+          } else {
+            MessageToast.show(result);
+            that2.ProductsearchPopup = null;
+          }
+        })
+        .fail(function(xhr, status, error) {
+
+        });
+    },
+    onCancel: function() {
+      debugger;
       if (this.cancelSave() === true) {
         this._oLocalModel.setProperty("/Product", {
           "id": "",
           "ProductId": "",
           "Name": "",
-          "Category": "",//this.getView().byId("idCat").getSelectedKey(),
-          "SubCategory": "",//this.getView().byId("idSubCat").getSelectedKey(),
+          "Category": "", //this.getView().byId("idCat").getSelectedKey(),
+          "SubCategory": "", //this.getView().byId("idSubCat").getSelectedKey(),
           "Type": "S",
           "PairType": 2,
           "ShortDescription": "null",
@@ -118,7 +155,6 @@ sap.ui.define([
         delete productPayload.ToOrder;
         delete productPayload.ToPhotos;
         delete productPayload.ToWeights;
-        console.log(productPayload);
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/Products(\'" + productPayload.id + "\')", "PUT", {}, productPayload, this)
           .then(function(data) {
@@ -132,6 +168,37 @@ sap.ui.define([
             }, 900);
           }).catch(function(oError) {
             MessageBox.error("Error while saving product data");
+          });
+      } else if (this.mode === "Copy") {
+        delete productPayload.ToChangedBy;
+        delete productPayload.ToCreatedBy;
+        delete productPayload.ToOrder;
+        delete productPayload.ToPhotos;
+        delete productPayload.ToWeights;
+        delete productPayload.id;
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+            "/Products", "GET", {
+              filters: [Filter1]
+            }, {}, this)
+          .then(function(oData) {
+            if (oData.results.length != 0) {
+              MessageBox.error("Product Id Already Exist");
+            } else {
+              var that2 = that;
+              that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                  "/Products", "POST", {}, productPayload, that)
+                .then(function(data) {
+                  that2.performCameraSave(data.id);
+                  MessageToast.show("Product Created Successfully");
+                  that2.getView().getModel("local").setProperty("/Product", data);
+                  that2.getView().getModel("local").setProperty("/checkChange", false);
+                  setTimeout(() => {
+                    that2.onCancel();
+                  }, 900);
+                }).catch(function(oError) {
+                  MessageBox.error("Error while saving product data");
+                });
+            }
           });
       } else {
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -154,7 +221,7 @@ sap.ui.define([
                   that2.setMode();
                   setTimeout(() => {
                     that2.onCancel();
-                  }, 700);
+                  }, 900);
                 }).catch(function(oError) {
                   MessageBox.error("Error while saving product data");
                 });
@@ -186,7 +253,6 @@ sap.ui.define([
       }
     },
     onProductValueHelp: function(oEvent) {
-      debugger;
       if (!this.ProductsearchPopup) {
         this.ProductsearchPopup = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.popup0", this);
         this.getView().addDependent(this.ProductsearchPopup);
@@ -205,9 +271,15 @@ sap.ui.define([
             description: "{Category} / {SubCategory} / {Name}"
           })
         });
+        setTimeout(()=>{
+          this.counter(this.ProductsearchPopup);
+        },4000);
+        this.ProductsearchPopup.open();
       }
-      this.ProductsearchPopup.open();
-      this.ProductsearchPopup.attachLiveChange(this.counter(this.ProductsearchPopup));
+      else{
+        this.counter(this.ProductsearchPopup);
+        this.ProductsearchPopup.open();
+      }
     },
 
     onConfirm: function(oEvent) {
@@ -243,6 +315,12 @@ sap.ui.define([
           }
         });
       this.getView().byId("idPName").focus();
+    },
+    onCopy: function() {
+      this.mode = "Copy";
+      this.setMode();
+      this.setAvailableProductCode();
+      MessageToast.show("Another copy created!, Edit & Save");
     },
     onEnterRemark: function() {
       this.getView().byId("idCat").focus();

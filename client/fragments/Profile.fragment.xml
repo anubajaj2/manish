@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Popover title="Hello! User" initialFocus="close" contentWidth="18%" contentHeight="11%" placement="Bottom" ariaLabelledBy="master-title">
+    <NavContainer id="navCon">
+      <Page id="master" class="sapUiResponsivePadding--header" showHeader="false">
+        <List>
+		<ActionListItem text="Profile" press="showProfile"/>
+		<ActionListItem text="Orders" press= "onOrders"/>
+	</List>
+      </Page>
+      <Page id="detail" class="sapUiResponsivePadding--header" showNavButton="true" navButtonPress="onNavBack" title="Profile">
+        <content>
+
+          </content>
+      </Page>
+    </NavContainer>
+    <footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					id="close"
+					text="Close"
+					press="closePopover" />
+			</Toolbar>
+		</footer>
+  </Popover>
+</core:FragmentDefinition>

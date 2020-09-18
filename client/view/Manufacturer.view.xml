@@ -73,7 +73,7 @@
 			</VBox>
 			<!-- <core:Fragment id="Manufacturer" fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/> -->
 			<VBox>
-				<t:Table rows="{manufactureModelInfo>/results}" selectionMode="Single" rowSelectionChange="onManufacturerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="6" visibleRowCountMode="Auto">
+				<t:Table rows="{manufactureModelInfo>/results}" id ="customerTable" selectionMode="Single" rowSelectionChange="onManufacturerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="6" visibleRowCountMode="Auto">
 					<t:extension>
 						<OverflowToolbar>
 							<Title id="title" text="Manufaturers"/>
@@ -81,7 +81,7 @@
 							<Link id = "downloadLink"/>
 							<ToolbarSpacer/>
 							<SearchField width="71%" liveChange="onManufacturerSearch" class="sapUiSmallMargin"/>
-							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" />
+							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" press="onCustomerFilter"/>
 						</OverflowToolbar>
 					</t:extension>
 					<t:columns>

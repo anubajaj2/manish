@@ -30,6 +30,7 @@ sap.ui.define([
 				//		this._firstTime = false;
 				//}
 		},
+		
 		onSearch: function () {
 			this._search();
 		},
