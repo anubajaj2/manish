@@ -1,5 +1,5 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.CustomerItems" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:grid="sap.ui.layout.cssgrid" xmlns:f="sap.f" xmlns:semantic="sap.m.semantic">
-  <semantic:FullscreenPage title="FullScreen Page Title" showNavButton="true" id="myPage" navButtonPress="onNavButtonPress">
+  <semantic:FullscreenPage title="Order Items" showNavButton="true" id="myPage" navButtonPress="onNavButtonPress">
     <semantic:customHeaderContent>
       <Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
       <Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>

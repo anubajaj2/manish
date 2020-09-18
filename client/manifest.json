@@ -242,7 +242,8 @@
 												"pattern": "orders",
 												"name": "orders",
 												"target": [
-													"customerOrders"
+													"customerOrders",
+													"customerItems"
 												]
 											},
 													{
