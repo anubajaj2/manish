@@ -51,7 +51,7 @@ sap.ui.define([
 
 		showProfile : function (oEvent) {
 			this._oPopover.setContentWidth("25%");
-			this._oPopover.setContentHeight("75%");
+			this._oPopover.setContentHeight("60%");
 			var oNavCon = Fragment.byId("popoverNavCon", "navCon");
 			var oDetailPage = Fragment.byId("popoverNavCon", "detail");
 			oNavCon.to(oDetailPage);

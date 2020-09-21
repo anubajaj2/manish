@@ -1,5 +1,5 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-  <Popover title="Hello! User" initialFocus="close" contentWidth="18%" contentHeight="11%" placement="Bottom" ariaLabelledBy="master-title">
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+  <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="11%" placement="Bottom" ariaLabelledBy="master-title">
     <NavContainer id="navCon">
       <Page id="master" class="sapUiResponsivePadding--header" showHeader="false">
         <List>
@@ -9,7 +9,39 @@
       </Page>
       <Page id="detail" class="sapUiResponsivePadding--header" showNavButton="true" navButtonPress="onNavBack" title="Profile">
         <content>
-
+          <VBox class="sapUiSmallMargin">
+            <f:SimpleForm
+              id="SimpleFormDisplay480_12120Dual"
+              editable="false"
+              layout="ResponsiveGridLayout"
+              labelSpanXL="4"
+              labelSpanL="4"
+              labelSpanM="12"
+              labelSpanS="12"
+              adjustLabelSpan="false"
+              emptySpanXL="0"
+              emptySpanL="0"
+              emptySpanM="0"
+              emptySpanS="0"
+              columnsXL="2"
+              columnsL="2"
+              columnsM="2"
+              singleContainerFullSize="false">
+              <f:content>
+                <core:Title text="Your Profile"/>
+                <Label text="Name"/>
+                <Text text="{local>/CustomerData/Name}"/>
+                <Label text="Code"/>
+                <Text text="{local>/CustomerData/CustomerCode}"/>
+                <Label text="Mobile"/>
+                <Text text="{local>/CustomerData/MobilePhone}"/>
+                <Label text="E-Mail"/>
+                <Text text="{local>/CustomerData/EmailId}"/>
+                <Label text="Address"/>
+                <Text text="{local>/CustomerData/Address}"/>
+              </f:content>
+            </f:SimpleForm>
+          </VBox>
           </content>
       </Page>
     </NavContainer>

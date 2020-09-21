@@ -12,23 +12,21 @@ sap.ui.define([
 		formatter: formatter,
 
 		onInit: function () {
-			// this.getOwnerComponent().getRouter().getRoute("orders").attachMatched(this._onRouteMatched, this);
-			// this.loadCategories();
-			// setTimeout(this._initLoad.bind(this),1000);
+			this._oRouter = this.getOwnerComponent().getRouter();
+			this.getOwnerComponent().getRouter().getRoute("orders").attachMatched(this._onRouteMatched, this);
 		},
-		// _initLoad: function(){
-		// 	var oPage = this.getView().byId("myPage");
-		// 	var allBtn = this.getOwnerComponent().getModel("local").getProperty("/cat/category");
-		// 	for (var i = 0; i < allBtn.length; i++) {
-		// 		var text = allBtn[i].Category;
-		// 		oPage.addContent(new sap.m.ToggleButton({
-		// 			text: text
-		//
-		// 		}).addStyleClass('class','sapUiResponsiveMargin sapUiLargeMargin sapUiLargePadding'));
-		// 	}
-		// },
 		_onRouteMatched: function (oEvent) {
 			//this.firstTwoDisplay();
-		}
+		},
+		restartOrder: function() {
+			this.cleanApp();
+			this._oRouter.navTo("categories");
+		},
+		closeApp: function() {
+			window.close();
+		},
+		onNavButtonPress	: function() {
+      this._oRouter .navTo("categories");
+    }
 	});
 });

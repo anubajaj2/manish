@@ -9,30 +9,37 @@
 	xmlns:grid="sap.ui.layout.cssgrid">
 <Page title="Customer Orders">
 	<headerContent>
+		<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh" />
 		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
 		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 	</headerContent>
-	<!-- <List itemPress="onGridItemPress" items="{local>/cat/subCatergory}">
-		<DisplayListItem type="Active" label="{local>SubCategory}" />
-	</List> -->
-	<!-- <f:GridList
-		id="gridList"
-		headerText="Categories"
-		itemPress="onGridItemPress"
-		items="{local>/cat/subCatergory}">
-
-	<f:customLayout>
-		<grid:GridBoxLayout boxesPerRowConfig="XL1 L1 M1 S1" boxMinWidth="10rem"/>
-	</f:customLayout>
-
-	<f:GridListItem type="Active"
-		>
-		<VBox height="100%">
-			<VBox class="sapUiSmallMargin">
-				<Title text="{local>SubCategory}" />
-			</VBox>
-		</VBox>
-	</f:GridListItem>
-</f:GridList> -->
+	<content>
+		<List
+			id="idListOL"
+			items="{local>/list/OrderHeader}"
+			mode = "SingleSelectMaster"
+			includeItemInSelection="true"
+			itemPress="onItemPress">
+			<ObjectListItem
+				type="Navigation"
+				navigated = "true"
+				title = "Order No. : {local>OrderNo}"
+				number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }"
+				numberUnit = "INR">
+				<attributes>
+					<ObjectAttribute text="Ordered by : {local>CustomerCode} - {local>CustomerName}" visible="true"/>
+					<ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>
+				</attributes>
+				<firstStatus>
+					<ObjectStatus text="Total Weight : {local>TotalWeight}"/>
+			</firstStatus>
+			<secondStatus>
+					<ObjectStatus
+						text = "{	path: 'local>OrderStatus', formatter: '.formatter.prodText' }"
+						state = "{ path: 'local>OrderStatus', formatter: '.formatter.prodState' }"/>
+			</secondStatus>
+		</ObjectListItem>
+		</List>
+		</content>
 </Page>
 </mvc:View>
