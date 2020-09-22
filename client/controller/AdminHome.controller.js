@@ -12,7 +12,30 @@ sap.ui.define([
 
 		},
 		_onRouteMatched: function(oEvent) {
-			
+			var that = this;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				"/Manufacturers", "GET", {}, {}, this)
+			 .then(function(oData) {
+				 that.getOwnerComponent().getModel("local").setProperty("/ManufacturersInfos",oData.results);
+			 }).catch(function(oError) {
+				 MessageToast.show("cannot fetch the data");
+			 });
+
+			 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					 "/Customers", "GET", {}, {}, this)
+				 .then(function(oData) {
+					 that.getOwnerComponent().getModel("local").setProperty("/CustomersInfos",oData.results);
+				 }).catch(function(oError) {
+					 MessageToast.show("cannot fetch the data");
+				 });
+
+				 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+	 			 "/Groups", "GET", {}, {}, this)
+	 				.then(function(oData) {
+	 				that.getOwnerComponent().getModel("local").setProperty("/GroupsInfos",oData.results);
+	 				}).catch(function(oError) {
+	 						MessageToast.show("cannot fetch the data");
+	 				});
 		},
 		onSelectItem: function(oEvent){
 			var oListItem = oEvent.getParameter("listItem");

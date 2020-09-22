@@ -42,36 +42,50 @@ sap.ui.define([
         "PatternState": "None"
       });
       this.setModel(odataModel, "dataModel");
-      debugger;
-        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/Manufacturers", "GET", {}, {}, this)
-         .then(function(oData) {
-           debugger;
-           var oModelManufacturer = new JSONModel();
-           oModelManufacturer.setData(oData);
-           that.getView().setModel(oModelManufacturer, "manufactureModelInfo");
-         }).catch(function(oError) {
-           MessageToast.show("cannot fetch the data");
-         });
+      var oModelManufacturer = new JSONModel();
+      var oModelGroup = new JSONModel();
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/Groups", "GET", {}, {}, this)
+				"/Manufacturers", "GET", {}, {}, this)
+			 .then(function(oData) {
+         oModelManufacturer.setData(oData);
+         that.getView().setModel(oModelManufacturer, "manufactureModelInfo");
+			 }).catch(function(oError) {
+				 MessageToast.show("cannot fetch the data");
+			 });
+
+       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+       "/Groups", "GET", {}, {}, this)
         .then(function(oData) {
-          var oModelGroup = new JSONModel();
           oModelGroup.setData(oData);
-          that.getView().setModel(oModelGroup, "groupModelCode");
+    			that.getView().setModel(oModelGroup, "groupModelInfo");
         }).catch(function(oError) {
-          MessageToast.show("cannot fetch the data");
+            MessageToast.show("cannot fetch the data");
         });
-      //
       //this.clearScreen();
     },
-    onManufacturerSearch : function(oEvent){
+    onManufacturerSearch: function(oEvent) {
       var search = oEvent.getSource().getValue();
-      var filters = [new Filter({path: 'CustomerCode',operator: FilterOperator.Contains,value1: search}),
-                     new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search}),
-                    new Filter({path: 'Name',operator: FilterOperator.Contains,value1: search})];
-      oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({filters:filters,and:false}));
+      var filters = [new Filter({
+          path: 'CustomerCode',
+          operator: FilterOperator.Contains,
+          value1: search
+        }),
+        new Filter({
+          path: 'EmailId',
+          operator: FilterOperator.Contains,
+          value1: search
+        }),
+        new Filter({
+          path: 'Name',
+          operator: FilterOperator.Contains,
+          value1: search
+        })
+      ];
+      oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({
+        filters: filters,
+        and: false
+      }));
     },
     clearScreen: function() {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
@@ -112,26 +126,26 @@ sap.ui.define([
             return exists.EmailId === data;
           });
       }
-       var Exists = CheckdataExists(data);
-       if ( Exists.length > 0){
-         return true;
-       }
-     },
-     CheckPatternExists: function(data) {
-       var that = this;
-       var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
+      var Exists = CheckdataExists(data);
+      if (Exists.length > 0) {
+        return true;
+      }
+    },
+    CheckPatternExists: function(data) {
+      var that = this;
+      var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
 
-       function CheckdataExists(data) {
-         return manufacturerJson.filter(
-           function(exists) {
-             return exists.Pattern === data;
-           });
-       }
-        var Exists = CheckdataExists(data);
-        if ( Exists.length > 0){
-          return true;
-        }
-      },
+      function CheckdataExists(data) {
+        return manufacturerJson.filter(
+          function(exists) {
+            return exists.Pattern === data;
+          });
+      }
+      var Exists = CheckdataExists(data);
+      if (Exists.length > 0) {
+        return true;
+      }
+    },
 
     manufacturerCheck1: function(code) {
       var that = this;
@@ -147,7 +161,7 @@ sap.ui.define([
         var found = getmanufacturerDetail(code);
         if (found.length > 0) {
           var id = found[0].id;
-        }else{
+        } else {
           var id = "";
         }
       }
@@ -155,29 +169,31 @@ sap.ui.define([
       return id;
 
     },
-    onManufacturerSelect : function(oEvent){
-      var sPath = oEvent.getParameter('rowContext').getPath()+'/CustomerCode';
+    onManufacturerSelect: function(oEvent) {
+      var sPath = oEvent.getParameter('rowContext').getPath() + '/CustomerCode';
       var code = this.getView().getModel('manufactureModelInfo').getProperty(sPath);
       this.manufacturerCheck(code);
     },
-    onCustomerFilter : function(oEvent){
-      if(!this.oDialog){
+    onCustomerFilter: function(oEvent) {
+      if (!this.oDialog) {
         var manufacturerInfo = this.getView().getModel("manufactureModelInfo").getProperty("/results");
         var s = new Set();
-        manufacturerInfo.forEach((item)=>{
+        manufacturerInfo.forEach((item) => {
           s.add(item.City);
         });
         manufacturerInfo = [];
-        s.forEach((item)=>{
-          manufacturerInfo.push({"City" : item});
+        s.forEach((item) => {
+          manufacturerInfo.push({
+            "City": item
+          });
         });
-        this.getView().getModel("manufactureModelInfo").setProperty("/uniqueCities",manufacturerInfo);
+        this.getView().getModel("manufactureModelInfo").setProperty("/uniqueCities", manufacturerInfo);
         this.oDialog = new SelectDialog({
           title: "Select weights",
           multiSelect: true,
-          search : this.searchCity.bind(this),
+          search: this.searchCityFilter.bind(this),
           confirm: this.filterConfirm.bind(this),
-          cancel : this.filterCancel.bind(this)
+          cancel: this.filterCancel.bind(this)
         });
         this.getView().addDependent(this.oDialog);
         this.oDialog.setModel(this.getView().getModel("manufactureModelInfo"));
@@ -188,31 +204,42 @@ sap.ui.define([
           })
         });
         this.oDialog.open();
-      }
-      else{
+      } else {
         this.oDialog.open();
       }
     },
-    searchCity : function(oEvent){
+    searchCityFilter: function(oEvent) {
       var search = oEvent.getParameter("value");
-      var oFilter = new Filter({path: 'City',operator: FilterOperator.Contains,value1: search});
+      var oFilter = new Filter({
+        path: 'City',
+        operator: FilterOperator.Contains,
+        value1: search
+      });
       this.oDialog.getBinding('items').filter([oFilter]);
     },
-    filterConfirm : function(oEvent){
+    filterConfirm: function(oEvent) {
       var selectedItems = oEvent.getParameter("selectedItems");
       var filters = []
-      selectedItems.forEach((item)=>{
-        filters.push(new Filter({path: 'City',operator: FilterOperator.Contains,value1: item.getLabel()}));
+      selectedItems.forEach((item) => {
+        filters.push(new Filter({
+          path: 'City',
+          operator: FilterOperator.Contains,
+          value1: item.getLabel()
+        }));
       });
-      this.getView().byId('customerTable').getBinding('rows').filter(new Filter({filters:filters,and:false}));
+      this.getView().byId('customerTable').getBinding('rows').filter(new Filter({
+        filters: filters,
+        and: false
+      }));
     },
-    filterCancel : function(){
+    filterCancel: function() {
       this.getView().byId('customerTable').getBinding('rows').filter([]);
     },
     manufacturerCheck: function(code) {
       var that = this;
       var manufacturerJson = this.getView().getModel("manufactureModelInfo").getData().results;
       debugger;
+
       function getmanufacturerDetail(code) {
         return manufacturerJson.filter(
           function(data) {
@@ -251,26 +278,26 @@ sap.ui.define([
                 "/ManuGroups", "GET", oFilter, {}, this)
               .then(function(oData) {
                 //that.getView().getModel("local").setProperty("/Manufacturer", oData.results[0]);
-                 for (var i = 0; i < oData.results.length; i++) {
-                   var groupId = oData.results[i].GroupId;
-                   var group = getGroupDetail(groupId);
-                   debugger;
-                   var seletedData = that.getView().getModel("local").getProperty("/groupSelected");
-                   that.getView().getModel("local").setProperty("/groupSelected/GroupCode", group[i].groupCode);
-                   that.getView().getModel("local").setProperty("/groupSelected/GroupId", group[i].id);
-                   that.getView().getModel("local").setProperty("/groupSelected/ManuId", oData.results[i].id);
-                   seletedData.GroupCode = group[i].groupCode;
-                   seletedData.GroupId = group[i].id;
-                   seletedData.ManuId = group[i].oData.results[i].id;
-                   var oData = JSON.parse(JSON.stringify(seletedData));
-                   groupID.push(oData);
-                 }
+                for (var i = 0; i < oData.results.length; i++) {
+                  var groupId = oData.results[i].GroupId;
+                  var group = getGroupDetail(groupId);
+                  debugger;
+                  var seletedData = that.getView().getModel("local").getProperty("/groupSelected");
+                  that.getView().getModel("local").setProperty("/groupSelected/GroupCode", group[i].groupCode);
+                  that.getView().getModel("local").setProperty("/groupSelected/GroupId", group[i].id);
+                  that.getView().getModel("local").setProperty("/groupSelected/ManuId", oData.results[i].id);
+                  seletedData.GroupCode = group[i].groupCode;
+                  seletedData.GroupId = group[i].id;
+                  seletedData.ManuId = group[i].oData.results[i].id;
+                  var oData = JSON.parse(JSON.stringify(seletedData));
+                  groupID.push(oData);
+                }
               })
               .catch(function(oError) {
                 // MessageToast.show("Data could not be saved");
               });
           }
-         //this.getView().getModel("local").setProperty("/Manufacturer", manufacturer);
+          //this.getView().getModel("local").setProperty("/Manufacturer", manufacturer);
           viewModel.setProperty("/buttonText", "Update");
           viewModel.setProperty("/deleteEnabled", true);
           viewModel.setProperty("/codeEnabled", false);
@@ -306,7 +333,7 @@ sap.ui.define([
         });
     },
 
-    ValidateManufacturerData:function(oSaveData){
+    ValidateManufacturerData: function(oSaveData) {
       oSaveData.CustomerCode = oSaveData.CustomerCode.toUpperCase();
       if (oSaveData.Name && oSaveData.Name !== "") {
         oSaveData.Name = oSaveData.Name.toUpperCase();
@@ -319,35 +346,56 @@ sap.ui.define([
       }
       if (oSaveData.Pattern && oSaveData.Pattern !== "") {
 
-      oSaveData.Pattern = oSaveData.Pattern.toUpperCase();
-      if (Formatter.noSpace(this.getView().byId("idPattern")) !== true){
-        return { "status" : false, "error": "No Space Allowed"};
-        //return this.getView().byId("idPattern").setValueState("Error");
+        oSaveData.Pattern = oSaveData.Pattern.toUpperCase();
+        if (Formatter.noSpace(this.getView().byId("idPattern")) !== true) {
+          return {
+            "status": false,
+            "error": "No Space Allowed"
+          };
+          //return this.getView().byId("idPattern").setValueState("Error");
         }
       }
       if (oSaveData.EmailId && oSaveData.EmailId !== "") {
         oSaveData.EmailId = oSaveData.EmailId.toLowerCase();
-        if (Formatter.checkEmail(this.getView().byId("idEmail")) !== true){
-          return { "status" : false, "error": "InValid EmailId"};
+        if (Formatter.checkEmail(this.getView().byId("idEmail")) !== true) {
+          return {
+            "status": false,
+            "error": "InValid EmailId"
+          };
           //return this.getView().byId("idEmail").setValueState("Error");
         }
-        if (Formatter.noSpace(this.getView().byId("idEmail")) !== true){
-        return { "status" : false, "error": "No Space Allowed"};
-        //this.getView().byId("idEmail").setValueStateText("No Space Allowed");
-        //return  this.getView().byId("idEmail").setValueState("Error");
+        if (Formatter.noSpace(this.getView().byId("idEmail")) !== true) {
+          return {
+            "status": false,
+            "error": "No Space Allowed"
+          };
+          //this.getView().byId("idEmail").setValueStateText("No Space Allowed");
+          //return  this.getView().byId("idEmail").setValueState("Error");
         }
       }
-      return { "status" : true, "error": ""};
+      return {
+        "status": true,
+        "error": ""
+      };
     },
-    ValidateDataCreation:function(oSaveData){
+    ValidateDataCreation: function(oSaveData) {
 
-      if (this.CheckEmailExists(oSaveData.EmailId) === true){
-        return { "status" : false, "error": "EmailId already used for supplier"};
+      if (this.CheckEmailExists(oSaveData.EmailId) === true) {
+        return {
+          "status": false,
+          "error": "EmailId already used for supplier"
+        };
       }
-      if (this.CheckPatternExists(oSaveData.Pattern) === true){
-        return { "status" : false, "error": "Pattern already used for supplier"};
+      if (this.CheckPatternExists(oSaveData.Pattern) === true) {
+        return {
+          "status": false,
+          "error": "Pattern already used for supplier"
+        };
       }
-        return { "status" : true, "error": ""};
+      return {
+        "status": true,
+        "error": ""
+      };
     },
 
     saveData: function(oEvent) {
@@ -402,15 +450,15 @@ sap.ui.define([
             }
           }
           //change user status
-          if (this.onSwitch === true){
+          if (this.onSwitch === true) {
             debugger;
-              var changeUserStatus = {
-                emailId: oSaveData.EmailId,
-                name: oSaveData.Name,
-                bStat: viewModel.oData.blockStatus,
-                Authorization: this.getModel("local").getProperty("/Authorization")
-              };
-              this.changeUserStatus(changeUserStatus);
+            var changeUserStatus = {
+              emailId: oSaveData.EmailId,
+              name: oSaveData.Name,
+              bStat: viewModel.oData.blockStatus,
+              Authorization: this.getModel("local").getProperty("/Authorization")
+            };
+            this.changeUserStatus(changeUserStatus);
           }
 
         } else {
@@ -418,19 +466,19 @@ sap.ui.define([
 
           var result = this.ValidateDataCreation(oSaveData);
           if (result.status === false) {
-    				MessageBox.error(result.error);
-    				return;
-    			}
+            MessageBox.error(result.error);
+            return;
+          }
 
           this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
               "/Manufacturers", "POST", {}, oSaveData, this)
             .then(function(oData) {
               debugger;
-          /*    var manufactureId = oData.id;
-              for (var i = 1; i < groupId.length; i++) {
-                debugger;
-                var status = that.updateGroupDetails(groupId, i, manufactureId);
-              } */
+              /*    var manufactureId = oData.id;
+                  for (var i = 1; i < groupId.length; i++) {
+                    debugger;
+                    var status = that.updateGroupDetails(groupId, i, manufactureId);
+                  } */
               MessageToast.show("Data saved sucessfully");
               that.clearScreen();
               that._onRouteMatched();
@@ -439,14 +487,14 @@ sap.ui.define([
               MessageToast.show("Data could not be saved");
               //that._onRouteMatched();
             });
-            //Create new user
-            debugger;
-              var createUserPayload = {
-                name: oSaveData.Name,
-                emailId: oSaveData.EmailId,
-                role: "Maker",
-                Authorization: this.getModel("local").getProperty("/Authorization")
-              };
+          //Create new user
+          debugger;
+          var createUserPayload = {
+            name: oSaveData.Name,
+            emailId: oSaveData.EmailId,
+            role: "Maker",
+            Authorization: this.getModel("local").getProperty("/Authorization")
+          };
           this.createUserPayload(createUserPayload);
 
         } //id check
@@ -496,9 +544,7 @@ sap.ui.define([
       }
     },
     onSwitch: function(oEvent) {
-      debugger;
       var status = oEvent.getParameters("Selected").state;
-
       return this.onSwitch = true;
     },
 
@@ -522,8 +568,8 @@ sap.ui.define([
       debugger;
       var text = oEvent.getParameter("newValue");
       var viewModel = this.getView().getModel("viewModel");
-    //  var customerId = this.customerCheck(text);
-       var manufactureId = this.manufacturerCheck(text);
+      //  var customerId = this.customerCheck(text);
+      var manufactureId = this.manufacturerCheck(text);
       this.getView().byId("idName").focus();
     },
     /*onEnter: function(oEvent){
@@ -602,74 +648,72 @@ sap.ui.define([
     onEmailEnt: function(oEvent) {
       this.getView().byId("idPattern").focus();
     },
-    onSelectionFinish:function(){
+    onSelectionFinish: function() {
       debugger;
       this.getView().byId("idCatCode").focus();
     },
-    onSelectionFinish1:function(){
+    onSelectionFinish1: function() {
       debugger;
       this.getView().byId("idEmail").focus();
     },
-    createUserPayload:function(createUserPayload){
+    createUserPayload: function(createUserPayload) {
       debugger;
 
       $.post('/createNewUser', createUserPayload)
-      .then(function(data){
-        debugger;
-      })
-      .fail(function(error) {
-        sap.m.MessageBox.error("User Creation failed");
-      });
+        .then(function(data) {
+          debugger;
+        })
+        .fail(function(error) {
+          sap.m.MessageBox.error("User Creation failed");
+        });
     },
-    changeUserStatus:function(changeUserStatus){
+    changeUserStatus: function(changeUserStatus) {
       debugger;
 
       $.post('/changeUserStatus', changeUserStatus)
-      .then(function(data){
-        debugger;
-      })
-      .fail(function(error) {
-        sap.m.MessageBox.error("Changing User Status failed");
-      });
+        .then(function(data) {
+          debugger;
+        })
+        .fail(function(error) {
+          sap.m.MessageBox.error("Changing User Status failed");
+        });
     },
-    UpdateLocalModel:function(data){
-      debugger;
-        var that = this;
-        var code = this.getView().byId("idCode").getValue();
-        var manufactureJson = this.getView().getModel("manufactureModelInfo").getData().results;
+    UpdateLocalModel: function(data) {
+      var that = this;
+      var code = this.getView().byId("idCode").getValue();
+      var manufactureJson = this.getView().getModel("manufactureModelInfo").getData().results;
 
-        function getmanufactureDetail(code) {
-          return manufactureJson.filter(
-            function(data) {
-              return (data.CustomerCode === code);
-            });
-        }
-        if (manufactureJson && manufactureJson.length > 0) {
-          var manufactureModelInfo = getmanufactureDetail(code);
-          if (manufactureModelInfo.length > 0) {
-            var viewModel = this.getView().getModel("viewModel");
-            var status = viewModel.getProperty("/blockStatus");
-            var omanufacture = this.getView().getModel("local").getProperty("/Manufacturer");
+      function getmanufactureDetail(code) {
+        return manufactureJson.filter(
+          function(data) {
+            return (data.CustomerCode === code);
+          });
+      }
+      if (manufactureJson && manufactureJson.length > 0) {
+        var manufactureModelInfo = getmanufactureDetail(code);
+        if (manufactureModelInfo.length > 0) {
+          var viewModel = this.getView().getModel("viewModel");
+          var status = viewModel.getProperty("/blockStatus");
+          var omanufacture = this.getView().getModel("local").getProperty("/Manufacturer");
 
-             manufactureModelInfo[0].CustomerCode = omanufacture.CustomerCode;
-             manufactureModelInfo[0].Address = omanufacture.Address;
-             manufactureModelInfo[0].Name = omanufacture.Name;
-             manufactureModelInfo[0].City = omanufacture.City ;
-             manufactureModelInfo[0].MobilePhone = omanufacture.MobilePhone;
-             manufactureModelInfo[0].EmailId = omanufacture.EmailId;
-             manufactureModelInfo[0].Groups = omanufacture.Groups;
-             manufactureModelInfo[0].Categories = omanufacture.Categories;
-             manufactureModelInfo[0].Pattern = omanufacture.Pattern;
-             var group = this.getView().getModel("local").getProperty("/groupSelected");
+          manufactureModelInfo[0].CustomerCode = omanufacture.CustomerCode;
+          manufactureModelInfo[0].Address = omanufacture.Address;
+          manufactureModelInfo[0].Name = omanufacture.Name;
+          manufactureModelInfo[0].City = omanufacture.City;
+          manufactureModelInfo[0].MobilePhone = omanufacture.MobilePhone;
+          manufactureModelInfo[0].EmailId = omanufacture.EmailId;
+          manufactureModelInfo[0].Groups = omanufacture.Groups;
+          manufactureModelInfo[0].Categories = omanufacture.Categories;
+          manufactureModelInfo[0].Pattern = omanufacture.Pattern;
+          var group = this.getView().getModel("local").getProperty("/groupSelected");
 
-             debugger;
-             if (status === false) {
-               manufactureModelInfo[0].Status = "B" ;
-             } else if (status === true) {
-               manufactureModelInfo[0].Status = "U" ;
-             }
-           }
+          if (status === false) {
+            manufactureModelInfo[0].Status = "B";
+          } else if (status === true) {
+            manufactureModelInfo[0].Status = "U";
           }
         }
+      }
+    }
   });
 });

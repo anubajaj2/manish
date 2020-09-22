@@ -93,29 +93,26 @@ sap.ui.define([
 			});
 			this.setModel(odataModel, "dataModel");
 
-			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			 "/Customers", "GET", {}, {}, this)
-				.then(function(oData) {
-					var oModelCustomer = new JSONModel();
-			oModelCustomer.setData(oData);
-			that.getView().setModel(oModelCustomer, "customerModelInfo");
-
-				}).catch(function(oError) {
-						MessageToast.show("cannot fetch the data");
-				});
-
-
+			var oModelCustomer = new JSONModel();
+			var oModelGroup = new JSONModel();
 
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			 "/Groups", "GET", {}, {}, this)
+					"/Customers", "GET", {}, {}, this)
 				.then(function(oData) {
-					var oModelGroup = new JSONModel();
-			oModelGroup.setData(oData);
-			that.getView().setModel(oModelGroup, "groupModelInfo");
-
+					oModelCustomer.setData(oData);
+					that.getView().setModel(oModelCustomer, "customerModelInfo");
 				}).catch(function(oError) {
-						MessageToast.show("cannot fetch the data");
+					MessageToast.show("cannot fetch the data");
 				});
+
+				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				"/Groups", "GET", {}, {}, this)
+				 .then(function(oData) {
+					oModelGroup.setData(oData);
+ 		 			that.getView().setModel(oModelGroup, "groupModelInfo");
+				 }).catch(function(oError) {
+						 MessageToast.show("cannot fetch the data");
+				 });
 				this.clearGroup();
 				this.firstTwoDisplay();
 		 },

@@ -12,7 +12,7 @@ sap.ui.define([
   function(BaseController, UIComponent, JSONModel,
     MessageToast, Formatter, MessageBox,
     Filter,
-    FilterOperator,SelectDialog
+    FilterOperator, SelectDialog
   ) {
     "use strict";
     var customerId;
@@ -47,51 +47,50 @@ sap.ui.define([
           "groupCodeState": "None",
           "emailState": "None"
         });
+
         this.setModel(odataModel, "dataModel");
-
-
-        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-            "/Customers", "GET", {}, {}, this)
-          .then(function(oData) {
-
-            var oModelManufacturer = new JSONModel();
-            oModelManufacturer.setData(oData);
-            that.getView().setModel(oModelManufacturer, "customerModelInfo");
-          }).catch(function(oError) {
-            MessageToast.show("cannot fetch the data");
-          });
+        var oModelCustomer = new JSONModel();
+        var oModelGroup = new JSONModel();
 
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-            "/Groups", "GET", {}, {}, this)
-          .then(function(oData) {
-            var oModelGroup = new JSONModel();
-            oModelGroup.setData(oData);
-            that.getView().setModel(oModelGroup, "groupModelCode");
+ 					 "/Customers", "GET", {}, {}, this)
+ 				 .then(function(oData) {
+           oModelCustomer.setData(oData);
+           that.getView().setModel(oModelCustomer, "customerModelInfo");
+ 				 }).catch(function(oError) {
+ 					 MessageToast.show("cannot fetch the data");
+ 				 });
 
-          }).catch(function(oError) {
-            MessageToast.show("cannot fetch the data");
-          });
-        //
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+        "/Groups", "GET", {}, {}, this)
+         .then(function(oData) {
+           oModelGroup.setData(oData);
+      			that.getView().setModel(oModelGroup, "groupModelInfo");
+         }).catch(function(oError) {
+             MessageToast.show("cannot fetch the data");
+         });
         this.clearScreen();
       },
-      onCustomerFilter : function(oEvent){
-        if(!this.oDialog){
+      onCustomerFilter: function(oEvent) {
+        if (!this.oDialog) {
           var customerInfo = this.getView().getModel("customerModelInfo").getProperty("/results");
           var s = new Set();
-          customerInfo.forEach((item)=>{
+          customerInfo.forEach((item) => {
             s.add(item.City);
           });
           customerInfo = [];
-          s.forEach((item)=>{
-            customerInfo.push({"City" : item});
+          s.forEach((item) => {
+            customerInfo.push({
+              "City": item
+            });
           });
-          this.getView().getModel("customerModelInfo").setProperty("/uniqueCities",customerInfo);
+          this.getView().getModel("customerModelInfo").setProperty("/uniqueCities", customerInfo);
           this.oDialog = new SelectDialog({
             title: "Select weights",
             multiSelect: true,
-            search : this.searchCity.bind(this),
+            search: this.searchCity.bind(this),
             confirm: this.filterConfirm.bind(this),
-            cancel : this.filterCancel.bind(this)
+            cancel: this.filterCancel.bind(this)
           });
           this.getView().addDependent(this.oDialog);
           this.oDialog.setModel(this.getView().getModel("customerModelInfo"));
@@ -102,25 +101,35 @@ sap.ui.define([
             })
           });
           this.oDialog.open();
-        }
-        else{
+        } else {
           this.oDialog.open();
         }
       },
-      searchCity : function(oEvent){
+      searchCity: function(oEvent) {
         var search = oEvent.getParameter("value");
-        var oFilter = new Filter({path: 'City',operator: FilterOperator.Contains,value1: search});
+        var oFilter = new Filter({
+          path: 'City',
+          operator: FilterOperator.Contains,
+          value1: search
+        });
         this.oDialog.getBinding('items').filter([oFilter]);
       },
-      filterConfirm : function(oEvent){
+      filterConfirm: function(oEvent) {
         var selectedItems = oEvent.getParameter("selectedItems");
         var filters = []
-        selectedItems.forEach((item)=>{
-          filters.push(new Filter({path: 'City',operator: FilterOperator.Contains,value1: item.getLabel()}));
+        selectedItems.forEach((item) => {
+          filters.push(new Filter({
+            path: 'City',
+            operator: FilterOperator.Contains,
+            value1: item.getLabel()
+          }));
         });
-        this.getView().byId('customerTable').getBinding('rows').filter(new Filter({filters:filters,and:false}));
+        this.getView().byId('customerTable').getBinding('rows').filter(new Filter({
+          filters: filters,
+          and: false
+        }));
       },
-      filterCancel : function(){
+      filterCancel: function() {
         this.getView().byId('customerTable').getBinding('rows').filter([]);
       },
       onDownloadRetailersData: function(oEvent) {
@@ -172,12 +181,28 @@ sap.ui.define([
         dataModel.setProperty("/emailState", "None");
         this.getView().getModel("local").setProperty("/Customer", customerModel);
       },
-      onCustomerSearch : function(oEvent){
+      onCustomerSearch: function(oEvent) {
         var search = oEvent.getSource().getValue();
-        var filters = [new Filter({path: 'CustomerCode',operator: FilterOperator.Contains,value1: search}),
-                       new Filter({path: 'EmailId',operator: FilterOperator.Contains,value1: search}),
-                     new Filter({path: 'Name',operator: FilterOperator.Contains,value1: search})];
-        oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({filters:filters,and:false}));
+        var filters = [new Filter({
+            path: 'CustomerCode',
+            operator: FilterOperator.Contains,
+            value1: search
+          }),
+          new Filter({
+            path: 'EmailId',
+            operator: FilterOperator.Contains,
+            value1: search
+          }),
+          new Filter({
+            path: 'Name',
+            operator: FilterOperator.Contains,
+            value1: search
+          })
+        ];
+        oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({
+          filters: filters,
+          and: false
+        }));
       },
       CodeCheck: function(oEvent) {
 

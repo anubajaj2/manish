@@ -1,14 +1,5 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.AdminPanel"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		id="page"
-		title="Admin Panel"
-		backgroundDesign="Solid"
-		showNavButton="true"
-		navButtonPress="onBack">
+<mvc:View controllerName="sap.ui.demo.cart.controller.AdminPanel" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+	<Page id="page" title="Admin Panel" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
@@ -16,7 +7,7 @@
 		<content>
 			<Panel expandable="true" headerText="Retailer" width="auto" class="sapUiResponsiveMargin">
 				<content>
-					<Table id="idTable1" items="{local>/LeaveRequests}">
+					<Table id="idTable1" items="{customerModelInfo>/results}">
 						<columns>
 							<Column>
 								<Label text="Name"/>
@@ -28,7 +19,7 @@
 								<Label text="Last login"/>
 							</Column>
 							<Column>
-								<Label text="Block"/>
+								<Label text="Block/Unblock"/>
 							</Column>
 							<Column>
 								<Label text="Reset Password"/>
@@ -37,16 +28,16 @@
 						<items>
 							<ColumnListItem id="idColumnlist1">
 								<cells>
-									<Text text="{}" ></Text>
+									<Text text="{customerModelInfo>Name}"></Text>
 								</cells>
 								<cells>
-									<Text text="{}" ></Text>
+									<Text text="{customerModelInfo>EmailId}"></Text>
 								</cells>
 								<cells>
-									<Text text="{}" ></Text>
+									<Text text="Pending"></Text>
 								</cells>
 								<cells>
-									<Switch id="idSwitch" type="AcceptReject" change="onSwitch"/>
+									<Switch id="idBlockSwitch" type="AcceptReject" state="{=${customerModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch"/>
 								</cells>
 								<cells>
 									<Input value="{}"/>
@@ -58,7 +49,7 @@
 			</Panel>
 			<Panel expandable="true" headerText="Manufacturer" width="auto" class="sapUiResponsiveMargin">
 				<content>
-					<Table id="idTable2" items="{local>/Manufacturer}">
+					<Table id="idTable2" items="{manufactureModelInfo>/results}">
 						<columns>
 							<Column>
 								<Label text="Name"/>
@@ -70,7 +61,7 @@
 								<Label text="Last login"/>
 							</Column>
 							<Column>
-								<Label text="Block"/>
+								<Label text="Block/Unblock"/>
 							</Column>
 							<Column>
 								<Label text="Reset Password"/>
@@ -79,16 +70,16 @@
 						<items>
 							<ColumnListItem id="idColumnlist2">
 								<cells>
-									<Text text="{local>Name}" ></Text>
+									<Text text="{manufactureModelInfo>Name}"></Text>
 								</cells>
 								<cells>
-									<Text text="{local>EmailId}" ></Text>
+									<Text text="{manufactureModelInfo>EmailId}"></Text>
 								</cells>
 								<cells>
-									<Text text="{}" ></Text>
+									<Text text="Pending"></Text>
 								</cells>
 								<cells>
-									<Switch id="idSwitch2" type="AcceptReject"  change="onSwitch"/>
+									<Switch id="idBlockSwitch2" type="AcceptReject" state="{=${manufactureModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch2"/>
 								</cells>
 								<cells>
 									<Input value=""/>
