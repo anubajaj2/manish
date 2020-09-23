@@ -104,14 +104,16 @@ sap.ui.define([
 										for (var i = 0; i < oData.results.length; i++) {
 											AppUsers[oData.results[i].TechnicalId] = oData.results[i];
 											if( oData.results[i].TechnicalId === data.userId ){
+												found = true;
 												that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
 												that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
 												that2.getView().getModel("local").setProperty("/pwdChange",oData.results[i].pwdChange);
-												found = true;
-											}//else{
-												//debugger;
-												//that2.getView().getModel("local").setProperty("/Authorization", "");
-											//}
+												that2.ODataHelper.callOData(that2.getOwnerComponent().getModel(),
+									          "/AppUsers('" + oData.results[i].id + "')",
+									          "PUT", {}, {
+									            lastLogin: new Date()
+									          }, that2);
+											}
 										}
 
 										if(found === true){
@@ -192,7 +194,7 @@ sap.ui.define([
 															that2.oRouter.navTo("categories");
 														}
 														else{
-															MessageToast.show("User is blocked, Please contact admin");
+															MessageToast.show("You are blocked, Please contact admin");
 														}
 												});
 											}else if(that2.getView().getModel("local").getProperty("/Role") === "Admin"){

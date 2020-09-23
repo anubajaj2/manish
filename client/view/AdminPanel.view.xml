@@ -34,13 +34,13 @@
 									<Text text="{customerModelInfo>EmailId}"></Text>
 								</cells>
 								<cells>
-									<Text text="Pending"></Text>
+									<Text text="{customerModelInfo>lastLogin}"></Text>
 								</cells>
 								<cells>
 									<Switch id="idBlockSwitch" type="AcceptReject" state="{=${customerModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch"/>
 								</cells>
 								<cells>
-									<Input value="{}"/>
+									<Switch id="idPassSwitch" type="AcceptReject" state="{customerModelInfo>pwdChange}" change="onPassSwitch"/>
 								</cells>
 							</ColumnListItem>
 						</items>
@@ -76,13 +76,13 @@
 									<Text text="{manufactureModelInfo>EmailId}"></Text>
 								</cells>
 								<cells>
-									<Text text="Pending"></Text>
+									<Text text="{manufactureModelInfo>lastLogin}"></Text>
 								</cells>
 								<cells>
 									<Switch id="idBlockSwitch2" type="AcceptReject" state="{=${manufactureModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch2"/>
 								</cells>
 								<cells>
-									<Input value=""/>
+									<Switch id="idPassSwitch2" type="AcceptReject" state="{manufactureModelInfo>pwdChange}" change="onPassSwitch2"/>
 								</cells>
 							</ColumnListItem>
 						</items>

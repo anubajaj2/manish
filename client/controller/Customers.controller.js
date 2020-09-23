@@ -37,6 +37,7 @@ sap.ui.define([
       _onRouteMatched: function(oEvent) {
 
         var that = this;
+        this.getView().setBusy(true);
         var viewModel = this.getView().getModel("viewModel");
         viewModel.setProperty("/codeEnabled", true);
         viewModel.setProperty("/buttonText", "Save");
@@ -57,7 +58,9 @@ sap.ui.define([
  				 .then(function(oData) {
            oModelCustomer.setData(oData);
            that.getView().setModel(oModelCustomer, "customerModelInfo");
+           that.getView().setBusy(false);
  				 }).catch(function(oError) {
+           that.getView().setBusy(false);
  					 MessageToast.show("cannot fetch the data");
  				 });
 

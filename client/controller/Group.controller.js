@@ -81,6 +81,7 @@ sap.ui.define([
 
 		 _onRouteMatched : function(){
 			var that = this;
+			this.getView().setBusy(true);
 			this.loadCategories();
 			var viewModel = this.getView().getModel("viewModel");
 			viewModel.setProperty("/codeEnabled", true);
@@ -110,8 +111,10 @@ sap.ui.define([
 				 .then(function(oData) {
 					oModelGroup.setData(oData);
  		 			that.getView().setModel(oModelGroup, "groupModelInfo");
+					that.getView().setBusy(false);
 				 }).catch(function(oError) {
-						 MessageToast.show("cannot fetch the data");
+					 that.getView().setBusy(false);
+					 MessageToast.show("cannot fetch the data");
 				 });
 				this.clearGroup();
 				this.firstTwoDisplay();
