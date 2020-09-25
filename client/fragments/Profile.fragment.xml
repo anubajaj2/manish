@@ -4,7 +4,7 @@
       <Page id="master" class="sapUiResponsivePadding--header" showHeader="false">
         <List>
 		<ActionListItem text="Profile" press="showProfile"/>
-		<ActionListItem text="Orders" press= "onOrders"/>
+		<ActionListItem id = "orderButtonId" text="Orders" visible="true" press= "onOrders"/>
 	</List>
       </Page>
       <Page id="detail" class="sapUiResponsivePadding--header" showNavButton="true" navButtonPress="onNavBack" title="Profile">

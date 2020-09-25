@@ -37,7 +37,7 @@
 			<Toolbar>
 				<Text
 					id="totalPriceText"
-					text="{path :'local>/fineGm', formatter : '.formatter.getIndianCurr'} INR"
+					text="Total Price : {path :'local>/fineRs', formatter : '.formatter.getIndianCurr'} INR"
 					class="sapUiTinyMarginBegin"/>
 				<ToolbarSpacer/>
 				<Button

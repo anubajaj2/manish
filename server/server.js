@@ -1,5 +1,6 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var https = require('https');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
@@ -13,6 +14,10 @@ var json2xls = require('json2xls');
 var app = express();
 app = module.exports = loopback();
 
+var options = {
+  key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
+  cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
+};
 // parse application/json
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -32,15 +37,16 @@ app.use(fileUpload());
 app.use(json2xls.middleware);
 app.start = function() {
   // start the web server
-  return app.listen(function() {
+  const sslServer = https.createServer(options,app);
+  return sslServer.listen(app.get('port'),function() {
     app.emit('started');
-    var baseUrl = app.get('url').replace(/\/$/, '');
+    // var baseUrl = app.get('url').replace(/\/$/, '');
+    var baseUrl = app.get('url');
     console.log('Web server listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
-
   });
 };
 
