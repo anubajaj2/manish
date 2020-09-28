@@ -7,13 +7,16 @@ sap.ui.define([
   "sap/m/MessageBox",
   "sap/ui/model/Filter",
   "sap/ui/model/FilterOperator",
-  "sap/m/SelectDialog"
+  "sap/m/SelectDialog",
+  "sap/ui/export/library",
+  "sap/ui/export/Spreadsheet"
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
   var groupID = [];
+  var EdmType = exportLibrary.EdmType;
   return BaseController.extend("sap.ui.demo.cart.controller.Manufacturer", {
     formatter: Formatter,
     onInit: function() {
@@ -89,6 +92,84 @@ sap.ui.define([
         filters: filters,
         and: false
       }));
+    },
+    createColumnConfig: function() {
+      var aCols = [];
+
+      aCols.push({
+        label: 'Full name',
+        property: 'Name',
+        type: EdmType.String
+      });
+
+      aCols.push({
+        label: 'Code',
+        type: EdmType.String,
+        property: 'CustomerCode'
+      });
+
+      aCols.push({
+        label: 'City',
+        property: 'City',
+        type: EdmType.String
+      });
+      aCols.push({
+        label: 'Address',
+        property: 'Address',
+        type: EdmType.String
+      });
+      aCols.push({
+        label: 'Mobile',
+        property: 'MobilePhone',
+        type: EdmType.String
+      });
+      aCols.push({
+        label: 'E-mail',
+        property: 'EmailId',
+        type: EdmType.String
+      });
+      aCols.push({
+        label: 'Status',
+        property: 'Status',
+        type: EdmType.String
+      });
+      return aCols;
+    },
+    onDownloadRetailersData: function() {
+      var aCols, oRowBinding, oSettings, oSheet, oTable;
+
+      if (!this._oTable) {
+        this._oTable = this.byId('customerTable');
+      }
+
+      oTable = this._oTable;
+      oRowBinding = oTable.getBinding('rows');
+
+      aCols = this.createColumnConfig();
+
+      var oModel = oRowBinding.getModel();
+
+      oSettings = {
+        workbook: {
+          columns: aCols,
+          hierarchyLevel: 'Level'
+        },
+        dataSource: {
+          type: 'odata',
+          dataUrl: oRowBinding.getDownloadUrl ? oRowBinding.getDownloadUrl() : null,
+          serviceUrl: this._sServiceUrl,
+          headers: oModel.getHeaders ? oModel.getHeaders() : null,
+          count: oRowBinding.getLength ? oRowBinding.getLength() : null,
+          useBatch: true // Default for ODataModel V2
+        },
+        fileName: 'Table export sample.xlsx',
+        worker: false // We need to disable worker because we are using a MockServer as OData Service
+      };
+
+      oSheet = new Spreadsheet(oSettings);
+      oSheet.build().finally(function() {
+        oSheet.destroy();
+      });
     },
     clearScreen: function() {
       var manufacturerModel = this.getView().getModel("local").getProperty("/Manufacturer");
@@ -173,8 +254,7 @@ sap.ui.define([
 
     },
     onManufacturerSelect: function(oEvent) {
-      var sPath = oEvent.getParameter('rowContext').getPath() + '/CustomerCode';
-      var code = this.getView().getModel('manufactureModelInfo').getProperty(sPath);
+      var code = oEvent.getSource().getRows()[oEvent.getSource().getSelectedIndex()].getCells()[0].getText();
       this.manufacturerCheck(code);
     },
     onCustomerFilter: function(oEvent) {
@@ -192,7 +272,7 @@ sap.ui.define([
         });
         this.getView().getModel("manufactureModelInfo").setProperty("/uniqueCities", manufacturerInfo);
         this.oDialog = new SelectDialog({
-          title: "Select weights",
+          title: "Select Cities",
           multiSelect: true,
           search: this.searchCityFilter.bind(this),
           confirm: this.filterConfirm.bind(this),

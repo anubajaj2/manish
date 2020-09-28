@@ -73,12 +73,11 @@
 			</VBox>
 			<!-- <core:Fragment id="Manufacturer" fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/> -->
 			<VBox>
-				<t:Table rows="{manufactureModelInfo>/results}" id ="customerTable" selectionMode="Single" rowSelectionChange="onManufacturerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="6" visibleRowCountMode="Auto">
+				<t:Table rows="{/Manufacturers}" id ="customerTable" selectionMode="Single" rowSelectionChange="onManufacturerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="6" visibleRowCountMode="Auto">
 					<t:extension>
 						<OverflowToolbar>
 							<Title id="title" text="Manufaturers"/>
-							<Button icon="sap-icon://download" tooltip="Download" press="onDownloadRetailersData"/>
-							<Link id = "downloadLink"/>
+							<Button icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadRetailersData"/>
 							<ToolbarSpacer/>
 							<SearchField width="71%" liveChange="onManufacturerSearch" class="sapUiSmallMargin"/>
 							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" press="onCustomerFilter"/>
@@ -88,38 +87,38 @@
 						<t:Column >
 							<Label text="Customer Code"/>
 							<t:template>
-								<Text text="{manufactureModelInfo>CustomerCode}" wrapping="false"/>
+								<Text text="{CustomerCode}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="Name"/>
 							<t:template>
-								<Text text="{manufactureModelInfo>Name}" wrapping="false"/>
+								<Text text="{Name}" wrapping="false"/>
 							</t:template>
 						</t:Column>
-						<!-- <t:Column > <Label text="Group"/> <t:template> <Text text="{manufactureModelInfo>Group}" wrapping="false"/> </t:template> </t:Column> -->
+						<!-- <t:Column > <Label text="Group"/> <t:template> <Text text="{Group}" wrapping="false"/> </t:template> </t:Column> -->
 						<t:Column >
 							<Label text="City"/>
 							<t:template>
-								<Text text="{manufactureModelInfo>City}" wrapping="false"/>
+								<Text text="{City}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="Contact No."/>
 							<t:template>
-								<Text text="{manufactureModelInfo>MobilePhone}" wrapping="false"/>
+								<Text text="{MobilePhone}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="E-mail"/>
 							<t:template>
-								<Text text="{manufactureModelInfo>EmailId}" wrapping="false"/>
+								<Text text="{EmailId}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 						<t:Column >
 							<Label text="Status"/>
 							<t:template>
-								<Text text="{=${manufactureModelInfo>Status}==='U'?'Unblocked':'Blocked'}" wrapping="false"/>
+								<Text text="{=${Status}==='U'?'Unblocked':'Blocked'}" wrapping="false"/>
 							</t:template>
 						</t:Column>
 					</t:columns>

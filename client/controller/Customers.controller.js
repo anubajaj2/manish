@@ -7,18 +7,20 @@ sap.ui.define([
     "sap/m/MessageBox",
     'sap/ui/model/Filter',
     'sap/ui/model/FilterOperator',
-    "sap/m/SelectDialog"
+    "sap/m/SelectDialog",
+    "sap/ui/export/library",
+    "sap/ui/export/Spreadsheet"
   ],
   function(BaseController, UIComponent, JSONModel,
     MessageToast, Formatter, MessageBox,
     Filter,
-    FilterOperator, SelectDialog
+    FilterOperator, SelectDialog, exportLibrary, Spreadsheet
   ) {
     "use strict";
     var customerId;
     var changeCheck = 'false';
     var groupID = [];
-
+    var EdmType = exportLibrary.EdmType;
     return BaseController.extend("sap.ui.demo.cart.controller.Customers", {
       formatter: Formatter,
       onInit: function() {
@@ -54,24 +56,24 @@ sap.ui.define([
         var oModelGroup = new JSONModel();
 
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
- 					 "/Customers", "GET", {}, {}, this)
- 				 .then(function(oData) {
-           oModelCustomer.setData(oData);
-           that.getView().setModel(oModelCustomer, "customerModelInfo");
-           that.getView().setBusy(false);
- 				 }).catch(function(oError) {
-           that.getView().setBusy(false);
- 					 MessageToast.show("cannot fetch the data");
- 				 });
+            "/Customers", "GET", {}, {}, this)
+          .then(function(oData) {
+            oModelCustomer.setData(oData);
+            that.getView().setModel(oModelCustomer, "customerModelInfo");
+            that.getView().setBusy(false);
+          }).catch(function(oError) {
+            that.getView().setBusy(false);
+            MessageToast.show("cannot fetch the data");
+          });
 
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-        "/Groups", "GET", {}, {}, this)
-         .then(function(oData) {
-           oModelGroup.setData(oData);
-      			that.getView().setModel(oModelGroup, "groupModelInfo");
-         }).catch(function(oError) {
-             MessageToast.show("cannot fetch the data");
-         });
+            "/Groups", "GET", {}, {}, this)
+          .then(function(oData) {
+            oModelGroup.setData(oData);
+            that.getView().setModel(oModelGroup, "groupModelInfo");
+          }).catch(function(oError) {
+            MessageToast.show("cannot fetch the data");
+          });
         this.clearScreen();
       },
       onCustomerFilter: function(oEvent) {
@@ -79,7 +81,9 @@ sap.ui.define([
           var customerInfo = this.getView().getModel("customerModelInfo").getProperty("/results");
           var s = new Set();
           customerInfo.forEach((item) => {
+            if(item.City){
             s.add(item.City);
+          }
           });
           customerInfo = [];
           s.forEach((item) => {
@@ -89,7 +93,7 @@ sap.ui.define([
           });
           this.getView().getModel("customerModelInfo").setProperty("/uniqueCities", customerInfo);
           this.oDialog = new SelectDialog({
-            title: "Select weights",
+            title: "Select Cities",
             multiSelect: true,
             search: this.searchCity.bind(this),
             confirm: this.filterConfirm.bind(this),
@@ -119,45 +123,100 @@ sap.ui.define([
       },
       filterConfirm: function(oEvent) {
         var selectedItems = oEvent.getParameter("selectedItems");
-        var filters = []
+        var oFilters = []
         selectedItems.forEach((item) => {
-          filters.push(new Filter({
+          oFilters.push(new Filter({
             path: 'City',
             operator: FilterOperator.Contains,
             value1: item.getLabel()
           }));
         });
         this.getView().byId('customerTable').getBinding('rows').filter(new Filter({
-          filters: filters,
+          filters: oFilters,
           and: false
         }));
       },
       filterCancel: function() {
         this.getView().byId('customerTable').getBinding('rows').filter([]);
       },
-      onDownloadRetailersData: function(oEvent) {
-        var that = this;
-        $.post("/DownloadRetailersData", {})
-          .done(function(eData, status) {
-            var blob = eData;
-            // var bin = atob(eData.toString('base64'));
-            // var ab = s2ab(bin);
-            // var data = new Blob([eData], {
-            //   type: 'application/vnd.ms-excel'
-            // });
-            // var url = window.URL.createObjectURL(data);
-            // var url = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + encodeURIComponent(eData);
-            // var url = Formatter.getExcelUrlFromContent(eData);
-            var url = window.URL.createObjectURL(new Blob([blob], {
-              type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            }));
-            var link = that.getView().byId("downloadLink");
-            link.setText("Download");
-            link.setHref(url);
-          })
-          .fail(function(xhr, status, error) {
 
-          });
+      createColumnConfig: function() {
+        var aCols = [];
+
+        aCols.push({
+          label: 'Full name',
+          property: 'Name',
+          type: EdmType.String
+        });
+
+        aCols.push({
+          label: 'Code',
+          type: EdmType.String,
+          property: 'CustomerCode'
+        });
+
+        aCols.push({
+          label: 'City',
+          property: 'City',
+          type: EdmType.String
+        });
+        aCols.push({
+          label: 'Address',
+          property: 'Address',
+          type: EdmType.String
+        });
+        aCols.push({
+          label: 'Mobile',
+          property: 'MobilePhone',
+          type: EdmType.String
+        });
+        aCols.push({
+          label: 'E-mail',
+          property: 'EmailId',
+          type: EdmType.String
+        });
+        aCols.push({
+          label: 'Status',
+          property: 'Status',
+          type: EdmType.String
+        });
+        return aCols;
+      },
+      onDownloadRetailersData: function() {
+        var aCols, oRowBinding, oSettings, oSheet, oTable;
+
+        if (!this._oTable) {
+          this._oTable = this.byId('customerTable');
+        }
+
+        oTable = this._oTable;
+        oRowBinding = oTable.getBinding('rows');
+
+        aCols = this.createColumnConfig();
+
+        var oModel = oRowBinding.getModel();
+
+        oSettings = {
+          workbook: {
+            columns: aCols,
+            hierarchyLevel: 'Level'
+          },
+          dataSource: {
+            type: 'odata',
+            dataUrl: oRowBinding.getDownloadUrl ? oRowBinding.getDownloadUrl() : null,
+            serviceUrl: this._sServiceUrl,
+            headers: oModel.getHeaders ? oModel.getHeaders() : null,
+            count: oRowBinding.getLength ? oRowBinding.getLength() : null,
+            useBatch: true // Default for ODataModel V2
+          },
+          fileName: 'Table export sample.xlsx',
+          worker: false // We need to disable worker because we are using a MockServer as OData Service
+        };
+
+        oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function() {
+          oSheet.destroy();
+        });
       },
       clearScreen: function() {
         var customerModel = this.getView().getModel("local").getProperty("/Customer");
@@ -271,8 +330,7 @@ sap.ui.define([
 
       },
       onCustomerSelect: function(oEvent) {
-        var sPath = oEvent.getParameter('rowContext').getPath() + '/CustomerCode';
-        var code = this.getView().getModel('customerModelInfo').getProperty(sPath);
+        var code = oEvent.getSource().getRows()[oEvent.getSource().getSelectedIndex()].getCells()[0].getText();
         this.customerCheck(code);
       },
       customerCheck: function(code) {
