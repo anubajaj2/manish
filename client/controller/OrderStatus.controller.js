@@ -306,7 +306,7 @@ sap.ui.define([
         var customerAddress = this.orderStatusList[index].CustomerAddress;
         var customerCity = this.orderStatusList[index].CustomerCity;
         var invoiceName = this.orderStatusList[index].CustomerCode + "-O" +this.orderStatusList[index].OrderNo;
-
+        MessageToast.show("Please wait, preparing...");
         var data = {
           //"documentTitle": "RECEIPT", //Defaults to INVOICE
           "currency": "INR",
@@ -318,10 +318,10 @@ sap.ui.define([
           "logo": "https://cdn1.jewelxy.com/live/img/business_logo/250x250/TyABL7V4qd_20190624134922.jpg", //or base64
           //"logoExtension": "png", //only when logo is base64
           "sender": {
-            "company": "Manglam Ornament",
+            "company": "MANGALAM ORNAMENTS",
             "address": "601-603, APEX MALL LALKOTHI TONK ROAD",
             "zip": "302015",
-            "city": "Jaipur",
+            "city": "JAIPUR",
             "country": "India"
             //"custom1": "custom value 1",
             //"custom2": "custom value 2",
