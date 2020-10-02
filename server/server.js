@@ -35,7 +35,6 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
-app.use(json2xls.middleware);
 app.use (function (req, res, next) {
         if (req.secure) {
                 // request was via https, so do no special handling
