@@ -9,7 +9,6 @@ var fs = require('fs');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
-var secure = require('express-force-https');
 var path = require('path');
 var invoicegenerator = require('./invoice-generator');
 // var json2xls = require('json2xls');
@@ -37,8 +36,15 @@ app.use(session({
 }));
 app.use(fileUpload());
 // app.use(json2xls.middleware);
-app.use (secure);
-
+app.use (function (req, res, next) {
+        if (req.secure) {
+                // request was via https, so do no special handling
+                next();
+        } else {
+                // request was via http, so redirect to https
+                res.redirect('https://' + req.headers.host + req.url);
+        }
+});
 app.start = function() {
   // start the web server
   const sslServer = https.createServer(options,app);
@@ -53,6 +59,7 @@ app.start = function() {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
   });
+  http.createServer(app).listen(80);
 };
 
 
