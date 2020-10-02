@@ -47,7 +47,7 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  const sslServer = https.createServer(options,app).listen(443);
+  // const sslServer = https.createServer(options,app).listen(443);
 
   // return sslServer.listen(app.get('port'),function() {
   //   app.emit('started');
