@@ -54,12 +54,13 @@ sap.ui.define([
             totalAmount += orderHeader.get("Weight").get(oItem.WeightId).Amount;
             orderItemDetails.push(orderHeader.get("Weight").get(oItem.WeightId).Amount);
             productDetails.push({
-              "quantity": 1,
-              "description": tempProd.Category.toLowerCase() + ' / ' + tempProd.SubCategory.toLowerCase() +
-                ' / ' + tempProd.Name.toLowerCase() + ' (' + tunch + 'Tunch) '
-                + orderHeader.get("Weight").get(oItem.WeightId).GrossWeight + ' gm',
-              "tax": 19,
-              "price": (orderHeader.get("Weight").get(oItem.WeightId).Amount ? orderHeader.get("Weight").get(oItem.WeightId).Amount : 0)
+              "Item": tempProd.Category.toLowerCase(),
+              "Description":  tempProd.SubCategory.toLowerCase() + ' / ' + tempProd.Name.toLowerCase(),
+               "Tunch" : tunch,
+              "NetWeight" :  orderHeader.get("Weight").get(oItem.WeightId).NetWeight,
+              "GrossWeight": (orderHeader.get("Weight").get(oItem.WeightId).GrossWeight ? orderHeader.get("Weight").get(oItem.WeightId).GrossWeight : 0),
+              "Fine" : orderHeader.get("Weight").get(oItem.WeightId).Fine,
+              "Amount" : (orderHeader.get("Weight").get(oItem.WeightId).Amount ? orderHeader.get("Weight").get(oItem.WeightId).Amount : 0)
             });
           });
         }
@@ -307,44 +308,39 @@ sap.ui.define([
         var customerCity = this.orderStatusList[index].CustomerCity;
         var invoiceName = this.orderStatusList[index].CustomerCode + "-O" +this.orderStatusList[index].OrderNo;
         MessageToast.show("Please wait, preparing...");
-        var data = {
-          //"documentTitle": "RECEIPT", //Defaults to INVOICE
-          "currency": "INR",
-          "taxNotation": "GST", //or gst
-          "marginTop": 25,
-          "marginRight": 25,
-          "marginLeft": 25,
-          "marginBottom": 25,
-          "logo": "https://cdn1.jewelxy.com/live/img/business_logo/250x250/TyABL7V4qd_20190624134922.jpg", //or base64
-          //"logoExtension": "png", //only when logo is base64
-          "sender": {
-            "company": "MANGALAM ORNAMENTS",
-            "address": "601-603, APEX MALL LALKOTHI TONK ROAD",
-            "zip": "302015",
-            "city": "JAIPUR",
-            "country": "India"
-            //"custom1": "custom value 1",
-            //"custom2": "custom value 2",
-            //"custom3": "custom value 3"
-          },
-          "client": {
-            "company": customerName,
-            "address": (customerAddress ? customerAddress : "N/A"),
-            "zip": "",
-            "city": (customerCity ? customerCity : "N/A"),
-            "country": "India"
-            //"custom1": "custom value 1",
-            //"custom2": "custom value 2",
-            //"custom3": "custom value 3"
-          },
-          "invoiceNumber": invoiceName,
-          "invoiceDate": Date().slice(4, 15),
-          "products": products,
-          "bottomNotice": "Kindly pay your invoice within 15 days."
+        const invoiceDetail = {
+            shipping: {
+              name: customerName,
+              address: (customerAddress ? customerAddress : "N/A"),
+              city: (customerCity ? customerCity : "N/A"),
+              state: "",
+              country: "INDIA",
+              postal_code: ""
+            },
+            items: products,
+            GST : "18%",
+            order_number: invoiceName,
+            header:{
+                company_name: "Mangalam Ornaments",
+                company_logo: "logo.png",
+                company_address: "601-603, APEX MALLLALKOTHI TONK ROAD, JAIPUR RJ 302015 IN"
+            },
+            footer:{
+              text: "Any footer text - you can add any text here"
+            },
+            currency_symbol: " INR",
+            weight_unit: "gm",
+            date: {
+              billing_date: Date().slice(4, 15),
+              due_date: "",
+            }
         };
-        easyinvoice.createInvoice(data, function(result) {
-          easyinvoice.download(invoiceName + '.pdf', result.pdf);
+        $.post('/pdfInvoice', invoiceDetail).done(function(data, status) {
+          console.log(data);
+          MessageToast.show(status);
           that.getPdf(sPaths, that, ++pIndex);
+        }).fail(function(xhr, status, error) {
+          MessageToast.show("Error");
         });
       } else {
         that.getView().byId('idListOS').removeSelections();

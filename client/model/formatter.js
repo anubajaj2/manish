@@ -129,7 +129,6 @@ sap.ui.define([
  		return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
  		},
  		getIndianCurr: function(value){
- 			debugger;
  			if(value){
  				var x=value;
  				x=x.toString();
@@ -140,7 +139,6 @@ sap.ui.define([
  				var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
  				return res;
  			}
-
  		},
 		dateAndTime : function(date){
 			date = date.toString();

@@ -8,8 +8,8 @@ var fs = require('fs');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
-var fs = require('fs');
 var path = require('path');
+var invoicegenerator = require('./invoice-generator');
 // var json2xls = require('json2xls');
 var app = express();
 app = module.exports = loopback();
@@ -35,13 +35,33 @@ app.use(session({
 }));
 app.use(fileUpload());
 // app.use(json2xls.middleware);
+app.use (function (req, res, next) {
+        if (req.secure) {
+                // request was via https, so do no special handling
+                next();
+        } else {
+                // request was via http, so redirect to https
+                res.redirect('https://' + req.headers.host + req.url);
+        }
+});
+
 app.start = function() {
   // start the web server
-  const sslServer = https.createServer(options,app);
-  return sslServer.listen(app.get('port'),function() {
+  const sslServer = https.createServer(options,app).listen(443);
+
+  // return sslServer.listen(app.get('port'),function() {
+  //   app.emit('started');
+  //   // var baseUrl = app.get('url').replace(/\/$/, '');
+  //   var baseUrl = app.get('url');
+  //   console.log('Web server listening at: %s', baseUrl);
+  //   if (app.get('loopback-component-explorer')) {
+  //     var explorerPath = app.get('loopback-component-explorer').mountPath;
+  //     console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+  //   }
+  // });
+  return app.listen(function() {
     app.emit('started');
-    // var baseUrl = app.get('url').replace(/\/$/, '');
-    var baseUrl = app.get('url');
+    var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
@@ -49,6 +69,7 @@ app.start = function() {
     }
   });
 };
+
 
 // app.post("/DownloadRetailersData", function(req, res) {
 //   var app = require('../server/server');
@@ -440,6 +461,13 @@ app.post('/updateLastLogin',
       res.send("Error Occurred");
     });
 
+  }
+);
+app.post('/pdfInvoice',
+  function(req, res) {
+    // var app = require('../server/server');
+    var data = invoicegenerator(req.body,req.body.order_number+'.pdf');
+    return res.send(data);
   }
 );
 app.post('/invoice',
