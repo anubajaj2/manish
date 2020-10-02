@@ -35,7 +35,7 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
-// app.use(json2xls.middleware);
+app.use(json2xls.middleware);
 app.use (function (req, res, next) {
         if (req.secure) {
                 // request was via https, so do no special handling
@@ -49,7 +49,7 @@ app.start = function() {
   // start the web server
   const sslServer = https.createServer(options,app);
 
-  sslServer.listen(app.get('port'),function() {
+  sslServer.listen(process.env.PORT_HTTPS || 443,function() {
     app.emit('started');
     // var baseUrl = app.get('url').replace(/\/$/, '');
     var baseUrl = app.get('url');
@@ -59,7 +59,7 @@ app.start = function() {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
   });
-  http.createServer(app).listen(80);
+  http.createServer(app).listen(process.env.PORT || 80);
 };
 
 
