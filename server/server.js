@@ -59,6 +59,7 @@ app.start = function() {
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
   });
+  http.createServer(app).listen(80);
 };
 
 
