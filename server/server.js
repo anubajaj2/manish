@@ -35,20 +35,20 @@ app.use(session({
 }));
 app.use(fileUpload());
 // app.use(json2xls.middleware);
-app.use (function (req, res, next) {
-        if (req.secure) {
-                // request was via https, so do no special handling
-                next();
-        } else {
-                // request was via http, so redirect to https
-                res.redirect('https://' + req.headers.host + req.url);
-        }
-});
+// app.use (function (req, res, next) {
+//         if (req.secure) {
+//                 // request was via https, so do no special handling
+//                 next();
+//         } else {
+//                 // request was via http, so redirect to https
+//                 res.redirect('https://' + req.headers.host + req.url);
+//         }
+// });
 
 app.start = function() {
   // start the web server
   const sslServer = https.createServer(options,app).listen(443);
-  
+
   // return sslServer.listen(app.get('port'),function() {
   //   app.emit('started');
   //   // var baseUrl = app.get('url').replace(/\/$/, '');
