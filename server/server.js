@@ -1,6 +1,7 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var https = require('https');
+var http = require('http');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
@@ -8,6 +9,7 @@ var fs = require('fs');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
+var secure = require('express-force-https');
 var path = require('path');
 var invoicegenerator = require('./invoice-generator');
 // var json2xls = require('json2xls');
@@ -35,33 +37,16 @@ app.use(session({
 }));
 app.use(fileUpload());
 // app.use(json2xls.middleware);
-// app.use (function (req, res, next) {
-//         if (req.secure) {
-//                 // request was via https, so do no special handling
-//                 next();
-//         } else {
-//                 // request was via http, so redirect to https
-//                 res.redirect('https://' + req.headers.host + req.url);
-//         }
-// });
+app.use (secure);
 
 app.start = function() {
   // start the web server
-  // const sslServer = https.createServer(options,app).listen(443);
+  const sslServer = https.createServer(options,app);
 
-  // return sslServer.listen(app.get('port'),function() {
-  //   app.emit('started');
-  //   // var baseUrl = app.get('url').replace(/\/$/, '');
-  //   var baseUrl = app.get('url');
-  //   console.log('Web server listening at: %s', baseUrl);
-  //   if (app.get('loopback-component-explorer')) {
-  //     var explorerPath = app.get('loopback-component-explorer').mountPath;
-  //     console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-  //   }
-  // });
-  return app.listen(function() {
+  sslServer.listen(app.get('port'),function() {
     app.emit('started');
-    var baseUrl = app.get('url').replace(/\/$/, '');
+    // var baseUrl = app.get('url').replace(/\/$/, '');
+    var baseUrl = app.get('url');
     console.log('Web server listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
