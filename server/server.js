@@ -38,18 +38,28 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  const sslServer = https.createServer(options,app);
+  // const sslServer = https.createServer(options,app).listen(3000);
 
-  sslServer.listen(app.get('port'),function() {
-    app.emit('started');
-    // var baseUrl = app.get('url').replace(/\/$/, '');
-    var baseUrl = app.get('url');
-    console.log('Web server listening at: %s', baseUrl);
-    if (app.get('loopback-component-explorer')) {
-      var explorerPath = app.get('loopback-component-explorer').mountPath;
-      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-    }
+  // sslServer.listen(app.get('port'),function() {
+  //   app.emit('started');
+  //   // var baseUrl = app.get('url').replace(/\/$/, '');
+  //   var baseUrl = app.get('url');
+  //   console.log('Web server listening at: %s', baseUrl);
+  //   if (app.get('loopback-component-explorer')) {
+  //     var explorerPath = app.get('loopback-component-explorer').mountPath;
+  //     console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+  //   }
+  // });
+  app.listen(function() {
+		app.emit('started');
+		var baseUrl = app.get('url').replace(/\/$/, '');
+		console.log('Web server listening at: %s', baseUrl);
+		if (app.get('loopback-component-explorer')) {
+			var explorerPath = app.get('loopback-component-explorer').mountPath;
+			console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+		}
   });
+
 };
 
 
