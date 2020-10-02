@@ -1,6 +1,6 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-var https = require('https');
+// var https = require('https');
 var http = require('http');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -15,10 +15,10 @@ var invoicegenerator = require('./invoice-generator');
 var app = express();
 app = module.exports = loopback();
 
-var options = {
-  key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
-  cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
-};
+// var options = {
+//   key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
+//   cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
+// };
 // parse application/json
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -38,18 +38,28 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  const sslServer = https.createServer(options,app);
-
-  sslServer.listen(app.get('port'),function() {
-    app.emit('started');
-    // var baseUrl = app.get('url').replace(/\/$/, '');
-    var baseUrl = app.get('url');
-    console.log('Web server listening at: %s', baseUrl);
-    if (app.get('loopback-component-explorer')) {
-      var explorerPath = app.get('loopback-component-explorer').mountPath;
-      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-    }
+  // const sslServer = https.createServer(options,app);
+  //
+  // sslServer.listen(app.get('port'),function() {
+  //   app.emit('started');
+  //   // var baseUrl = app.get('url').replace(/\/$/, '');
+  //   var baseUrl = app.get('url');
+  //   console.log('Web server listening at: %s', baseUrl);
+  //   if (app.get('loopback-component-explorer')) {
+  //     var explorerPath = app.get('loopback-component-explorer').mountPath;
+  //     console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+  //   }
+  // });
+  return app.listen(function() {
+		app.emit('started');
+		var baseUrl = app.get('url').replace(/\/$/, '');
+		console.log('Web server listening at: %s', baseUrl);
+		if (app.get('loopback-component-explorer')) {
+			var explorerPath = app.get('loopback-component-explorer').mountPath;
+			console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+		}
   });
+
 };
 
 
