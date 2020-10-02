@@ -1,7 +1,6 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
-// var https = require('https');
-var http = require('http');
+var https = require('https');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
@@ -15,10 +14,10 @@ var invoicegenerator = require('./invoice-generator');
 var app = express();
 app = module.exports = loopback();
 
-// var options = {
-//   key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
-//   cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
-// };
+var options = {
+  key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
+  cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
+};
 // parse application/json
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -35,21 +34,20 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
+// app.use (function (req, res, next) {
+//         if (req.secure) {
+//                 // request was via https, so do no special handling
+//                 next();
+//         } else {
+//                 // request was via http, so redirect to https
+//                 res.redirect('https://' + req.headers.host + req.url);
+//         }
+// });
 
 app.start = function() {
   // start the web server
-  // const sslServer = https.createServer(options,app);
-  //
-  // sslServer.listen(app.get('port'),function() {
-  //   app.emit('started');
-  //   // var baseUrl = app.get('url').replace(/\/$/, '');
-  //   var baseUrl = app.get('url');
-  //   console.log('Web server listening at: %s', baseUrl);
-  //   if (app.get('loopback-component-explorer')) {
-  //     var explorerPath = app.get('loopback-component-explorer').mountPath;
-  //     console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-  //   }
-  // });
+  https.createServer(options,app).listen(443);
+
   return app.listen(function() {
 		app.emit('started');
 		var baseUrl = app.get('url').replace(/\/$/, '');
@@ -59,7 +57,6 @@ app.start = function() {
 			console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
 		}
   });
-
 };
 
 
