@@ -35,30 +35,22 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
-app.use (function (req, res, next) {
-        if (req.secure) {
-                // request was via https, so do no special handling
-                next();
-        } else {
-                // request was via http, so redirect to https
-                res.redirect("https://localhost:5000");
-        }
-});
+
 app.start = function() {
   // start the web server
   const sslServer = https.createServer(options,app);
 
-  sslServer.listen(5000,function() {
+  sslServer.listen(app.get('port'),function() {
     app.emit('started');
     // var baseUrl = app.get('url').replace(/\/$/, '');
-    var baseUrl = "https://localhost:5000";
+    var baseUrl = app.get('url');
     console.log('Web server listening at: %s', baseUrl);
     if (app.get('loopback-component-explorer')) {
       var explorerPath = app.get('loopback-component-explorer').mountPath;
       console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
     }
   });
-  app.listen(function() {
+  return app.listen(function() {
 		app.emit('started');
 		var baseUrl = app.get('url').replace(/\/$/, '');
 		console.log('Web server listening at: %s', baseUrl);
