@@ -1,6 +1,7 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var https = require('https');
+var http = require('http');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fileUpload = require('express-fileupload');
@@ -47,7 +48,7 @@ app.use(fileUpload());
 app.start = function() {
   // start the web server
   https.createServer(options,app).listen(443);
-
+  http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');
 		var baseUrl = app.get('url').replace(/\/$/, '');
