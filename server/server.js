@@ -20,7 +20,6 @@ var options = {
   cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
 };
 var ssl = {
-    //key: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.key'), 'utf8'),
     cert: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.crt'), 'utf8'),
     ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')]
 };
