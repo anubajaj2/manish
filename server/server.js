@@ -19,6 +19,11 @@ var options = {
   key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
   cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
 };
+var ssl = {
+    //key: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.key'), 'utf8'),
+    cert: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.crt'), 'utf8'),
+    ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')]
+};
 // parse application/json
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -47,7 +52,7 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  https.createServer(options,app).listen(443);
+  https.createServer(ssl,app).listen(443);
   http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');
