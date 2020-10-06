@@ -10,7 +10,7 @@ var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
 var path = require('path');
-var invoicegenerator = require('./invoice-generator');
+//var invoicegenerator = require('./invoice-generator');
 // var json2xls = require('json2xls');
 var app = express();
 app = module.exports = loopback();
@@ -457,12 +457,12 @@ app.post('/updateLastLogin',
 
   }
 );
-app.post('/pdfInvoice',
-  function(req, res) {
-    // var app = require('../server/server');
-    var data = invoicegenerator(req.body,'./server/'+'pdfInvoice.pdf');
-    // data.pipe(res);
-});
+// app.post('/pdfInvoice',
+//   function(req, res) {
+//     // var app = require('../server/server');
+//     var data = invoicegenerator(req.body,'./server/'+'pdfInvoice.pdf');
+//     // data.pipe(res);
+// });
 app.post('/invoice',
   function(req, res) {
     fs.readFile('./server/sampledata/invoice.html', null, function(error, data) {
