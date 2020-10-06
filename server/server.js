@@ -15,10 +15,10 @@ var invoicegenerator = require('./invoice-generator');
 var app = express();
 app = module.exports = loopback();
 
-var options = {
-  key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
-  cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
-};
+// var options = {
+//   key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
+//   cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
+// };
 var ssl = {
     cert: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.crt'), 'utf8'),
     ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')]
@@ -52,7 +52,7 @@ app.use(fileUpload());
 app.start = function() {
   // start the web server
   https.createServer(ssl,app).listen(443);
-  http.createServer(app).listen(80);
+  // http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');
 		var baseUrl = app.get('url').replace(/\/$/, '');
@@ -462,7 +462,7 @@ app.post('/pdfInvoice',
     // var app = require('../server/server');
     var data = invoicegenerator(req.body,'./server/'+'pdfInvoice.pdf');
     // data.pipe(res);
-);
+});
 app.post('/invoice',
   function(req, res) {
     fs.readFile('./server/sampledata/invoice.html', null, function(error, data) {
