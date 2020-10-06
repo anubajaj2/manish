@@ -456,9 +456,8 @@ app.post('/updateLastLogin',
 app.post('/pdfInvoice',
   function(req, res) {
     // var app = require('../server/server');
-    var data = invoicegenerator(req.body,req.body.order_number+'.pdf');
-    return res.send(data);
-  }
+    var data = invoicegenerator(req.body,'./server/'+'pdfInvoice.pdf');
+    // data.pipe(res);
 );
 app.post('/invoice',
   function(req, res) {

@@ -1,4 +1,5 @@
 const fs = require("fs");
+const blobStream  = require('blob-stream');
 const PDFDocument = require("pdfkit");
 
 let niceInvoice = (invoice, path) => {
@@ -8,9 +9,9 @@ let niceInvoice = (invoice, path) => {
   customerInformation(doc, invoice);
   invoiceTable(doc, invoice);
   footer(doc, invoice);
-
   doc.end();
   doc.pipe(fs.createWriteStream(path));
+  return doc;
 }
 
 let header = (doc, invoice) => {
@@ -104,8 +105,8 @@ let invoiceTable = (doc, invoice) => {
       formatWeight(item.Fine,weightUnit),
       formatCurrency(item.Amount, currencySymbol)
     );
-    totalAmount+=item.Amount;
-    totalFine+=item.Fine;
+    totalAmount+=parseFloat(item.Amount);
+    totalFine+=parseFloat(item.Fine);
     generateHr(doc, position + 20);
   }
 
@@ -115,7 +116,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     subtotalPosition,
     "Total Fine :",
-    formatWeight(totalFine,weightUnit)
+    formatWeight(totalFine.toFixed(2),weightUnit)
   );
   const gstPosition = subtotalPosition + 20;
   doc.font("Helvetica-Bold");
@@ -131,7 +132,7 @@ let invoiceTable = (doc, invoice) => {
     doc,
     paidToDatePosition,
     "Total Amount :",
-    formatCurrency(applyTaxIfAvailable(totalAmount,invoice.GST), currencySymbol)
+    formatCurrency(applyTaxIfAvailable(totalAmount,invoice.GST).toFixed(2), currencySymbol)
   );
 }
 
@@ -149,7 +150,7 @@ let totalTable = (
 )=>{
     doc
     .fontSize(10)
-    .text(name, 355, y,{ width: 90, align: "right" })
+    .text(name, 365, y,{ width: 90, align: "right" })
     .text(description, 0, y, { align: "right" })
 }
 
@@ -167,9 +168,9 @@ let tableRow = (
     .fontSize(10)
     .text(item, 50, y)
     .text(description, 130, y)
-    .text(grossWeight, 210, y, { width: 90, align: "right" })
-    .text(netWeight, 305, y, { width: 90, align: "right" })
-    .text(fine, 355, y,{ width: 90, align: "right" })
+    .text(grossWeight, 215, y, { width: 90, align: "right" })
+    .text(netWeight, 310, y, { width: 90, align: "right" })
+    .text(fine, 380, y,{ width: 90, align: "right" })
     .text(amount, 0, y, { align: "right" });
 }
 
@@ -247,7 +248,6 @@ let companyAddress = (doc, address) => {
     doc.fontSize(10).text(chunks[x], 200, first, { align: "right" });
     first = +first +  15;
   });
-  return doc
 }
 
 module.exports = niceInvoice;
