@@ -41,5 +41,11 @@
 		</ObjectListItem>
 		</List>
 		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button id="idInvoice" type="accept" text="Download Invoice" press="onInvoiceDownload"></Button>
+			</Toolbar>
+		</footer>
 </Page>
 </mvc:View>

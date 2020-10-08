@@ -114,22 +114,14 @@ sap.ui.define([
       },
       searchCity: function(oEvent) {
         var search = oEvent.getParameter("value");
-        var oFilter = new Filter({
-          path: 'City',
-          operator: FilterOperator.Contains,
-          value1: search
-        });
+        var oFilter = new Filter('City', FilterOperator.Contains, search);
         this.oDialog.getBinding('items').filter([oFilter]);
       },
       filterConfirm: function(oEvent) {
         var selectedItems = oEvent.getParameter("selectedItems");
         var oFilters = []
         selectedItems.forEach((item) => {
-          oFilters.push(new Filter({
-            path: 'City',
-            operator: FilterOperator.Contains,
-            value1: item.getLabel()
-          }));
+          oFilters.push(new Filter('City', FilterOperator.Contains, item.getLabel()));
         });
         this.getView().byId('customerTable').getBinding('rows').filter(new Filter({
           filters: oFilters,
@@ -245,21 +237,10 @@ sap.ui.define([
       },
       onCustomerSearch: function(oEvent) {
         var search = oEvent.getSource().getValue();
-        var filters = [new Filter({
-            path: 'CustomerCode',
-            operator: FilterOperator.Contains,
-            value1: search
-          }),
-          new Filter({
-            path: 'EmailId',
-            operator: FilterOperator.Contains,
-            value1: search
-          }),
-          new Filter({
-            path: 'Name',
-            operator: FilterOperator.Contains,
-            value1: search
-          })
+        var filters = [new Filter('CustomerCode', FilterOperator.Contains, search.toUpperCase()),
+          new Filter('EmailId', FilterOperator.Contains, search),
+          new Filter('Name', FilterOperator.Contains, search.toUpperCase()),
+          new Filter('MobilePhone', FilterOperator.Contains, search)
         ];
         oEvent.getSource().getParent().getParent().getBinding("rows").filter(new Filter({
           filters: filters,

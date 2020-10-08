@@ -52,6 +52,7 @@ app.use(fileUpload());
 app.start = function() {
   // start the web server
   https.createServer(options,app).listen(443);
+  https.createServer(options,app).listen(8443);
   http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');

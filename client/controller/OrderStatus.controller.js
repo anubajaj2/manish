@@ -517,6 +517,9 @@ sap.ui.define([
               var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
                return  res+y+symbol;
             }
+            else{
+              return value+symbol;
+            }
       }
 
       let formatWeight = (value, symbol) => {
