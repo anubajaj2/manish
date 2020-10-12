@@ -93,14 +93,67 @@
 					</f:SimpleForm>
 				</content>
 			</Panel>
+			<Panel expandable="true" headerText="Invoice Settings" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<f:SimpleForm id="idIS" editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" columnsXL="0" columnsL="0" columnsM="0" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0">
+						<f:content>
+							<Label text="GST">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Label>
+							<Input id="idGST" value="{local>/invoice/gst}" description="%" type="Number" enabled="{viewModel>/editEnabled}">
+								<layoutData>
+									<l:GridData span="L1 M1 S1"></l:GridData>
+								</layoutData>
+							</Input>
+							<Label text="Include GST">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Label>
+							<CheckBox text="" selected="{local>/invoice/includeGST}" enabled="{viewModel>/editEnabled}">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</CheckBox>
+							<Label text="Footer Text">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Label>
+							<TextArea id="invoiceText" placeholder="Invoice footer text" value="{local>/invoice/footerText}" width="100%" enabled="{viewModel>/editEnabled}">
+								<layoutData>
+									<l:GridData span="L9 M9 S9"></l:GridData>
+								</layoutData>
+							</TextArea>
+							<Label text="">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Label>
+							<Button text="Edit" press= "onEditInvoiceSettings" type="Ghost">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Button>
+							<Button text="Save" press= "onSaveInvoiceSettings" type="Accept">
+								<layoutData>
+									<l:GridData span="L3 M3 S3"></l:GridData>
+								</layoutData>
+							</Button>
+						</f:content>
+					</f:SimpleForm>
+				</content>
+			</Panel>
 			</content>
-			<footer>
+			<!-- <footer>
 				<Toolbar>
 					<ToolbarSpacer/>
 					<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
 					<Button text="Clear" type="Ghost" press="onClear" id="idClear"></Button>
 					<Button text="Cancel" type="Reject" press="onCacel" id="idCancel"></Button>
 				</Toolbar>
-			</footer>
+			</footer> -->
 		</Page>
 	</mvc:View>

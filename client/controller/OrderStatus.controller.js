@@ -308,6 +308,11 @@ sap.ui.define([
         var customerCity = this.orderStatusList[index].CustomerCity;
         var invoiceName = this.orderStatusList[index].CustomerCode + "-O" +this.orderStatusList[index].OrderNo;
         MessageToast.show("Please wait, preparing...");
+        var invoiceSettings = this.getOwnerComponent().getModel('local').getProperty('/invoice');
+        var tempGST = "";
+        if(invoiceSettings.includeGST){
+          tempGST = invoiceSettings.gst+"%";
+        }
         const invoiceDetail = {
             shipping: {
               name: customerName,
@@ -318,7 +323,7 @@ sap.ui.define([
               postal_code: ""
             },
             items: products,
-            GST : "",
+            GST : tempGST,
             order_number: invoiceName,
             header:{
                 company_name: "Mangalam Ornaments",
@@ -326,7 +331,7 @@ sap.ui.define([
                 company_address: "601-603, APEX MALLLALKOTHI TONK ROAD, JAIPUR RJ 302015 IN"
             },
             footer:{
-              text: "---------------------------------------"
+              text: invoiceSettings.footerText
             },
             currency_symbol: " INR",
             weight_unit: "gm",

@@ -15,14 +15,16 @@ var path = require('path');
 var app = express();
 app = module.exports = loopback();
 
-var options = {
-  key: fs.readFileSync(path.join(__dirname, './cert/key.pem')).toString(),
-  cert: fs.readFileSync(path.join(__dirname, './cert/cert.pem')).toString()
-};
-// var ssl = {
-//     cert: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.crt'), 'utf8'),
-//     ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')]
+// var options = {
+//   // key: fs.readFileSync(path.join(__dirname, './cert/bhavytechnologies.com.key')),
+//   ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')],
+//   cert: fs.readFileSync(path.join(__dirname, './cert/bhavytechnologies.com.crt'))
 // };
+var ssl = {
+    // key: fs.readFileSync(path.join(__dirname, './cert/bhavytechnologies.com.key')),
+    cert: fs.readFileSync(path.join(__dirname,'./cert/bhavytechnologies.com.crt'), 'utf8'),
+    ca: [fs.readFileSync(path.join(__dirname,'./cert/intermediate.crt'), 'utf8')]
+};
 // parse application/json
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -51,8 +53,8 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  https.createServer(options,app).listen(443);
-  https.createServer(options,app).listen(8443);
+  https.createServer(ssl,app).listen(443);
+  https.createServer(ssl,app).listen(8443);
   http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');
