@@ -1,0 +1,51 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.GroupPermission" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Page>
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm id="selectionId" editable="true" layout="ResponsiveGridLayout"
+			labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false"
+			emptySpanXL="0" emptySpanL="8" emptySpanM="7" emptySpanS="0"
+			columnsXL="2" columnsL="1" columnsM="1"
+			singleContainerFullSize="false">
+			<f:toolbar>
+				<Toolbar id="TB1">
+					<Title id="Title1" text="Group {local>/list/Title}"/>
+				</Toolbar>
+			</f:toolbar>
+			<f:content>
+				<Label text="Can Upload"/>
+				<Switch id="idCanUp" type="AcceptReject" state="{}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+				<Label text="Can View"/>
+				<Switch id="idCanVw" type="AcceptReject" state="{}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+				<Label text="Product Cat"/>
+				<MultiComboBox id="idProdCat" value="{}" items="{}" change="groupCodeCheck"
+					selectedKeys="{}" selectionChange="onSelectionChange">
+					<core:Item key="{}" text="{}"/>
+					<layoutData>
+						<l:GridData span="L6 M6 S6"></l:GridData>
+					</layoutData>
+				</MultiComboBox>
+				<Label text="Can Change Qty"/>
+				<Switch id="idCanCQ" type="AcceptReject" state="{}" change="onSwitch">
+					<layoutData>
+						<FlexItemData growFactor="1"/>
+					</layoutData>
+				</Switch>
+			</f:content>
+		</f:SimpleForm>
+	</VBox>
+</Page>
+</mvc:View>

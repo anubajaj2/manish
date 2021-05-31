@@ -1,0 +1,26 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.ManuHome"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		id="page"
+		title="Manufacturer Cockpit"
+		backgroundDesign="Solid">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+			<List id="idManuHome" growing="true" growingThreshold="10"
+					mode="SingleSelectMaster" delete="onDelete"
+			      selectionChange="onSelectItem">
+				<items>
+					<StandardListItem id="AddProduct" icon="sap-icon://overview-chart" title="Add New Product" description=""></StandardListItem>
+					<StandardListItem id="MyApproval" icon="sap-icon://supplier" title="My Approvals" description=""></StandardListItem>
+					<StandardListItem id="ChangeStock" icon="sap-icon://appointment" title="Booked Products" description=""></StandardListItem>
+				</items>
+			</List>
+		</content>
+	</Page>
+</mvc:View>

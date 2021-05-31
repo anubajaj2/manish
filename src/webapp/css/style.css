@@ -1,0 +1,90 @@
+.sapUiDemoCart .welcomePrice  {
+	width: 100%;
+	padding: 0;
+	border-bottom-width: 0;
+}
+.orderConfirm{
+	color: blue;
+	font-size: 55;
+	font-family: cursive;
+	font-weight: bold;
+}
+.highLightText{
+	font-size: 90;
+	font-family: monospace;
+	font-weight: 900;
+}
+.sapUiDemoCart .welcomeCarouselText {
+	color: white;
+	display: block;
+	position: fixed;
+	bottom: 0;
+	padding: 1rem;
+	font-size: 1.5rem;
+	width: 100%;
+	text-shadow: 0 0 0.125rem black;
+}
+.largeFont {
+
+}
+.textClass{
+	font-weight: bold;
+	font-family: sans-serif;
+}
+.greenClass{
+		color: green;
+		font-weight: bold;
+}
+.orangeClass{
+		color: orange;
+		font-weight: bold;
+}
+.redClass{
+		color: red;
+		font-weight: bold;
+}
+.largeFont label{
+	font-size: 80
+}
+.colorGreen{
+	background-color: orange;
+	color: white;
+
+}
+.gridCenter{
+	text-align: center
+}
+
+.productPrice {
+    background-color: transparent;
+}
+
+.comparebox > div {
+    width: 48%;
+}
+
+	#__component0---homeView--tg2-inner, #__component0---homeView--tg1-inner{
+		margin-left: 10rem;
+		width: 115px;
+		height: 30px;
+		background-color: Grey;
+	}
+	#__component0---homeView--tg2	{
+	margin-left: 33px;
+}
+
+	#__component0---homeView--idBtn-inner {
+     border-radius: 30px;
+     align-content: center;
+     margin-left: 310Px;
+     background-color: blue;
+ }
+
+ #__component0---homeView--idBtn-BDI-content{
+	 color: White;
+ }
+
+.sapFGridListDefault {
+    display: grid;
+    grid-template-columns: repeat(6, 122px);
+    grid-gap:  2rem;}

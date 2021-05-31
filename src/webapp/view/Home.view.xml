@@ -1,0 +1,38 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.Home"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:grid="sap.ui.layout.cssgrid">
+<Page title="Type">
+	<headerContent>
+		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+	</headerContent>
+	<List itemPress="onGridItemPress" items="{local>/cat/subCatergory}">
+		<DisplayListItem type="Active" label="{local>SubCategory}" />
+	</List>
+	<!-- <f:GridList
+		id="gridList"
+		headerText="Categories"
+		itemPress="onGridItemPress"
+		items="{local>/cat/subCatergory}">
+
+	<f:customLayout>
+		<grid:GridBoxLayout boxesPerRowConfig="XL1 L1 M1 S1" boxMinWidth="10rem"/>
+	</f:customLayout>
+
+	<f:GridListItem type="Active"
+		>
+		<VBox height="100%">
+			<VBox class="sapUiSmallMargin">
+				<Title text="{local>SubCategory}" />
+			</VBox>
+		</VBox>
+	</f:GridListItem>
+</f:GridList> -->
+</Page>
+</mvc:View>

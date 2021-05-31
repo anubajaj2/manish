@@ -1,0 +1,67 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.ProductCategory"
+	 xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	  xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form">
+	<!-- <Page id="page" title="Manage Product Category" backgroundDesign="Solid"> <content> -->
+	<semantic:FullscreenPage id="Product" navButtonPress="onNavBack" showNavButton="true" title="Manage Product Category">
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</semantic:customHeaderContent>
+		<semantic:content id="ProductCategory">
+			<VBox class="sapUiSmallMargin">
+				<f:SimpleForm
+					id="selectionId"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanXL="4"
+					labelSpanL="3"
+					labelSpanM="4"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="4"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="2"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+							<Label text="Category" labelFor="Category" required="true"/>
+							<ComboBox id="idCategory" value="{local>/ProductCategories/Category}"
+								change="CodeCheck" showSecondaryValues= "true"
+								items="{ProductCatsModel>/category}"
+								valueState="{dataModel>/errorCodeState}"
+								valueStateText="Category cannot be blank"
+								enabled="{viewModel>/codeEnabled}">
+								<core:ListItem key="{ProductCatsModel>Category}"
+									 text="{ProductCatsModel>Category}" />
+							</ComboBox>
+
+						<Label text="SubCategory"/>
+						<ComboBox id="idSubCategory" value="{local>/ProductCategories/SubCategory}"
+							 items="{ProductCatsModel>/subCatergory}">
+							<core:ListItem key="{ProductCatsModel>SubCategory}"
+								 text="{ProductCatsModel>SubCategory}"/>
+						</ComboBox>
+
+						<Label text="Type"/>
+						<ComboBox value="{local>/ProductCategories/Type}"
+							change="typeCheck"
+							items="{local>/productType}">
+							<core:Item key="{local>value}"
+								 text="{local>value}" />
+						</ComboBox>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>
+			<Button text="Delete" type="Reject" press="deleteProduct" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Clear" type="Ghost" press="clearScreen"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+	<!-- </content> </Page> -->
+</mvc:View>

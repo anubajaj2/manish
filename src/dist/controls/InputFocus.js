@@ -1,0 +1,1 @@
+sap.ui.define(["sap/m/Input"],function(e){return e.extend("sap.ui.demo.cart.controls.InputFocus",{metadata:{events:{focus:{}}},renderer:{},onfocus:function(){this.fireFocus()}})});

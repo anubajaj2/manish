@@ -1,0 +1,1 @@
+sap.ui.define(["sap/ui/demo/cart/controller/BaseController","sap/ui/core/UIComponent"],function(o,t){"use strict";return o.extend("sap.ui.demo.cart.controller.NotFound",{onInit:function(){this._router=t.getRouterFor(this)}})});

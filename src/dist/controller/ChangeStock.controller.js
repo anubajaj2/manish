@@ -1,0 +1,1 @@
+sap.ui.define(["sap/ui/demo/cart/controller/BaseController","sap/ui/core/UIComponent"],function(t,e){"use strict";return t.extend("sap.ui.demo.cart.controller.ChangeStock",{onInit:function(){this._router=e.getRouterFor(this)}})});

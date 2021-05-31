@@ -1,0 +1,94 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.AdminPanel" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+	<Page id="page" title="Admin Panel" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+			<Panel expandable="true" headerText="Retailer" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<Table id="idTable1" items="{customerModelInfo>/results}">
+						<columns>
+							<Column>
+								<Label text="Name"/>
+							</Column>
+							<Column>
+								<Label text="Email"/>
+							</Column>
+							<Column>
+								<Label text="Last login"/>
+							</Column>
+							<Column>
+								<Label text="Block/Unblock"/>
+							</Column>
+							<Column>
+								<Label text="Reset Password"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="idColumnlist1">
+								<cells>
+									<Text text="{customerModelInfo>Name}"></Text>
+								</cells>
+								<cells>
+									<Text text="{customerModelInfo>EmailId}"></Text>
+								</cells>
+								<cells>
+									<Text text="{customerModelInfo>lastLogin}"></Text>
+								</cells>
+								<cells>
+									<Switch id="idBlockSwitch" type="AcceptReject" state="{=${customerModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch"/>
+								</cells>
+								<cells>
+									<Switch id="idPassSwitch" type="AcceptReject" state="{customerModelInfo>pwdChange}" change="onPassSwitch"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>
+			<Panel expandable="true" headerText="Manufacturer" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<Table id="idTable2" items="{manufactureModelInfo>/results}">
+						<columns>
+							<Column>
+								<Label text="Name"/>
+							</Column>
+							<Column>
+								<Label text="Email"/>
+							</Column>
+							<Column>
+								<Label text="Last login"/>
+							</Column>
+							<Column>
+								<Label text="Block/Unblock"/>
+							</Column>
+							<Column>
+								<Label text="Reset Password"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem id="idColumnlist2">
+								<cells>
+									<Text text="{manufactureModelInfo>Name}"></Text>
+								</cells>
+								<cells>
+									<Text text="{manufactureModelInfo>EmailId}"></Text>
+								</cells>
+								<cells>
+									<Text text="{manufactureModelInfo>lastLogin}"></Text>
+								</cells>
+								<cells>
+									<Switch id="idBlockSwitch2" type="AcceptReject" state="{=${manufactureModelInfo>Status}==='U' ? true:false}" change="onBlockSwitch2"/>
+								</cells>
+								<cells>
+									<Switch id="idPassSwitch2" type="AcceptReject" state="{manufactureModelInfo>pwdChange}" change="onPassSwitch2"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>
+		</content>
+	</Page>
+</mvc:View>

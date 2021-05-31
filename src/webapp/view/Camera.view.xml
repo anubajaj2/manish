@@ -1,0 +1,135 @@
+<mvc:View height="100%" controllerName="sap.ui.demo.cart.controller.Camera" xmlns:mvc="sap.ui.core.mvc"
+	 xmlns="sap.m" xmlns:f="sap.f" xmlns:cards="sap.f.cards" xmlns:l="sap.ui.layout"
+	  xmlns:unified="sap.ui.unified" xmlns:core="sap.ui.core" xmlns:grid="sap.ui.layout.cssgrid"
+		xmlns:anubhav="sap.ui.demo.cart.controls"
+		xmlns:html="http://www.w3.org/1999/xhtml">
+		<Page>
+			<headerContent>
+				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			</headerContent>
+			<content>
+				<Panel>
+					<unified:FileUploader
+						id="fileUploader"
+						name="myFileUpload"
+						fileType='{fileTypes>/items}'
+						multiple="true"
+						change="onUploadChange"
+						tooltip="Upload your file to the local system"
+						/>
+					<Button text="Take Photo"
+						id="idCapture" press="takePhoto" icon="sap-icon://camera"/>
+					<!-- <Button
+						text="Upload File"
+						press="handleUploadPress"/> -->
+				</Panel>
+				<f:GridList
+						id="gridList"
+						items="{
+							path: 'local>/allImages'
+						}"
+						growing="true"
+						growingThreshold="20"
+						mode="MultiSelect"
+						itemPress="onImageOpen">
+
+					<f:headerToolbar>
+						<Toolbar>
+							<content>
+								<!-- <Title text="GridList, using custom header with SearchField" /> -->
+								<ToolbarSpacer/>
+								<Button text="" icon="sap-icon://delete"
+									press="onDelete" />
+							</content>
+						</Toolbar>
+					</f:headerToolbar>
+
+					<f:customLayout>
+						<grid:GridBoxLayout boxWidth="10rem"/>
+					</f:customLayout>
+
+					<f:GridListItem
+					 mode="Active">
+						<FlexBox
+							renderType="Div" height="10rem" width="100%"
+							justifyContent="Center">
+							<Image
+								src="{local>Stream}"
+								width="100%"
+								height="100%"
+								press="onImageOpen"
+								tooltip=""
+								mIn="onImageIn"
+								mOut="onImageOut"
+								alt="">
+							</Image>
+						</FlexBox>
+					</f:GridListItem>
+				</f:GridList>
+				<Table id="idTab" items="{local>/ProdWeights}" mode="MultiSelect" selectionChange="onSelection">
+					<headerToolbar>
+						<Toolbar>
+							<ToolbarSpacer/>
+							<Button id="idAdd" icon="sap-icon://add" tooltip="Insert Row" press="onInsert"></Button>
+							<Button id="idDelete" icon="sap-icon://delete" tooltip="Delete Rows" press="onDeleteRow"></Button>
+						</Toolbar>
+					</headerToolbar>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Input id="td1" value="{ path: 'local>GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" name="GrossWeight"
+									liveChange="onChange" submit="ontd1"></Input>
+								<Input id="td2" value="{path : 'local>LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }" liveChange="onChange"
+										   showValueHelp="true"  name="LessWeight" valueHelpRequest="onLessPopup" focus="onFocus"
+											 valueHelpOnly="true"
+									></Input>
+								<Input  value="{local>OtherChrg}" visible="false" name="OtherChrg" liveChange="onChange" type="Number" ></Input>
+								<Input id="td3" value="{local>Quantity}" name="Quantity"></Input>
+								<Input id="td4" value="{local>NetWeight}" class="highLightText" enabled="false"></Input>
+								<Input id="td5" value="{local>Fine}" class="highLightText" enabled="false"></Input>
+								<Input id="td6" value="{local>Amount}" class="highLightText" enabled="false"></Input>
+							</cells>
+						</ColumnListItem>
+					</items>
+					<columns>
+						<Column id="idCol0">
+							<header>
+								<Text text="Gross Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol1">
+							<header>
+								<Text text="Ls Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol2" visible="false">
+							<header>
+								<Text text="OTChrg"></Text>
+							</header>
+						</Column>
+						<Column id="idCol4" visible="false">
+							<header>
+								<Text text="Quantity"></Text>
+							</header>
+						</Column>
+						<Column id="idCol3">
+							<header>
+								<Text text="Net Wt."></Text>
+							</header>
+						</Column>
+						<Column id="idCol5">
+							<header>
+								<Text text="Fine"></Text>
+							</header>
+						</Column>
+						<Column id="idCol6">
+							<header>
+								<Text text="Amount"></Text>
+							</header>
+						</Column>
+					</columns>
+				</Table>
+			</content>
+		</Page>
+</mvc:View>

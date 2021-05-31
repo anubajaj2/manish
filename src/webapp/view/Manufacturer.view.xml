@@ -1,0 +1,135 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.Manufacturer" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table">
+	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid"> <content> -->
+	<semantic:FullscreenPage id="Manufacturer" navButtonPress="onNavBack" showNavButton="true" title="Manage Manufacturer">
+		<semantic:customHeaderContent>
+			<Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</semantic:customHeaderContent>
+		<semantic:content>
+			<VBox class="sapUiSmallMargin">
+				<f:SimpleForm
+					id="selectionId"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanXL="4"
+					labelSpanL="3"
+					labelSpanM="4"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="0"
+					emptySpanL="4"
+					emptySpanM="0"
+					emptySpanS="0"
+					columnsXL="2"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<Label text="Code" required="true"/>
+						<ComboBox id="idCode" value="{local>/Manufacturer/CustomerCode}" change="CodeCheck" items="{manufactureModelInfo>/results}" valueState="{dataModel>/groupCodeState}" valueStateText="Code cannot be blank" enabled="{viewModel>/codeEnabled}">
+							<core:Item key="{manufactureModelInfo>id}" text="{manufactureModelInfo>CustomerCode}"/>
+						</ComboBox>
+						<Label text="Name"/>
+						<Input id="idName" value="{local>/Manufacturer/Name}" submit="onNameEnt"/>
+						<Label text="Address"/>
+						<Input id="idAddress" value="{local>/Manufacturer/Address}" submit="onAddrEnt"/>
+						<Label text="City"/>
+						<Input id="idCity" value="{local>/Manufacturer/City}" submit="onCityEnt"/>
+						<Label text="Contact" required="true"/>
+						<Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}" submit="onContEnt"/>
+						<Label text="Group"/>
+						<MultiComboBox id="idgpCode" selectedKeys="{local>/Manufacturer/Groups}" items="{groupModelCode>/results}" selectionFinish="onSelectionFinish">
+							<core:Item key="{groupModelCode>id}" text="{groupModelCode>groupCode}"/>
+						</MultiComboBox>
+						<Label text="Display Categories"/>
+						<MultiComboBox id="idCatCode" selectedKeys="{local>/Manufacturer/Categories}" items="{local>/cat/subCatergory}" selectionFinish="onSelectionFinish1">
+							<core:Item key="{local>id}" text="{local>SubCategory}"/>
+						</MultiComboBox>
+						<Label text="Email"/>
+						<Input
+							id="idEmail"
+							type="Email"
+							change="checkEmail"
+							submit="onEmailEnt"
+							valueState="{dataModel>/emailState}"
+							valueStateText="Invalid Email id"
+							value="{
+									path : 'local>/Manufacturer/EmailId'
+								      }"
+							enabled="{viewModel>/codeEnabled}"/>
+						<Label text="Pattern"/>
+						<Input id="idPattern" submit="onPatternEnt" valueState="{dataModel>/PatternState}" valueStateText="No Space Allowed" value="{
+									path : 'local>/Manufacturer/Pattern'
+								      }" enabled="{viewModel>/codeEnabled}"/>
+						<Label text="Block/Unblock"/>
+						<Switch id="idBlock" type="AcceptReject" state="{viewModel>/blockStatus}" change="onSwitch">
+							<layoutData>
+								<FlexItemData growFactor="1"/>
+							</layoutData>
+						</Switch>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+			<!-- <core:Fragment id="Manufacturer" fragmentName="sap.ui.demo.cart.fragments.Manufacturer" type="XML"/> -->
+			<VBox>
+				<t:Table rows="{/Manufacturers}" id ="customerTable" selectionMode="Single" rowSelectionChange="onManufacturerSelect" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="6" visibleRowCountMode="Auto">
+					<t:extension>
+						<OverflowToolbar>
+							<Title id="title" text="Manufaturers"/>
+							<Button icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadRetailersData"/>
+							<ToolbarSpacer/>
+							<SearchField width="71%" liveChange="onManufacturerSearch" class="sapUiSmallMargin"/>
+							<Button icon = "sap-icon://add-filter" class="sapUiSmallMargin" press="onCustomerFilter"/>
+						</OverflowToolbar>
+					</t:extension>
+					<t:columns>
+						<t:Column >
+							<Label text="Customer Code"/>
+							<t:template>
+								<Text text="{CustomerCode}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Name"/>
+							<t:template>
+								<Text text="{Name}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<!-- <t:Column > <Label text="Group"/> <t:template> <Text text="{Group}" wrapping="false"/> </t:template> </t:Column> -->
+						<t:Column >
+							<Label text="City"/>
+							<t:template>
+								<Text text="{City}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Contact No."/>
+							<t:template>
+								<Text text="{MobilePhone}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="E-mail"/>
+							<t:template>
+								<Text text="{EmailId}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+						<t:Column >
+							<Label text="Status"/>
+							<t:template>
+								<Text text="{=${Status}==='U'?'Unblocked':'Blocked'}" wrapping="false"/>
+							</t:template>
+						</t:Column>
+					</t:columns>
+				</t:Table>
+			</VBox>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{viewModel>/buttonText}" type="Accept" press="saveData"/>
+			<Button text="Delete" type="Reject" press="deleteManufacturer" enabled="{viewModel>/deleteEnabled}"/>
+			<Button text="Clear" type="Ghost" press="clearScreen"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+	<!-- </content> </Page> -->
+</mvc:View>

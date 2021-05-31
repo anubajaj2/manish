@@ -1,0 +1,53 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.OrderStatus"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		id="page"
+		title="Manage Order Status"
+		backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+		<headerContent>
+			<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh" />
+			<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
+	 		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+	 		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+			<List
+				id="idListOS"
+				items="{local>/list/OrderHeader}"
+				mode="MultiSelect"
+				includeItemInSelection="true"
+				itemPress="onItemPress">
+				<ObjectListItem
+					title = "{local>CustomerCode} - {local>CustomerName}"
+					number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }"
+					numberUnit = "INR">
+					<attributes>
+						<ObjectAttribute text="Order No. : {local>OrderNo}" visible="true"/>
+						<ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>
+					</attributes>
+					<firstStatus>
+						<ObjectStatus text="Total Weight : {local>TotalWeight}"/>
+				</firstStatus>
+				<secondStatus>
+						<ObjectStatus
+							text = "{	path: 'local>OrderStatus', formatter: '.formatter.prodText' }"
+							state = "{ path: 'local>OrderStatus', formatter: '.formatter.prodState' }"/>
+				</secondStatus>
+			</ObjectListItem>
+			</List>
+      </content>
+			<footer>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Button text="Approve" type="" press="onApprove" id="idApprove"></Button>
+					<Button text="Deliver" type="" press="onDelivered" id="idDel"></Button>
+					<Button text="Reject" type="" press="onReject" id="idCancel"></Button>
+					<Button text="Print" type="" press="onPrint" id="idPrint"></Button>
+					<Button text="Download Invoice" type="" press="onInvoiceDownload" id="idPdf"></Button>
+				</Toolbar>
+			</footer>
+	</Page>
+</mvc:View>
