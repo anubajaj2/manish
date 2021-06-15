@@ -1,0 +1,12 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt" controllerName="sap.ui.demo.cart.controller.CustomerLanding" xmlns:html="http://www.w3.org/1999/xhtml">
+		<Page title="Product Manager" titleAlignment="Center" id="idCustomerLanding" class="MainLoginPage">
+			<headerContent>
+				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			</headerContent>
+			<content>
+				<Button text="MEN" press="onMen"/>
+				<Button text="WOMEN" press="onMen"/>
+			</content>
+		</Page>
+</mvc:View>

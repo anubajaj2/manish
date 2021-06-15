@@ -1,515 +1,525 @@
 {
-	"_version": "1.0.0",
-	"sap.app": {
-		"id": "sap.ui.demo.cart",
-		"type": "application",
-		"title": "{{appTitle}}",
-		"description": "{{appDescription}}",
-		"applicationVersion": {
-			"version": "1.0.0"
-		},
-		"resources": "resources.json",
-		"dataSources": {
-			"mainService": {
-				"uri": "/odata/",
-				"type": "OData",
-				"settings": {
-					"odataVersion": "2.0"
-				}
-			}
-		}
-	},
-	"sap.ui": {
-		"technology": "UI5",
-		"icons": {
-			"icon": "sap-icon://cart",
-			"favIcon": "img/favicon.ico"
-		}
-	},
-	"sap.ui5": {
-		"rootView": {
-			"viewName": "sap.ui.demo.cart.view.MainApp",
-			"type": "XML",
-			"id": "idMainApp"
-		},
-		"dependencies": {
-			"minUI5Version": "1.56.10",
-			"libs": {
-				"sap.ui.core": {},
-				"sap.m": {},
-				"sap.f": {},
-				"sap.ui.layout": {}
-			}
-		},
-		"contentDensities": {
-			"compact": true,
-			"cozy": true
-		},
-		"models": {
-			"i18n": {
-				"type": "sap.ui.model.resource.ResourceModel",
-				"settings": {
-					"bundleName": "sap.ui.demo.cart.i18n.i18n"
-				},
+  "_version": "1.0.0",
+  "sap.app": {
+    "id": "sap.ui.demo.cart",
+    "type": "application",
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "resources": "resources.json",
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://cart",
+      "favIcon": "img/favicon.ico"
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "sap.ui.demo.cart.view.MainApp",
+      "type": "XML",
+      "id": "idMainApp"
+    },
+    "dependencies": {
+      "minUI5Version": "1.56.10",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "sap.ui.demo.cart.i18n.i18n"
+        },
 
-				"preload": true,
-				"async": true
-			},
-			"local": {
-				"type": "sap.ui.model.json.JSONModel",
-				"settings": {},
-				"uri": "model/mockData/sampledata.json",
-				"preload": true
-			},
-			"": {
-				"dataSource": "mainService",
-				"preload": true
-			}
-		},
-		"handleValidation": true,
-		"resources": {
-			"css": [{"uri": "css/style.css"}]
-		},
-		"routing": {
-			"config": {
-				"routerClass": "sap.f.routing.Router",
-				"viewType": "XML",
-				"viewPath": "sap.ui.demo.cart.view",
-				"controlId": "layout",
-				"async": true
-			},
-			"routes": [
-				{
-					"pattern": "split",
-					"name": "App",
-					"target": ["App"],
-					"subroutes":[
-												{
-												"pattern": "AdminHome",
-												"name": "AdminHome",
-												"target": [
-													"AdminHome"
-												],
-												"subroutes": [
-															{
-															"pattern": "Group",
-															"name": "Group",
-																"target": [
-																	"AdminHome",
-																	"Group"
-																]
-															},
-															{
-															"pattern": "Customers",
-															"name": "Customers",
-																"target": [
-																	"AdminHome",
-																	"Customers"
-																]
-															},
-															{
-															"pattern": "Manufacturer",
-															"name": "Manufacturer",
-																"target": [
-																	"AdminHome",
-																	"Manufacturer"
-																]
-															},
-															{
-															"pattern": "ProductCategory",
-															"name": "ProductCategory",
-																"target": [
-																	"AdminHome",
-																	"ProductCategory"
-																]
-															},
-															{
-															"pattern": "ProductApprove",
-															"name": "ProductApprove",
-																"target": [
-																	"AdminHome",
-																	"ProductApprove"
-																]
-															},
-															{
-															"pattern": "OrderStatus",
-															"name": "OrderStatus",
-																"target": [
-																	"AdminHome",
-																	"OrderStatus"
-																]
-															},
-															{
-															"pattern": "GroupPermission",
-															"name": "GroupPermission",
-																"target": [
-																	"AdminHome",
-																	"GroupPermission"
-																]
-															},
-															{
-															"pattern": "GroupPermission01/{id}",
-															"name": "GroupPermission01",
-																"target": [
-																	"AdminHome",
-																	"GroupPermission01"
-																]
-															},
-															{
-															"pattern": "Usage",
-															"name": "Usage",
-																"target": [
-																	"AdminHome",
-																	"Usage"
-																]
-															},
-															{
-															"pattern": "AdminPanel",
-															"name": "AdminPanel",
-																"target": [
-																	"AdminHome",
-																	"AdminPanel"
-																]
-															},
-															{
-															"pattern": "Preferences",
-															"name": "Preferences",
-																"target": [
-																	"AdminHome",
-																	"Preferences"
-																]
-															}
-													]
-												},
-												{
-														"pattern": "ManuHome",
-														"name": "ManuHome",
-														"target": [
-															"ManuHome"
-														],
-														"subroutes": [
-															{
-															"pattern": "AddProduct",
-															"name": "AddProduct",
-															"target": [
-																"ManuHome",
-																"Camera",
-																"AddProduct"
-															]
-															},
-															{
-															"pattern": "ChangeStock",
-															"name": "ChangeStock",
-															"target": [
-																"ManuHome",
-																"ChangeStock"
-															]
-															},
-															{
-																"pattern": "MyApproval",
-																"name": "MyApproval",
-																"target": [
-																	"ManuHome",
-																	"MyApproval"
-																]
-															},
-															{
-																"pattern": "Camera",
-																"name": "Camera",
-																"target": [
-																	"Camera",
-																	"AddProduct"
-																]
-															}
-													]
-												},
-												{
-												"pattern": "home",
-												"name": "home",
-												"target": [
-													"welcome",
-													"home"
-												],
-												"subroutes": [
-													{
-													"pattern": "categories",
-													"name": "categories",
-													"target": [
-														"home"
-													]
-												},
-												{
-												"pattern": "orders",
-												"name": "orders",
-												"target": [
-													"customerOrders",
-													"customerItems"
-												]
-											},
-													{
-														"pattern": "category/productSearch",
-														"name": "productSearch",
-														"target": [
-															"productSearch"
-														]
-													},
-													{
-													  "pattern": "cart",
-													  "name": "comparisonCart",
-													  "target": [
-															"product",
-															"cart"
-													  ],
-													  "titleTarget": "comparison"
-													},
-													{
-														"pattern": "checkout",
-														"name": "checkout",
-														"target": [
-															"checkoutfinal"
-														]
-													},
-													{
-														"pattern": "ordercompleted",
-														"name": "ordercompleted",
-														"target": "ordercompleted"
-													},
-													{
-														"pattern": "downloadQueries",
-														"name": "downloadQueries",
-														"target": "downloadQueries"
-													}
-												]
-											}
-									]
-				}
-			],
-			"targets": {
-				"App":{
-					"viewName": "App",
-					"controlId": "idMainApp",
-					"controlAggregation": "pages",
-					"viewLevel": 1
-				},
-				"product": {
-					"viewName": "productSearch",
-					"viewLevel": 3,
-					"viewId": "productSearch",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages"
-				},
-				"comparison": {
-				  "viewName": "Comparison",
-				  "viewLevel": 3,
-				  "viewId": "comparison",
-					"controlId": "__xmlview0--layout",
-				  "controlAggregation": "midColumnPages",
-				  "title":"{Name}"
-				},
-				"productSearch": {
-					"viewName": "productSearch",
-					"viewLevel": 2,
-					"controlId": "__component0---idMainApp--idMainApp",
-					"controlAggregation": "pages",
-					"viewId": "productSearch"
-				},
-				"notFound": {
-					"viewName": "NotFound",
-					"viewLevel": 3,
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewId": "notFoundView",
-					"title": "{i18n>categoryNoData}"
-				},
-				"welcome": {
-					"viewName": "Welcome",
-					"viewLevel": 1,
-					"controlId": "__xmlview0--layout",
-					"viewId": "welcomeView",
-					"controlAggregation": "midColumnPages"
-				},
-				"customerItems": {
-					"viewName": "CustomerItems",
-					"viewLevel": 1,
-					"controlId": "__xmlview0--layout",
-					"viewId": "customerItemsView",
-					"controlAggregation": "midColumnPages"
-				},
-				"home": {
-					"viewName": "Home",
-					"viewLevel": 2,
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewId": "homeView",
-					"title": "{i18n>appTitle}"
-				},
-				"customerOrders": {
-					"viewName": "CustomerOrders",
-					"viewLevel": 2,
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewId": "customerOrderView",
-					"title": "{i18n>appTitle}"
-				},
-				"cart": {
-					"viewName": "Cart",
-					"controlId": "__xmlview0--layout",
-					"viewLevel": 3,
-					"controlAggregation": "endColumnPages",
-					"viewId": "cartView"
-				},
-				"checkout": {
-					"viewName": "Checkout",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewLevel": 1,
-					"title": "{i18n>checkoutTitle}",
-					"viewId": "checkoutView"
-				},
-				"checkoutfinal":{
-					"viewName": "Checkout",
-					"controlId": "__component0---idMainApp--idMainApp",
-					"controlAggregation": "pages",
-					"viewLevel": 1,
-					"title": "{i18n>checkoutTitle}",
-					"viewId": "checkoutView"
-				},
-				"ordercompleted": {
-					"viewName": "OrderCompleted",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewLevel": 2,
-					"viewId": "orderCompletedView",
-					"title": "{i18n>orderCompletedTitle}"
-				},
-				"AdminHome": {
-					"viewName": "AdminHome",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewLevel": 2,
-					"viewId": "AdminHome"
-				},
-				"Group": {
-					"viewName": "Group",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "Group"
-				},
-				"Customers": {
-					"viewName": "Customers",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "Customers"
-				},
-				"Manufacturer": {
-					"viewName": "Manufacturer",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "Manufacturer"
-				},
-				"ProductCategory": {
-					"viewName": "ProductCategory",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "ProductCategory"
-				},
-				"ProductApprove": {
-					"viewName": "ProductApprove",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "ProductApprove"
-				},
-				"OrderStatus": {
-					"viewName": "OrderStatus",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "OrderStatus"
-				},
-				"GroupPermission": {
-					"viewName": "GroupPermission",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "GroupPermission"
-				},
-				"GroupPermission01": {
-					"viewName": "GroupPermission01",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "GroupPermission01"
-				},
-				"Usage": {
-					"viewName": "Usage",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "Usage"
-				},
-				"AdminPanel": {
-					"viewName": "AdminPanel",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "AdminPanel"
-				},
-				"AddProduct": {
-					"viewName": "AddProduct",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "endColumnPages",
-					"viewLevel": 3,
-					"viewId": "AddProduct"
-				},
-				"ChangeStock": {
-					"viewName": "ChangeStock",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "ChangeStock"
-				},
-				"MyApproval": {
-					"viewName": "MyApproval",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "MyApproval"
-				},
-				"ManuHome": {
-					"viewName": "ManuHome",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "beginColumnPages",
-					"viewLevel": 1,
-					"viewId": "ManuHome"
-				},
-				"Camera": {
-					"viewName": "Camera",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 1,
-					"viewId": "Camera"
-				},
-				"Preferences": {
-					"viewName": "Preferences",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "Preferences"
-				},
-				"downloadQueries": {
-					"viewName": "downloadQueries",
-					"controlId": "__xmlview0--layout",
-					"controlAggregation": "midColumnPages",
-					"viewLevel": 3,
-					"viewId": "downloadQueries"
-				}
+        "preload": true,
+        "async": true
+      },
+      "local": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {},
+        "uri": "model/mockData/sampledata.json",
+        "preload": true
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true
+      }
+    },
+    "handleValidation": true,
+    "resources": {
+      "css": [{
+        "uri": "css/style.css"
+      }]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.f.routing.Router",
+        "viewType": "XML",
+        "viewPath": "sap.ui.demo.cart.view",
+        "controlId": "layout",
+        "async": true
+      },
+      "routes": [{
+        "pattern": "split",
+        "name": "App",
+        "target": ["App"],
+        "subroutes": [{
+            "pattern": "AdminHome",
+            "name": "AdminHome",
+            "target": [
+              "AdminHome"
+            ],
+            "subroutes": [{
+                "pattern": "Group",
+                "name": "Group",
+                "target": [
+                  "AdminHome",
+                  "Group"
+                ]
+              },
+              {
+                "pattern": "Customers",
+                "name": "Customers",
+                "target": [
+                  "AdminHome",
+                  "Customers"
+                ]
+              },
+              {
+                "pattern": "Manufacturer",
+                "name": "Manufacturer",
+                "target": [
+                  "AdminHome",
+                  "Manufacturer"
+                ]
+              },
+              {
+                "pattern": "ProductCategory",
+                "name": "ProductCategory",
+                "target": [
+                  "AdminHome",
+                  "ProductCategory"
+                ]
+              },
+              {
+                "pattern": "ProductApprove",
+                "name": "ProductApprove",
+                "target": [
+                  "AdminHome",
+                  "ProductApprove"
+                ]
+              },
+              {
+                "pattern": "OrderStatus",
+                "name": "OrderStatus",
+                "target": [
+                  "AdminHome",
+                  "OrderStatus"
+                ]
+              },
+              {
+                "pattern": "GroupPermission",
+                "name": "GroupPermission",
+                "target": [
+                  "AdminHome",
+                  "GroupPermission"
+                ]
+              },
+              {
+                "pattern": "GroupPermission01/{id}",
+                "name": "GroupPermission01",
+                "target": [
+                  "AdminHome",
+                  "GroupPermission01"
+                ]
+              },
+              {
+                "pattern": "Usage",
+                "name": "Usage",
+                "target": [
+                  "AdminHome",
+                  "Usage"
+                ]
+              },
+              {
+                "pattern": "AdminPanel",
+                "name": "AdminPanel",
+                "target": [
+                  "AdminHome",
+                  "AdminPanel"
+                ]
+              },
+              {
+                "pattern": "Preferences",
+                "name": "Preferences",
+                "target": [
+                  "AdminHome",
+                  "Preferences"
+                ]
+              }
+            ]
+          },
+          {
+            "pattern": "ManuHome",
+            "name": "ManuHome",
+            "target": [
+              "ManuHome"
+            ],
+            "subroutes": [{
+                "pattern": "AddProduct",
+                "name": "AddProduct",
+                "target": [
+                  "ManuHome",
+                  "Camera",
+                  "AddProduct"
+                ]
+              },
+              {
+                "pattern": "ChangeStock",
+                "name": "ChangeStock",
+                "target": [
+                  "ManuHome",
+                  "ChangeStock"
+                ]
+              },
+              {
+                "pattern": "MyApproval",
+                "name": "MyApproval",
+                "target": [
+                  "ManuHome",
+                  "MyApproval"
+                ]
+              },
+              {
+                "pattern": "Camera",
+                "name": "Camera",
+                "target": [
+                  "Camera",
+                  "AddProduct"
+                ]
+              }
+            ]
+          },
+          {
+            "pattern": "home",
+            "name": "home",
+            "target": [
+              "welcome",
+              "home"
+            ],
+            "subroutes": [{
+                "pattern": "myhome",
+                "name": "CustomerLanding",
+                "target": [
+                  "CustomerLanding"
+                ]
+              },
+              {
+                "pattern": "categories",
+                "name": "categories",
+                "target": [
+                  "home"
+                ]
+              },
+              {
+                "pattern": "orders",
+                "name": "orders",
+                "target": [
+                  "customerOrders",
+                  "customerItems"
+                ]
+              },
+              {
+                "pattern": "category/productSearch",
+                "name": "productSearch",
+                "target": [
+                  "productSearch"
+                ]
+              },
+              {
+                "pattern": "cart",
+                "name": "comparisonCart",
+                "target": [
+                  "product",
+                  "cart"
+                ],
+                "titleTarget": "comparison"
+              },
+              {
+                "pattern": "checkout",
+                "name": "checkout",
+                "target": [
+                  "checkoutfinal"
+                ]
+              },
+              {
+                "pattern": "ordercompleted",
+                "name": "ordercompleted",
+                "target": "ordercompleted"
+              },
+              {
+                "pattern": "downloadQueries",
+                "name": "downloadQueries",
+                "target": "downloadQueries"
+              }
+            ]
+          }
+        ]
+      }],
+      "targets": {
+        "App": {
+          "viewName": "App",
+          "controlId": "idMainApp",
+          "controlAggregation": "pages",
+          "viewLevel": 1
+        },
+        "CustomerLanding": {
+          "viewName": "CustomerLanding",
+          "viewLevel": 2,
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages",
+          "viewId": "idCustomerLanding"
+        },
+        "product": {
+          "viewName": "productSearch",
+          "viewLevel": 3,
+          "viewId": "productSearch",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages"
+        },
+        "comparison": {
+          "viewName": "Comparison",
+          "viewLevel": 3,
+          "viewId": "comparison",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "title": "{Name}"
+        },
+        "productSearch": {
+          "viewName": "productSearch",
+          "viewLevel": 2,
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages",
+          "viewId": "productSearch"
+        },
+        "notFound": {
+          "viewName": "NotFound",
+          "viewLevel": 3,
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewId": "notFoundView",
+          "title": "{i18n>categoryNoData}"
+        },
+        "welcome": {
+          "viewName": "Welcome",
+          "viewLevel": 1,
+          "controlId": "__xmlview0--layout",
+          "viewId": "welcomeView",
+          "controlAggregation": "midColumnPages"
+        },
+        "customerItems": {
+          "viewName": "CustomerItems",
+          "viewLevel": 1,
+          "controlId": "__xmlview0--layout",
+          "viewId": "customerItemsView",
+          "controlAggregation": "midColumnPages"
+        },
+        "home": {
+          "viewName": "Home",
+          "viewLevel": 2,
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewId": "homeView",
+          "title": "{i18n>appTitle}"
+        },
+        "customerOrders": {
+          "viewName": "CustomerOrders",
+          "viewLevel": 2,
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewId": "customerOrderView",
+          "title": "{i18n>appTitle}"
+        },
+        "cart": {
+          "viewName": "Cart",
+          "controlId": "__xmlview0--layout",
+          "viewLevel": 3,
+          "controlAggregation": "endColumnPages",
+          "viewId": "cartView"
+        },
+        "checkout": {
+          "viewName": "Checkout",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 1,
+          "title": "{i18n>checkoutTitle}",
+          "viewId": "checkoutView"
+        },
+        "checkoutfinal": {
+          "viewName": "Checkout",
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages",
+          "viewLevel": 1,
+          "title": "{i18n>checkoutTitle}",
+          "viewId": "checkoutView"
+        },
+        "ordercompleted": {
+          "viewName": "OrderCompleted",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 2,
+          "viewId": "orderCompletedView",
+          "title": "{i18n>orderCompletedTitle}"
+        },
+        "AdminHome": {
+          "viewName": "AdminHome",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 2,
+          "viewId": "AdminHome"
+        },
+        "Group": {
+          "viewName": "Group",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Group"
+        },
+        "Customers": {
+          "viewName": "Customers",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Customers"
+        },
+        "Manufacturer": {
+          "viewName": "Manufacturer",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Manufacturer"
+        },
+        "ProductCategory": {
+          "viewName": "ProductCategory",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "ProductCategory"
+        },
+        "ProductApprove": {
+          "viewName": "ProductApprove",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "ProductApprove"
+        },
+        "OrderStatus": {
+          "viewName": "OrderStatus",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "OrderStatus"
+        },
+        "GroupPermission": {
+          "viewName": "GroupPermission",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "GroupPermission"
+        },
+        "GroupPermission01": {
+          "viewName": "GroupPermission01",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "GroupPermission01"
+        },
+        "Usage": {
+          "viewName": "Usage",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Usage"
+        },
+        "AdminPanel": {
+          "viewName": "AdminPanel",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "AdminPanel"
+        },
+        "AddProduct": {
+          "viewName": "AddProduct",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "endColumnPages",
+          "viewLevel": 3,
+          "viewId": "AddProduct"
+        },
+        "ChangeStock": {
+          "viewName": "ChangeStock",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "ChangeStock"
+        },
+        "MyApproval": {
+          "viewName": "MyApproval",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "MyApproval"
+        },
+        "ManuHome": {
+          "viewName": "ManuHome",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "beginColumnPages",
+          "viewLevel": 1,
+          "viewId": "ManuHome"
+        },
+        "Camera": {
+          "viewName": "Camera",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 1,
+          "viewId": "Camera"
+        },
+        "Preferences": {
+          "viewName": "Preferences",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Preferences"
+        },
+        "downloadQueries": {
+          "viewName": "downloadQueries",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "downloadQueries"
+        }
 
-			}
-		}
-	}
+      }
+    }
+  }
 }

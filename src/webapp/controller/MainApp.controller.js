@@ -191,7 +191,7 @@ sap.ui.define([
 														that2.getView().setBusy(false);
 														that3.getView().getModel("local").setProperty("/CustomerData",oData.results[0]);
 														if(that3.getView().getModel("local").getProperty("/CustomerData/Status")==="U"){
-															that2.oRouter.navTo("categories");
+															that2.oRouter.navTo("CustomerLanding");
 														}
 														else{
 															MessageToast.show("You are blocked, Please contact admin");
