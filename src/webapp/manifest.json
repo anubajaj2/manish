@@ -80,10 +80,23 @@
         "controlId": "layout",
         "async": true
       },
-      "routes": [{
+      "routes": [
+        {
+        	"pattern": "Maker",
+  				"name": "Maker",
+        	"target": ["Maker"]
+        },
+        {
+          "pattern": "Profile",
+          "name": "Profile",
+          "target": ["Profile"]
+        },
+        {
         "pattern": "split",
         "name": "App",
         "target": ["App"],
+
+
         "subroutes": [{
             "pattern": "AdminHome",
             "name": "AdminHome",
@@ -291,6 +304,18 @@
         "App": {
           "viewName": "App",
           "controlId": "idMainApp",
+          "controlAggregation": "pages",
+          "viewLevel": 1
+        },
+        "Maker": {
+          "viewName": "Maker",
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages",
+          "viewLevel": 1
+        },
+        "Profile": {
+          "viewName": "Profile",
+          "controlId": "__component0---idMainApp--idMainApp",
           "controlAggregation": "pages",
           "viewLevel": 1
         },

@@ -56,12 +56,14 @@ sap.ui.define([
 		},
 
 		showProfile : function (oEvent) {
-			this._oPopover.setContentWidth("25%");
-			this._oPopover.setContentHeight("60%");
-			var oNavCon = Fragment.byId("popoverNavCon", "navCon");
-			var oDetailPage = Fragment.byId("popoverNavCon", "detail");
-			oNavCon.to(oDetailPage);
-			this._oPopover.focus();
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			 this.oRouter.navTo("Profile");
+			// this._oPopover.setContentWidth("25%");
+			// this._oPopover.setContentHeight("60%");
+			// var oNavCon = Fragment.byId("popoverNavCon", "navCon");
+			// var oDetailPage = Fragment.byId("popoverNavCon", "detail");
+			// oNavCon.to(oDetailPage);
+			// this._oPopover.focus();
 		},
 		onOrders : function(oEvent){
 			if(this.getView().getModel("local").getProperty("/Role")==="Retailer"){
@@ -70,7 +72,7 @@ sap.ui.define([
 		},
 		onNavBack : function (oEvent) {
 			this._oPopover.setContentWidth("18%");
-			this._oPopover.setContentHeight("11%");
+			this._oPopover.setContentHeight("30%");
 			var oNavCon = Fragment.byId("popoverNavCon", "navCon");
 			oNavCon.back();
 			this._oPopover.focus();

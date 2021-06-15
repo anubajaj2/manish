@@ -1,0 +1,12 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.Maker" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table">
+	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid"> <content> -->
+	<semantic:FullscreenPage id="Maker" navButtonPress="onNavBack" showNavButton="false" title="Home Screen">
+		<semantic:customHeaderContent>
+			<!-- <Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/> -->
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</semantic:customHeaderContent>
+
+	</semantic:FullscreenPage>
+	<!-- </content> </Page> -->
+</mvc:View>

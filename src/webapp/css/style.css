@@ -97,6 +97,11 @@ margin-left: 33px;
     height: 100%;
     object-fit: contain;
 }
+
+
+#__xmlview0--Manufacturer-title-inner{
+	    margin-left: 43rem;
+}
 /* .MainLoginPage {
 	background-image: url("../img/bgimg.jpg");
 	background-size: 100% 100%;
