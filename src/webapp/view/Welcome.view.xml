@@ -1,75 +1,83 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.Welcome"
-	xmlns="sap.m"
-	xmlns:l="sap.ui.layout"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:grid="sap.ui.layout.cssgrid"
-  xmlns:f="sap.f"
-	xmlns:semantic="sap.m.semantic">
-		<semantic:FullscreenPage title="FullScreen Page Title"
-									 showNavButton="true" id="myPage"
-									 navButtonPress="onNavButtonPress">
-			<semantic:customHeaderContent>			
+<mvc:View controllerName="sap.ui.demo.cart.controller.Welcome" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:grid="sap.ui.layout.cssgrid" xmlns:f="sap.f" xmlns:tnt="sap.tnt" xmlns:semantic="sap.m.semantic">
+	<tnt:ToolPage id="toolPage">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onSideNavButtonPress">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer width="20px"/>
+				<!-- <Button text="File" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button> <Button text="Edit" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button>
+				<Button text="View" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button> <Button text="Navigate" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button>
+				<Button text="Code" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button> <Button text="Refactor" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button>
+				<Button text="Run" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button> <Button text="Tools" type="Transparent"> <layoutData> <OverflowToolbarLayoutData priority="Low"/> </layoutData> </Button> -->
+				<tnt:ToolHeaderUtilitySeparator/>
+				<ToolbarSpacer>
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" minWidth="20px"/>
+					</layoutData>
+				</ToolbarSpacer>
 				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-			</semantic:customHeaderContent>
-				<semantic:content>
-					<f:GridList
-						id="gridList"
-						itemPress="onGridItemPress"
-						items="{ path: 'local>/cat/category' }">
-						<f:headerToolbar>
-							<OverflowToolbar>
-								<Title text="Categories" level="H2" />
-								<ToolbarSpacer />
-								<RangeSlider showAdvancedTooltip="true" id="range" min="0" max="500" width="40rem"/>
-								<!-- <FacetFilter
-										id="idFacetFilter"
-										type="Simple"
-										showPersonalization="true"
-										liveSearch="false"
-										showReset="true"
-										reset="handleFacetFilterReset"
-										confirm="handleConfirm"
-										lists="{/ProductCollectionStats/Filters}">
-											<FacetFilterList
-												title="{type}"
-												key="{key}"
-												mode="MultiSelect"
-												search="handleSearch">
-											</FacetFilterList>
-									</FacetFilter> -->
-							</OverflowToolbar>
-						</f:headerToolbar>
-					<f:customLayout>
-						<grid:GridBoxLayout boxMinWidth="10rem"/>
-					</f:customLayout>
+				<!-- <Button text="User Name" type="Transparent" press=".handleUserNamePress" ariaHasPopup="Menu"> <layoutData> <OverflowToolbarLayoutData priority="NeverOverflow"/> </layoutData> </Button> -->
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:sideContent>
+			<tnt:SideNavigation expanded="true" selectedKey="{/selectedKey}" itemSelect=".onItemSelect">
+				<tnt:NavigationList items="{path: 'local>/cat/subCatergory'}">
+					<tnt:NavigationListItem text="{local>SubCategory}" icon="sap-icon://customer-view">
+						<!-- <tnt:NavigationListItem text="{title}" key="{key}" enabled="{enabled}"/> -->
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+				<!-- <tnt:fixedItem> <tnt:NavigationList items="{path: '/fixedNavigation'}"> <tnt:NavigationListItem text="{title}" icon="{icon}"/> </tnt:NavigationList> </tnt:fixedItem> -->
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="page2">
+				<pages>
+					<ScrollContainer id="root1" horizontal="false" vertical="true" height="100%">
+						<Text text="This is the root page"/>
+					</ScrollContainer>
+					<ScrollContainer id="page1" horizontal="false" vertical="true" height="100%">
+						<Text text="This is the first page"/>
+					</ScrollContainer>
+					<ScrollContainer id="page2" horizontal="false" vertical="true" height="100%">
+						<f:GridList id="gridList" itemPress="onGridItemPress" items="{ path: 'local>/cat/category' }">
+							<!-- <f:headerToolbar>
+								<OverflowToolbar>
+									<Title text="Categories" level="H2"/>
+									<ToolbarSpacer/>
+									<RangeSlider showAdvancedTooltip="true" id="range" min="0" max="500" width="40rem"/>
+								</OverflowToolbar>
+							</f:headerToolbar> -->
+							<f:customLayout>
+								<grid:GridBoxLayout boxMinWidth="10rem"/>
+							</f:customLayout>
 
-					<f:GridListItem type="Active"
-						>
-						<VBox height="100%">
-							<VBox class="sapUiSmallMargin">
-								<Title class="gridCenter" text="{local>Category}" />
-							</VBox>
-						</VBox>
-					</f:GridListItem>
-				</f:GridList>
+							<f:GridListItem type="Active">
+								<VBox height="100%">
+									<VBox class="sapUiSmallMargin">
+										<Title class="gridCenter" text="{local>Category}"/>
+									</VBox>
+								</VBox>
+							</f:GridListItem>
+						</f:GridList>
 
-				<Panel width="auto" class="sapUiResponsiveMargin">
-					<content>
-						<HBox alignItems="Center" direction="Row" fitContainer="true"
-							width="100%" height="100%" justifyContent="Center" renderType="Span"
-							visible="true" displayInline="true">
-							<ToggleButton id="togPlain" class="sapUiLargeMargin" text="Plain"/>
-							<ToggleButton id="togStudded" class="sapUiLargeMargin" text="Studded"/>
-						</HBox>
-					</content>
-				</Panel>
-
-			</semantic:content>
-			<semantic:customFooterContent>
-				<Button text="Search" press="onSearch" />
-				<Button text="Clear All" press="onClear" />
-			</semantic:customFooterContent>
-		</semantic:FullscreenPage>
+						<!-- <Panel width="auto" class="sapUiResponsiveMargin">
+							<content>
+								<HBox alignItems="Center" direction="Row" fitContainer="true" width="100%" height="100%" justifyContent="Center" renderType="Span" visible="true" displayInline="true">
+									<ToggleButton id="togPlain" class="sapUiLargeMargin" text="Plain"/>
+									<ToggleButton id="togStudded" class="sapUiLargeMargin" text="Studded"/>
+								</HBox>
+							</content>
+						</Panel> -->
+					</ScrollContainer>
+					<ScrollContainer id="root2" horizontal="false" vertical="true" height="100%">
+						<Text text="This is the root page of the second element"/>
+					</ScrollContainer>
+				</pages>
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>

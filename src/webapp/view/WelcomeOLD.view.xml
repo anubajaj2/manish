@@ -1,0 +1,75 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.Welcome"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:grid="sap.ui.layout.cssgrid"
+  xmlns:f="sap.f"
+	xmlns:semantic="sap.m.semantic">
+		<semantic:FullscreenPage title="FullScreen Page Title"
+									 showNavButton="true" id="myPage"
+									 navButtonPress="onNavButtonPress">
+			<semantic:customHeaderContent>			
+				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			</semantic:customHeaderContent>
+				<semantic:content>
+					<f:GridList
+						id="gridList"
+						itemPress="onGridItemPress"
+						items="{ path: 'local>/cat/category' }">
+						<f:headerToolbar>
+							<OverflowToolbar>
+								<Title text="Categories" level="H2" />
+								<ToolbarSpacer />
+								<RangeSlider showAdvancedTooltip="true" id="range" min="0" max="500" width="40rem"/>
+								<!-- <FacetFilter
+										id="idFacetFilter"
+										type="Simple"
+										showPersonalization="true"
+										liveSearch="false"
+										showReset="true"
+										reset="handleFacetFilterReset"
+										confirm="handleConfirm"
+										lists="{/ProductCollectionStats/Filters}">
+											<FacetFilterList
+												title="{type}"
+												key="{key}"
+												mode="MultiSelect"
+												search="handleSearch">
+											</FacetFilterList>
+									</FacetFilter> -->
+							</OverflowToolbar>
+						</f:headerToolbar>
+					<f:customLayout>
+						<grid:GridBoxLayout boxMinWidth="10rem"/>
+					</f:customLayout>
+
+					<f:GridListItem type="Active"
+						>
+						<VBox height="100%">
+							<VBox class="sapUiSmallMargin">
+								<Title class="gridCenter" text="{local>Category}" />
+							</VBox>
+						</VBox>
+					</f:GridListItem>
+				</f:GridList>
+
+				<Panel width="auto" class="sapUiResponsiveMargin">
+					<content>
+						<HBox alignItems="Center" direction="Row" fitContainer="true"
+							width="100%" height="100%" justifyContent="Center" renderType="Span"
+							visible="true" displayInline="true">
+							<ToggleButton id="togPlain" class="sapUiLargeMargin" text="Plain"/>
+							<ToggleButton id="togStudded" class="sapUiLargeMargin" text="Studded"/>
+						</HBox>
+					</content>
+				</Panel>
+
+			</semantic:content>
+			<semantic:customFooterContent>
+				<Button text="Search" press="onSearch" />
+				<Button text="Clear All" press="onClear" />
+			</semantic:customFooterContent>
+		</semantic:FullscreenPage>
+</mvc:View>

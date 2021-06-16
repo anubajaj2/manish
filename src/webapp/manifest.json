@@ -80,23 +80,10 @@
         "controlId": "layout",
         "async": true
       },
-      "routes": [
-        {
-        	"pattern": "Maker",
-  				"name": "Maker",
-        	"target": ["Maker"]
-        },
-        {
-          "pattern": "Profile",
-          "name": "Profile",
-          "target": ["Profile"]
-        },
-        {
+      "routes": [{
         "pattern": "split",
         "name": "App",
         "target": ["App"],
-
-
         "subroutes": [{
             "pattern": "AdminHome",
             "name": "AdminHome",
@@ -235,24 +222,17 @@
             ]
           },
           {
-            "pattern": "home",
-            "name": "home",
+            "pattern": "myhome",
+            "name": "CustomerLanding",
             "target": [
-              "welcome",
-              "home"
+              "CustomerLanding"
             ],
-            "subroutes": [{
-                "pattern": "myhome",
-                "name": "CustomerLanding",
-                "target": [
-                  "CustomerLanding"
-                ]
-              },
+            "subroutes": [
               {
                 "pattern": "categories",
                 "name": "categories",
                 "target": [
-                  "home"
+                  "welcome"
                 ]
               },
               {
@@ -307,21 +287,9 @@
           "controlAggregation": "pages",
           "viewLevel": 1
         },
-        "Maker": {
-          "viewName": "Maker",
-          "controlId": "__component0---idMainApp--idMainApp",
-          "controlAggregation": "pages",
-          "viewLevel": 1
-        },
-        "Profile": {
-          "viewName": "Profile",
-          "controlId": "__component0---idMainApp--idMainApp",
-          "controlAggregation": "pages",
-          "viewLevel": 1
-        },
         "CustomerLanding": {
           "viewName": "CustomerLanding",
-          "viewLevel": 2,
+          "viewLevel": 1,
           "controlId": "__component0---idMainApp--idMainApp",
           "controlAggregation": "pages",
           "viewId": "idCustomerLanding"
@@ -359,9 +327,9 @@
         "welcome": {
           "viewName": "Welcome",
           "viewLevel": 1,
-          "controlId": "__xmlview0--layout",
+          "controlId": "__component0---idMainApp--idMainApp",
           "viewId": "welcomeView",
-          "controlAggregation": "midColumnPages"
+          "controlAggregation": "pages"
         },
         "customerItems": {
           "viewName": "CustomerItems",
