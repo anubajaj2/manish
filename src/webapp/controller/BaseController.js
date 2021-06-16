@@ -32,6 +32,7 @@ sap.ui.define([
 			this._oPopover = null;
 		},
 		onUserPress: function (oEvent) {
+			debugger;
 			var oButton = oEvent.getSource();
 			// create popover
 			if (!this._oPopover) {
@@ -44,20 +45,27 @@ sap.ui.define([
 					this.getView().addDependent(this._oPopover);
 					this._oPopover.openBy(oButton);
 					if(this.getView().getModel("local").getProperty("/Role")!="Retailer"){
-						this._oPopover.getContent()[0].getPages()[0].getContent()[0].getItems()[1].setVisible(false)
+						// this._oPopover.getContent()[0].getPages()[0].getContent()[0].getItems()[1].setVisible(false)
 					}
 				}.bind(this));
 			} else {
 				this._oPopover.openBy(oButton);
 				if(this.getView().getModel("local").getProperty("/Role")!="Retailer"){
-					this._oPopover.getContent()[0].getPages()[0].getContent()[0].getItems()[1].setVisible(false)
+					// this._oPopover.getContent()[0].getPages()[0].getContent()[0].getItems()[1].setVisible(false)
 				}
 			}
+		},
+
+		showHome:function(){
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			 this.oRouter.navTo("Maker");
+			 this.closePopover();
 		},
 
 		showProfile : function (oEvent) {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			 this.oRouter.navTo("Profile");
+			 this.closePopover();
 			// this._oPopover.setContentWidth("25%");
 			// this._oPopover.setContentHeight("60%");
 			// var oNavCon = Fragment.byId("popoverNavCon", "navCon");

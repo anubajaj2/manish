@@ -9,9 +9,10 @@ sap.ui.define([
   "sap/ui/model/FilterOperator",
   "sap/m/SelectDialog",
   "sap/ui/export/library",
-  "sap/ui/export/Spreadsheet"
+  "sap/ui/export/Spreadsheet",
+  	"sap/ui/core/Fragment",
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet,Fragment) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
@@ -31,8 +32,10 @@ sap.ui.define([
       oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
     },
     _onRouteMatched: function(oEvent) {
+      debugger;
       var that = this;
       this.getView().setBusy(true);
+      this.getView().getModel("local").setProperty("/sKeyType", 'PURCHASESLITE');
       var viewModel = this.getView().getModel("viewModel");
       viewModel.setProperty("/codeEnabled", true);
       viewModel.setProperty("/buttonText", "Save");
@@ -70,6 +73,13 @@ sap.ui.define([
         });
       //this.clearScreen();
     },
+
+    onTabSelect1: function(oEvent) {
+      debugger;
+    var sKey = oEvent.getParameter("selectedItem").getProperty("key");
+    this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
+  
+  }
 
 
   });

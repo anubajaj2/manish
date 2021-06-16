@@ -1,18 +1,18 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
   <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="30%" placement="Bottom" ariaLabelledBy="master-title">
     <NavContainer id="navCon">
-      <Page id="master" class="sapUiResponsivePadding--header" showHeader="false">
+      <Page id="master1" class="sapUiResponsivePadding--header" showHeader="false">
         <List>
-		<ActionListItem text="Home" press="showHome"/>
-    <ActionListItem text="My Products" press="showProducts" visible="true"/>
-    <ActionListItem id = "orderButtonId" text="My Products" visible="true" press= "onOrders"/>
-    <ActionListItem text="My Approvals" press="showApprovals"/>
-    <ActionListItem text="Booked Products" press="showBookedProd"/>
-    <ActionListItem text="Profile" press="showProfile"/>
+		<ActionListItem text="Home" press="showHome" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem text="My Products" press="showProducts" visible = "{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem id = "" text="orders" visible = "{= ${local>/Role} === 'Maker' ? false:true }" press= "onOrders"/>
+    <ActionListItem text="My Approvals" press="showApprovals" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem text="Booked Products" press="showBookedProd" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem text="Profile" press="showProfile" visible="true"/>
 
 	</List>
       </Page>
-    
+
     </NavContainer>
     <footer>
 			<Toolbar>

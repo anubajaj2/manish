@@ -106,6 +106,7 @@ sap.ui.define([
 											if( oData.results[i].TechnicalId === data.userId ){
 												found = true;
 												that2.getView().getModel("local").setProperty("/Role", oData.results[i].Role);
+												that2.getOwnerComponent().getModel("local").setProperty("/Role", oData.results[i].Role);
 												that2.getView().getModel("local").setProperty("/UserName", oData.results[i].UserName);
 												that2.getView().getModel("local").setProperty("/pwdChange",oData.results[i].pwdChange);
 												that2.ODataHelper.callOData(that2.getOwnerComponent().getModel(),
@@ -189,8 +190,10 @@ sap.ui.define([
 						 							}, {}, that2)
 													.then(function(oData) {
 														that2.getView().setBusy(false);
-														that3.getView().getModel("local").setProperty("/CustomerData",oData.results[0]);
-														if(that3.getView().getModel("local").getProperty("/CustomerData/Status")==="U"){
+														debugger;
+														that3.getOwnerComponent().getModel("local").setProperty("/CustomerData",oData.results[0]);
+
+														if(that3.getOwnerComponent().getModel("local").getProperty("/CustomerData/Status")==="U"){
 															that2.oRouter.navTo("CustomerLanding");
 														}
 														else{

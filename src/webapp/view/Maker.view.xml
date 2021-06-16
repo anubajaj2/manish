@@ -1,12 +1,39 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.Maker" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table">
 	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid"> <content> -->
-	<semantic:FullscreenPage id="Maker" navButtonPress="onNavBack" showNavButton="false" title="Home Screen">
+	<!-- <semantic:FullscreenPage id="Maker" navButtonPress="onNavBack" showNavButton="false" title="Home Screen">
 		<semantic:customHeaderContent>
-			<!-- <Button icon="sap-icon://full-screen" id="idFullScreenBtn" tooltip="fullscreen" iconFirst="true" press="toggleFullScreen"/> -->
+
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-		</semantic:customHeaderContent>
+		</semantic:customHeaderContent> -->
 
-	</semantic:FullscreenPage>
-	<!-- </content> </Page> -->
+	<!-- </semantic:FullscreenPage> -->
+	<Page id="Maker" title="Home Screen" >
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+			<IconTabHeader mode="Inline" select="onTabSelect1">
+					<items>
+						<IconTabFilter key="PURCHASESLITE" text="PURCHASES LITE" />
+						<IconTabFilter key="PURCHASESDETAILE" text="PURCHASES DETAILE" />
+						<IconTabFilter key="PURCHASESLEIGHNTH" text="PURCHASES LEIGHNTH" />
+					</items>
+				</IconTabHeader>
+				<VBox visible = "{= ${local>/sKeyType} === 'PURCHASESLITE' ? true:false }">
+				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.PurchaseStyle"  type="XML" ></core:Fragment>
+			</VBox>
+			<VBox  visible = "{= ${local>/sKeyType} === 'PURCHASESDETAILE' ? true:false }">
+
+				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.PurchaseDetail"></core:Fragment>
+				</VBox>
+				<VBox visible = "{= ${local>/sKeyType} === 'PURCHASESLEIGHNTH' ? true:false }">
+				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.Purchaseleighnth" ></core:Fragment>
+				</VBox>
+
+
+		</content>
+		</Page>
+
 </mvc:View>
