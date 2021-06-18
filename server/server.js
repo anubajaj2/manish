@@ -53,9 +53,9 @@ app.use(fileUpload());
 
 app.start = function() {
   // start the web server
-  https.createServer(ssl,app).listen(443);
-  https.createServer(ssl,app).listen(8446);
-  http.createServer(app).listen(80);
+  //https.createServer(ssl,app).listen(443);
+  //https.createServer(ssl,app).listen(8446);
+  //http.createServer(app).listen(80);
   return app.listen(function() {
 		app.emit('started');
 		var baseUrl = app.get('url').replace(/\/$/, '');
