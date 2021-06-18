@@ -215,7 +215,7 @@ sap.ui.define([
 														that3.getView().getModel("local").setProperty("/ManufacturerData",oData.results[0]);
 														if(that3.getView().getModel("local").getProperty("/ManufacturerData/Status")==="U"){
 															// that2.oRouter.navTo("AddProduct");
-															 that2.oRouter.navTo("AddProduct");
+															 that2.oRouter.navTo("Maker");
 														}
 														else{
 															MessageToast.show("User is blocked, Please contact admin");
