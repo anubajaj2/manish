@@ -103,16 +103,17 @@
     </HBox>
 
   </VBox>
-  <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single"
+  <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="adminTable" selectionMode="Single"
     rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true"
     visible="true" class="sapUiTinyMarginTop">
     <t:extension>
 
       <OverflowToolbar>
-        <Title id="title" text="Product({dataModel>/title})" />
+        <Title id="title" text="Product({PurchaseLiteModel>/title})" />
         <!-- <Title text="" /> -->
         <ToolbarSpacer />
         <Button icon="sap-icon://add" text="Add" press="onAdd"></Button>
+        <Button icon="sap-icon://download" press="onPressTemplateDownload" text="Download Template"></Button>
         <Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
         <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
         <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
@@ -124,41 +125,41 @@
       <t:Column width="20%">
         <Label text="ITEM CODE" />
         <t:template>
-          <Text text="" wrapping="true" />
+          <Text text="{PurchaseLiteModel>ItemCode}" wrapping="true" />
         </t:template>
       </t:Column>
       <t:Column width="20%">
         <Label text="TAG NO" />
         <t:template>
-          <Text text="{dataModel>TagNo}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>TagNo}" wrapping="true" />
         </t:template>
       </t:Column>
 
       <t:Column width="20%">
         <Label text="G WT" />
         <t:template>
-          <Text text="{dataModel>GWt}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>GWt}" wrapping="true" />
         </t:template>
       </t:Column>
 
       <t:Column width="20%">
         <Label text="AMOUNT" />
         <t:template>
-          <Text text="{dataModel>Amount}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>Amount}" wrapping="true" />
         </t:template>
       </t:Column>
 
       <t:Column width="20%">
         <Label text="PCS" />
         <t:template>
-          <Text text="{dataModel>PCS}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>PCS}" wrapping="true" />
         </t:template>
       </t:Column>
 
       <t:Column width="20%">
         <Label text="SIZE*" />
         <t:template>
-          <Text text="{dataModel>Size}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>Size}" wrapping="true" />
         </t:template>
       </t:Column>
 
@@ -172,7 +173,7 @@
       <t:Column width="20%">
         <Label text="Remarks" />
         <t:template>
-          <Text text="{dataModel>Remark}" wrapping="true" />
+          <Text text="{PurchaseLiteModel>Remark}" wrapping="true" />
         </t:template>
       </t:Column>
       <t:Column width="20%">
