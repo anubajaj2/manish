@@ -97,23 +97,22 @@
 						<l:BlockLayoutCell title="Todays Deals" width="100%">
 							<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
 								<customLayout>
-									<CarouselLayout visiblePagesCount="8" />
+									<CarouselLayout visiblePagesCount="{local>/GridItemCount}" />
 								</customLayout>
 								<pages>
-									<f:GridList width="200px">
+									<f:GridList width="100%">
 										<f:items>
 											<f:GridListItem >
-												<VBox >
+												<VBox>
 													<Image width="100%" height="150px" src="{local>ImageUrl}" />
 													<HBox justifyContent="Center">
-														<Title text="₹ {local>Price}" textAlign="Center"/>
+														<Title text="₹ {local>Price}.00" textAlign="Center"/>
 													</HBox>
 												</VBox>
 											</f:GridListItem>
 										</f:items>
 									</f:GridList>
 								</pages>
-								
 							</Carousel>
 						</l:BlockLayoutCell>
 					</l:BlockLayoutRow>
