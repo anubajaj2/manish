@@ -116,7 +116,6 @@
 .sapMIBar-CTX .sapMBtnTransparent:not(.sapMBtnDisabled):not(.sapMToggleBtnPressed) {
     font-size: large;
 }
-
 /* .MainLoginPage {
 	background-image: url("../img/bgimg.jpg");
 	background-size: 100% 100%;
