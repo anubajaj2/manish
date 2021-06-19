@@ -61,7 +61,7 @@
 						</l:VerticalLayout>
 					</FlexBox>
 					<FlexBox
-						renderType="Bare" height="15rem" width="100%"
+						renderType="Bare" height="20rem" width="140%"
 						justifyContent="Center">
 						<anubhav:ImageHover
 							src=""

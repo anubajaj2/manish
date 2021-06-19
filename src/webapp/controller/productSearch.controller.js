@@ -254,8 +254,11 @@ sap.ui.define([
       this._oPopoverCart.destroy();
       this._oPopoverCart = null;
     },
-    onProduct: function(){
-      this.getRouter().navTo("product");
+    onProduct: function(oEvent){
+      var sIndex = oEvent.getSource().getBindingContext().sPath.split("Products")[1];
+      this.getRouter().navTo("product", {
+				key: sIndex
+			});
     },
     onImageOpen: function(oEvent) {
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();

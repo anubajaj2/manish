@@ -269,7 +269,7 @@
                 ]
               },
               {
-                "pattern": "product",
+                "pattern": "Products{key}",
                 "name": "product",
                 "target": [
                   "product"
