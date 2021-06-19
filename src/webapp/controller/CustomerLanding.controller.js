@@ -16,7 +16,11 @@ sap.ui.define([
 		 * @memberOf victoria.view.App
 		 */
 			onInit: function() {
-
+				this.oRouter = this.getOwnerComponent().getRouter();
+				this.oRouter.getRoute("CustomerLanding").attachMatched(this._onRouteMatched, this);
+			},
+			_onRouteMatched: function() {
+				setInterval(function(){sap.ui.getCore().byId("__component0---idCustomerLanding--caro").next()},4000);
 			},
 			onMen: function(){
 				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
