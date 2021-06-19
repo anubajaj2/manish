@@ -80,7 +80,7 @@ sap.ui.define([
       debugger;
     var sKey = oEvent.getParameter("selectedItem").getProperty("key");
     this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
-  
+
   },
   onAddExcelData:function(){
     debugger;
@@ -128,7 +128,7 @@ sap.ui.define([
 					var excelD = [];
 					debugger;
 					for (var i = 0; i < excelData.length; i++) {
-						
+
 						excelD.push({
 							TagNo: excelData[i]["TAG NO"],
 							GWt: excelData[i]["G WT"],

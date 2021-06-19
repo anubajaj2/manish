@@ -1,0 +1,136 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseLeingth" xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true"
+  xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core"
+  xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+  xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <VBox class="sapUiSmallMargin">
+    <HBox>
+      <Button text="22" class="sapUiSmallMarginEnd"></Button>
+      <Button text="18" class="sapUiSmallMarginEnd"></Button>
+      <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
+      <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
+      <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
+      <Button text="6%" class="sapUiSmallMarginEnd"></Button>
+      <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
+      <Button text="MACHINE" class="sapUiSmallMarginEnd"></Button>
+
+    </HBox>
+  </VBox>
+  <VBox>
+    <HBox>
+      <VBox>
+        <Label text="Purity" class=" sapUiLargeMarginTop" />
+        <Select width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+          <core:Item key="1" text="ONE" />
+          <core:Item key="2" text="TWO" />
+          <core:Item key="3" text="THREE" />
+        </Select>
+      </VBox>
+      <VBox>
+        <Label text="Type" class=" sapUiLargeMarginTop" />
+        <Select width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+          <core:Item key="1" text="ONE" />
+          <core:Item key="2" text="TWO" />
+          <core:Item key="3" text="THREE" />
+        </Select>
+      </VBox>
+      <VBox>
+        <Label text="Tick Mark" class=" sapUiLargeMarginTop" />
+        <Select width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+          <core:Item key="1" text="ONE" />
+          <core:Item key="2" text="TWO" />
+          <core:Item key="3" text="THREE" />
+        </Select>
+      </VBox>
+      <VBox>
+        <Label text="Style" class=" sapUiLargeMarginTop" />
+        <Select width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+          <core:Item key="1" text="ONE" />
+          <core:Item key="2" text="TWO" />
+          <core:Item key="3" text="THREE" />
+        </Select>
+      </VBox>
+
+    </HBox>
+  </VBox>
+
+  <t:Table rows="/" id="Purchaes" selectionMode="Single" rowSelectionChange="onVendorSelection"
+    ariaLabelledBy="title" alternateRowColors="true" visible="true">
+    <t:extension>
+      <OverflowToolbar>
+        <!-- <Title text="" /> -->
+        <ToolbarSpacer />
+        <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
+        <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
+        <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
+      </OverflowToolbar>
+    </t:extension>
+    <t:columns>
+
+      <t:Column width="20%">
+        <Label text="ITEM CODE" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+      <t:Column width="20%">
+        <Label text="TAG NO" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="CHAIN NAME" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Weight per Inch" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Rate" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Ready" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Polish" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Photo" />
+        <t:template>
+          <Button text="Photos" wrapping="true" />
+        </t:template>
+      </t:Column>
+
+      <t:Column width="20%">
+        <Label text="Remarks" />
+        <t:template>
+          <Text text="" wrapping="true" />
+        </t:template>
+      </t:Column>
+    </t:columns>
+
+
+  </t:Table>
+
+</mvc:View>

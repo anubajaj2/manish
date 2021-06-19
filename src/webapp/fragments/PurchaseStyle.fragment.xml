@@ -65,36 +65,53 @@
 	</VBox>
 	<VBox>
 <HBox>
+	<VBox id="idVBox1">
+	<Label text="Purity"
+
+				class="sapUiLargeMarginBegin sapUiLargeMarginTop"/>
 					<Select id="foo" width="12rem" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" customData:hasValue="true">
 						<core:Item key="1" text="ONE"/>
 						<core:Item key="2" text="TWO"/>
 						<core:Item key="3" text="THREE"/>
 					</Select>
+</VBox>
 
+<VBox>
+					<Label text="Type"
+
+									class="sapUiLargeMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
 					<Select id="foo1" width="12rem" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" customData:hasValue="true">
 						<core:Item key="1" text="ONE"/>
 						<core:Item key="2" text="TWO"/>
 						<core:Item key="3" text="THREE"/>
 					</Select>
+</VBox>
+<VBox>
+					<Label text="Tick Mark"
 
+									class="sapUiLargeMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
 					<Select id="foo2" width="12rem" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" customData:hasValue="true">
 						<core:Item key="1" text="ONE"/>
 						<core:Item key="2" text="TWO"/>
 						<core:Item key="3" text="THREE"/>
 					</Select>
+</VBox>
+<VBox>
+					<Label text="Style"
 
+									class="sapUiLargeMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
 					<Select id="foo3" width="12rem" class="sapUiSmallMarginBegin sapUiLargeMarginEnd" customData:hasValue="true">
 						<core:Item key="1" text="ONE"/>
 						<core:Item key="2" text="TWO"/>
 						<core:Item key="3" text="THREE"/>
 					</Select>
-
+</VBox>
   </HBox>
 
 </VBox>
   <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true" class="sapUiTinyMarginTop">
         <t:extension>
-	
+
           <OverflowToolbar>
 		  	<Title id="title" text="Product({dataModel>/title})"/>
             <!-- <Title text="" /> -->

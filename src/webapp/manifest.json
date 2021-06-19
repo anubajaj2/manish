@@ -82,7 +82,7 @@
       },
       "routes": [
         {
-               	"pattern": "Maker",
+               	"pattern": "PurchaseLite",
          				"name": "Maker",
                	"target": ["Maker"]
                },
@@ -309,6 +309,7 @@
          "controlId": "__component0---idMainApp--idMainApp",
          "controlAggregation": "pages",
          "viewLevel": 1
+
        },
 
        "ChangeStock": {
