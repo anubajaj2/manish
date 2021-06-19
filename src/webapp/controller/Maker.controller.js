@@ -81,77 +81,8 @@ sap.ui.define([
     var sKey = oEvent.getParameter("selectedItem").getProperty("key");
     this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
 
-  },
-  onAddExcelData:function(){
-    debugger;
-    var that=this;
-    	if (this.fixedDialog === undefined) {
-				this.fixedDialog = new Dialog({
-					title: "Choose XSLX File For Upload",
-					width: "60%",
-					beginButton: new sap.m.Button({
-						text: "Close",
-						press: function(oEvent) {
-							that.fixedDialog.close();
-						}
-					}),
-					content: [
-						new FileUploader("excelUploader", {
-							fileType: "XLSX,xlsx",
-							change: [this.onUpload, this],
-							class: "sapUiLargeMargin"
-						})
-					]
-				});
-				this.getView().addDependent(this.fixedDialog);
-        	}
-			this.fixedDialog.open();
-  },
-  onUpload: function(e) {
-			this._import(e.getParameter("files") && e.getParameter("files")[0]);
-		},
-    		_import: function(file) {
-			var that = this;
-			var excelData = {};
-			if (file && window.FileReader) {
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					var data = e.target.result;
-					var workbook = XLSX.read(data, {
-						type: 'binary'
-					});
-					workbook.SheetNames.forEach(function(sheetName) {
-						// Here is your object for every sheet in workbook
-						excelData = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-
-					});
-					var excelD = [];
-					debugger;
-					for (var i = 0; i < excelData.length; i++) {
-
-						excelD.push({
-							TagNo: excelData[i]["TAG NO"],
-							GWt: excelData[i]["G WT"],
-							Amount: excelData[i]["Amount"],
-							PCS: excelData[i]["PCS"],
-							Size: excelData[i]["Size"],
-							Remark: excelData[i]["Remark"]
-						});
-
-					}
-					debugger;
-					// Setting the data to the local model
-
-					that.getView().getModel("dataModel").setProperty("/PurchaseLite",excelD);
-          that.getView().getModel("dataModel").setProperty("/title",excelD.length);
-				};
-				reader.onerror = function(ex) {
-					console.log(ex);
-				};
-				reader.readAsBinaryString(file);
-				this.fixedDialog.close();
-			}
-		}
+  }
+  
 
 
   });
