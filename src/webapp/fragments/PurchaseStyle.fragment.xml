@@ -149,7 +149,7 @@
           <t:Column width="20%">
             <Label text="Photo" />
             <t:template>
-              <Button text="Photos" wrapping="true" />
+              <Button icon="sap-icon://image-viewer" text="" wrapping="true" />
             </t:template>
           </t:Column>
 
@@ -158,6 +158,16 @@
             <t:template>
               <Text text="{dataModel>Remark}" wrapping="true" />
             </t:template>
+          </t:Column>
+		   <t:Column width="20%">
+            <Label text="Options" />
+            <t:template>
+							<HBox>
+            	<Button  icon="sap-icon://edit" press="onEdit"></Button>
+							<Button  icon="sap-icon://delete" press="onDelete"></Button>
+							<Button icon="sap-icon://copy" press="onCopy"></Button>
+						</HBox>
+						</t:template>
           </t:Column>
         </t:columns>
 
