@@ -10,9 +10,11 @@ sap.ui.define([
   "sap/m/SelectDialog",
   "sap/ui/export/library",
   "sap/ui/export/Spreadsheet",
-  	"sap/ui/core/Fragment",
+	"sap/ui/core/Fragment",
+  "sap/m/Dialog",
+	"sap/ui/unified/FileUploader",
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet,Fragment) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet,Fragment, Dialog, FileUploader) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
@@ -79,7 +81,97 @@ sap.ui.define([
     var sKey = oEvent.getParameter("selectedItem").getProperty("key");
     this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
   
-  }
+  },
+  onAddExcelData:function(){
+    debugger;
+    var that=this;
+    	if (this.fixedDialog === undefined) {
+				this.fixedDialog = new Dialog({
+					title: "Choose XSLX File For Upload",
+					width: "60%",
+					beginButton: new sap.m.Button({
+						text: "Close",
+						press: function(oEvent) {
+							that.fixedDialog.close();
+						}
+					}),
+					content: [
+						new FileUploader("excelUploader", {
+							fileType: "XLSX,xlsx",
+							change: [this.onUpload, this],
+							class: "sapUiLargeMargin"
+						})
+					]
+				});
+				this.getView().addDependent(this.fixedDialog);
+        	}
+			this.fixedDialog.open();
+  },
+  onUpload: function(e) {
+			this._import(e.getParameter("files") && e.getParameter("files")[0]);
+		},
+    		_import: function(file) {
+			var that = this;
+			var excelData = {};
+			if (file && window.FileReader) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var data = e.target.result;
+					var workbook = XLSX.read(data, {
+						type: 'binary'
+					});
+					workbook.SheetNames.forEach(function(sheetName) {
+						// Here is your object for every sheet in workbook
+						excelData = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+
+					});
+					var excelD = [];
+					debugger;
+					for (var i = 0; i < excelData.length; i++) {
+						
+						excelD.push({
+							CostCollector: excelData[i]["Cost Collector"],
+							Location: excelData[i]["Location"],
+							Material: excelData[i]["Material"],
+							DocNbr: excelData[i]["Document Number"],
+							DocType: excelData[i]["Document Type"],
+							DocPart: excelData[i]["Document Part"],
+							DocVer: excelData[i]["Document Version"],
+							PrintDate: new Date(excelData[i]["Print Date"]),
+							PrinterMfg: excelData[i]["Printer Manufacturer"],
+							PrinterModel: excelData[i]["Printer Model"],
+							RawMaterial: excelData[i]["Raw Material"],
+							PrintingTech: excelData[i]["Print Technician"],
+							EndDate: new Date(excelData[i]["End Date"]),
+							QtyProduced: excelData[i]["Quantity"],
+							MaterialCost: excelData[i]["Material Cost"],
+							LaborCost: excelData[i]["Labor Cost"],
+							MachineCost: excelData[i]["Machine Cost"],
+							UnitCost: excelData[i]["Unit Cost"]
+
+						});
+
+					}
+					debugger;
+					// Setting the data to the local model
+
+					var odata = [];
+					odata = that.localModel.getProperty("/data");
+					for (i = 0; i < odata.length; i++) {
+					
+
+						delete odata[i].__metadata;
+					}
+				
+					
+				};
+				reader.onerror = function(ex) {
+					console.log(ex);
+				};
+				reader.readAsBinaryString(file);
+				this.fixedDialog.close();
+			}
+		}
 
 
   });

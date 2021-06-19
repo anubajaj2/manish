@@ -97,6 +97,7 @@
           <OverflowToolbar>
             <!-- <Title text="" /> -->
             <ToolbarSpacer />
+							<Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
             <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
             <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
             <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
