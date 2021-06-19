@@ -102,7 +102,7 @@ sap.ui.define([
       //   }
       // }
       if (this.styleFilter.length > 0) {
-        orFilter.push(new Filter(aFilter, false));
+        orFilter.push(new Filter(this.styleFilter, false));
         // aFilter = [];
       }
       // read range Value low and high
@@ -124,11 +124,11 @@ sap.ui.define([
       //   aFilter.push(new Filter("Type", FilterOperator.EQ, "S"));
       // }
       if (this.typeFilter.length > 0) {
-        orFilter.push(new Filter(aFilter, false));
+        orFilter.push(new Filter(this.typeFilter, false));
         // aFilter = [];
       }
       if (this.karatFilter.length > 0) {
-        orFilter.push(new Filter(aFilter, false));
+        orFilter.push(new Filter(this.karatFilter, false));
         // aFilter = [];
       }
       var oFilter = new Filter({
