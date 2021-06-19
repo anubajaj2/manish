@@ -92,11 +92,12 @@
   </HBox>
 
 </VBox>
-  <t:Table rows="/" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true">
+  <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true">
         <t:extension>
           <OverflowToolbar>
             <!-- <Title text="" /> -->
             <ToolbarSpacer />
+							<Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
             <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
             <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
             <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
@@ -113,50 +114,60 @@
           <t:Column width="20%">
             <Label text="TAG NO" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>TagNo}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="G WT" />
             <t:template>
-                <Text text="" wrapping="true" />
+                <Text text="{dataModel>GWt}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="AMOUNT" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Amount}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="PCS" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>PCS}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="SIZE*" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Size}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="Photo" />
             <t:template>
-              <Button text="Photos" wrapping="true" />
+              <Button icon="sap-icon://image-viewer" text="" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="Remarks" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Remark}" wrapping="true" />
             </t:template>
+          </t:Column>
+		   <t:Column width="20%">
+            <Label text="Options" />
+            <t:template>
+							<HBox>
+            	<Button  icon="sap-icon://edit" press="onEdit"></Button>
+							<Button  icon="sap-icon://delete" press="onDelete"></Button>
+							<Button icon="sap-icon://copy" press="onCopy"></Button>
+						</HBox>
+						</t:template>
           </t:Column>
         </t:columns>
 

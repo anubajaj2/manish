@@ -5,9 +5,9 @@ sap.ui.define([
   "sap/ui/model/Filter",
   "sap/ui/demo/cart/model/formatter",
   "sap/ui/model/FilterOperator",
-	"sap/m/Popover",
-	"sap/m/Button",
-	"sap/m/library"
+  "sap/m/Popover",
+  "sap/m/Button",
+  "sap/m/library"
 ], function(BaseController, cart, JSONModel, Filter, formatter, FilterOperator, Popover, Button, library) {
   "use strict";
   var ButtonType = library.ButtonType,
@@ -23,6 +23,56 @@ sap.ui.define([
       }
       console.log(oEvent.getParameter("listItem").getContent()[0].getItems()[0].getItems()[0].getText());
 
+    },
+    styleFilter: [],
+    onStyle: function(oEvent) {
+      var value = oEvent.getSource().getText();
+      if (oEvent.getParameter('selected')) {
+        this.styleFilter.push(new Filter("SubCategory", FilterOperator.EQ, value));
+      } else {
+        for (var i = 0; i < this.styleFilter.length; i++) {
+          if (this.styleFilter[i].oValue1 === value) {
+            this.styleFilter.splice(i, 1);
+          }
+        }
+      }
+    },
+    typeFilter: [],
+    onType: function(oEvent) {
+      var value = oEvent.getSource().getText() === "STUDDED" ? "S" : "P";
+      if (oEvent.getParameter('selected')) {
+        this.typeFilter.push(new Filter("Type", FilterOperator.EQ, value));
+      } else {
+        for (var i = 0; i < this.typeFilter.length; i++) {
+          if (this.typeFilter[i].oValue1 === value) {
+            this.typeFilter.splice(i, 1);
+          }
+        }
+      }
+    },
+    karatFilter: [],
+    onKarat: function(oEvent) {
+      var value = oEvent.getSource().getText() === "22KT" ? "222" : "18";
+      if (oEvent.getParameter('selected')) {
+        this.karatFilter.push(new Filter("Karat", FilterOperator.EQ, value));
+      } else {
+        for (var i = 0; i < this.karatFilter.length; i++) {
+          if (this.karatFilter[i].oValue1 === value) {
+            this.karatFilter.splice(i, 1);
+          }
+        }
+      }
+    },
+    onWeightRange: function(oEvent) {
+      var range = oEvent.getParameter("range");
+      this.getView().byId("idMinWeight").setValue(range[0]);
+      this.getView().byId("idMaxWeight").setValue(range[1]);
+    },
+    onMinWeight: function(oEvent) {
+      this.getView().byId('range').setRange([parseFloat(this.getView().byId("idMinWeight").getValue()), parseFloat(this.getView().byId("idMaxWeight").getValue())])
+    },
+    onMaxWeight: function(oEvent) {
+      this.getView().byId('range').setRange([parseFloat(this.getView().byId("idMinWeight").getValue()), parseFloat(this.getView().byId("idMaxWeight").getValue())])
     },
     onSearch: function() {
       var oView = this.getView();
@@ -43,19 +93,19 @@ sap.ui.define([
         aFilter = [];
       }
       //read sub categories
-      var aItems2 = this.getView().getParent().getParent().getBeginColumnPages()[0].getContent()[0].getContent()[0].getItems();
-      for (var i = 0; i < aItems2.length; i++) {
-        if (aItems2[i].hasStyleClass("colorGreen")) {
-          aFilter.push(new Filter("SubCategory", FilterOperator.EQ,
-            aItems2[i].getLabel()
-          ));
-        }
+      // var aItems2 = this.getView().getParent().getParent().getBeginColumnPages()[0].getContent()[0].getContent()[0].getItems();
+      // for (var i = 0; i < aItems2.length; i++) {
+      //   if (aItems2[i].hasStyleClass("colorGreen")) {
+      //     aFilter.push(new Filter("SubCategory", FilterOperator.EQ,
+      //       aItems2[i].getLabel()
+      //     ));
+      //   }
+      // }
+      if (this.styleFilter.length > 0) {
+        orFilter.push(new Filter(this.styleFilter, false));
+        // aFilter = [];
       }
-      if (aFilter.length > 0) {
-        orFilter.push(new Filter(aFilter, false));
-        aFilter = [];
-      }
-      //read range Value low and high
+      // read range Value low and high
       var aRange = oView.byId("range").getRange();
       aFilter.push(new Filter("GrossWeight", FilterOperator.BT, aRange[0], aRange[1]));
 
@@ -65,19 +115,22 @@ sap.ui.define([
       aFilter.push(new Filter("ProdStatus", FilterOperator.EQ, "A"));
 
       orFilter.push(new Filter(aFilter));
-      aFilter = [];
+      // aFilter = [];
       //read the type
-      if (oView.byId("togPlain").getPressed()) {
-        aFilter.push(new Filter("Type", FilterOperator.EQ, "P"));
+      // if (oView.byId("togPlain").getPressed()) {
+      //   aFilter.push(new Filter("Type", FilterOperator.EQ, "P"));
+      // }
+      // if (oView.byId("togStudded").getPressed()) {
+      //   aFilter.push(new Filter("Type", FilterOperator.EQ, "S"));
+      // }
+      if (this.typeFilter.length > 0) {
+        orFilter.push(new Filter(this.typeFilter, false));
+        // aFilter = [];
       }
-      if (oView.byId("togStudded").getPressed()) {
-        aFilter.push(new Filter("Type", FilterOperator.EQ, "S"));
+      if (this.karatFilter.length > 0) {
+        orFilter.push(new Filter(this.karatFilter, false));
+        // aFilter = [];
       }
-      if (aFilter.length > 0) {
-        orFilter.push(new Filter(aFilter, false));
-        aFilter = [];
-      }
-
       var oFilter = new Filter({
         filters: orFilter,
         and: true
@@ -125,7 +178,7 @@ sap.ui.define([
       }
     },
     // handleUserNamePress: function(event) {
-		// 	var that = this;
+    // 	var that = this;
     //   var oPopover = new Popover({
     //     showHeader: false,
     //     placement: PlacementType.Bottom,
@@ -141,11 +194,11 @@ sap.ui.define([
     //       new Button({
     //         text: 'Logout',
     //         type: ButtonType.Transparent,
-		// 				press: that.logOutApp()
+    // 				press: that.logOutApp()
     //       })
     //     ]
     //   }).addStyleClass('sapMOTAPopover sapTntToolHeaderPopover');
-		//
+    //
     //   oPopover.openBy(event.getSource());
     // },
     _onRouteMatched: function(oEvent) {

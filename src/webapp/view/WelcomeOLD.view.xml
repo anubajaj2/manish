@@ -9,7 +9,7 @@
 		<semantic:FullscreenPage title="FullScreen Page Title"
 									 showNavButton="true" id="myPage"
 									 navButtonPress="onNavButtonPress">
-			<semantic:customHeaderContent>			
+			<semantic:customHeaderContent>
 				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 			</semantic:customHeaderContent>

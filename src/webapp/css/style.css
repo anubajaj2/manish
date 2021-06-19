@@ -116,6 +116,7 @@
 .sapMIBar-CTX .sapMBtnTransparent:not(.sapMBtnDisabled):not(.sapMToggleBtnPressed) {
     font-size: large;
 }
+<<<<<<< HEAD
 
 .FirstRowCellContent {
   padding: 0rem 0rem;
@@ -127,6 +128,8 @@
 .sapUiBlockLayoutSizeXL:not(.sapUiBlockLayoutKeepFontSize) .sapUiBlockCellContent {
   padding: 0.5rem 0.5rem;
 }
+=======
+>>>>>>> 034e8e8d9924235a7a18e8fb7a0624250c8d0eb5
 /* .MainLoginPage {
 	background-image: url("../img/bgimg.jpg");
 	background-size: 100% 100%;

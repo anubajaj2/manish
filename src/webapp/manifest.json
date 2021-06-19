@@ -80,7 +80,37 @@
         "controlId": "layout",
         "async": true
       },
-      "routes": [{
+      "routes": [
+        {
+               	"pattern": "Maker",
+         				"name": "Maker",
+               	"target": ["Maker"]
+               },
+               {
+                 "pattern": "Profile",
+                 "name": "Profile",
+                 "target": ["Profile"]
+               },
+
+               {
+                 "pattern": "ChangeStock",
+                 "name": "ChangeStock",
+                 "target": ["ChangeStock"]
+               },
+               {
+                 "pattern": "MyApproval",
+                 "name": "MyApproval",
+                 "target": [
+                   "MyApproval"
+                 ]
+               },
+               {
+                 "pattern": "MyProduct",
+                 "name": "MyProduct",
+                 "target": ["MyProduct"]
+               },
+
+        {
         "pattern": "split",
         "name": "App",
         "target": ["App"],
@@ -195,22 +225,8 @@
                   "AddProduct"
                 ]
               },
-              {
-                "pattern": "ChangeStock",
-                "name": "ChangeStock",
-                "target": [
-                  "ManuHome",
-                  "ChangeStock"
-                ]
-              },
-              {
-                "pattern": "MyApproval",
-                "name": "MyApproval",
-                "target": [
-                  "ManuHome",
-                  "MyApproval"
-                ]
-              },
+
+
               {
                 "pattern": "Camera",
                 "name": "Camera",
@@ -287,6 +303,37 @@
           "controlAggregation": "pages",
           "viewLevel": 1
         },
+
+        "Maker": {
+         "viewName": "Maker",
+         "controlId": "__component0---idMainApp--idMainApp",
+         "controlAggregation": "pages",
+         "viewLevel": 1
+       },
+
+       "ChangeStock": {
+         "viewName": "ChangeStock",
+         "controlId": "__component0---idMainApp--idMainApp",
+         "controlAggregation": "pages",
+         "viewLevel": 1
+
+       },
+
+
+       "Profile": {
+         "viewName": "Profile",
+         "controlId": "__component0---idMainApp--idMainApp",
+         "controlAggregation": "pages",
+         "viewLevel": 1
+       },
+
+       "MyProduct": {
+         "viewName": "MyProduct",
+         "controlId": "__component0---idMainApp--idMainApp",
+         "controlAggregation": "pages",
+         "viewLevel": 1
+       },
+
         "CustomerLanding": {
           "viewName": "CustomerLanding",
           "viewLevel": 1,
@@ -469,18 +516,13 @@
           "viewLevel": 3,
           "viewId": "AddProduct"
         },
-        "ChangeStock": {
-          "viewName": "ChangeStock",
-          "controlId": "__xmlview0--layout",
-          "controlAggregation": "midColumnPages",
-          "viewLevel": 3,
-          "viewId": "ChangeStock"
-        },
+
+
         "MyApproval": {
           "viewName": "MyApproval",
-          "controlId": "__xmlview0--layout",
-          "controlAggregation": "midColumnPages",
-          "viewLevel": 3,
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages",
+          "viewLevel": 1,
           "viewId": "MyApproval"
         },
         "ManuHome": {

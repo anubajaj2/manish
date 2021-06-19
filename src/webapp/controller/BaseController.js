@@ -62,6 +62,29 @@ sap.ui.define([
 			 this.closePopover();
 		},
 
+		showApprovals:function(){
+			debugger;
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			 this.oRouter.navTo("MyApproval");
+			 this.closePopover();
+		},
+
+
+		showBookedProd:function(){
+			debugger;
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			 this.oRouter.navTo("ChangeStock");
+			 this.closePopover();
+		},
+
+
+		showProducts:function(){
+			debugger;
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			 this.oRouter.navTo("MyProduct");
+			 this.closePopover();
+		},
+
 		showProfile : function (oEvent) {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			 this.oRouter.navTo("Profile");
@@ -588,7 +611,7 @@ sap.ui.define([
 			if (oPrevHash !== undefined) {
 				window.history.go(-1);
 			} else {
-				this.getRouter().navTo("home");
+				this.getRouter().navTo("categories");
 			}
 		},
 

@@ -57,47 +57,61 @@
 						<form:content>
 							<Label text="STYLE"/>
 							<VBox class="sapUiSmallMarginBegin">
-								<CheckBox text="DIAMOND"/>
-								<CheckBox text="KUNDAN MEENA" selected="true">
+								<CheckBox text="DIAMOND" select="onStyle"/>
+								<CheckBox text="KUNDAN MEENA" name="KUNDAN MEENA" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox id="focusMe" text="POLKI">
+								<CheckBox id="focusMe" text="POLKI" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="ANTIQUE" wrapping="true" width="200px">
+								<CheckBox text="ANTIQUE" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="JADAU" wrapping="true" width="200px">
+								<CheckBox text="JADAU" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="MACHINE" wrapping="true" width="200px">
+								<CheckBox text="MACHINE" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="ROSE" wrapping="true" width="200px">
+								<CheckBox text="ROSE" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="ITTALIAN" wrapping="true" width="200px">
+								<CheckBox text="ITTALIAN" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="MOTI" wrapping="true" width="200px">
+								<CheckBox text="MOTI" wrapping="true" width="200px" select="onStyle">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
+							</VBox>
+							<Label text="Weight"/>
+							<VBox class="sapUiSmallMarginBegin">
+								<RangeSlider class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiTinyMarginEnd" showAdvancedTooltip="true" id="range" min="0" max="500" width="85%" liveChange="onWeightRange"/>
+								<Input id="idMinWeight" type="Number" width="70%" description="Min" change="onMinWeight">
+									<layoutData>
+										<l:GridData linebreak="true" indentL="4" indentM="4"/>
+									</layoutData>
+								</Input>
+								<Input id="idMaxWeight" type="Number" width="70%" description="Max" change="onMaxWeight">
+									<layoutData>
+										<l:GridData linebreak="true" indentL="4" indentM="4"/>
+									</layoutData>
+								</Input>
 							</VBox>
 						</form:content>
 					</form:SimpleForm>
@@ -121,12 +135,12 @@
 						<form:content>
 							<Label text="TYPE"/>
 							<VBox class="sapUiSmallMarginBegin">
-								<CheckBox text="STUDDED">
+								<CheckBox text="STUDDED" select="onType">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="PALIN" selected="true">
+								<CheckBox text="PALIN" select="onType">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
@@ -134,12 +148,12 @@
 							</VBox>
 							<Label text="CARAT"/>
 							<VBox class="sapUiSmallMarginBegin">
-								<CheckBox text="18KT">
+								<CheckBox text="18KT" select="onKarat">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="22KT" selected="true">
+								<CheckBox text="22KT" select="onKarat">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
@@ -152,27 +166,27 @@
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="2% TO 4%" selected="true">
+								<CheckBox text="2% TO 4%">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="4% TO 6%" selected="true">
+								<CheckBox text="4% TO 6%">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="6% TO 8%" selected="true">
+								<CheckBox text="6% TO 8%">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="8% TO 10%" selected="true">
+								<CheckBox text="8% TO 10%">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="10% AND ABOVE" selected="true">
+								<CheckBox text="10% AND ABOVE">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
@@ -184,8 +198,8 @@
 			</HBox>
 		</semantic:content>
 		<semantic:customFooterContent>
-			<Button text="Search" press="onSearch"/>
-			<Button text="Clear All" press="onClear"/>
+			<Button icon="sap-icon://search" text="Search" press="onSearch"/>
+			<Button icon="sap-icon://sys-cancel" text="Clear All" press="onClear"/>
 		</semantic:customFooterContent>
 	</semantic:FullscreenPage>
 </mvc:View>
