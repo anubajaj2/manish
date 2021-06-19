@@ -130,40 +130,19 @@ sap.ui.define([
 					for (var i = 0; i < excelData.length; i++) {
 						
 						excelD.push({
-							CostCollector: excelData[i]["Cost Collector"],
-							Location: excelData[i]["Location"],
-							Material: excelData[i]["Material"],
-							DocNbr: excelData[i]["Document Number"],
-							DocType: excelData[i]["Document Type"],
-							DocPart: excelData[i]["Document Part"],
-							DocVer: excelData[i]["Document Version"],
-							PrintDate: new Date(excelData[i]["Print Date"]),
-							PrinterMfg: excelData[i]["Printer Manufacturer"],
-							PrinterModel: excelData[i]["Printer Model"],
-							RawMaterial: excelData[i]["Raw Material"],
-							PrintingTech: excelData[i]["Print Technician"],
-							EndDate: new Date(excelData[i]["End Date"]),
-							QtyProduced: excelData[i]["Quantity"],
-							MaterialCost: excelData[i]["Material Cost"],
-							LaborCost: excelData[i]["Labor Cost"],
-							MachineCost: excelData[i]["Machine Cost"],
-							UnitCost: excelData[i]["Unit Cost"]
-
+							TagNo: excelData[i]["TAG NO"],
+							GWt: excelData[i]["G WT"],
+							Amount: excelData[i]["Amount"],
+							PCS: excelData[i]["PCS"],
+							Size: excelData[i]["Size"],
+							Remark: excelData[i]["Remark"]
 						});
 
 					}
 					debugger;
 					// Setting the data to the local model
 
-					var odata = [];
-					odata = that.localModel.getProperty("/data");
-					for (i = 0; i < odata.length; i++) {
-					
-
-						delete odata[i].__metadata;
-					}
-				
-					
+					that.getView().getModel("dataModel").setProperty("/PurchaseLite",excelD);
 				};
 				reader.onerror = function(ex) {
 					console.log(ex);

@@ -92,7 +92,7 @@
   </HBox>
 
 </VBox>
-  <t:Table rows="/" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true">
+  <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true">
         <t:extension>
           <OverflowToolbar>
             <!-- <Title text="" /> -->
@@ -114,35 +114,35 @@
           <t:Column width="20%">
             <Label text="TAG NO" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>TagNo}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="G WT" />
             <t:template>
-                <Text text="" wrapping="true" />
+                <Text text="{dataModel>GWt}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="AMOUNT" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Amount}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="PCS" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>PCS}" wrapping="true" />
             </t:template>
           </t:Column>
 
           <t:Column width="20%">
             <Label text="SIZE*" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Size}" wrapping="true" />
             </t:template>
           </t:Column>
 
@@ -156,7 +156,7 @@
           <t:Column width="20%">
             <Label text="Remarks" />
             <t:template>
-              <Text text="" wrapping="true" />
+              <Text text="{dataModel>Remark}" wrapping="true" />
             </t:template>
           </t:Column>
         </t:columns>
