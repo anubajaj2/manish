@@ -122,10 +122,25 @@
   /* border-radius: 5%;
   border: solid peru; */
   text-align: center;
-  
+
 }
 .sapUiBlockLayoutSizeXL:not(.sapUiBlockLayoutKeepFontSize) .sapUiBlockCellContent {
   padding: 0.5rem 0.5rem;
+}
+
+.sapMBtn.copycolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: blue;
+}
+
+.sapMBtn.changecolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: green;
+}
+
+.sapMBtn.deletecolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: red;
 }
 /* .MainLoginPage {
 	background-image: url("../img/bgimg.jpg");
