@@ -1,12 +1,144 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt" controllerName="sap.ui.demo.cart.controller.CustomerLanding" xmlns:html="http://www.w3.org/1999/xhtml">
-		<Page title="Product Manager" titleAlignment="Center" id="idCustomerLanding" class="MainLoginPage">
-			<headerContent>
-				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
-				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-			</headerContent>
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt" controllerName="sap.ui.demo.cart.controller.CustomerLanding" xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:f="sap.f" xmlns:cards="sap.f.cards">
+		<Page id="idCustomerLanding" class="MainLoginPage" >
+			<customHeader>
+				<Toolbar>
+					<Button text="MEN" press="onMen" />
+					<Button text="WOMEN" press="onMen" />
+					<Button text="KIDS" />
+					<Button text="BRIDAL" />
+					<Button text="OFFER" />
+					<!-- <ToolbarSpacer width="25%"/> -->
+					<!-- <Title text="Product Manager" /> -->
+					<ToolbarSpacer />
+					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
+					<Button icon="sap-icon://favorite" tooltip="Favorite"/>
+					<Button icon="sap-icon://cart" tooltip="Cart"/>
+					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
+				</Toolbar>
+			</customHeader>
 			<content>
-				<Button text="MEN" press="onMen"/>
-				<Button text="WOMEN" press="onMen"/>
+				<l:BlockLayout >
+					<l:BlockLayoutRow rowColorSet="ColorSet1">
+
+						<l:BlockLayoutCell width="2" class="frontPageCustomRow">
+							<VBox height="100%" width="100%" class="FirstRowCellContent">
+								<form:SimpleForm>
+									<form:content>
+										<Label text="Last Order" />
+										<Text text="_________" />
+										<Label text="Last Amount" />
+										<Text text="_________" />
+									</form:content>
+								</form:SimpleForm>
+							</VBox>
+						</l:BlockLayoutCell>
+
+						<l:BlockLayoutCell width="2" class="frontPageCustomRow">
+							<VBox height="100%" width="100%" class="FirstRowCellContent">
+								<form:SimpleForm>
+								<form:content>
+									<Label text="Last Month" />
+									<Text text="_________" />
+									<Label text="Last Month Amt" />
+									<Text text="_________" />
+								</form:content>
+							</form:SimpleForm>
+							</VBox>	
+						</l:BlockLayoutCell>
+
+						<l:BlockLayoutCell width="2">
+							<VBox height="100%" width="100%" class="FirstRowCellContent">
+								<form:SimpleForm >
+								<form:content>
+									<Label text="New Order" />
+									<Text text="_________" />
+									<Label text="New Amount" />
+									<Text text="_________" />
+								</form:content>
+							</form:SimpleForm>
+							</VBox>
+						</l:BlockLayoutCell>
+
+						<l:BlockLayoutCell width="2" >
+							<VBox height="100%" width="100%" alignContent="Center" justifyContent="Center" class="FirstRowCellContent">
+								<Button text="Less Offer" class="sapUiSmallMarginBottom" width="80%"/>
+								<Button text="Less Amount" width="80%"/>
+							</VBox>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell width="1" >
+							<HBox alignItems="Center" justifyContent="Center" alignContent="Center" class="FirstRowCellContent" fitContainer="true">
+								<VBox height="100%" width="100%"  justifyContent="Center" alignContent="Center" direction="Column" fitContainer="true">
+									<Button text="0.500 gm" width="80%"/>
+									<Button text="1 kg" width="80%"/>
+									<Button text="2 kg" width="80%"/>
+									<Button text="3 kg" width="80%"/>
+								</VBox>
+							</HBox>
+							
+							
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+
+					<l:BlockLayoutRow >
+						<l:BlockLayoutCell >
+							<Carousel loop="true" height="500px" id="caro" showPageIndicator="false">
+								<pages>
+									  <Image id="caroImg1" src="https://www.khazanajewellery.com//wp-content/uploads/2016/06/bridal-collections-banner.png" width="100%"/>
+									  <Image id="caroImg2" src="https://www.ibblondon.com/images/Mens_Banner_Final.jpg"  width="100%"/>
+									  <Image id="caroImg3" src="https://www.annaijewellers.com/wp-content/uploads/2019/04/Bangle-Banner.jpg"  width="100%"/>
+									  <Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg"  width="100%"/>
+								  </pages>
+							  </Carousel>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+
+					<l:BlockLayoutRow scrollable="true">
+						<l:BlockLayoutCell title="Todays Deals" width="100%">
+							<Carousel height="200px" loop="true" showPageIndicator="false">
+								<customLayout>
+									<CarouselLayout visiblePagesCount="8" />
+								</customLayout>
+								<pages>
+									<GenericTile >
+												
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+									<GenericTile >
+
+									</GenericTile>
+								</pages>
+								
+							</Carousel>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
 			</content>
 		</Page>
 </mvc:View>
