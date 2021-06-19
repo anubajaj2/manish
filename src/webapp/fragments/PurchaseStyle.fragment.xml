@@ -92,11 +92,14 @@
   </HBox>
 
 </VBox>
-  <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true">
+  <t:Table rows="{dataModel>/PurchaseLite}" id="adminTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true" class="sapUiTinyMarginTop">
         <t:extension>
+	
           <OverflowToolbar>
+		  	<Title id="title" text="Product({dataModel>/title})"/>
             <!-- <Title text="" /> -->
             <ToolbarSpacer />
+			<Button  icon="sap-icon://add" text="Add" press="onAdd"></Button>
 							<Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
             <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
             <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
@@ -149,7 +152,7 @@
           <t:Column width="20%">
             <Label text="Photo" />
             <t:template>
-              <Button icon="sap-icon://image-viewer" text="" wrapping="true" />
+              <Button icon="sap-icon://image-viewer" type="Attention" text="" wrapping="true" />
             </t:template>
           </t:Column>
 
@@ -163,9 +166,9 @@
             <Label text="Options" />
             <t:template>
 							<HBox>
-            	<Button  icon="sap-icon://edit" press="onEdit"></Button>
-							<Button  icon="sap-icon://delete" press="onDelete"></Button>
-							<Button icon="sap-icon://copy" press="onCopy"></Button>
+            	<Button  icon="sap-icon://edit" press="onEdit" class="sapUiTinyMarginEnd changecolor"></Button>
+							<Button  icon="sap-icon://delete"  class="sapUiTinyMarginEnd deletecolor" press="onDelete"></Button>
+							<Button icon="sap-icon://copy" press="onCopy" class="copycolor"></Button>
 						</HBox>
 						</t:template>
           </t:Column>

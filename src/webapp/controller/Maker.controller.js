@@ -143,6 +143,7 @@ sap.ui.define([
 					// Setting the data to the local model
 
 					that.getView().getModel("dataModel").setProperty("/PurchaseLite",excelD);
+          that.getView().getModel("dataModel").setProperty("/title",excelD.length);
 				};
 				reader.onerror = function(ex) {
 					console.log(ex);
