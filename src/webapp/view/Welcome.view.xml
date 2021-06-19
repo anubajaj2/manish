@@ -12,11 +12,11 @@
 	height="100%">
 	<semantic:FullscreenPage>
 		<semantic:customHeaderContent>
-			<Button id="sideNavigationToggleButton" icon="sap-icon://nav-back" type="Transparent" press="onNavButtonPress">
+			<!-- <Button id="sideNavigationToggleButton" icon="sap-icon://nav-back" type="Transparent" press="onNavButtonPress">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="NeverOverflow"/>
 				</layoutData>
-			</Button>
+			</Button> -->
 			<Button text="Men" type="Transparent" width="10%">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
@@ -47,8 +47,10 @@
 					<OverflowToolbarLayoutData priority="NeverOverflow" minWidth="20px"/>
 				</layoutData>
 			</ToolbarSpacer>
-			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
+			<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
+			<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent" press="onCartClick"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
 		</semantic:customHeaderContent>
 		<semantic:content>
 			<HBox>

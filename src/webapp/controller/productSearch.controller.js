@@ -220,7 +220,7 @@ sap.ui.define([
       }
     },
     onCartClick: function(oEvent) {
-      this.getRouter().navTo("comparisonCart");
+      this.getRouter().navTo("checkout");
     },
     getGridItemById: function(productId) {
       var gridList = this.getView().byId("gridList").getItems();
@@ -253,6 +253,9 @@ sap.ui.define([
     afterCartClose: function() {
       this._oPopoverCart.destroy();
       this._oPopoverCart = null;
+    },
+    onProduct: function(){
+      this.getRouter().navTo("product");
     },
     onImageOpen: function(oEvent) {
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();

@@ -67,7 +67,7 @@
 							src=""
 							width="100%"
 							height="100%"
-							press="onImageOpen"
+							press="onProduct"
 							tooltip=""
 							mIn="onImageIn"
 							mOut="onImageOut"
