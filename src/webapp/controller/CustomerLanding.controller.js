@@ -88,7 +88,7 @@ sap.ui.define([
 				var oDeviceModel = this.getOwnerComponent().getModel("device");
 				var oSystem = oDeviceModel.getData().system;
 				if(oSystem.desktop){
-					this.getView().getModel("local").setProperty("/GridItemCount", 8);
+					this.getView().getModel("local").setProperty("/GridItemCount", 10);
 				}else if(oSystem.tablet){
 					this.getView().getModel("local").setProperty("/GridItemCount", 5);
 				}else if(oSystem.phone) {

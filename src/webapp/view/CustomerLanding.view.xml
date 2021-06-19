@@ -3,17 +3,17 @@
 		<Page id="idCustomerLanding" class="MainLoginPage" >
 			<customHeader>
 				<Toolbar>
-					<Button text="MEN" press="onMen" />
-					<Button text="WOMEN" press="onMen" />
-					<Button text="KIDS" />
-					<Button text="BRIDAL" />
-					<Button text="OFFER" />
+					<Button text="Men" press="onMen" type="Transparent" width="10%"/>
+					<Button text="Women" press="onMen" type="Transparent" width="10%"/>
+					<Button text="Kids" type="Transparent" width="10%"/>
+					<Button text="Bridal" type="Transparent" width="10%"/>
+					<Button text="Offer" type="Transparent" width="10%"/>
 					<!-- <ToolbarSpacer width="25%"/> -->
 					<!-- <Title text="Product Manager" /> -->
 					<ToolbarSpacer />
-					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
-					<Button icon="sap-icon://favorite" tooltip="Favorite"/>
-					<Button icon="sap-icon://cart" tooltip="Cart"/>
+					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
+					<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
+					<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent"/>
 					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
 				</Toolbar>
 			</customHeader>
@@ -114,6 +114,67 @@
 									</f:GridList>
 								</pages>
 							</Carousel>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell width="1">
+							<HBox width="100%" height="250px" justifyContent="Center" alignItems="Stretch" alignContent="SpaceAround">
+								<Image width="100%" height="100%" src="../img/Diamond.jpg"/>
+							</HBox>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell title="Most Liked Today">
+							<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+								<customLayout>
+									<CarouselLayout visiblePagesCount="{local>/GridItemCount}" />
+								</customLayout>
+								<pages>
+									<f:GridList width="100%">
+										<f:items>
+											<f:GridListItem >
+												<VBox>
+													<Image width="100%" height="150px" src="{local>ImageUrl}" />
+													<HBox justifyContent="Center">
+														<Title text="₹ {local>Price}.00" textAlign="Center"/>
+													</HBox>
+												</VBox>
+											</f:GridListItem>
+										</f:items>
+									</f:GridList>
+								</pages>
+							</Carousel>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell >
+							
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell >
+							<form:SimpleForm >
+								<form:title>
+									<core:Title text="Bhav" />
+								</form:title>
+								<form:content>
+									<Label text="Gold Bhav 22/22" />
+									<Text text="54000" />
+									<Label text="Gold Bhav 20/22"/>
+									<Text text="50000" />
+									<Label text="Silver Bhav 20/22"/>
+									<Text text="65000" />
+								</form:content>
+							</form:SimpleForm>
+						</l:BlockLayoutCell>
+						<l:BlockLayoutCell>
+							<form:SimpleForm >
+								<form:title>
+									<core:Title text="Cheque Prize" />
+								</form:title>
+							</form:SimpleForm>
 						</l:BlockLayoutCell>
 					</l:BlockLayoutRow>
 				</l:BlockLayout>
