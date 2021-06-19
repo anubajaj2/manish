@@ -1,0 +1,6 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseDetail" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table">
+  <!-- <Page showHeader="false" class="sapUiContentPadding" enableScrolling="false">
+		<content> -->
+<Button text="Press1"></Button>
+	<!-- </Page> -->
+</mvc:View>

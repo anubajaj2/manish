@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-  <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="30%" placement="Bottom" ariaLabelledBy="master-title">
+  <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="33%" placement="Bottom" ariaLabelledBy="master-title">
     <NavContainer id="navCon">
       <Page id="master1" class="sapUiResponsivePadding--header" showHeader="false">
         <List>

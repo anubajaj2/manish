@@ -1,39 +1,57 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.Maker" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:t="sap.ui.table">
-	<!-- <Page id="page" title="Manage Manufacturer" backgroundDesign="Solid"> <content> -->
-	<!-- <semantic:FullscreenPage id="Maker" navButtonPress="onNavBack" showNavButton="false" title="Home Screen">
-		<semantic:customHeaderContent>
+<mvc:View xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.uxap" xmlns:layout="sap.ui.layout" xmlns:m="sap.m" xmlns:block="sap.ui.demo.cart.sharedBlock"
+  controllerName="sap.ui.demo.cart.controller.Maker" height="100%">
+  <ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true" useIconTabBar="true"
+    headerContentPinnable="false">
+    <headerTitle>
 
-			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-		</semantic:customHeaderContent> -->
+      <ObjectPageDynamicHeaderTitle id="idHeaderTitleUser">
 
-	<!-- </semantic:FullscreenPage> -->
-	<Page id="Maker" title="Home Screen" >
-		<headerContent>
-			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></Button>
-			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-		</headerContent>
-		<content>
-			<IconTabHeader mode="Inline" select="onTabSelect1">
-					<items>
-						<IconTabFilter key="PURCHASESLITE" text="PURCHASES LITE" />
-						<IconTabFilter key="PURCHASESDETAILE" text="PURCHASES DETAILE" />
-						<IconTabFilter key="PURCHASESLEIGHNTH" text="PURCHASES LEIGHNTH" />
-					</items>
-				</IconTabHeader>
-				<VBox visible = "{= ${local>/sKeyType} === 'PURCHASESLITE' ? true:false }">
-				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.PurchaseStyle"  type="XML" ></core:Fragment>
-			</VBox>
-			<VBox  visible = "{= ${local>/sKeyType} === 'PURCHASESDETAILE' ? true:false }">
+        <content>
 
-				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.PurchaseDetail"></core:Fragment>
-				</VBox>
-				<VBox visible = "{= ${local>/sKeyType} === 'PURCHASESLEIGHNTH' ? true:false }">
-				<core:Fragment fragmentName="sap.ui.demo.cart.fragments.Purchaseleighnth" ></core:Fragment>
-				</VBox>
+          <m:Title text="Home Screen" id="appTitleUser" class="sapUiTinyMarginBegin" wrapping="true"></m:Title>
+        </content>
 
 
-		</content>
-		</Page>
+        <actions>
+          <m:Button icon="sap-icon://customer" tooltip="User" press="onUserPress"></m:Button>
+          <m:Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"
+          />
+          <!-- <m:Button icon="sap-icon://log" tooltip="Logout" text="Logout" type="Emphasized" press="logOutApp"></m:Button>
+					<m:Button icon="sap-icon://feedback" tooltip="Feedback"></m:Button> -->
+        </actions>
+      </ObjectPageDynamicHeaderTitle>
+    </headerTitle>
 
+    <sections>
+      <ObjectPageSection titleUppercase="false" id="idPurchaseLite" title="PURCHASES LITE">
+        <subSections>
+          <ObjectPageSubSection id="PurchaseLiteSS" titleUppercase="false">
+            <blocks>
+              <block:PurchaseLiteBlock id="PurchaseLiteBlock" />
+            </blocks>
+          </ObjectPageSubSection>
+        </subSections>
+      </ObjectPageSection>
+      <ObjectPageSection titleUppercase="false" id="idPurchaseDetail" title="PURCHASES DETAILE">
+        <subSections>
+          <ObjectPageSubSection id="PurchaseDetailSS" titleUppercase="false">
+            <blocks>
+              <block:PurchaseDetailBlock id="PurchaseDetailBlock" />
+            </blocks>
+          </ObjectPageSubSection>
+        </subSections>
+      </ObjectPageSection>
+      <ObjectPageSection titleUppercase="false" id="idPurchaseLeingth" title="PURCHASES LEIGHNTH">
+        <subSections>
+          <ObjectPageSubSection id="PurchaseLeingthSS" titleUppercase="false">
+            <blocks>
+              <block:PurchaseLeingthBlock id="PurchaseLeingthBlock" />
+            </blocks>
+          </ObjectPageSubSection>
+        </subSections>
+      </ObjectPageSection>
+
+    </sections>
+  </ObjectPageLayout>
 </mvc:View>
