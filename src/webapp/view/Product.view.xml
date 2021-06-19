@@ -1,4 +1,4 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.Product" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View controllerName="sap.ui.demo.cart.controller.Product" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
 	<Page id="page" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
@@ -11,17 +11,28 @@
 				<VBox width="50%">
 					<Image id="caroImg1" src="https://wallpaperaccess.com/full/2463246.jpg" width="100%"/>
 					<Label/>
-					<Carousel loop="true" height="100px" id="productImages" showPageIndicator="false">
+					<Carousel height="100px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+						<customLayout>
+							<CarouselLayout visiblePagesCount="{local>/GridItemCount}" />
+						</customLayout>
 						<pages>
-							<Image id="prodImg1" src="https://www.khazanajewellery.com//wp-content/uploads/2016/06/bridal-collections-banner.png" width="100%"/>
-							<Image id="prodImg2" src="https://www.ibblondon.com/images/Mens_Banner_Final.jpg" width="100%"/>
-							<Image id="prodImg3" src="https://www.annaijewellers.com/wp-content/uploads/2019/04/Bangle-Banner.jpg" width="100%"/>
-							<Image id="prodImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg" width="100%"/>
+							<f:GridList width="100%">
+								<f:items>
+									<f:GridListItem >
+										<VBox>
+											<Image width="100%" height="150px" src="{local>ImageUrl}" />
+											<HBox justifyContent="Center">
+												<Title text="₹ {local>Price}.00" textAlign="Center"/>
+											</HBox>
+										</VBox>
+									</f:GridListItem>
+								</f:items>
+							</f:GridList>
 						</pages>
 					</Carousel>
 				</VBox>
 				<VBox class="sapUiMediumMargin">
-					<f:SimpleForm
+					<form:SimpleForm
 						id="SimpleFormDisplay480_12120Dual"
 						editable="false"
 						layout="ResponsiveGridLayout"
@@ -38,7 +49,7 @@
 						columnsL="2"
 						columnsM="2"
 						singleContainerFullSize="false">
-						<f:content>
+						<form:content>
 							<core:Title text="Specifications"/>
 							<Label text="Code"/>
 							<Text text="{ProductId}"/>
@@ -65,8 +76,8 @@
 							<Text text="{Wastage}"/>
 							<Label text="Making"/>
 							<Text text="{Making}"/>
-						</f:content>
-					</f:SimpleForm>
+						</form:content>
+					</form:SimpleForm>
 				</VBox>
 			</HBox>
 			<HBox height="50%">
