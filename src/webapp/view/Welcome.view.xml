@@ -12,11 +12,11 @@
 	height="100%">
 	<semantic:FullscreenPage>
 		<semantic:customHeaderContent>
-			<!-- <Button id="sideNavigationToggleButton" icon="sap-icon://nav-back" type="Transparent" press="onNavButtonPress">
+			<Button id="sideNavigationToggleButton" type="Back" press="onNavButtonPress">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="NeverOverflow"/>
 				</layoutData>
-			</Button> -->
+			</Button>
 			<Button text="Men" type="Transparent" width="10%">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>

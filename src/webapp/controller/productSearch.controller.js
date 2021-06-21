@@ -35,23 +35,42 @@ sap.ui.define([
       this._oLocalModel = this.getOwnerComponent().getModel("local");
     },
     _onRouteMatched: function(oEvent) {
-      //alert("yo");
-      //debugger;
       //if previous route is search then only we search
-      var oList = this.getView().byId("gridList");
-      oList.getBinding("items");
-      var a = this._oLocalModel.getProperty("/searchFilter");
-      oList.getBinding("items").filter(a);
-      this.loadedWeights = [];
+      if(this._oLocalModel.getProperty("/searchFlag")){
+        var oList = this.getView().byId("gridList");
+        oList.getBinding("items");
+        var a = this._oLocalModel.getProperty("/searchFilter");
+        oList.getBinding("items").filter(a);
+        this.loadedWeights = [];
 
-      // oList.bindItems({
-      // 	path : '/Products',
-      // 	parameters: {
-      //      expand: "ToPhotos",
-      // 		 top: 1
-      //   }
-      // });
-      oList.attachUpdateFinished(this.counter, this);
+        // oList.bindItems({
+        // 	path : '/Products',
+        // 	parameters: {
+        //      expand: "ToPhotos",
+        // 		 top: 1
+        //   }
+        // });
+        oList.attachUpdateFinished(this.counter, this);
+          this._oLocalModel.setProperty("/searchFlag", false);
+      }
+    },
+    onGridView: function(oEvent) {
+      var oControl = this.getView().byId("gridList");
+      if (oControl.getCustomLayout().getBoxWidth() === "19.5%") {
+        oControl.getCustomLayout().setBoxWidth("33%");
+        oControl.getItems().forEach(function(item) {
+          item.getContent()[1].setHeight("22rem");
+          item.getContent()[1].getItems()[0].setHeight("22rem");
+        });
+        oEvent.getSource().setType("Emphasized");
+      } else {
+        oControl.getCustomLayout().setBoxWidth("19.5%");
+        oControl.getItems().forEach(function(item) {
+          item.getContent()[1].setHeight("15rem");
+          item.getContent()[1].getItems()[0].setHeight("15rem");
+        });
+        oEvent.getSource().setType("Default")
+      }
     },
     allImageURLs: [],
     counter: function(oEvent) {
@@ -61,7 +80,6 @@ sap.ui.define([
       var oDataModel = this.getView().getModel();
       for (var i = 0; i < items.length; i++) {
         var sPath = items[i].getBindingContextPath();
-        debugger;
         var picsSize = oDataModel.getProperty(sPath + "/ToPhotos");
         // for (var i = 0; i < picsSize.length; i++) {
         // 		var sImage = sPath + "/ToPhotos/" + i + "/Content" ;
@@ -107,6 +125,10 @@ sap.ui.define([
         }
         //items[i].setIcon(sUrl);
         items[i].getContent()[1].getItems()[0].setSrc(sUrl);
+        if (oEvent.getSource().getCustomLayout().getBoxWidth() === "19.5%") {
+          items[i].getContent()[1].setHeight("15rem");
+          items[i].getContent()[1].getItems()[0].setHeight("15rem");
+        }
       }
     },
     onImageOut: function(oEvent) {
@@ -186,22 +208,22 @@ sap.ui.define([
           debugger;
           that.loadedWeights[sPath] = data.ProdWeights;
           that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-          that.oDialog = new SelectDialog({
-            title: "Select weights",
-            multiSelect: true,
-            confirm: that.selectedWeights.bind(that),
-            close: that.closeWeights
-          });
-          that.getView().addDependent(that.oDialog);
-          that.oDialog.setModel(that._oLocalModel);
-          that.oDialog.bindAggregation("items", {
-            path: "/ProdWeights",
-            template: new sap.m.DisplayListItem({
-              label: "{NetWeight} gm",
-              value: "{Amount} INR"
-            })
-          });
-          that.oDialog.open();
+          // that.oDialog = new SelectDialog({
+          //   title: "Select weights",
+          //   multiSelect: true,
+          //   confirm: that.selectedWeights.bind(that),
+          //   close: that.closeWeights
+          // });
+          // that.getView().addDependent(that.oDialog);
+          // that.oDialog.setModel(that._oLocalModel);
+          // that.oDialog.bindAggregation("items", {
+          //   path: "/ProdWeights",
+          //   template: new sap.m.DisplayListItem({
+          //     label: "{NetWeight} gm",
+          //     value: "{Amount} INR"
+          //   })
+          // });
+          // that.oDialog.open();
         });
       } else {
         var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
@@ -216,7 +238,7 @@ sap.ui.define([
           }
         }
         this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
-        this.oDialog.open();
+        // this.oDialog.open();
       }
     },
     onCartClick: function(oEvent) {
@@ -254,11 +276,11 @@ sap.ui.define([
       this._oPopoverCart.destroy();
       this._oPopoverCart = null;
     },
-    onProduct: function(oEvent){
+    onProduct: function(oEvent) {
       var sIndex = oEvent.getSource().getBindingContext().sPath.split("Products")[1];
       this.getRouter().navTo("product", {
-				key: sIndex
-			});
+        key: sIndex
+      });
     },
     onImageOpen: function(oEvent) {
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
@@ -279,19 +301,19 @@ sap.ui.define([
         // title: "Available Images",
         // stretch: true,
         // contentHeight: "110%",
-        contentWidth : "75%",
-        resizable : true,
-        showHeader : false,
-        draggable : true,
+        contentWidth: "75%",
+        resizable: true,
+        showHeader: false,
+        draggable: true,
         content: new Carousel({
           pages: aImages
         }),
         customHeader: new sap.m.OverflowToolbar({
-          design : "Transparent",
-          style : "Clear",
-          content : [new sap.m.ToolbarSpacer(), new Button({
+          design: "Transparent",
+          style: "Clear",
+          content: [new sap.m.ToolbarSpacer(), new Button({
             type: "Emphasized",
-            icon : "sap-icon://decline",
+            icon: "sap-icon://decline",
             press: function() {
               this.pressDialog.close();
             }.bind(this)
@@ -324,11 +346,11 @@ sap.ui.define([
       var that = this;
       if (!this.loadedWeights[sPath]) {
         this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2])
-        .then(function(data) {
-          that.loadedWeights[sPath] = data.ProdWeights;
-          that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-        });
-      }else {
+          .then(function(data) {
+            that.loadedWeights[sPath] = data.ProdWeights;
+            that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
+          });
+      } else {
         var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
         var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
         this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);

@@ -118,7 +118,7 @@ sap.ui.define([
       });
       //set filter
       this.getOwnerComponent().getModel("local").setProperty("/searchFilter", oFilter);
-
+      this.getOwnerComponent().getModel("local").setProperty("/searchFlag", true);
       this.getRouter().navTo("productSearch");
 
     },
