@@ -207,6 +207,14 @@
                   "AdminHome",
                   "Preferences"
                 ]
+              },
+              {
+                "pattern": "Customizing",
+                "name": "Customizing",
+                "target": [
+                  "AdminHome",
+                  "Customizing"
+                ]
               }
             ]
           },
@@ -562,6 +570,13 @@
           "controlAggregation": "midColumnPages",
           "viewLevel": 3,
           "viewId": "downloadQueries"
+        },
+        "Customizing": {
+          "viewName": "Customizing",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Customizing"
         }
 
       }

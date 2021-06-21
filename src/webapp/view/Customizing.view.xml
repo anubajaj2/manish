@@ -1,0 +1,260 @@
+<mvc:View controllerName="sap.ui.demo.cart.controller.Customizing" xmlns:mvc="sap.ui.core.mvc" 
+			xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form" 
+			xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+
+	<semantic:FullscreenPage id="Customzing" navButtonPress="onNavBack" showNavButton="false" tooltip="{i18n>back}" title="{i18n>Customizing}">
+		<semantic:customHeaderContent>
+			<!-- <Text id="idDB"> </Text> -->
+			<!-- <Text id="idUser"></Text> -->
+			<!-- <Button text="Backup" tooltip="DB Backup" type="Ghost" icon="sap-icon://download" press="onPressBackup" /> -->
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</semantic:customHeaderContent>
+		<!-- value="Data Upload Type" -->
+		<semantic:content>
+			<VBox class="sapUiSmallMargin">
+				<HBox>
+					<VBox class="sapUiSmallMarginEnd">
+						<ComboBox id="uploadTypeSelect">
+							<core:Item key="Group" text="Group" />
+							<core:Item key="City" text="City" />
+							<core:Item key="Customer" text="Customer" />
+							<core:Item key="Product" text="Product" />
+							<core:Item key="Entry" text="Entry" />
+						</ComboBox>
+
+						<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" tooltip="{i18n>Upload11}" uploadComplete="handleUploadComplete">
+							<u:parameters>
+								<u:FileUploaderParameter name="createdBy" />
+							</u:parameters>
+						</u:FileUploader>
+
+						<Button text="{i18n>UploadFile}" press="handleUploadPress" />
+					</VBox>
+					<HBox class="sapUiSmallMarginBegin">
+						<Label text="Entry Layout" class="sapUiSmallMarginTop" />
+						<Switch state="{local>/CustomCalculation/EntryLayout}" class="sapUiSmallMarginBegin" customTextOff="Double" customTextOn="Single">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Switch>
+					</HBox>
+					<HBox class="sapUiSmallMarginBegin">
+						<Label text="AMC Date" class="sapUiSmallMarginTop" />
+						<DatePicker id="AMCdatePicker" class="sapUiTinyMarginBegin" value="{local>/CustomCalculation/AMCDate}" displayFormat="long" />
+					</HBox>
+
+				</HBox>
+
+				<f:Form id="idCalculation" editable="true" validateFieldGroup="onValidateFieldGroup" title="{i18n>Retail11}">
+					<f:toolbar>
+						<Toolbar id="TB1">
+							<ToolbarSpacer />
+							<core:Icon id="idSaveIcon" src="sap-icon://status-completed" class="size1" color="green" size="30px" alt="Save Status" tooltip="{i18n>SaveStatus}"></core:Icon>
+						</Toolbar>
+					</f:toolbar>
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="10" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false" />
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="22/20">
+									<f:fields>
+										<Input id="idFirst" liveChange="onliveChange" change="onValueChange" submit="onSubmit" value="{local>/CustomCalculation/First}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="22/22">
+									<f:fields>
+										<Input id="idSecond" liveChange="onliveChange" value="{local>/CustomCalculation/Second}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Gold}">
+									<f:fields>
+										<Input id="idGold" liveChange="onliveChange" value="{
+							path : 'local>/CustomCalculation/Gold',
+							type : 'sap.ui.model.type.Integer',
+							constraints : {
+								minimum: 30000,
+								maximum: 80000
+							}
+						}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Silver}">
+									<f:fields>
+										<Input id="idSilver" liveChange="onliveChange" value="{
+							path : 'local>/CustomCalculation/Silver',
+							type : 'sap.ui.model.type.Integer',
+							constraints : {
+								minimum: 30000,
+								maximum: 110000
+							}
+						}"></Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<f:GridContainerData halfGrid="true"></f:GridContainerData>
+							</f:layoutData>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="{i18n>GoldReturns}">
+									<f:fields>
+										<Input id="idGoldR" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/GoldReturns',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 80000
+					}
+				}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SilverReturns}">
+									<f:fields>
+										<Input id="idSilverR" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/SilverReturns',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 110000
+					}}"></Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<f:GridContainerData halfGrid="true"></f:GridContainerData>
+							</f:layoutData>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+
+				<f:Form id="idWholesale" editable="true" title="{i18n>WholesaleCalculationCustomizing}">
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="10" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"></f:ResponsiveGridLayout>
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="{i18n>Gold}">
+									<f:fields>
+										<Input id="idGold1" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/Gold1',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 80000
+					}
+				}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>Silver}">
+									<f:fields>
+										<Input id="idSilver1" liveChange="onliveChange" value="{
+					path : 'local>/CustomCalculation/Silver1',
+					type : 'sap.ui.model.type.Integer',
+					constraints : {
+						minimum: 30000,
+						maximum: 110000
+					}
+				}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>KacchaGold}">
+									<f:fields>
+										<Input id="idKacchaGold" liveChange="onliveChange" value="{
+				path : 'local>/CustomCalculation/KacchaGold',
+				type : 'sap.ui.model.type.Integer',
+				constraints : {
+					minimum: 30000,
+					maximum: 80000
+				}
+			}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>KacchaSilver}">
+									<f:fields>
+										<Input id="idKacchaSilver" liveChange="onliveChange" value="{
+			path : 'local>/CustomCalculation/KacchaSilver',
+			type : 'sap.ui.model.type.Integer',
+			constraints : {
+				minimum: 30000,
+				maximum: 110000
+			}
+		}"></Input>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+							<f:layoutData>
+								<f:GridContainerData halfGrid="true"></f:GridContainerData>
+							</f:layoutData>
+						</f:FormContainer>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="{i18n>GoldReturns}">
+									<f:fields>
+										<Input id="idGoldR1" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/GoldReturns1',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 80000
+		}
+	}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>SilverReturns}">
+									<f:fields>
+										<Input id="idSilverR1" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/SilverReturns1',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 110000
+		}
+	}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>KacchaGoldR}">
+									<f:fields>
+										<Input id="idKacchaGoldR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaGoldR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 80000
+		}
+	}"></Input>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="{i18n>KacchaSilverR}">
+									<f:fields>
+										<Input id="idKacchaSilverR" liveChange="onliveChange" value="{
+		path : 'local>/CustomCalculation/KacchaSilverR',
+		type : 'sap.ui.model.type.Integer',
+		constraints : {
+			minimum: 30000,
+			maximum: 110000
+		}
+	}"></Input>
+									</f:fields>
+								</f:FormElement>
+
+							</f:formElements>
+							<f:layoutData>
+								<f:GridContainerData halfGrid="true"></f:GridContainerData>
+							</f:layoutData>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+			</VBox>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="{i18n>Save}" type="Accept" press="SaveCalculation" />
+			<Button text="{i18n>Cancel}" type="Reject" press="ClearCalculation" />
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+
+</mvc:View>
