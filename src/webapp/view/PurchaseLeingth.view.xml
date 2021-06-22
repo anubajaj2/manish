@@ -7,9 +7,26 @@
     <HBox>
       <Button text="22" class="sapUiSmallMarginEnd"></Button>
       <Button text="18" class="sapUiSmallMarginEnd"></Button>
-      <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
-      <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
-      <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
+      <!-- <Label text="Type" class=" sapUiLargeMarginTop" /> -->
+
+      <!-- <Label text="Type" class=" sapUiLargeMarginTop" /> -->
+      <Select width="auto" class="sapUiSmallMarginEnd" customData:hasValue="true">
+        <core:Item key="WithoutSnaka" text="Without S naka" />
+        <core:Item key="With S Naka" text="WithSnaka" />
+        <core:Item key="FisherLock" text="FisherLock" />
+      </Select>
+      <!-- <Label text="Type" class=" sapUiLargeMarginTop" /> -->
+      <Select width="auto" class="sapUiSmallMarginEnd" customData:hasValue="true">
+        <core:Item key="Plain" text="Plain" />
+        <core:Item key="STUDDED" text="STUDDED" />
+
+      </Select>
+      <Select width="auto" class=" sapUiSmallMarginEnd" customData:hasValue="true">
+        <core:Item key="Fix" text="Fix" />
+        <core:Item key="UnFix" text="UnFix" />
+
+      </Select>
+
       <Button text="6%" class="sapUiSmallMarginEnd"></Button>
       <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
       <Button text="MACHINE" class="sapUiSmallMarginEnd"></Button>
