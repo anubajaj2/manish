@@ -256,6 +256,9 @@ sap.ui.define([
 			var value=this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
 			var data=this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			if (sId === "idAddProduct") {
+				if(!data){
+					data=[];
+				}
 				data.unshift(value);
 				debugger;
 				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",data);
