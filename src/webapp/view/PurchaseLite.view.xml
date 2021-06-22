@@ -1,173 +1,171 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseLite" xmlns:html="http://www.w3.org/1999/xhtml"
-  xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true"
-  xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core"
-  xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
-  xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-
-  <l:BlockLayout >
-    <l:BlockLayoutRow >
-      <l:BlockLayoutCell >
-        <HBox >
-          <Button text="22" class="sapUiSmallMarginEnd"></Button>
-          <Button text="18" class="sapUiSmallMarginEnd"></Button>
-          <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
-          <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
-          <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
-          <Button text="6%" class="sapUiSmallMarginEnd"></Button>
-          <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
-          <Button text="KUNDAN" class="sapUiSmallMarginEnd"></Button>
-        </HBox>
-      </l:BlockLayoutCell>
-      <l:BlockLayoutCell >
-        <f:SimpleForm layout="ColumnLayout" columnsL="2" columnsM="2" columnsXL="2">
-          <f:title>
-            <core:Title text="Total"></core:Title>
-          </f:title>
-          <f:content>
-            <Label text="Total Item" />
-            <Text text="" />
-            <Label text="T GR WT" />
-            <Text text="" />
-            <Label text="T Fine" />
-            <Text text="" />
-            <Label text="T Fine" />
-            <Text text="" />
-          </f:content>
-        </f:SimpleForm>
-      </l:BlockLayoutCell>
-    </l:BlockLayoutRow>
-  </l:BlockLayout>
-  <VBox>
-    <HBox>
-      <VBox id="idVBox1">
-        <Label text="Purity" class=" sapUiLargeMarginTop" />
-        <Select id="foo" width="12rem" class=" sapUiLargeMarginEnd"
-          customData:hasValue="true">
-          <core:Item key="1" text="ONE" />
-          <core:Item key="2" text="TWO" />
-          <core:Item key="3" text="THREE" />
-        </Select>
-      </VBox>
-
-      <VBox>
-        <Label text="Type" class=" sapUiTinyMarginEnd sapUiTinyMarginTop"
-        />
-        <Select id="foo1" width="12rem" class=" sapUiLargeMarginEnd"
-          customData:hasValue="true">
-          <core:Item key="1" text="ONE" />
-          <core:Item key="2" text="TWO" />
-          <core:Item key="3" text="THREE" />
-        </Select>
-      </VBox>
-      <VBox>
-        <Label text="Tick Mark" class=" sapUiTinyMarginEnd sapUiTinyMarginTop"
-        />
-        <Select id="foo2" width="12rem" class=" sapUiLargeMarginEnd"
-          customData:hasValue="true">
-          <core:Item key="1" text="ONE" />
-          <core:Item key="2" text="TWO" />
-          <core:Item key="3" text="THREE" />
-        </Select>
-      </VBox>
-      <VBox>
-        <Label text="Style" class=" sapUiTinyMarginEnd sapUiTinyMarginTop"
-        />
-        <Select id="foo3" width="12rem" class=" sapUiLargeMarginEnd"
-          customData:hasValue="true">
-          <core:Item key="1" text="ONE" />
-          <core:Item key="2" text="TWO" />
-          <core:Item key="3" text="THREE" />
-        </Select>
-      </VBox>
-    </HBox>
-
-  </VBox>
-  <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single"
-    rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true"
-    visible="true" class="sapUiTinyMarginTop">
-    <t:extension>
-
-      <OverflowToolbar>
-        <Title id="title" text="Product({PurchaseLiteModel>/title})" />
-        <!-- <Title text="" /> -->
-        <ToolbarSpacer />
-        <Button icon="sap-icon://picture" press="onAddImageData" text="Image Upload"></Button>
-        <Button icon="sap-icon://add" text="Add" press="onAdd"></Button>
-        <Button icon="sap-icon://download" press="onPressTemplateDownload" text="Download Template"></Button>
-        <Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
-        <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
-        <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
-        <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
-      </OverflowToolbar>
-    </t:extension>
-    <t:columns>
-
-      <t:Column width="20%">
-        <Label text="ITEM CODE" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>ItemCode}" wrapping="true" />
-        </t:template>
-      </t:Column>
-      <t:Column width="20%">
-        <Label text="TAG NO" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>TagNo}" wrapping="true" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="G WT" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>GWt}" wrapping="true" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="AMOUNT" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>Amount}" wrapping="true" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="PCS" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>PCS}" wrapping="true" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="SIZE*" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>Size}" wrapping="true" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="Photo" />
-        <t:template>
-          <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}" text="" wrapping="true" press="onPhotoClick" />
-        </t:template>
-      </t:Column>
-
-      <t:Column width="20%">
-        <Label text="Remarks" />
-        <t:template>
-          <Text text="{PurchaseLiteModel>Remark}" wrapping="true" />
-        </t:template>
-      </t:Column>
-      <t:Column width="20%">
-        <Label text="Options" />
-        <t:template>
+<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseLite" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <App>
+    <pages>
+      <Page showHeader="false">
+        <l:BlockLayout>
+          <l:BlockLayoutRow>
+            <l:BlockLayoutCell>
+              <HBox>
+                <Button text="22" class="sapUiSmallMarginEnd"></Button>
+                <Button text="18" class="sapUiSmallMarginEnd"></Button>
+                <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
+                <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
+                <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
+                <Button text="6%" class="sapUiSmallMarginEnd"></Button>
+                <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
+                <Button text="KUNDAN" class="sapUiSmallMarginEnd"></Button>
+              </HBox>
+            </l:BlockLayoutCell>
+            <l:BlockLayoutCell>
+              <f:SimpleForm layout="ColumnLayout" columnsL="2" columnsM="2" columnsXL="2">
+                <f:title>
+                  <core:Title text="Total"></core:Title>
+                </f:title>
+                <f:content>
+                  <Label text="Total Item" />
+                  <Text text="" />
+                  <Label text="T GR WT" />
+                  <Text text="" />
+                  <Label text="T Fine" />
+                  <Text text="" />
+                  <Label text="T Fine" />
+                  <Text text="" />
+                </f:content>
+              </f:SimpleForm>
+            </l:BlockLayoutCell>
+          </l:BlockLayoutRow>
+        </l:BlockLayout>
+        <VBox>
           <HBox>
-            <Button icon="sap-icon://edit" press="onEdit" class="sapUiTinyMarginEnd changecolor"></Button>
-            <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd deletecolor" press="onDelete"></Button>
-            <Button icon="sap-icon://copy" press="onCopy" class="copycolor"></Button>
+            <VBox id="idVBox1">
+              <Label text="Purity" class=" sapUiLargeMarginTop" />
+              <Select id="foo" width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+                <core:Item key="1" text="ONE" />
+                <core:Item key="2" text="TWO" />
+                <core:Item key="3" text="THREE" />
+              </Select>
+            </VBox>
+
+            <VBox>
+              <Label text="Type" class=" sapUiTinyMarginEnd sapUiTinyMarginTop" />
+              <Select id="foo1" width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+                <core:Item key="1" text="ONE" />
+                <core:Item key="2" text="TWO" />
+                <core:Item key="3" text="THREE" />
+              </Select>
+            </VBox>
+            <VBox>
+              <Label text="Tick Mark" class=" sapUiTinyMarginEnd sapUiTinyMarginTop" />
+              <Select id="foo2" width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+                <core:Item key="1" text="ONE" />
+                <core:Item key="2" text="TWO" />
+                <core:Item key="3" text="THREE" />
+              </Select>
+            </VBox>
+            <VBox>
+              <Label text="Style" class=" sapUiTinyMarginEnd sapUiTinyMarginTop" />
+              <Select id="foo3" width="12rem" class=" sapUiLargeMarginEnd" customData:hasValue="true">
+                <core:Item key="1" text="ONE" />
+                <core:Item key="2" text="TWO" />
+                <core:Item key="3" text="THREE" />
+              </Select>
+            </VBox>
           </HBox>
-        </t:template>
-      </t:Column>
-    </t:columns>
 
+        </VBox>
+        <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true" class="sapUiTinyMarginTop">
+          <t:extension>
 
-  </t:Table>
+            <OverflowToolbar>
+              <Title id="title" text="Product({PurchaseLiteModel>/title})" />
+              <!-- <Title text="" /> -->
+              <ToolbarSpacer />
+              <Button icon="sap-icon://picture" press="onAddImageData" text="Image Upload"></Button>
+              <Button icon="sap-icon://add" text="Add" press="onAdd"></Button>
+              <Button icon="sap-icon://download" press="onPressTemplateDownload" text="Download Template"></Button>
+              <Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
+              <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
+              <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
+              <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
+            </OverflowToolbar>
+          </t:extension>
+          <t:columns>
+
+            <t:Column width="20%">
+              <Label text="ITEM CODE" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>ItemCode}" wrapping="true" />
+              </t:template>
+            </t:Column>
+            <t:Column width="20%">
+              <Label text="TAG NO" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>TagNo}" wrapping="true" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="G WT" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>GWt}" wrapping="true" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="AMOUNT" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>Amount}" wrapping="true" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="PCS" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>PCS}" wrapping="true" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="SIZE*" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>Size}" wrapping="true" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="Photo" />
+              <t:template>
+                <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}" text="" wrapping="true" press="onPhotoClick" />
+              </t:template>
+            </t:Column>
+
+            <t:Column width="20%">
+              <Label text="Remarks" />
+              <t:template>
+                <Text text="{PurchaseLiteModel>Remark}" wrapping="true" />
+              </t:template>
+            </t:Column>
+            <t:Column width="20%">
+              <Label text="Options" />
+              <t:template>
+                <HBox>
+                  <Button icon="sap-icon://edit" press="onEdit" class="sapUiTinyMarginEnd changecolor"></Button>
+                  <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd deletecolor" press="onDelete"></Button>
+                  <Button icon="sap-icon://copy" press="onCopy" class="copycolor"></Button>
+                </HBox>
+              </t:template>
+            </t:Column>
+          </t:columns>
+        </t:Table>
+        <footer>
+          <Toolbar>
+            <ToolbarSpacer />
+            <Button text="Save" />
+            <Button text="Clear" />
+            <Button />
+          </Toolbar>
+        </footer>
+      </Page>
+    </pages>
+  </App>
 </mvc:View>
