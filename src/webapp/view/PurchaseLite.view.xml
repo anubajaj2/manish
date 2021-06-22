@@ -103,7 +103,7 @@
     </HBox>
 
   </VBox>
-  <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="adminTable" selectionMode="Single"
+  <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single"
     rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true"
     visible="true" class="sapUiTinyMarginTop">
     <t:extension>
@@ -112,6 +112,7 @@
         <Title id="title" text="Product({PurchaseLiteModel>/title})" />
         <!-- <Title text="" /> -->
         <ToolbarSpacer />
+        <Button icon="sap-icon://picture" press="onAddImageData" text="Image Upload"></Button>
         <Button icon="sap-icon://add" text="Add" press="onAdd"></Button>
         <Button icon="sap-icon://download" press="onPressTemplateDownload" text="Download Template"></Button>
         <Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
@@ -166,7 +167,7 @@
       <t:Column width="20%">
         <Label text="Photo" />
         <t:template>
-          <Button icon="sap-icon://image-viewer" type="Attention" text="" wrapping="true" />
+          <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}" text="" wrapping="true" press="onPhotoClick" />
         </t:template>
       </t:Column>
 

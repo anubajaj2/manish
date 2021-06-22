@@ -2,7 +2,7 @@
 	<Dialog id="idPhotoDialog" contentHeight="100%" contentWidth="100%" busyIndicatorDelay="0">
 		<content>
 			<Panel>
-				<unified:FileUploader id="idPopUpFileUploader" name="myFileUpload" fileType='{fileTypes>/items}' multiple="true" change="onUploadChange"
+				<unified:FileUploader id="idPopUpFileUploader" name="myFileUpload" fileType='jpeg,jpg' multiple="true" change="onUploadChange"
 					tooltip="Upload your file to the local system"/>
 			</Panel>
 			<f:GridList id="gridList" items="{ path: 'PurchaseLiteModel>/allImages' }" growing="true" growingThreshold="20" mode="MultiSelect"
@@ -28,7 +28,7 @@
 		</content>
 		<buttons>
 			<Button id="idButton" text="Okay" press="onOkayPhotoFrag"/>
-			<Button text="Cancel" press=""/>
+			<Button text="Cancel" press="onCancelPhotoFrag"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>
