@@ -82,7 +82,8 @@ sap.ui.define([
 							PCS: excelData[i]["PCS"],
 							Size: excelData[i]["Size"],
 							Remark: excelData[i]["Remark"],
-							Photo:""
+							Photo:[],
+							PhotoCheck:false
 						});
 
 					}
@@ -109,7 +110,8 @@ sap.ui.define([
 						PCS: "",
 						Size: "",
 						Remark: "",
-						Photo:""
+						Photo:[],
+						PhotoCheck:false
 					};
 			this.getView().getModel("PurchaseLiteModel").setProperty("/entry",oNew);
 			var that=this;
@@ -143,7 +145,8 @@ sap.ui.define([
 				}).then(function(oPopup) {
 					that.oEditProduct = oPopup;
 					that.getView().addDependent(oPopup);
-					oPopup.setTitle("ADD");	
+					oPopup.setTitle("EDIT");
+					oPopup.getButtons()[0].setText("Edit");	
 					oPopup.open();
 				});
 			}
@@ -165,7 +168,8 @@ sap.ui.define([
 				}).then(function(oPopup) {
 					that.oCopyProduct = oPopup;
 					that.getView().addDependent(oPopup);
-					oPopup.setTitle("ADD");	
+					oPopup.setTitle("COPY");
+					oPopup.getButtons()[0].setText("Copy");	
 					oPopup.open();
 				});
 			}
@@ -211,7 +215,8 @@ sap.ui.define([
 						PCS: i,
 						Size: i,
 						Remark: i,
-						Photo:""
+						Photo:[],
+						PhotoCheck:false
 					});
 				}
 				// reportExcel.push("TEMPLATE");
@@ -257,6 +262,86 @@ sap.ui.define([
 					property: 'Remark'
 				}
 			];
+		},
+		onPhotoClick:function(oEvent){
+			debugger;
+			var that=this;
+			this.PhotoPath=oEvent.getSource().getParent().getRowBindingContext().getPath();
+			var Images=this.getView().getModel("PurchaseLiteModel").getProperty(this.PhotoPath+"/Photo");
+			this.getView().getModel("PurchaseLiteModel").setProperty("/allImages",Images);
+			this.PhotoButton=oEvent.getSource();
+
+			if(!this.oPhotoPopUp){
+				Fragment.load({
+						id: "idPhotoPopUp",
+						name: "sap.ui.demo.cart.fragments.PurchasePhoto",
+						controller: this
+					}).then(function(oPopup) {
+						that.oPhotoPopUp = oPopup;
+						debugger;
+						that.getView().addDependent(oPopup);
+						oPopup.setTitle("ADD");	
+						// sap.ui.getCore().byId("idPhotoPopUp--gridList").bindAggregation(that.getView().getModel("PurchaseLiteModel").getProperty(spath+"/Photo"));
+						oPopup.open();
+				});
+			}
+			else{
+				debugger;
+				// sap.ui.getCore().byId("idPhotoPopUp--gridList").bindItems();
+				this.oPhotoPopUp.open();
+			}
+		},
+		onUploadChange:function(oEvent){
+			debugger;
+			const files = oEvent.getParameter("files");
+			var that = this;
+			var allImages = this.getView().getModel("PurchaseLiteModel").getProperty("/allImages");
+			if (!files.length) {
+				MessageToast.show("No File Find");
+			} else {
+				for (let i = 0; i < files.length; i++) {
+					//const img = document.createElement("img");
+					var reader = new FileReader();
+					reader.onload = function(e){
+						var _allImages = that.getView().getModel("PurchaseLiteModel").getProperty("/allImages");
+						// var _allImages=[];
+						debugger;
+						try {
+							var vContent = e.currentTarget.result; //.result.replace("data:image/jpeg;base64,", "");
+							for (var i = 0; i < _allImages.length; i++) {
+								if(!_allImages[i].Content){
+									_allImages[i].Content = vContent;//that.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",excelD);
+									that.getView().getModel("PurchaseLiteModel").setProperty("/allImages", _allImages);
+									that.getView().getModel("PurchaseLiteModel").setProperty(this.PhotoPath+"/Photo", _allImages);
+									that.getView().getModel("PurchaseLiteModel").setProperty(this.PhotoPath+"/PhotoCheck", true);
+									// that.getView().byId("PurchaseLiteTable").
+									break;
+								}
+							}
+						} catch (e) {
+
+						}
+					};
+					var img = {
+						"Name":"",
+						"Stream": "",
+						"Content": ""
+					};
+					debugger;
+					img.Name=files[i].name;
+					img.Stream = URL.createObjectURL(files[i]);
+					reader.readAsDataURL(files[i]);
+					allImages.push(img);
+					this.getView().getModel("PurchaseLiteModel").setProperty("/allImages", allImages);
+				}
+			}
+		},
+		//oEvent.getSource().getParent().close();
+		onOkayPhotoFrag:function(oEvent){
+			debugger;
+			// this.PhotoButton.setType("Accept");
+			this.byId("PurchaseLiteTable").getBinding("rows").refresh();
+			oEvent.getSource().getParent().close();
 		}
 	});
 });
