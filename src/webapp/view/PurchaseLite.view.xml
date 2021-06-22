@@ -4,60 +4,39 @@
   xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
   xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
-  <VBox class="sapUiSmallMargin">
-    <HBox>
-      <Button text="22" class="sapUiSmallMarginEnd"></Button>
-      <Button text="18" class="sapUiSmallMarginEnd"></Button>
-      <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
-      <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
-      <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
-      <Button text="6%" class="sapUiSmallMarginEnd"></Button>
-      <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
-      <Button text="KUNDAN" class="sapUiSmallMarginEnd"></Button>
-      <!-- </HBox> -->
-      <!-- <HBox> -->
-      <!-- <VBox class="sapUiSmallMargin"> -->
-      <f:Form id="FormDisplay354" editable="false">
-        <f:title>
-          <core:Title text="Total" />
-        </f:title>
-        <f:layout>
-          <f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12"
-            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-            columnsXL="2" columnsL="2" columnsM="1" />
-        </f:layout>
-        <f:formContainers>
-          <f:FormContainer>
-            <f:formElements>
-              <f:FormElement label="Total Item">
-                <f:fields>
-                  <Text text="" id="nameText1" />
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="T GR WT">
-                <f:fields>
-                  <Text text="" />
-                </f:fields>
-              </f:FormElement>
-              <f:FormElement label="T Fine">
-                <f:fields>
-                  <Text text="" />
-                </f:fields>
-              </f:FormElement>
-
-              <f:FormElement label="T Fine">
-                <f:fields>
-                  <Text text="" />
-                </f:fields>
-              </f:FormElement>
-
-            </f:formElements>
-          </f:FormContainer>
-        </f:formContainers>
-      </f:Form>
-      <!-- </VBox> -->
-    </HBox>
-  </VBox>
+  <l:BlockLayout >
+    <l:BlockLayoutRow >
+      <l:BlockLayoutCell >
+        <HBox >
+          <Button text="22" class="sapUiSmallMarginEnd"></Button>
+          <Button text="18" class="sapUiSmallMarginEnd"></Button>
+          <Button text="STUDDED" class="sapUiSmallMarginEnd"></Button>
+          <Button text="PLAIN" class="sapUiSmallMarginEnd"></Button>
+          <Button text="FIX*" class="sapUiSmallMarginEnd"></Button>
+          <Button text="6%" class="sapUiSmallMarginEnd"></Button>
+          <Button text="STYLE" class="sapUiSmallMarginEnd"></Button>
+          <Button text="KUNDAN" class="sapUiSmallMarginEnd"></Button>
+        </HBox>
+      </l:BlockLayoutCell>
+      <l:BlockLayoutCell >
+        <f:SimpleForm layout="ColumnLayout" columnsL="2" columnsM="2" columnsXL="2">
+          <f:title>
+            <core:Title text="Total"></core:Title>
+          </f:title>
+          <f:content>
+            <Label text="Total Item" />
+            <Text text="" />
+            <Label text="T GR WT" />
+            <Text text="" />
+            <Label text="T Fine" />
+            <Text text="" />
+            <Label text="T Fine" />
+            <Text text="" />
+          </f:content>
+        </f:SimpleForm>
+      </l:BlockLayoutCell>
+    </l:BlockLayoutRow>
+  </l:BlockLayout>
   <VBox>
     <HBox>
       <VBox id="idVBox1">
