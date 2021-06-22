@@ -203,6 +203,7 @@ sap.ui.define([
       //check if weight already maintained if yes dont load else load
       //cross check with cart collection before sending weights to the popup
       if (!this.loadedWeights[sPath]) {
+        oBtn.setEnabled(false);
         this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
         then(function(data) {
           debugger;
@@ -224,20 +225,36 @@ sap.ui.define([
           //   })
           // });
           // that.oDialog.open();
+          MessageToast.show("Added to cart");
+          oBtn.setEnabled(true);
+          oBtn.setType("Emphasized");
+          var allSelectedWeights = [data.ProdWeights[0]];
+          var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
+          var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+          addedWeights.push(allSelectedWeights[0]);
+          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"]);
         });
       } else {
         var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
         var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        if (addedWeights.length > 0) {
-          for (var i = 0; i < tempLoaded.length; i++) {
-            for (var j = 0; j < addedWeights.length; j++) {
-              if (tempLoaded[i].id === addedWeights[j].id) {
-                tempLoaded.splice(i, 1);
-              }
-            }
+        // if (addedWeights.length > 0) {
+        //   for (var i = 0; i < tempLoaded.length; i++) {
+        //     for (var j = 0; j < addedWeights.length; j++) {
+        //       if (tempLoaded[i].id === addedWeights[j].id) {
+        //         tempLoaded.splice(i, 1);
+        //       }
+        //     }
+        //   }
+        // }
+        for (var j = 0; j < addedWeights.length; j++) {
+          if (tempLoaded[0].id === addedWeights[j].id) {
+            addedWeights.splice(j, 1);
+            oBtn.setType("Default");
+            break;
           }
         }
-        this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
+        // this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
         // this.oDialog.open();
       }
     },
