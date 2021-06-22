@@ -256,7 +256,7 @@ sap.ui.define([
 			var value=this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
 			var data=this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			if (sId === "idAddProduct") {
-				data.push(value);
+				data.unshift(value);
 				debugger;
 				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",data);
 				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
@@ -267,7 +267,7 @@ sap.ui.define([
 				this.getView().getModel("PurchaseLiteModel").setProperty(this.EditPath,value);
 				MessageToast.show("Data Edited Successful");
 			} else if (sId === "idCopyProduct") {
-				data.push(value);
+				data.unshift(value);
 				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",data);
 				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
 				debugger;
