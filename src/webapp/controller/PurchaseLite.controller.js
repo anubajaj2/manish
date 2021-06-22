@@ -12,7 +12,7 @@ sap.ui.define([
 	"sap/ui/export/Spreadsheet",
 	"sap/ui/core/Fragment",
 	"sap/m/Dialog",
-	"sap/ui/unified/FileUploader",
+	"sap/ui/unified/FileUploader"
 ], function(BaseController, UIComponent, JSONModel,
 	MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet, Fragment, Dialog, FileUploader) {
 	"use strict";
@@ -259,6 +259,7 @@ sap.ui.define([
 				data.push(value);
 				debugger;
 				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",data);
+				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
 				MessageToast.show("Data Added Successful");
 
 			} else if (sId === "idEditProduct") {
@@ -268,6 +269,7 @@ sap.ui.define([
 			} else if (sId === "idCopyProduct") {
 				data.push(value);
 				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite",data);
+				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
 				debugger;
 				MessageToast.show("Data Copied Successful");
 			}
@@ -419,6 +421,15 @@ sap.ui.define([
 		onCancelPhotoFrag:function(oEvent){
 			oEvent.getSource().getParent().close();
 			MessageToast.show("Operation Cancelled");
+		},
+		onDelete:function(oEvent){
+			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/")[length-1];
+			var data=this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			data.splice(sPath,1);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+			MessageToast.show("Deleted Successfully");
+
 		}
 	});
 });
