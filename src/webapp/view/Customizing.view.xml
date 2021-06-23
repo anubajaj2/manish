@@ -1,16 +1,60 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.Customizing" xmlns:mvc="sap.ui.core.mvc" 
 			xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form" 
 			xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
-
-	<semantic:FullscreenPage id="Customzing" navButtonPress="onNavBack" showNavButton="false" tooltip="{i18n>back}" title="{i18n>Customizing}">
+	<Page >
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+			<l:BlockLayout >
+				<l:BlockLayoutRow >
+					<l:BlockLayoutCell >
+						<HBox >
+							<VBox >
+								<ComboBox id="uploadTypeSelect" width="100%">
+									<core:Item key="Group" text="Group" />
+									<core:Item key="City" text="City" />
+									<core:Item key="Customer" text="Customer" />
+									<core:Item key="Product" text="Product" />
+									<core:Item key="Entry" text="Entry" />
+								</ComboBox>
+								<u:FileUploader id="fileUploader" name="myFileUpload" uploadUrl="/upload" tooltip="{i18n>Upload11}" uploadComplete="handleUploadComplete">
+									<u:parameters>
+										<u:FileUploaderParameter name="createdBy" />
+									</u:parameters>
+								</u:FileUploader>
+								<Button text="{i18n>UploadFile}" press="handleUploadPress" />
+							</VBox>
+						</HBox>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<f:SimpleForm >
+							<Label text="AMC Date"></Label>
+							<DatePicker id="AMCdatePicker" class="sapUiTinyMarginBegin"  displayFormat="long" width="90%"/>
+						</f:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+			<Toolbar>
+				<Title text="Today's Bhav" />
+			</Toolbar>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer />
+				<Button text="{i18n>Save}" type="Accept" press="SaveCalculation" />
+				<Button text="{i18n>Cancel}" type="Reject" press="ClearCalculation" />
+			</Toolbar>
+		</footer>
+	</Page>
+	<!-- <semantic:FullscreenPage id="Customzing" navButtonPress="onNavBack" showNavButton="false" tooltip="{i18n>back}" title="{i18n>Customizing}">
 		<semantic:customHeaderContent>
-			<!-- <Text id="idDB"> </Text> -->
-			<!-- <Text id="idUser"></Text> -->
-			<!-- <Button text="Backup" tooltip="DB Backup" type="Ghost" icon="sap-icon://download" press="onPressBackup" /> -->
+			
+			<Button text="Backup" tooltip="DB Backup" type="Ghost" icon="sap-icon://download" press="onPressBackup" />
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</semantic:customHeaderContent>
-		<!-- value="Data Upload Type" -->
 		<semantic:content>
 			<VBox class="sapUiSmallMargin">
 				<HBox>
@@ -255,6 +299,6 @@
 			<Button text="{i18n>Save}" type="Accept" press="SaveCalculation" />
 			<Button text="{i18n>Cancel}" type="Reject" press="ClearCalculation" />
 		</semantic:customFooterContent>
-	</semantic:FullscreenPage>
+	</semantic:FullscreenPage> -->
 
 </mvc:View>
