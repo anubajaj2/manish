@@ -22,6 +22,10 @@
       "type": "number",
       "default":0
     },
+    "Piece":{
+      "type": "number",
+      "default":0
+    },
     "GrossWeight": {
       "type": "number",
       "default":0
