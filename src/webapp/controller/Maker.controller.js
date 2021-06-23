@@ -36,6 +36,10 @@ sap.ui.define([
     _onRouteMatched: function(oEvent) {
       debugger;
       var that = this;
+      var auth=this.getView().getModel("local").getProperty("/Authorization");
+			if(!auth){
+				this.logOutApp();
+			}
       this.getView().setBusy(true);
       this.getView().getModel("local").setProperty("/sKeyType", 'PURCHASESLITE');
       var viewModel = this.getView().getModel("viewModel");
