@@ -27,6 +27,7 @@ sap.ui.define([
 			});
 			this.setModel(odataModel, "PurchaseLiteModel");
 			this.getView().getModel("PurchaseLiteModel").setProperty("/title", 0);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", true);
 		},
 		onAddExcelData: function () {
 			debugger;
@@ -437,6 +438,15 @@ sap.ui.define([
 		},
 		onMasterSave: function () {
 			debugger;
+			
+			// return;
+			var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			if (!payload) {
+				MessageToast.show("Please enter a data");
+				return;
+			}
+			sap.ui.core.BusyIndicator.show();
+			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", false);
 			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
 			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
 			var that = this;
@@ -447,14 +457,16 @@ sap.ui.define([
 				.then(function (count) {
 					count = parseInt(count) + 1;
 					var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
-					var batch_Id=that.create_UUID();
-					var Product=[];
-					var ProdWeight=[];
-					var Photo=[];
+					var batch_Id = that.create_UUID();
+					var Product = [];
+					var ProdWeight = [];
+					var Photo = [];
 					var payload = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-					for(var i=0;i<payload.length;i++){
-						payload[i].ItemCode=pattern+"_"+count.toString();
-						payload[i].BatchId=batch_Id;
+
+					for (var i = 0; i < payload.length; i++) {
+						payload[i].ItemCode = pattern + "_" + count.toString();
+						payload[i].BatchId = batch_Id;
+						payload[i].CreatedBy=that.getView().getModel("local").getProperty("/CurrentUser");
 						count = parseInt(count) + 1;
 						// var pdt={
 						// 	"ProductId":payload[i].ItemCode,
@@ -491,8 +503,10 @@ sap.ui.define([
 						// 		Photo.push(pht);
 						// 	}
 						// }
-						
+
 					}
+					var that2=that;
+					
 					// var SData={
 					// 	"Product":Product,
 					// 	"ProdWeight":ProdWeight,
@@ -503,22 +517,26 @@ sap.ui.define([
 					})
 						.done(function (data, status) {
 							debugger;
+							sap.ui.core.BusyIndicator.hide();
 							MessageToast.show("data has been saved successfully");
+							that2.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
 						})
 						.fail(function (xhr, status, error) {
+							sap.ui.core.BusyIndicator.hide();
+							MessageBox.error(error);
 							debugger;
 						});
 					// that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
 				});
 
-			
+
 		},
-		create_UUID:function(){
+		create_UUID: function () {
 			var dt = new Date().getTime();
-			var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-				var r = (dt + Math.random()*16)%16 | 0;
-				dt = Math.floor(dt/16);
-				return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+			var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+				var r = (dt + Math.random() * 16) % 16 | 0;
+				dt = Math.floor(dt / 16);
+				return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 			});
 			return uuid;
 		}

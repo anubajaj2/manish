@@ -80,10 +80,10 @@
               <Title id="title" text="Product({PurchaseLiteModel>/title})" />
               <!-- <Title text="" /> -->
               <ToolbarSpacer />
-              <Button icon="sap-icon://picture" press="onAddImageData" text="Mass Image Upload"></Button>
-              <Button icon="sap-icon://add" text="Add" press="onAdd"></Button>
-              <Button icon="sap-icon://download" press="onPressTemplateDownload" text="Download Template"></Button>
-              <Button icon="sap-icon://excel-attachment" press="onAddExcelData" text="Upload Excel"></Button>
+              <Button icon="sap-icon://picture" press="onAddImageData" enabled="{PurchaseLiteModel>/visible}" text="Mass Image Upload"></Button>
+              <Button icon="sap-icon://add" text="Add" enabled="{PurchaseLiteModel>/visible}"  press="onAdd"></Button>
+              <Button icon="sap-icon://download" press="onPressTemplateDownload" enabled="{PurchaseLiteModel>/visible}" text="Download Template"></Button>
+              <Button icon="sap-icon://excel-attachment" press="onAddExcelData" enabled="{PurchaseLiteModel>/visible}" text="Upload Excel"></Button>
               <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
               <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
               <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
@@ -135,7 +135,7 @@
             <t:Column width="20%">
               <Label text="Photo" />
               <t:template>
-                <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}" text="" wrapping="true" press="onPhotoClick" />
+                <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}"  text="" wrapping="true" press="onPhotoClick" />
               </t:template>
             </t:Column>
 
@@ -145,7 +145,7 @@
                 <Text text="{PurchaseLiteModel>Remark}" wrapping="true" />
               </t:template>
             </t:Column>
-            <t:Column width="20%">
+            <t:Column width="20%" visible="{PurchaseLiteModel>/visible}">
               <Label text="Options" />
               <t:template>
                 <HBox>
@@ -160,8 +160,8 @@
         <footer>
           <Toolbar>
             <ToolbarSpacer />
-            <Button text="Save" press="onMasterSave" />
-            <Button text="Clear" />
+            <Button text="Save" enabled="{PurchaseLiteModel>/visible}" press="onMasterSave" />
+            <Button text="Clear"  />
             <Button />
           </Toolbar>
         </footer>

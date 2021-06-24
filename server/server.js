@@ -771,7 +771,8 @@ app.post('/PurchaseLiteSave', async function (req, res) {
         "Wastage": 0,
         "GrossWeight": 0,
         "AlertQuantity": 0,
-        "BatchId": payload[i].BatchId
+        "BatchId": payload[i].BatchId,
+        "CreatedBy":payload[i].CreatedBy
       };
       var Product = await oProduct.create(pdt);
       debugger;
