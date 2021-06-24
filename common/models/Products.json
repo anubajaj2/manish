@@ -103,7 +103,7 @@
 		},
 		"CreatedBy": {
 			"type": "string",
-			"default": "null"
+			"required": true
 		},
 		"ChangedOn": {
 			"type": "date"
