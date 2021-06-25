@@ -17,6 +17,7 @@ sap.ui.define([
 		cart: cart,
 		ODataHelper: ODataHelper,
 		formatter:formatter,
+		allImageURLs: [],
 		cleanApp: function() {
 			this.getOwnerComponent().getModel("local").setProperty("/cartItems",[]);
 		},

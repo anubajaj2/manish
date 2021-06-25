@@ -147,7 +147,39 @@ sap.ui.define([
           break;
       }
     },
-
+    onCartItemDelete: function(oEvent) {
+      var that = this;
+      var oObj = oEvent.getParameter("listItem").getModel("local").getProperty(oEvent.getParameter("listItem").getBindingContextPath());
+      MessageBox.confirm("Item will be deleted!", {
+        title: "Confirm",
+        onClose: (oAction) => {
+          if (oAction === "OK") {
+            that.removeProductFromCart(oObj);
+          }
+        },
+        styleClass: "sapUiSizeCompact",
+      });
+    },
+    removeProductFromCart: function(productRec) {
+      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      for (var j = 0; j < allWeightsSel.length; j++) {
+        if (allWeightsSel[j].id === productRec.WeightId) {
+          allWeightsSel.splice(j, 1);
+          break;
+        }
+      }
+      for (var i = 0; i < cartItems.length; i++) {
+        if (cartItems[i].WeightId === productRec.WeightId) {
+          this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].WeightId].setType("Default");
+          cartItems.splice(i, 1);
+          break;
+        }
+      }
+      this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+      this.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
+      this.calculateOrderEstimate();
+    },
     checkInvoiceStep: function() {
       //this._checkStep("invoiceStep", ["invoiceAddressAddress", "invoiceAddressCity", "invoiceAddressZip", "invoiceAddressCountry"]);
     },
@@ -184,7 +216,7 @@ sap.ui.define([
       var customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData");
       html = "<h1 style=\"color:green; font-weight:800; font-size:xx-large;\">Order Summary</h1><hr>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Name : " + customer.Name + " &nbsp;&nbsp;&nbsp;&nbsp; " +
-        " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0,24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
+        " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0, 24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
       var orderNo = that.getOwnerComponent().getModel("local").getProperty("/orderNo");

@@ -33,10 +33,11 @@ sap.ui.define([
       //this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
       this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
       this._oLocalModel = this.getOwnerComponent().getModel("local");
+      this.oBtns = [];
     },
     _onRouteMatched: function(oEvent) {
       //if previous route is search then only we search
-      if(this._oLocalModel.getProperty("/searchFlag")){
+      if (this._oLocalModel.getProperty("/searchFlag")) {
         var oList = this.getView().byId("gridList");
         oList.getBinding("items");
         var a = this._oLocalModel.getProperty("/searchFilter");
@@ -51,7 +52,7 @@ sap.ui.define([
         //   }
         // });
         oList.attachUpdateFinished(this.counter, this);
-          this._oLocalModel.setProperty("/searchFlag", false);
+        this._oLocalModel.setProperty("/searchFlag", false);
       }
     },
     onGridView: function(oEvent) {
@@ -72,7 +73,6 @@ sap.ui.define([
         oEvent.getSource().setType("Default")
       }
     },
-    allImageURLs: [],
     counter: function(oEvent) {
       // debugger;
       var items = oEvent.getSource().getItems();
@@ -143,7 +143,7 @@ sap.ui.define([
       var sImage = sPath + "/ToPhotos/0/Content";
       oEvent.getSource().setSrc(this.allImageURLs[sImage]);
     },
-    addProductToCart: function(productRec, allSelectedWeights, PictureUrl) {
+    addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var cartItem = {};
       cartItem.Name = productRec.Name;
@@ -157,6 +157,7 @@ sap.ui.define([
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
         cartItem.WeightId = allSelectedWeights[i].id;
+        this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.WeightId] = oBtn;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));
       }
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
@@ -203,10 +204,9 @@ sap.ui.define([
       //check if weight already maintained if yes dont load else load
       //cross check with cart collection before sending weights to the popup
       if (!this.loadedWeights[sPath]) {
-        oBtn.setEnabled(false);
+        // oBtn.setEnabled(false);
         this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
         then(function(data) {
-          debugger;
           that.loadedWeights[sPath] = data.ProdWeights;
           that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
           // that.oDialog = new SelectDialog({
@@ -225,19 +225,20 @@ sap.ui.define([
           //   })
           // });
           // that.oDialog.open();
-          MessageToast.show("Added to cart");
-          oBtn.setEnabled(true);
+          // oBtn.setEnabled(true);
           oBtn.setType("Emphasized");
           var allSelectedWeights = [data.ProdWeights[0]];
           var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
           var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
           addedWeights.push(allSelectedWeights[0]);
           that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"]);
+          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+          MessageToast.show("Added to cart");
         });
       } else {
         var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
         var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+        var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
         // if (addedWeights.length > 0) {
         //   for (var i = 0; i < tempLoaded.length; i++) {
         //     for (var j = 0; j < addedWeights.length; j++) {
@@ -247,12 +248,31 @@ sap.ui.define([
         //     }
         //   }
         // }
-        for (var j = 0; j < addedWeights.length; j++) {
-          if (tempLoaded[0].id === addedWeights[j].id) {
-            addedWeights.splice(j, 1);
-            oBtn.setType("Default");
-            break;
+        if (oBtn.getType() === "Emphasized") {
+          for (var j = 0; j < addedWeights.length; j++) {
+            if (tempLoaded[0].id === addedWeights[j].id) {
+              addedWeights.splice(j, 1);
+              oBtn.setType("Default");
+              break;
+            }
           }
+          for (var j = 0; j < cartItems.length; j++) {
+            if (tempLoaded[0].id === cartItems[j].WeightId) {
+              cartItems.splice(j, 1);
+              MessageToast.show("Removed to cart");
+              oBtn.setType("Default");
+              break;
+            }
+          }
+        } else {
+          oBtn.setType("Emphasized");
+          var allSelectedWeights = [tempLoaded[0]];
+          var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
+          var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+          addedWeights.push(allSelectedWeights[0]);
+          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+          MessageToast.show("Added to cart");
         }
         // this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
         // this.oDialog.open();

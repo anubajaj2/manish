@@ -1,94 +1,110 @@
 sap.ui.define([
-	"sap/ui/demo/cart/controller/BaseController",
-	"sap/ui/demo/cart/model/formatter"
+  "sap/ui/demo/cart/controller/BaseController",
+  "sap/ui/demo/cart/model/formatter"
 ], function(
-	BaseController,
-	formatter) {
-	"use strict";
+  BaseController,
+  formatter) {
+  "use strict";
 
-	return BaseController.extend("sap.ui.demo.cart.controller.Product", {
-		formatter : formatter,
+  return BaseController.extend("sap.ui.demo.cart.controller.Product", {
+    formatter: formatter,
 
-		onInit : function () {
-			var oComponent = this.getOwnerComponent();
-			this._router = oComponent.getRouter();
-			this._router.getRoute("product").attachPatternMatched(this._routePatternMatched, this);
+    onInit: function() {
+      var oComponent = this.getOwnerComponent();
+      this._router = oComponent.getRouter();
+      this._router.getRoute("product").attachPatternMatched(this._routePatternMatched, this);
 
-			this._router.getTarget("product").attachDisplay(function (oEvent) {
-				this.fnUpdateProduct(oEvent.getParameter("data").productId);// update the binding based on products cart selection
-			}, this);
-		},
+      this._router.getTarget("product").attachDisplay(function(oEvent) {
+        this.fnUpdateProduct(oEvent.getParameter("data").productId); // update the binding based on products cart selection
+      }, this);
+    },
 
-		_routePatternMatched: function(oEvent) {
-			var sId = oEvent.getParameter("arguments").productId,
-				oView = this.getView(),
-				oModel = oView.getModel();
-			// the binding should be done after insuring that the metadata is loaded successfully
-			oModel.metadataLoaded().then(function () {
-				var sPath = "/" + this.getModel().createKey("Products", {
-						ProductId: sId
-					});
-				oView.bindElement({
-					path : sPath,
-					events: {
-						dataRequested: function () {
-							oView.setBusy(true);
-						},
-						dataReceived: function () {
-							oView.setBusy(false);
-						}
-					}
-				});
-				var oData = oModel.getData(sPath);
-				//if there is no data the model has to request new data
-				if (!oData) {
-					oView.setBusyIndicatorDelay(0);
-					oView.getElementBinding().attachEventOnce("dataReceived", function() {
-						// reset to default
-						oView.setBusyIndicatorDelay(null);
-						this._checkIfProductAvailable(sPath);
-					}.bind(this));
-				}
-			}.bind(this));
-		},
+    _routePatternMatched: function(oEvent) {
+      this.getView().byId("prodImg1").setSrc(this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/0/Content"])
+      var itemPics = [{
+        ImageUrl: this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/0/Content"]
+      }];
+      if (this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/1/Content"]) {
+        itemPics.push({
+          ImageUrl: this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/1/Content"]
+        });
+      }
+      if (this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/2/Content"]) {
+        itemPics.push({
+          "ImageUrl": this.allImageURLs["/Products" + oEvent.getParameter("arguments").key + "/ToPhotos/2/Content"]
+        });
+      }
+      this.getView().getModel("local").setProperty("/ItemPics", itemPics);
+			this.getView().getModel("local").setProperty("/ItemPicsCount", itemPics.length);
+      var sId = oEvent.getParameter("arguments").productId,
+        oView = this.getView(),
+        oModel = oView.getModel();
+      // the binding should be done after insuring that the metadata is loaded successfully
+      oModel.metadataLoaded().then(function() {
+        var sPath = "/" + this.getModel().createKey("Products", {
+          ProductId: sId
+        });
+        oView.bindElement({
+          path: sPath,
+          events: {
+            dataRequested: function() {
+              oView.setBusy(true);
+            },
+            dataReceived: function() {
+              oView.setBusy(false);
+            }
+          }
+        });
+        var oData = oModel.getData(sPath);
+        //if there is no data the model has to request new data
+        if (!oData) {
+          oView.setBusyIndicatorDelay(0);
+          oView.getElementBinding().attachEventOnce("dataReceived", function() {
+            // reset to default
+            oView.setBusyIndicatorDelay(null);
+            this._checkIfProductAvailable(sPath);
+          }.bind(this));
+        }
+      }.bind(this));
+    },
 
-		fnUpdateProduct: function(productId) {
-			var sPath = "/Products('" + productId + "')",
-				fnCheck = function () {
-					this._checkIfProductAvailable(sPath);
-				};
+    fnUpdateProduct: function(productId) {
+      var sPath = "/Products('" + productId + "')",
+        fnCheck = function() {
+          this._checkIfProductAvailable(sPath);
+        };
 
-			this.getView().bindElement({
-				path: sPath,
-				events: {
-					change: fnCheck.bind(this)
-				}
-			});
-		},
+      this.getView().bindElement({
+        path: sPath,
+        events: {
+          change: fnCheck.bind(this)
+        }
+      });
+    },
 
-		_checkIfProductAvailable: function(sPath) {
-			var oModel = this.getModel();
-			var oData = oModel.getData(sPath);
+    _checkIfProductAvailable: function(sPath) {
+      var oModel = this.getModel();
+      var oData = oModel.getData(sPath);
 
-			// show not found page
-			if (!oData) {
-				this._router.getTargets().display("notFound");
-			}
-		},
+      // show not found page
+      if (!oData) {
+        this._router.getTargets().display("notFound");
+      }
+    },
 
-		/**
-		 * Navigate to the generic cart view
-		 * @param {sap.ui.base.Event} @param oEvent the button press event
-		 */
-		onToggleCart: function (oEvent) {
-			var bPressed = oEvent.getParameter("pressed");
-			var oEntry = this.getView().getBindingContext().getObject();
+    /**
+     * Navigate to the generic cart view
+     * @param {sap.ui.base.Event} @param oEvent the button press event
+     */
+    onToggleCart: function(oEvent) {
+      var bPressed = oEvent.getParameter("pressed");
+      var oEntry = this.getView().getBindingContext().getObject();
 
-			this._setLayout(bPressed ? "Three" : "Two");
-			this.getRouter().navTo(bPressed ? "productCart" : "product", {
-				id: oEntry.Category,
-				productId: oEntry.ProductId
-			});
-		}
-	});
+      this._setLayout(bPressed ? "Three" : "Two");
+      this.getRouter().navTo(bPressed ? "productCart" : "product", {
+        id: oEntry.Category,
+        productId: oEntry.ProductId
+      });
+    }
+  });
 });
