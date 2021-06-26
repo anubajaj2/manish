@@ -201,31 +201,11 @@ sap.ui.define([
       this.oBtn = oBtn;
       this.sPath = sPath;
       var that = this;
-      //check if weight already maintained if yes dont load else load
-      //cross check with cart collection before sending weights to the popup
       if (!this.loadedWeights[sPath]) {
-        // oBtn.setEnabled(false);
         this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
         then(function(data) {
           that.loadedWeights[sPath] = data.ProdWeights;
           that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-          // that.oDialog = new SelectDialog({
-          //   title: "Select weights",
-          //   multiSelect: true,
-          //   confirm: that.selectedWeights.bind(that),
-          //   close: that.closeWeights
-          // });
-          // that.getView().addDependent(that.oDialog);
-          // that.oDialog.setModel(that._oLocalModel);
-          // that.oDialog.bindAggregation("items", {
-          //   path: "/ProdWeights",
-          //   template: new sap.m.DisplayListItem({
-          //     label: "{NetWeight} gm",
-          //     value: "{Amount} INR"
-          //   })
-          // });
-          // that.oDialog.open();
-          // oBtn.setEnabled(true);
           oBtn.setType("Emphasized");
           var allSelectedWeights = [data.ProdWeights[0]];
           var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
@@ -239,15 +219,6 @@ sap.ui.define([
         var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
         var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
         var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-        // if (addedWeights.length > 0) {
-        //   for (var i = 0; i < tempLoaded.length; i++) {
-        //     for (var j = 0; j < addedWeights.length; j++) {
-        //       if (tempLoaded[i].id === addedWeights[j].id) {
-        //         tempLoaded.splice(i, 1);
-        //       }
-        //     }
-        //   }
-        // }
         if (oBtn.getType() === "Emphasized") {
           for (var j = 0; j < addedWeights.length; j++) {
             if (tempLoaded[0].id === addedWeights[j].id) {
@@ -274,8 +245,6 @@ sap.ui.define([
           that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
           MessageToast.show("Added to cart");
         }
-        // this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
-        // this.oDialog.open();
       }
     },
     onCartClick: function(oEvent) {

@@ -1,4 +1,4 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.Product" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View controllerName="sap.ui.demo.cart.controller.Product" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:anubhav="sap.ui.demo.cart.controls" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
 	<Page id="page" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
@@ -11,45 +11,77 @@
 				<l:BlockLayoutRow rowColorSet="ColorSet1">
 
 					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-						<VBox>
-							<Image id="prodImg1" width="100%"/>
+						<VBox class="sapUiLargeMargin">
+							<!-- <HBox> -->
+							<Image id="prodImg1" width="900px" height="550px"/>
+						<!-- </HBox> -->
 							<Label/>
-							<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/ItemPics'}">
+							<!-- <HBox> -->
+							<!-- <Carousel height="200px" loop="true" showPageIndicator="false" pages="">
 								<customLayout>
-									<CarouselLayout visiblePagesCount="{local>/ItemPicsCount}"/>
+									<CarouselLayout visiblePagesCount=""/>
 								</customLayout>
-								<pages>
-									<f:GridList width="100%">
+								<pages> -->
+									<f:GridList items="{path: 'local>/ItemPics'}">
 										<f:items>
 											<f:GridListItem alignItems="Center">
 												<VBox>
-													<Image width="100%" height="150px" src="{local>ImageUrl}"/>
+													<anubhav:ImageHover src="{local>ImageUrl}" width="100px" height="150px" press="onProductPic"></anubhav:ImageHover>
+													<!-- <Image width="100%" height="150px" src="{local>ImageUrl}"/> -->
 												</VBox>
 											</f:GridListItem>
 										</f:items>
 									</f:GridList>
-								</pages>
-							</Carousel>
+								<!-- </pages>
+							</Carousel> -->
+						<!-- </HBox> -->
 						</VBox>
 					</l:BlockLayoutCell>
 
 					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-						<l:BlockLayoutRow>
-							<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-								<Text text="Product Name"/>
-							</l:BlockLayoutCell>
-						</l:BlockLayoutRow>
-						<l:BlockLayoutRow>
-							<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-								<Title text="Details"/>
-							</l:BlockLayoutCell>
-							<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-								<Title text="Details"/>
-							</l:BlockLayoutCell>
-						</l:BlockLayoutRow>
-						<l:BlockLayoutRow>
-							<Title text="Add To Cart"/>
-						</l:BlockLayoutRow>
+						<HBox class="sapUiSmallMarginBegin">
+							<VBox width="80%">
+								<ObjectHeader title="{Name}" titleLevel="H3">
+									<attributes>
+										<ObjectAttribute title="" text="{SubCategory}"/>
+										<ObjectAttribute title="" text="{Category}"/>
+										<!-- <ObjectAttribute title="" text="{GrossWeight}g"/> -->
+										<!-- <ObjectAttribute title="" text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/> -->
+									</attributes>
+									<!-- <statuses> <ObjectStatus text="{ path : 'OverallStatus', formatter : '.formatter.statusText' }" state="{ path : 'OverallStatus', formatter : '.formatter.statusState' }"/> </statuses> -->
+								</ObjectHeader>
+							</VBox>
+							<VBox>
+								<Button class="sapUiLargeMarginTop sapUiLargeMarginBegin" icon="sap-icon://favorite"/>
+							</VBox>
+						</HBox>
+						<HBox class="sapUiSmallMarginBegin">
+							<ObjectHeader title="INR 80,406" titleLevel="H3">
+								<attributes>
+									<ObjectAttribute title="You are saving" text="INR 4,544"/>
+									<!-- <ObjectAttribute title="" text="{Category}"/> -->
+									<!-- <ObjectAttribute title="" text="{GrossWeight}g"/> -->
+									<!-- <ObjectAttribute title="" text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/> -->
+								</attributes>
+								<!-- <statuses> <ObjectStatus text="{ path : 'OverallStatus', formatter : '.formatter.statusText' }" state="{ path : 'OverallStatus', formatter : '.formatter.statusState' }"/> </statuses> -->
+							</ObjectHeader>
+						</HBox>
+						<HBox class="sapUiSmallMarginBegin">
+							<VBox width="80%">
+								<Text class="sapUiLargeMarginBegin" text="30% off on making charges"/>
+							</VBox>
+							<VBox>
+								<Button text="{i18n>addToCartShort}" type="Default" press="onAddToCart"/>
+							</VBox>
+						</HBox>
+						<HBox class="sapUiSmallMarginBegin sapUiLargeMarginTop">
+							<f:Avatar class="sapUiLargeMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
+							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
+							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
+							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
+							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
+						</HBox>
+						<!-- <VBox class="sapUiSmallMargin" height="100%"> <HBox height="33%"> <Title text="Title"/> </HBox> <HBox height="33%"> <Title text="Details"/> </HBox> <HBox height="33%"> <Title text="Add To Card"/> </HBox> </VBox> -->
 					</l:BlockLayoutCell>
 				</l:BlockLayoutRow>
 				<l:BlockLayoutRow>
@@ -87,11 +119,6 @@
 			</form:SimpleForm> </VBox> </HBox> -->
 			<!-- <HBox height="50%"> <Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg" width="100%"/> </HBox> -->
 		</content>
-		<footer>
-			<Toolbar>
-				<ToolbarSpacer/>
-				<Button text="{i18n>addToCartShort}" type="Emphasized" press="onAddToCart"/>
-			</Toolbar>
-		</footer>
+		<!-- <footer> <Toolbar> <ToolbarSpacer/> <Button text="{i18n>addToCartShort}" type="Emphasized" press="onAddToCart"/> </Toolbar> </footer> -->
 	</Page>
 </mvc:View>
