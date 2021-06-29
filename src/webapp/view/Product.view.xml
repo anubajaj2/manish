@@ -1,4 +1,13 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.Product" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:anubhav="sap.ui.demo.cart.controls" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.Product"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:l="sap.ui.layout"
+	xmlns:anubhav="sap.ui.demo.cart.controls"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
 	<Page id="page" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
@@ -7,83 +16,94 @@
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
-			<l:BlockLayout >
-				<l:BlockLayoutRow rowColorSet="ColorSet1">
+			<!-- <l:BlockLayout > <l:BlockLayoutRow rowColorSet="ColorSet1"> <l:BlockLayoutCell width="2" class="frontPageCustomRow"> -->
+			<HBox>
+				<VBox class="sapUiLargeMargin" width="50%">
+					<HBox>
+						<html:div id="img-container" class="sapUiLargeMarginBegin">
+							<!-- <Image id="prodImg1" width="650px" height="850px"/> -->
+							<anubhav:ImageHover id="prodImg1" mIn="onImageIn" mOut="onImageOut" height="550px" width="750px"></anubhav:ImageHover>
+						</html:div>
+					</HBox>
+					<!-- <Label/> -->
+					<HBox>
+						<!-- <Carousel height="200px" loop="true" showPageIndicator="false" pages=""> <customLayout> <CarouselLayout visiblePagesCount=""/> </customLayout> <pages> -->
+						<f:GridList class="sapUiLargeMarginBegin" items="{path: 'local>/ItemPics'}">
+							<f:items>
+								<f:GridListItem alignItems="Center">
+									<VBox>
+										<anubhav:ImageHover src="{local>ImageUrl}" width="100%" height="150px" press="onProductPic"></anubhav:ImageHover>
+										<!-- <Image width="100%" height="150px" src="{local>ImageUrl}"/> -->
+									</VBox>
+								</f:GridListItem>
+							</f:items>
+						</f:GridList>
+						<!-- </pages> </Carousel> -->
+					</HBox>
+				</VBox>
+				<!-- </l:BlockLayoutCell> -->
 
-					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-						<VBox class="sapUiLargeMargin">
-							<!-- <HBox> -->
-							<Image id="prodImg1" width="900px" height="550px"/>
-						<!-- </HBox> -->
-							<Label/>
-							<!-- <HBox> -->
-							<!-- <Carousel height="200px" loop="true" showPageIndicator="false" pages="">
-								<customLayout>
-									<CarouselLayout visiblePagesCount=""/>
-								</customLayout>
-								<pages> -->
-									<f:GridList items="{path: 'local>/ItemPics'}">
-										<f:items>
-											<f:GridListItem alignItems="Center">
-												<VBox>
-													<anubhav:ImageHover src="{local>ImageUrl}" width="100px" height="150px" press="onProductPic"></anubhav:ImageHover>
-													<!-- <Image width="100%" height="150px" src="{local>ImageUrl}"/> -->
-												</VBox>
-											</f:GridListItem>
-										</f:items>
-									</f:GridList>
-								<!-- </pages>
-							</Carousel> -->
-						<!-- </HBox> -->
-						</VBox>
-					</l:BlockLayoutCell>
-
-					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-						<HBox class="sapUiSmallMarginBegin">
-							<VBox width="80%">
-								<ObjectHeader title="{Name}" titleLevel="H3">
-									<attributes>
-										<ObjectAttribute title="" text="{SubCategory}"/>
-										<ObjectAttribute title="" text="{Category}"/>
-										<!-- <ObjectAttribute title="" text="{GrossWeight}g"/> -->
-										<!-- <ObjectAttribute title="" text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/> -->
-									</attributes>
-									<!-- <statuses> <ObjectStatus text="{ path : 'OverallStatus', formatter : '.formatter.statusText' }" state="{ path : 'OverallStatus', formatter : '.formatter.statusState' }"/> </statuses> -->
-								</ObjectHeader>
-							</VBox>
-							<VBox>
-								<Button class="sapUiLargeMarginTop sapUiLargeMarginBegin" icon="sap-icon://favorite"/>
-							</VBox>
-						</HBox>
-						<HBox class="sapUiSmallMarginBegin">
-							<ObjectHeader title="INR 80,406" titleLevel="H3">
+				<!-- <l:BlockLayoutCell width="2" class="frontPageCustomRow"> -->
+				<VBox id="productDetailsArea" class="sapUiLargeMargin" width="50%" backgroundDesign="Solid">
+					<HBox class="sapUiSmallMarginBegin">
+						<VBox width="80%">
+							<ObjectHeader title="{Name}" titleLevel="H3">
 								<attributes>
-									<ObjectAttribute title="You are saving" text="INR 4,544"/>
-									<!-- <ObjectAttribute title="" text="{Category}"/> -->
+									<ObjectAttribute title="" text="{SubCategory}"/>
+									<ObjectAttribute title="" text="{Category}"/>
 									<!-- <ObjectAttribute title="" text="{GrossWeight}g"/> -->
 									<!-- <ObjectAttribute title="" text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/> -->
 								</attributes>
 								<!-- <statuses> <ObjectStatus text="{ path : 'OverallStatus', formatter : '.formatter.statusText' }" state="{ path : 'OverallStatus', formatter : '.formatter.statusState' }"/> </statuses> -->
 							</ObjectHeader>
-						</HBox>
-						<HBox class="sapUiSmallMarginBegin">
-							<VBox width="80%">
-								<Text class="sapUiLargeMarginBegin" text="30% off on making charges"/>
-							</VBox>
-							<VBox>
-								<Button text="{i18n>addToCartShort}" type="Default" press="onAddToCart"/>
-							</VBox>
-						</HBox>
-						<HBox class="sapUiSmallMarginBegin sapUiLargeMarginTop">
-							<f:Avatar class="sapUiLargeMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
-							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
-							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
-							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
-							<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="" displaySize="L" showBorder="true"/>
-						</HBox>
-						<!-- <VBox class="sapUiSmallMargin" height="100%"> <HBox height="33%"> <Title text="Title"/> </HBox> <HBox height="33%"> <Title text="Details"/> </HBox> <HBox height="33%"> <Title text="Add To Card"/> </HBox> </VBox> -->
-					</l:BlockLayoutCell>
-				</l:BlockLayoutRow>
+						</VBox>
+						<VBox>
+							<Button class="sapUiLargeMarginTop sapUiLargeMarginBegin" icon="sap-icon://favorite"/>
+						</VBox>
+					</HBox>
+					<HBox class="sapUiSmallMarginBegin">
+						<ObjectHeader title="{parts:['GrossWeight','Making','local>/CustomCalculations/Gold'], formatter: '.formatter.calculateBhav'}" titleLevel="H3">
+							<attributes>
+								<ObjectAttribute title="You are saving" text="INR 4,544"/>
+								<!-- <ObjectAttribute title="" text="{Category}"/> -->
+								<!-- <ObjectAttribute title="" text="{GrossWeight}g"/> -->
+								<!-- <ObjectAttribute title="" text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/> -->
+							</attributes>
+							<!-- <statuses> <ObjectStatus text="{ path : 'OverallStatus', formatter : '.formatter.statusText' }" state="{ path : 'OverallStatus', formatter : '.formatter.statusState' }"/> </statuses> -->
+						</ObjectHeader>
+					</HBox>
+					<HBox class="sapUiSmallMarginBegin">
+						<VBox width="80%">
+							<Text class="sapUiLargeMarginBegin" text="30% off on making charges"/>
+						</VBox>
+						<VBox>
+							<Button id="idAddtoCartBtn" text="{i18n>addToCartShort}" type="Default" press="onAddToCart"/>
+						</VBox>
+					</HBox>
+					<HBox class="sapUiSmallMarginBegin sapUiLargeMarginTop">
+						<f:Avatar class="sapUiLargeMarginBegin sapUiLargeMarginTop" src="img/{Gender}.png" displaySize="L" showBorder="true"/>
+						<!-- <f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="img/F.png" displaySize="L" showBorder="true"/> -->
+						<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="img/{ItemType}.png" displaySize="L" showBorder="true"/>
+						<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="img/{Karat}.png" displaySize="L" showBorder="true"/>
+						<f:Avatar class="sapUiSmallMarginBegin sapUiLargeMarginTop" src="img/P.jpg" displaySize="L" showBorder="true"/>
+					</HBox>
+				</VBox>
+			</HBox>
+			<!-- <VBox class="sapUiSmallMargin" height="100%"> <HBox height="33%"> <Title text="Title"/> </HBox> <HBox height="33%"> <Title text="Details"/> </HBox> <HBox height="33%"> <Title text="Add To Card"/> </HBox> </VBox> -->
+			<!-- </l:BlockLayoutCell> </l:BlockLayoutRow> <l:BlockLayoutRow> <l:BlockLayoutCell > -->
+			<!-- <form:SimpleForm > <form:title> <core:Title text="Bhav"/> </form:title> <form:content> <Label text="Gold Bhav 22/22"/> <Text text="54000"/> <Label text="Gold Bhav 20/22"/> <Text text="50000"/> <Label text="Silver Bhav 20/22"/> <Text
+			text="65000"/> </form:content> </form:SimpleForm> </l:BlockLayoutCell> <l:BlockLayoutCell> <form:SimpleForm > <form:title> <core:Title text="Cheque Prize"/> </form:title> </form:SimpleForm> -->
+			<!-- </l:BlockLayoutCell> </l:BlockLayoutRow> </l:BlockLayout> -->
+			<!-- <HBox height="90%"> <VBox width="50%"> <Image id="caroImg1" src="https://wallpaperaccess.com/full/2463246.jpg" width="100%"/> <Label/> <Carousel height="100px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+			<customLayout> <CarouselLayout visiblePagesCount="{local>/GridItemCount}"/> </customLayout> <pages> <f:GridList width="100%"> <f:items> <f:GridListItem > <VBox> <Image width="100%" height="150px" src="{local>ImageUrl}"/> <HBox
+			justifyContent="Center"> <Title text="₹ {local>Price}.00" textAlign="Center"/> </HBox> </VBox> </f:GridListItem> </f:items> </f:GridList> </pages> </Carousel> </VBox> <VBox class="sapUiMediumMargin"> <form:SimpleForm
+			id="SimpleFormDisplay480_12120Dual" editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
+			columnsL="2" columnsM="2" singleContainerFullSize="false"> <form:content> <core:Title text="Specifications"/> <Label text="Code"/> <Text text="{ProductId}"/> <Label text="Description"/> <Text text="{ShortDescription}"/> <Label text="G WT"/> <Text
+			text="{GrossWeight}"/> <Label text="Pair Type"/> <Text text="{PairType}"/> <Label text="Category"/> <Text text="{Category}"/> <Label text="Sub Category"/> <Text text="{SubCategory}"/> <core:Title text=""/> <Label text="Type"/> <Text text="{Type}"/>
+			<Label text="Karat"/> <Text text="{Karat}"/> <Label text="Gender"/> <Text text="{Gender}"/> <Label text="Tunch"/> <Text text="{Tunch}"/> <Label text="Wastage"/> <Text text="{Wastage}"/> <Label text="Making"/> <Text text="{Making}"/> </form:content>
+			</form:SimpleForm> </VBox> </HBox> -->
+			<!-- <HBox height="50%"> <Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg" width="100%"/> </HBox> -->
+			<l:BlockLayout>
 				<l:BlockLayoutRow>
 					<l:BlockLayoutCell >
 						<form:SimpleForm >
@@ -109,15 +129,6 @@
 					</l:BlockLayoutCell>
 				</l:BlockLayoutRow>
 			</l:BlockLayout>
-			<!-- <HBox height="90%"> <VBox width="50%"> <Image id="caroImg1" src="https://wallpaperaccess.com/full/2463246.jpg" width="100%"/> <Label/> <Carousel height="100px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
-			<customLayout> <CarouselLayout visiblePagesCount="{local>/GridItemCount}"/> </customLayout> <pages> <f:GridList width="100%"> <f:items> <f:GridListItem > <VBox> <Image width="100%" height="150px" src="{local>ImageUrl}"/> <HBox
-			justifyContent="Center"> <Title text="₹ {local>Price}.00" textAlign="Center"/> </HBox> </VBox> </f:GridListItem> </f:items> </f:GridList> </pages> </Carousel> </VBox> <VBox class="sapUiMediumMargin"> <form:SimpleForm
-			id="SimpleFormDisplay480_12120Dual" editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
-			columnsL="2" columnsM="2" singleContainerFullSize="false"> <form:content> <core:Title text="Specifications"/> <Label text="Code"/> <Text text="{ProductId}"/> <Label text="Description"/> <Text text="{ShortDescription}"/> <Label text="G WT"/> <Text
-			text="{GrossWeight}"/> <Label text="Pair Type"/> <Text text="{PairType}"/> <Label text="Category"/> <Text text="{Category}"/> <Label text="Sub Category"/> <Text text="{SubCategory}"/> <core:Title text=""/> <Label text="Type"/> <Text text="{Type}"/>
-			<Label text="Karat"/> <Text text="{Karat}"/> <Label text="Gender"/> <Text text="{Gender}"/> <Label text="Tunch"/> <Text text="{Tunch}"/> <Label text="Wastage"/> <Text text="{Wastage}"/> <Label text="Making"/> <Text text="{Making}"/> </form:content>
-			</form:SimpleForm> </VBox> </HBox> -->
-			<!-- <HBox height="50%"> <Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg" width="100%"/> </HBox> -->
 		</content>
 		<!-- <footer> <Toolbar> <ToolbarSpacer/> <Button text="{i18n>addToCartShort}" type="Emphasized" press="onAddToCart"/> </Toolbar> </footer> -->
 	</Page>

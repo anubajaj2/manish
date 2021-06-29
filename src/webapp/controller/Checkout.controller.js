@@ -171,8 +171,9 @@ sap.ui.define([
       }
       for (var i = 0; i < cartItems.length; i++) {
         if (cartItems[i].WeightId === productRec.WeightId) {
-          this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].WeightId].setType("Default");
-          this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].WeightId].setEnabled(true);
+          var item = this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].ProductId];
+          item.setType("Default");
+          item.setEnabled(true);
           cartItems.splice(i, 1);
           break;
         }

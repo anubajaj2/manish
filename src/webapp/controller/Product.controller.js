@@ -13,16 +13,24 @@ sap.ui.define([
       var oComponent = this.getOwnerComponent();
       this._router = oComponent.getRouter();
       this._router.getRoute("product").attachPatternMatched(this._routePatternMatched, this);
-
       // this._router.getTarget("product").attachDisplay(function(oEvent) {
       //   this.fnUpdateProduct(oEvent.getParameter("data").productId); // update the binding based on products cart selection
       // }, this);
     },
-
     _routePatternMatched: function(oEvent) {
       var sPath = "/Products" + oEvent.getParameter("arguments").key
       this.sPath = sPath;
       var oDataModel = this.getView().getModel();
+      var cartBtn = this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[oEvent.getParameter("arguments").key.split("'")[1]];
+      if (cartBtn.getType() === "Emphasized") {
+        this.getView().byId("idAddtoCartBtn").setType(cartBtn.getType());
+        this.getView().byId("idAddtoCartBtn").setText("Added to Cart");
+        this.getView().byId("idAddtoCartBtn").setEnabled(false);
+      } else {
+        this.getView().byId("idAddtoCartBtn").setType(cartBtn.getType());
+        this.getView().byId("idAddtoCartBtn").setText("Add to Cart");
+        this.getView().byId("idAddtoCartBtn").setEnabled(true);
+      }
       this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"])
       var itemPics = [{
         ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"]
@@ -69,6 +77,18 @@ sap.ui.define([
           }
         }
       });
+      if (that.zoomedImg) {
+        that.zoomedImg.kill();
+      }
+      setTimeout(function() {
+        var options = {
+          width: 750,
+          height: 550,
+          zoomWidth: 550,
+          zoomStyle: 'z-index: 2;border-style: solid;border-width: 15px;border-color: black;'
+        };
+        that.zoomedImg = new ImageZoom(document.getElementById("__component0---Product--img-container"), options);
+      }, 500);
       //   var oData = oModel.getData(sPath);
       //   //if there is no data the model has to request new data
       //   if (!oData) {
@@ -81,6 +101,12 @@ sap.ui.define([
       //   }
       // }.bind(this));
     },
+    // onImageIn: function(oEvent) {
+    //   this.getView().byId("productDetailsArea").setBackgroundDesign("Transparent");
+    // },
+    // onImageOut: function(oEvent) {
+    //   this.getView().byId("productDetailsArea").setBackgroundDesign("Solid");
+    // },
     onProductPic: function(oEvent) {
       this.getView().byId("prodImg1").setSrc(oEvent.getSource().getSrc());
     },
@@ -117,9 +143,10 @@ sap.ui.define([
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
         cartItem.WeightId = allSelectedWeights[i].id;
-        this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.WeightId] = oBtn;
+        // this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] ;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));
       }
+      this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId].setType("Emphasized");
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
       this.calculateOrderEstimate();
     },

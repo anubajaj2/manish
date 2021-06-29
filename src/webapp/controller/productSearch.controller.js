@@ -26,226 +26,257 @@ sap.ui.define([
   "use strict";
 
   return BaseController.extend("sap.ui.demo.cart.controller.productSearch", {
-    formatter: formatter,
-    onInit: function() {
-      debugger;
-      this._oRouter = this.getOwnerComponent().getRouter();
-      //this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
-      this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
-      this._oLocalModel = this.getOwnerComponent().getModel("local");
-      this.oBtns = [];
-    },
-    _onRouteMatched: function(oEvent) {
-      //if previous route is search then only we search
-      if (this._oLocalModel.getProperty("/searchFlag")) {
-        var oList = this.getView().byId("gridList");
-        oList.getBinding("items");
-        var a = this._oLocalModel.getProperty("/searchFilter");
-        oList.getBinding("items").filter(a);
-        this.loadedWeights = [];
+      formatter: formatter,
+      onInit: function() {
+        debugger;
+        this._oRouter = this.getOwnerComponent().getRouter();
+        //this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
+        this._oRouter.getRoute("productSearch").attachMatched(this._onRouteMatched, this);
+        this._oLocalModel = this.getOwnerComponent().getModel("local");
+        this.oBtns = [];
+      },
+      _onRouteMatched: function(oEvent) {
+        //if previous route is search then only we search
+        if (this._oLocalModel.getProperty("/searchFlag")) {
+          var oList = this.getView().byId("gridList");
+          oList.getBinding("items");
+          var a = this._oLocalModel.getProperty("/searchFilter");
+          oList.getBinding("items").filter(a);
+          this.loadedWeights = [];
 
-        // oList.bindItems({
-        // 	path : '/Products',
-        // 	parameters: {
-        //      expand: "ToPhotos",
-        // 		 top: 1
-        //   }
-        // });
-        oList.attachUpdateFinished(this.counter, this);
-        this._oLocalModel.setProperty("/searchFlag", false);
-      }
-    },
-    onGridView: function(oEvent) {
-      var oControl = this.getView().byId("gridList");
-      if (oControl.getCustomLayout().getBoxWidth() === "19.5%") {
-        oControl.getCustomLayout().setBoxWidth("33%");
-        oControl.getItems().forEach(function(item) {
-          item.getContent()[1].setHeight("22rem");
-          item.getContent()[1].getItems()[0].setHeight("22rem");
-        });
-        oEvent.getSource().setType("Emphasized");
-      } else {
-        oControl.getCustomLayout().setBoxWidth("19.5%");
-        oControl.getItems().forEach(function(item) {
-          item.getContent()[1].setHeight("15rem");
-          item.getContent()[1].getItems()[0].setHeight("15rem");
-        });
-        oEvent.getSource().setType("Default")
-      }
-    },
-    counter: function(oEvent) {
-      // debugger;
-      var items = oEvent.getSource().getItems();
-      var oLocal = this.getView().getModel("local");
-      var oDataModel = this.getView().getModel();
-      for (var i = 0; i < items.length; i++) {
-        var sPath = items[i].getBindingContextPath();
-        var picsSize = oDataModel.getProperty(sPath + "/ToPhotos");
-        // for (var i = 0; i < picsSize.length; i++) {
-        // 		var sImage = sPath + "/ToPhotos/" + i + "/Content" ;
-        // 	var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-        //   if(!this.allImageURLs[sImage]){
-        // 	 	 this.allImageURLs[sImage] =  sUrl;
-        //  }
-        // }
+          // oList.bindItems({
+          // 	path : '/Products',
+          // 	parameters: {
+          //      expand: "ToPhotos",
+          // 		 top: 1
+          //   }
+          // });
+          oList.attachUpdateFinished(this.counter, this);
+          this._oLocalModel.setProperty("/searchFlag", false);
+        }
+      },
+      onGridView: function(oEvent) {
+        var oControl = this.getView().byId("gridList");
+        if (oControl.getCustomLayout().getBoxWidth() === "19.5%") {
+          oControl.getCustomLayout().setBoxWidth("33%");
+          oControl.getItems().forEach(function(item) {
+            item.getContent()[1].setHeight("22rem");
+            item.getContent()[1].getItems()[0].setHeight("22rem");
+          });
+          oEvent.getSource().setType("Emphasized");
+        } else {
+          oControl.getCustomLayout().setBoxWidth("19.5%");
+          oControl.getItems().forEach(function(item) {
+            item.getContent()[1].setHeight("15rem");
+            item.getContent()[1].getItems()[0].setHeight("15rem");
+          });
+          oEvent.getSource().setType("Default")
+        }
+      },
+      counter: function(oEvent) {
+        // debugger;
+        var items = oEvent.getSource().getItems();
+        var oLocal = this.getView().getModel("local");
+        var oDataModel = this.getView().getModel();
+        for (var i = 0; i < items.length; i++) {
+          var sPath = items[i].getBindingContextPath();
+          var picsSize = oDataModel.getProperty(sPath + "/ToPhotos");
+          // for (var i = 0; i < picsSize.length; i++) {
+          // 		var sImage = sPath + "/ToPhotos/" + i + "/Content" ;
+          // 	var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          //   if(!this.allImageURLs[sImage]){
+          // 	 	 this.allImageURLs[sImage] =  sUrl;
+          //  }
+          // }
+          var sImage = sPath + "/ToPhotos/0/Content";
+          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          if (!this.allImageURLs[sImage]) {
+            this.allImageURLs[sImage] = sUrl;
+          }
+
+          if (picsSize.length > 1) {
+            var sImage = sPath + "/ToPhotos/1/Content";
+            var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+            if (!this.allImageURLs[sImage]) {
+              this.allImageURLs[sImage] = sUrl;
+            }
+          }
+
+          if (picsSize.length > 2) {
+            var sImage = sPath + "/ToPhotos/2/Content";
+            var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+            if (!this.allImageURLs[sImage]) {
+              this.allImageURLs[sImage] = sUrl;
+            }
+          }
+          if (picsSize.length > 3) {
+            var sImage = sPath + "/ToPhotos/3/Content";
+            var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+            if (!this.allImageURLs[sImage]) {
+              this.allImageURLs[sImage] = sUrl;
+            }
+          }
+          if (picsSize.length > 4) {
+            var sImage = sPath + "/ToPhotos/4/Content";
+            var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+            if (!this.allImageURLs[sImage]) {
+              this.allImageURLs[sImage] = sUrl;
+            }
+          }
+          //items[i].setIcon(sUrl);
+          items[i].getContent()[1].getItems()[0].setSrc(sUrl);
+          if (oEvent.getSource().getCustomLayout().getBoxWidth() === "19.5%") {
+            items[i].getContent()[1].setHeight("15rem");
+            items[i].getContent()[1].getItems()[0].setHeight("15rem");
+          }
+        }
+      },
+      onImageOut: function(oEvent) {
+        var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+        var sImage = sPath + "/ToPhotos/1/Content";
+        if (this.allImageURLs[sImage]) {
+          oEvent.getSource().setSrc(this.allImageURLs[sImage]);
+        }
+      },
+      onImageIn: function(oEvent) {
+        var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
         var sImage = sPath + "/ToPhotos/0/Content";
-        var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-        if (!this.allImageURLs[sImage]) {
-          this.allImageURLs[sImage] = sUrl;
-        }
-
-        if (picsSize.length > 1) {
-          var sImage = sPath + "/ToPhotos/1/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-          if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
-          }
-        }
-
-        if (picsSize.length > 2) {
-          var sImage = sPath + "/ToPhotos/2/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-          if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
-          }
-        }
-        if (picsSize.length > 3) {
-          var sImage = sPath + "/ToPhotos/3/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-          if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
-          }
-        }
-        if (picsSize.length > 4) {
-          var sImage = sPath + "/ToPhotos/4/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
-          if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
-          }
-        }
-        //items[i].setIcon(sUrl);
-        items[i].getContent()[1].getItems()[0].setSrc(sUrl);
-        if (oEvent.getSource().getCustomLayout().getBoxWidth() === "19.5%") {
-          items[i].getContent()[1].setHeight("15rem");
-          items[i].getContent()[1].getItems()[0].setHeight("15rem");
-        }
-      }
-    },
-    onImageOut: function(oEvent) {
-      var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
-      var sImage = sPath + "/ToPhotos/1/Content";
-      if (this.allImageURLs[sImage]) {
         oEvent.getSource().setSrc(this.allImageURLs[sImage]);
-      }
-    },
-    onImageIn: function(oEvent) {
-      var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
-      var sImage = sPath + "/ToPhotos/0/Content";
-      oEvent.getSource().setSrc(this.allImageURLs[sImage]);
-    },
-    addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
-      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      var cartItem = {};
-      cartItem.Name = productRec.Name;
-      cartItem.ProductId = productRec.id;
-      cartItem.Tunch = productRec.Tunch;
-      cartItem.Category = productRec.Category;
-      cartItem.SubCategory = productRec.SubCategory;
-      cartItem.PictureUrl = PictureUrl;
-      for (var i = 0; i < allSelectedWeights.length; i++) {
-        cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
-        cartItem.NetWeight = allSelectedWeights[i].NetWeight;
-        cartItem.Amount = allSelectedWeights[i].Amount;
-        cartItem.WeightId = allSelectedWeights[i].id;
-        this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.WeightId] = oBtn;
-        cartItems.push(JSON.parse(JSON.stringify(cartItem)));
-      }
-      this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
-      this.calculateOrderEstimate();
-    },
-    removeProductFromCart: function(productRec, selectedWeights) {
-      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      for (var i = 0; i < cartItems.length; i++) {
-        if (cartItems[i].WeightId === selectedWeights.id) {
-          cartItems.splice(i, 1);
-          break;
+      },
+      addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
+        var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+        var cartItem = {};
+        cartItem.Name = productRec.Name;
+        cartItem.ProductId = productRec.id;
+        cartItem.Tunch = productRec.Tunch;
+        cartItem.Category = productRec.Category;
+        cartItem.SubCategory = productRec.SubCategory;
+        cartItem.PictureUrl = PictureUrl;
+        for (var i = 0; i < allSelectedWeights.length; i++) {
+          cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
+          cartItem.NetWeight = allSelectedWeights[i].NetWeight;
+          cartItem.Amount = allSelectedWeights[i].Amount;
+          cartItem.WeightId = allSelectedWeights[i].id;
+          this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] = oBtn;
+          cartItems.push(JSON.parse(JSON.stringify(cartItem)));
         }
-      }
-      this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
-    },
-    selectedWeights: function(oEvent) {
-      var allSelectedWeights = [];
-      var selectedItems = oEvent.getParameter("selectedItems");
-      var mainProduct = this.oBtn.getParent().getModel().getProperty(this.sPath);
-      if (selectedItems.length > 0) {
-        for (var i = 0; i < selectedItems.length; i++) {
-          var selectedWeight = selectedItems[i].getModel().getProperty(selectedItems[i].getBindingContextPath());
-          var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-          addedWeights.push(selectedWeight);
-          this.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-          allSelectedWeights.push(selectedWeight);
+        this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+        this.calculateOrderEstimate();
+      },
+      removeProductFromCart: function(productRec, selectedWeights) {
+        var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+        for (var i = 0; i < cartItems.length; i++) {
+          if (cartItems[i].WeightId === selectedWeights.id) {
+            cartItems.splice(i, 1);
+            break;
+          }
         }
-      }
+        this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+      },
+      selectedWeights: function(oEvent) {
+        var allSelectedWeights = [];
+        var selectedItems = oEvent.getParameter("selectedItems");
+        var mainProduct = this.oBtn.getParent().getModel().getProperty(this.sPath);
+        if (selectedItems.length > 0) {
+          for (var i = 0; i < selectedItems.length; i++) {
+            var selectedWeight = selectedItems[i].getModel().getProperty(selectedItems[i].getBindingContextPath());
+            var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+            addedWeights.push(selectedWeight);
+            this.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+            allSelectedWeights.push(selectedWeight);
+          }
+        }
 
-      this.addProductToCart(mainProduct, allSelectedWeights, this.allImageURLs[this.sPath + "/ToPhotos/0/Content"]);
+        this.addProductToCart(mainProduct, allSelectedWeights, this.allImageURLs[this.sPath + "/ToPhotos/0/Content"]);
 
-    },
-    loadedWeights: [],
-    closeWeights: function() {
-      this.oDialog.close();
-    },
-    onAddToCart: function(oEvent) {
-      var oBtn = oEvent.getSource();
-      //get binding path of parent list item
-      var sPath = oBtn.getParent().getBindingContext().getPath();
-      this.oBtn = oBtn;
-      this.sPath = sPath;
-      var that = this;
-      if (!this.loadedWeights[sPath]) {
+      },
+      loadedWeights: [],
+      closeWeights: function() {
+        this.oDialog.close();
+      },
+      onAddToCart: function(oEvent) {
+        var oBtn = oEvent.getSource();
+        //get binding path of parent list item
+        var sPath = oBtn.getParent().getBindingContext().getPath();
+        this.oBtn = oBtn;
+        this.sPath = sPath;
+        var that = this;
+        // if ((!this.loadedWeights[sPath]) && oBtn.getType() !== "Emphasized") {
         this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
         then(function(data) {
-          that.loadedWeights[sPath] = data.ProdWeights;
-          that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-          oBtn.setType("Emphasized");
-          var allSelectedWeights = [data.ProdWeights[0]];
-          var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
-          var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-          addedWeights.push(allSelectedWeights[0]);
-          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
-          MessageToast.show("Added to cart");
+            // that.loadedWeights[sPath] = data.ProdWeights;
+            // that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
+            // oBtn.setType("Emphasized");
+            // var allSelectedWeights = [data.ProdWeights[0]];
+            // var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
+            // var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+            // addedWeights.push(allSelectedWeights[0]);
+            // that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+            // that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+            // MessageToast.show("Added to cart");
+            var tempLoaded = data.ProdWeights;
+            var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+            var cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
+            if (oBtn.getType() === "Emphasized") {
+              for (var j = 0; j < addedWeights.length; j++) {
+                if (tempLoaded[0].id === addedWeights[j].id) {
+                  addedWeights.splice(j, 1);
+                  oBtn.setType("Default");
+                  break;
+                }
+              }
+              for (var j = 0; j < cartItems.length; j++) {
+                if (tempLoaded[0].id === cartItems[j].WeightId) {
+                  cartItems.splice(j, 1);
+                  MessageToast.show("Removed from cart");
+                  oBtn.setType("Default");
+                  break;
+                }
+              }
+            } else {
+              oBtn.setType("Emphasized");
+              var allSelectedWeights = [tempLoaded[0]];
+              var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
+              var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+              addedWeights.push(allSelectedWeights[0]);
+              that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+              that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+              MessageToast.show("Added to cart");
+            }
+          // }
         });
-      } else {
-        var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
-        var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-        if (oBtn.getType() === "Emphasized") {
-          for (var j = 0; j < addedWeights.length; j++) {
-            if (tempLoaded[0].id === addedWeights[j].id) {
-              addedWeights.splice(j, 1);
-              oBtn.setType("Default");
-              break;
-            }
-          }
-          for (var j = 0; j < cartItems.length; j++) {
-            if (tempLoaded[0].id === cartItems[j].WeightId) {
-              cartItems.splice(j, 1);
-              MessageToast.show("Removed to cart");
-              oBtn.setType("Default");
-              break;
-            }
-          }
-        } else {
-          oBtn.setType("Emphasized");
-          var allSelectedWeights = [tempLoaded[0]];
-          var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
-          var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-          addedWeights.push(allSelectedWeights[0]);
-          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
-          MessageToast.show("Added to cart");
-        }
-      }
+      // }
+      // else {
+      //   var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
+      //   var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //   var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      //   if (oBtn.getType() === "Emphasized") {
+      //     for (var j = 0; j < addedWeights.length; j++) {
+      //       if (tempLoaded[0].id === addedWeights[j].id) {
+      //         addedWeights.splice(j, 1);
+      //         oBtn.setType("Default");
+      //         break;
+      //       }
+      //     }
+      //     for (var j = 0; j < cartItems.length; j++) {
+      //       if (tempLoaded[0].id === cartItems[j].WeightId) {
+      //         cartItems.splice(j, 1);
+      //         MessageToast.show("Removed to cart");
+      //         oBtn.setType("Default");
+      //         break;
+      //       }
+      //     }
+      //   } else {
+      //     oBtn.setType("Emphasized");
+      //     var allSelectedWeights = [tempLoaded[0]];
+      //     var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
+      //     var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //     addedWeights.push(allSelectedWeights[0]);
+      //     that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+      //     that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+      //     MessageToast.show("Added to cart");
+      //   }
+      // }
     },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");
@@ -287,6 +318,8 @@ sap.ui.define([
       this.getRouter().navTo("product", {
         key: sIndex
       });
+      var oBtn = oEvent.getSource().getParent().getParent().getContent()[2].getItems()[0];
+      this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
     },
     onImageOpen: function(oEvent) {
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
