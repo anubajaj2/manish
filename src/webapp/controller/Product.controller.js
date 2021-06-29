@@ -84,8 +84,8 @@ sap.ui.define([
         var options = {
           width: 750,
           height: 550,
-          zoomWidth: 550,
-          zoomStyle: 'z-index: 2;border-style: solid;border-width: 15px;border-color: black;'
+          // zoomWidth: 550,
+          zoomStyle: 'z-index: 2;border-style: none none none solid;border-width: 15px;border-color: black;'
         };
         that.zoomedImg = new ImageZoom(document.getElementById("__component0---Product--img-container"), options);
       }, 500);

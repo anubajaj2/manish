@@ -125,6 +125,7 @@
           <contentRight>
             <Button id="submitOrder" type="Accept" text="Create New Order" press="restartOrder"></Button>
             <Button id="cancelOrder" type="Reject" text="Close App" press="closeApp"></Button>
+            <Button id="downloadInvoice" type="Accept" text="Invoice" press="onDownloadInvoice"></Button>
           </contentRight>
         </Bar>
       </footer>
