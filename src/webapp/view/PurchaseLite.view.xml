@@ -35,7 +35,7 @@
             </l:BlockLayoutCell>
           </l:BlockLayoutRow>
         </l:BlockLayout>
-        <VBox>
+        <!-- <VBox>
           <HBox>
             <VBox id="idVBox1">
               <Label text="Purity" class=" sapUiLargeMarginTop" />
@@ -72,7 +72,7 @@
             </VBox>
           </HBox>
 
-        </VBox>
+        </VBox> -->
         <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true" class="sapUiTinyMarginTop">
           <t:extension>
 

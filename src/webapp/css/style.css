@@ -165,3 +165,10 @@ margin-top: 9px;
     margin-top: 17px;
 
 }
+
+
+.sapUiFormCLContainer>.sapUiFormCLContainerCont {
+    column-gap: 5.5rem;
+    margin-right: 4rem;
+    margin-left: 5rem;
+}

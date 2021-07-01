@@ -1,18 +1,134 @@
-<mvc:View
-	controllerName="sap.ui.demo.cart.controller.MyProduct"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc">
-	<Page
-		id="page"
-		title="My Products"
-		backgroundDesign="Solid">
+<mvc:View controllerName="sap.ui.demo.cart.controller.MyProduct" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form" xmlns:unified="sap.ui.unified" xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:anubhav="sap.ui.demo.cart.controls" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cards="sap.f.cards" xmlns:f="sap.f">
+	<Page id="page" title="My Products" backgroundDesign="Solid">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
-
+			<form:SimpleForm id="idSF" editable="true" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="3">
+				<form:content>
+					<!-- <core:Title text=" " /> -->
+					<Label text="Product Code"/>
+					<Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange" valueHelpOnly="true" showValueHelp="true"
+						valueHelpRequest="onProductValueHelp"/>
+					<Label text="Remarks"/>
+					<Input id="idPName" value="{local>/Product/Name}" submit="onEnterRemark"/>
+					<Label text="Category"/>
+					<ComboBox id="idCat" items="{local>/cat/category}" selectedKey="{local>/Product/Category}" change="onCat">
+						<items>
+							<core:Item text="{local>Category}" key="{local>Category}"/>
+						</items>
+					</ComboBox>
+					<Label text="SubCategory"/>
+					<ComboBox id="idSubCat" submit="onEnterSubCat" items="{local>/cat/subCatergory}" selectedKey="{local>/Product/SubCategory}"
+						change="onSubCat">
+						<items>
+							<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
+						</items>
+					</ComboBox>
+					<Label text="Type/Pair"/>
+					<ComboBox id="idType" items="{local>/cat/type}" selectedKey="{local>/Product/Type}" change="onType">
+						<items>
+							<core:Item text="{local>Type}" key="{local>Key}"/>
+						</items>
+					</ComboBox>
+					<!-- <Label text="Pair Type"/> -->
+					<Select id="idPairType" selectedKey="{local>/Product/PairType}" change="onEnterPairType">
+						<items>
+							<core:Item text="0" key="0"/>
+							<core:Item text="1" key="1"/>
+							<core:Item text="2" key="2"/>
+							<core:Item text="3" key="3"/>
+							<core:Item text="4" key="4"/>
+							<core:Item text="5" key="5"/>
+							<core:Item text="6" key="6"/>
+							<core:Item text="7" key="7"/>
+							<core:Item text="8" key="8"/>
+							<core:Item text="9" key="9"/>
+							<core:Item text="10" key="10"/>
+						</items>
+						<layoutData>
+							<form:ColumnElementData cellsSmall="4" cellsLarge="3"/>
+						</layoutData>
+					</Select>
+					<Label visible="false" text="Short Description"/>
+					<Input visible="false" id="idSD" value="{local>/Product/ShortDescription}" maxLength="60" submit="onSD"/>
+					<!-- <core:Title text=" " /> -->
+					<Label visible="true" text="Kt/Gen"/>
+					<Select visible="true" id="idKarat" selectedKey="{local>/Product/Karat}" change="onKarat">
+						<items>
+							<core:Item text="22 Caret" key="222"/>
+							<core:Item text="18 Caret" key="18"/>
+							<core:Item text="14 Caret" key="14"/>
+						</items>
+					</Select>
+					<!-- <Label text="Gender"/> -->
+					<Select id="idGender" selectedKey="{local>/Product/Gender}" change="onGender">
+						<items>
+							<core:Item text="Male" key="M"/>
+							<core:Item text="Female" key="F"/>
+						</items>
+						<layoutData>
+							<form:ColumnElementData cellsSmall="5" cellsLarge="4"/>
+						</layoutData>
+					</Select>
+					<Label text="Tunch"/>
+					<Input id="idTunch" value="{local>/Product/Tunch}" submit="onTunch"/>
+					<Label text="Wastage"/>
+					<Input id="idWastage" value="{local>/Product/Wastage}" submit="onWastage"/>
+					<Label text="Making"/>
+					<Input id="idMkg" value="{local>/Product/Making}" submit="onMaking"/>
+					<Label text="Gross Wt."/>
+					<Input id="idGrossWt" value="{local>/Product/Making}" submit="onGrossWt"/>
+					<Label text="LS Wt."/>
+					<Input id="idlswt" value="{local>/Product/Making}" submit="onLsWt"/>
+					<Label text="Net Wt."/>
+					<Input id="idnetwt" value="{local>/Product/Making}" submit="onNetWt"/>
+					<Label text="Fine"/>
+					<Input id="idFine" value="{local>/Product/Making}" submit="onFine"/>
+					<Label text="Amount"/>
+					<Input id="idAmount" value="{local>/Product/Making}" submit="onAmount"/>
+				</form:content>
+			</form:SimpleForm>
+			<Panel>
+				<unified:FileUploader id="fileUploader" name="myFileUpload" fileType='{fileTypes>/items}' multiple="true" change="onUploadChange"
+					tooltip="Upload your file to the local system"/>
+				<Button text="Take Photo" id="idCapture" press="takePhoto" icon="sap-icon://camera"/>
+				<!-- <Button text="" icon="sap-icon://delete" press="onDelete"/> -->
+				<!-- <Button
+					text="Upload File"
+					press="handleUploadPress"/> -->
+			</Panel>
+			<f:GridList id="gridList" items="{ path: 'local>/allImages' }" growing="true" growingThreshold="20" mode="MultiSelect"
+				itemPress="onImageOpen">
+				<f:headerToolbar>
+					<Toolbar>
+						<content>
+							<!-- <Title text="GridList, using custom header with SearchField" /> -->
+							<ToolbarSpacer/>
+							<Button text="" icon="sap-icon://delete" press="onDelete"/>
+						</content>
+					</Toolbar>
+				</f:headerToolbar>
+				<f:customLayout>
+					<grid:GridBoxLayout boxWidth="10rem"/>
+				</f:customLayout>
+				<f:GridListItem mode="Active">
+					<FlexBox renderType="Div" height="10rem" width="100%" justifyContent="Center">
+						<Image src="{local>Stream}" width="100%" height="100%" press="onImageOpen" tooltip="" mIn="onImageIn" mOut="onImageOut" alt=""></Image>
+					</FlexBox>
+				</f:GridListItem>
+			</f:GridList>
 		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
+				<Button text="Clear" type="Reject" press="onCancel" id="idCancel"></Button>
+				<Button text="Delete" type="Reject" press="onDelete" id="idDelete"></Button>
+			</Toolbar>
+		</footer>
 	</Page>
 </mvc:View>
