@@ -1,4 +1,8 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseLite" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+<mvc:View controllerName="sap.ui.demo.cart.controller.PurchaseLite" xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:mvc="sap.ui.core.mvc" xmlns:t="sap.ui.table" xmlns:u="sap.ui.unified" displayBlock="true"
+  xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:core="sap.ui.core"
+  xmlns:smartTable="sap.ui.comp.smarttable" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+  xmlns:semantic="sap.m.semantic" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
   <App>
     <pages>
       <Page showHeader="false">
@@ -73,17 +77,22 @@
           </HBox>
 
         </VBox> -->
-        <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single" rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true" visible="true" class="sapUiTinyMarginTop">
+        <t:Table rows="{PurchaseLiteModel>/PurchaseLite}" id="PurchaseLiteTable" selectionMode="Single"
+          rowSelectionChange="onVendorSelection" ariaLabelledBy="title" alternateRowColors="true"
+          visible="true" class="sapUiTinyMarginTop">
           <t:extension>
 
             <OverflowToolbar>
               <Title id="title" text="Product({PurchaseLiteModel>/title})" />
               <!-- <Title text="" /> -->
               <ToolbarSpacer />
-              <Button icon="sap-icon://picture" press="onAddImageData" enabled="{PurchaseLiteModel>/visible}" text="Mass Image Upload"></Button>
-              <Button icon="sap-icon://add" text="Add" enabled="{PurchaseLiteModel>/visible}"  press="onAdd"></Button>
-              <Button icon="sap-icon://download" press="onPressTemplateDownload" enabled="{PurchaseLiteModel>/visible}" text="Download Template"></Button>
-              <Button icon="sap-icon://excel-attachment" press="onAddExcelData" enabled="{PurchaseLiteModel>/visible}" text="Upload Excel"></Button>
+              <Button icon="sap-icon://picture" press="onAddImageData" enabled="{PurchaseLiteModel>/visible}"
+                text="Mass Image Upload"></Button>
+              <Button icon="sap-icon://add" text="Add" enabled="{PurchaseLiteModel>/visible}" press="onAdd"></Button>
+              <Button icon="sap-icon://download" press="onPressTemplateDownload" enabled="{PurchaseLiteModel>/visible}"
+                text="Download Template"></Button>
+              <Button icon="sap-icon://excel-attachment" press="onAddExcelData" enabled="{PurchaseLiteModel>/visible}"
+                text="Upload Excel"></Button>
               <!-- <SearchField width="35%" liveChange="onSearch" search="onSearch" class="sapUiSmallMargin" /> -->
               <!-- <Button visible="false" icon="sap-icon://excel-attachment" tooltip="Download excel" press="onDownloadUsersData" /> -->
               <!-- <Button text="Delete" icon="sap-icon://delete" press="onDeleteVendor" visible="false" type="Reject"></Button> -->
@@ -124,6 +133,18 @@
                 <Text text="{PurchaseLiteModel>PCS}" wrapping="true" />
               </t:template>
             </t:Column>
+            <t:Column width="20%">
+              <Label text="Tunch" />
+              <t:template>
+                <Text text="" wrapping="true" />
+              </t:template>
+            </t:Column>
+            <t:Column width="20%">
+              <Label text="Rate" />
+              <t:template>
+                <Text text="" wrapping="true" />
+              </t:template>
+            </t:Column>
 
             <t:Column width="20%">
               <Label text="SIZE*" />
@@ -135,7 +156,8 @@
             <t:Column width="20%">
               <Label text="Photo" />
               <t:template>
-                <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}"  text="" wrapping="true" press="onPhotoClick" />
+                <Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}"
+                  text="" wrapping="true" press="onPhotoClick" />
               </t:template>
             </t:Column>
 
@@ -161,7 +183,7 @@
           <Toolbar>
             <ToolbarSpacer />
             <Button text="Save" enabled="{PurchaseLiteModel>/visible}" press="onMasterSave" />
-            <Button text="Clear"  />
+            <Button text="Clear" />
             <Button />
           </Toolbar>
         </footer>
