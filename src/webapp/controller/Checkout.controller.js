@@ -325,466 +325,413 @@ sap.ui.define([
       oNavContainer.attachAfterNavigate(_fnAfterNavigate);
       oNavContainer.to(this.byId("wizardContentPage"));
     },
-    onDownloadInvoice: function(){
+    onDownloadInvoice: function() {
 
-  			// var country = this.getCountryNameFromCode(oDetail.Country);
-  			var country = oDetail.Country;
-  			var billingDate = new Date(oDetail.Date).toDateString().slice(4).split(" ");
-  			billingDate = billingDate[0] + " " + billingDate[1] + ", " + billingDate[2];
-  			var dueDate = null;
-  			if (oDetail.DueDate) {
-  				dueDate = new Date(oDetail.DueDate).toDateString().slice(4).split(" ");
-  				dueDate = dueDate[0] + " " + dueDate[1] + ", " + dueDate[2];
-  			}
-  			var products = [{
-  				"Course": oDetail.CourseName,
-  				"HSN": "999293",
-  				"Qty": 1,
-  				"Rate": oDetail.GSTType !== "NONE" ? (parseFloat(oDetail.Amount) * 100 / 118).toFixed(2) : oDetail.Amount,
-  				"IGST": (oDetail.GSTType !== "NONE" ? 18 : 0),
-  				"Amount": oDetail.GSTType !== "NONE" ? (parseFloat(oDetail.Amount) * 100 / 118).toFixed(2) : oDetail.Amount
-  			}];
-  			const invoiceDetail = {
-  				shipping: {
-  					name: oDetail.CompanyName ? oDetail.CompanyName : oDetail.ParticipentName,
-  					email: oDetail.Email,
-  					mob: (oDetail.ContactNo ? "+" + oDetail.ContactNo : ""),
-  					GSTIN: (oDetail.GSTIN !== null ? oDetail.GSTIN : ""),
-  					address: (oDetail.Address != null ? oDetail.Address + ", " : "") + (oDetail.City != "null" ? oDetail.City + ", " : "") + (oDetail.State ? oDetail.State + ", " : "") + country
-  				},
-  				items: products,
-  				IGST: oDetail.GSTType !== "NONE" ? 18 : 0,
-  				fullAmount: parseFloat(oDetail.Amount).toFixed(2),
-  				order_number: invoiceNo,
-  				paymentMode: oDetail.PaymentMode,
-  				IsWallet: oDetail.IsWallet,
-  				header: {
-  					company_name: (oDetail.AccountNo).indexOf("114705500444") !== -1 ? "Soyuz Technologies LLP" : "Anubhav Trainings",
-  					company_logo: (oDetail.AccountNo).indexOf("114705500444") !== -1 ? "data:image/png;base64," + this.logo : "data:image/png;base64," + this.AnubhavTrainingslogo,
-  					signature: (oDetail.AccountNo).indexOf("114705500444") !== -1 ? "data:image/png;base64," + this.soyuz_signature : "data:image/png;base64," + this.anubhav_signature,
-  					// hear \\ is used to change line
-  					company_address: (oDetail.AccountNo).indexOf("114705500444") !== -1 ? "EPS-FF-073A, Emerald Plaza,\\Golf Course Extension Road,\\Sector 65, Gurgaon,\\Haryana-122102" : "B-25 Shayona shopping center,\\Near Shayona Party Plot,\\Chanikyapuri, Ahemdabad\\Pin - 380061",
-  					GSTIN: (oDetail.GSTType !== "NONE" ? "06AEFFS9740G1ZS" : "")
-  				},
-  				footer: {
-  					text: "This is a computer generated invoice"
-  				},
-  				currency_symbol: oDetail.Currency,
-  				date: {
-  					billing_date: billingDate,
-  					due_date: dueDate ? dueDate : ""
-  				}
-  			};
+      // var country = this.getCountryNameFromCode(Country);
+      const invoiceDetail = {
+        shipping: {
+          name: "NONE",
+          email: "NONE",
+          mob: "NONE",
+          GSTIN: "NONE",
+          address: "NONE"
+        },
+        items: [{
+          CODE: "NONE",
+          GROSS_WT: "NONE",
+          STONE_WT: "NONE",
+          NET_WT: "NONE",
+          KT: "NONE",
+          SIZE: "NONE",
+          QTY: "NONE",
+          REMARKS: "NONE"
+        }, {
+          CODE: "NONE",
+          GROSS_WT: "NONE",
+          STONE_WT: "NONE",
+          NET_WT: "NONE",
+          KT: "NONE",
+          SIZE: "NONE",
+          QTY: "NONE",
+          REMARKS: "NONE"
+        }, {
+          CODE: "NONE",
+          GROSS_WT: "NONE",
+          STONE_WT: "NONE",
+          NET_WT: "NONE",
+          KT: "NONE",
+          SIZE: "NONE",
+          QTY: "NONE",
+          REMARKS: "NONE"
+        }],
+        IGST: "NONE",
+        fullAmount: 9999,
+        order_number: "NONE",
+        paymentMode: "NONE",
+        IsWallet: true,
+        header: {
+          company_name: "MANGALAM",
+          company_logo: "NONE",
+          signature: "NONE",
+          // hear \\ is used to change line
+          company_address: "NONE",
+          GSTIN: "NONE"
+        },
+        footer: {
+          text: "This is a computer generated invoice"
+        },
+        currency_symbol: "NONE",
+        date: {
+          billing_date: "NONE",
+          due_date: "NONE"
+        }
+      };
 
-  			let header = (doc, invoice) => {
+      let header = (doc, invoice) => {
 
-  				if (this.logo) {
-  					doc.image(invoice.header.company_logo, 50, 45, {
-  							width: 50
-  						})
-  						.fontSize(20)
-  						.text(invoice.header.company_name, 110, 57)
-  						.fontSize(10);
-  					if (oDetail.GSTType !== "NONE" && (oDetail.AccountNo === "114705500444")) {
-  						doc.text("GSTIN: " + invoice.header.GSTIN, 112, 87);
-  					}
-  					doc.moveDown();
-  				} else {
-  					doc.fontSize(20)
-  						.text(invoice.header.company_name, 50, 45)
-  						.fontSize(10)
-  						.text("GSTIN: " + invoice.header.GSTIN, 50, 75)
-  						.moveDown()
-  				}
+        if (this.logo) {
+          doc.image(invoice.header.company_logo, 50, 45, {
+              width: 50
+            })
+            .fontSize(20)
+            .text(invoice.header.company_name, 220, 57)
+            .fontSize(10);
+          doc.moveDown();
+        } else {
+          doc.fontSize(20)
+            .text(invoice.header.company_name, 245, 45)
+            .fontSize(10)
+            // .text("GSTIN: " + invoice.header.GSTIN, 50, 75)
+            .moveDown()
+        }
 
-  				if (invoice.header.company_address.length !== 0) {
-  					companyAddress(doc, invoice.header.company_address);
-  				}
+        // if (invoice.header.company_address.length !== 0) {
+        //   companyAddress(doc, invoice.header.company_address);
+        // }
 
-  			}
+      }
 
-  			let customerInformation = (doc, invoice) => {
-  				doc
-  					.fillColor("#444444")
-  					.fontSize(20);
-  				if (oDetail.Notes) {
-  					doc.text("Performa Invoice", 50, 160);
-  				} else {
-  					doc.text("Invoice", 50, 160);
-  				}
+      let customerInformation = (doc, invoice) => {
+        doc
+          .fillColor("#444444")
+          .fontSize(20);
+        generateHr(doc, 110);
 
-  				generateHr(doc, 185);
+        const customerInformationTop = 120;
 
-  				const customerInformationTop = 200;
+        doc.fontSize(10)
+          .font("Helvetica-Bold")
+          .text("User Details:", 50, customerInformationTop)
+          .font("Helvetica")
+          .text("Company:", 50, customerInformationTop + 15)
+          .text(invoice.shipping.email, 150, customerInformationTop + 15);
+        doc.text("Slab:", 50, customerInformationTop + 45 - 15)
+          .text(invoice.shipping.GSTIN, 150, customerInformationTop + 45 - 15);
+        doc.fontSize(10)
+          .text("Name:", 50, customerInformationTop + 60 - 15)
+          .text(invoice.shipping.address, 150, customerInformationTop + 60 - 15)
+          .text("Mobile No:", 50, customerInformationTop + 60)
+          .text(invoice.shipping.address, 150, customerInformationTop + 60)
+          .text("E-mail:", 50, customerInformationTop + 75)
+          .text(invoice.shipping.address, 150, customerInformationTop + 75)
+          .text("City:", 50, customerInformationTop + 90)
+          .text(invoice.shipping.address, 150, customerInformationTop + 90)
 
-  				doc.fontSize(10)
-  					.text("Name:", 50, customerInformationTop)
-  					.font("Helvetica-Bold")
-  					.text(invoice.shipping.name, 150, customerInformationTop)
-  					.font("Helvetica")
-  					.text("E-mail:", 50, customerInformationTop + 15)
-  					.text(invoice.shipping.email, 150, customerInformationTop + 15);
-  				// if (oDetail.GSTType !== "NONE") {
-  				doc.text("GSTIN:", 50, customerInformationTop + 45 - 15)
-  					.text(invoice.shipping.GSTIN, 150, customerInformationTop + 45 - 15);
-  				// }
-  				doc.fontSize(10)
-  					.text("Address:", 50, customerInformationTop + 60 - 15)
-  					.text(invoice.shipping.address, 150, customerInformationTop + 60 - 15)
+          .font("Helvetica-Bold")
+          .text("Client Details:", 350, customerInformationTop)
+          .font("Helvetica")
+          .text("Company:", 350, customerInformationTop + 15)
+          .text(invoice.date.billing_date, 450, customerInformationTop + 15)
+          .text("Slab:", 350, customerInformationTop + 30)
+          .text(invoice.date.due_date, 450, customerInformationTop + 30)
+          .text("Name:", 350, customerInformationTop + 45)
+          .text(invoice.date.due_date, 450, customerInformationTop + 45)
+          .text("Mobile No:", 350, customerInformationTop + 60)
+          .text(invoice.date.due_date, 450, customerInformationTop + 60)
+          .text("E-mail:", 350, customerInformationTop + 75)
+          .text(invoice.date.due_date, 450, customerInformationTop + 75)
+          .text("City:", 350, customerInformationTop + 90)
+          .text(invoice.date.due_date, 450, customerInformationTop + 90)
+          .moveDown();
 
-  					.text("Invoice Number:", 350, customerInformationTop)
-  					.font("Helvetica-Bold")
-  					.text(invoice.order_number, 450, customerInformationTop)
-  					.font("Helvetica")
-  					.text("Invoice Date:", 350, customerInformationTop + 15)
-  					.text(invoice.date.billing_date, 450, customerInformationTop + 15)
-  					.text("Due Date:", 350, customerInformationTop + 30)
-  					.text(invoice.date.due_date, 450, customerInformationTop + 30)
-  					.moveDown();
+        generateHr(doc, 230);
+      }
 
-  				generateHr(doc, 280);
-  			}
+      let invoiceTable = (doc, invoice) => {
+        let i;
+        const invoiceTableTop = 260;
+        const currencySymbol = invoice.currency_symbol;
+        doc.font("Helvetica-Bold");
+        tableRowIGST(
+          doc,
+          invoiceTableTop,
+          "#",
+          "CODE",
+          "GROSS WT",
+          "STONE WT",
+          "NET WT",
+          "KT",
+          "SIZE",
+          "QTY",
+          "REMARKS"
+        );
+        generateHr(doc, invoiceTableTop + 20);
+        doc.font("Helvetica");
+        var totalAmount = 0;
+        var totalGST = 0;
+        let position;
+        for (i = 0; i < invoice.items.length; i++) {
+          const item = invoice.items[i];
+          position = invoiceTableTop + (i + 1) * 30;
+          tableRowIGST(
+            doc,
+            position,
+            i + 1,
+            item.CODE,
+            item.GROSS_WT,
+            item.STONE_WT,
+            item.NET_WT,
+            item.KT,
+            item.SIZE,
+            item.QTY,
+            item.REMARKS
+          );
+          // totalAmount += parseFloat(item.Amount);
+          generateHr(doc, position + 20);
+        }
+        customerInformationOtherDetails(doc, position);
+        // const subtotalPosition = invoiceTableTop + (i + 1) * 35;
+        // doc.font("Helvetica-Bold");
+        // totalTable(
+        //   doc,
+        //   subtotalPosition,
+        //   "Sub Total:",
+        //   formatCurrency(totalAmount.toFixed(2))
+        // );
+        // const igstPosition = subtotalPosition + 20;
+        // doc.font("Helvetica-Bold");
+        // totalTable(
+        //   doc,
+        //   igstPosition,
+        //   "IGST:",
+        //   "NONE"
+        // );
+        // var paidToDatePosition = igstPosition + 20;
+        // doc.font("Helvetica-Bold");
+        // totalTable(
+        //   doc,
+        //   paidToDatePosition,
+        //   "Total:",
+        //   formatCurrency(invoice.fullAmount)
+        // );
+        // let amountInWordsPosition = paidToDatePosition;
+        // generateHr(doc, amountInWordsPosition + 20);
+        // doc.font("Helvetica-Bold")
+        // .text("Amount in Words:", 50, amountInWordsPosition + 30)
+        // .text(this.formatter.convertNumberToWords(invoice.fullAmount) + " only", 150, amountInWordsPosition + 30)
+        // generateHr(doc, amountInWordsPosition + 50);
+        // const signaturePosition = amountInWordsPosition + 205;
+        // doc.text(invoice.header.company_name, 430, signaturePosition)
+        // .image(invoice.header.signature, 420, signaturePosition + 20, {
+        // 	height: 80,
+        // 	width: 155
+        // })
+        // .text("Designated Partner", 440, signaturePosition + 105)
+        // .moveDown();
+      }
+      let customerInformationOtherDetails = (doc, position) => {
+        doc
+          .fillColor("#444444")
+          .fontSize(20);
+        const customerInformationBottom = 400;
 
-  			let invoiceTable = (doc, invoice) => {
-  				let i;
-  				const invoiceTableTop = 300;
-  				const currencySymbol = invoice.currency_symbol;
-  				doc.font("Helvetica-Bold");
-  				if (oDetail.GSTType === "SGST") {
-  					tableRowSGST(
-  						doc,
-  						invoiceTableTop,
-  						"Description",
-  						"Rate",
-  						"SGST",
-  						"CGST",
-  						"Amount"
-  					);
-  				} else {
-  					tableRowIGST(
-  						doc,
-  						invoiceTableTop,
-  						"Description",
-  						"Rate",
-  						"IGST",
-  						"Amount"
-  					);
-  				}
-  				generateHr(doc, invoiceTableTop + 20);
-  				doc.font("Helvetica");
-  				var totalAmount = 0;
-  				var totalGST = 0;
-  				for (i = 0; i < invoice.items.length; i++) {
-  					const item = invoice.items[i];
-  					const position = invoiceTableTop + (i + 1) * 30;
-  					if (oDetail.GSTType === "SGST") {
-  						item.SGST = item.IGST / 2;
-  						item.CGST = item.IGST / 2;
-  						tableRowSGST(
-  							doc,
-  							position,
-  							item.Course + (oDetail.GSTType !== "NONE" ? "\nHSN/SAC: " + item.HSN : ""),
-  							item.Rate,
-  							item.SGST,
-  							item.CGST,
-  							item.Amount
-  						);
-  					} else {
-  						tableRowIGST(
-  							doc,
-  							position,
-  							item.Course + "\nHSN/SAC: " + item.HSN,
-  							item.Rate,
-  							item.IGST,
-  							item.Amount
-  						);
-  					}
-  					totalAmount += parseFloat(item.Amount);
-  					generateHr(doc, position + 28);
-  				}
-  				if (oDetail.GSTType === "SGST") {
-  					const subtotalPosition = invoiceTableTop + (i + 1) * 35;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						subtotalPosition,
-  						"Sub Total:",
-  						formatCurrency(totalAmount.toFixed(2))
-  					);
-  					const sgstPosition = subtotalPosition + 20;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						sgstPosition,
-  						"SGST:",
-  						formatCurrency(oDetail.GSTType !== "NONE" ? (totalAmount * 0.09).toFixed(2) : 0)
-  					);
-  					const cgstPosition = sgstPosition + 20;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						cgstPosition,
-  						"CGST:",
-  						formatCurrency(oDetail.GSTType !== "NONE" ? (totalAmount * 0.09).toFixed(2) : 0)
-  					);
-  					var paidToDatePosition = cgstPosition + 20;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						paidToDatePosition,
-  						"Total (" + oDetail.Currency + "):",
-  						formatCurrency(invoice.fullAmount)
-  					);
-  				} else {
-  					const subtotalPosition = invoiceTableTop + (i + 1) * 35;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						subtotalPosition,
-  						"Sub Total:",
-  						formatCurrency(totalAmount.toFixed(2))
-  					);
-  					const igstPosition = subtotalPosition + 20;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						igstPosition,
-  						"IGST:",
-  						formatCurrency(oDetail.GSTType !== "NONE" ? (totalAmount * 0.18).toFixed(2) : 0)
-  					);
-  					var paidToDatePosition = igstPosition + 20;
-  					doc.font("Helvetica-Bold");
-  					totalTable(
-  						doc,
-  						paidToDatePosition,
-  						"Total (" + oDetail.Currency + "):",
-  						formatCurrency(invoice.fullAmount)
-  					);
-  				}
-  				let amountInWordsPosition = paidToDatePosition;
-  				generateHr(doc, amountInWordsPosition + 20);
-  				doc.font("Helvetica-Bold")
-  					.text("Amount in Words:", 50, amountInWordsPosition + 30)
-  					.text(this.formatter.convertNumberToWords(invoice.fullAmount) + " only", 150, amountInWordsPosition + 30)
-  				generateHr(doc, amountInWordsPosition + 50);
-  				if (oDetail.Notes) {
-  					doc.font("Helvetica-Bold")
-  						.text("Notes: ", 50, amountInWordsPosition + 75)
-  						.font("Helvetica")
-  						.text(oDetail.Notes, 50, amountInWordsPosition + 90)
-  						.font("Helvetica-Bold")
-  						.text("Remarks: ", 50, amountInWordsPosition + 165)
-  						.font("Helvetica")
-  						.text(oDetail.CourseName + "Training fee for " + oDetail.Email + ". Please note that the actual invoice will be generated after payment.", 50, amountInWordsPosition + 180)
-  						.font("Helvetica-Bold")
-  						.text("Terms: ", 50, amountInWordsPosition + 215)
-  						.font("Helvetica")
-  						.text(oDetail.Terms ? oDetail.Terms : "", 50, amountInWordsPosition + 230);
-  				}
-  				if ((!oDetail.Notes) && oDetail.Reference !== "null") {
-  					doc.font("Helvetica-Bold")
-  						.text("Remarks: ", 50, amountInWordsPosition + 215)
-  						.font("Helvetica")
-  						.text("Thanks for making payment on" + invoice.date.billing_date + "with reference no " + (oDetail.Reference !== "null" ? oDetail.Reference : ""), 50, amountInWordsPosition + 230);
-  				}
+        doc.fontSize(10)
+          .font("Helvetica-Bold")
+          .text("Ohter Details:", 50, customerInformationBottom)
+          .font("Helvetica")
+          .text("Remarks:", 50, customerInformationBottom + 15)
+          .text("Bangel size 2-6 aana", 150, customerInformationBottom + 15);
+        doc.text("Purity:", 50, customerInformationBottom + 45 - 15)
+          .text("22K", 150, customerInformationBottom + 45 - 15);
+        doc.fontSize(10)
+          .text("Gold Color:", 50, customerInformationBottom + 60 - 15)
+          .text("YELLOW", 150, customerInformationBottom + 60 - 15)
+          .text("Gold Type:", 50, customerInformationBottom + 60)
+          .text("PG", 150, customerInformationBottom + 60)
+          .text("Stamp (22K):", 50, customerInformationBottom + 75)
+          .text("916", 150, customerInformationBottom + 75)
+          .text("Finishing:", 50, customerInformationBottom + 90)
+          .text("HIGH POLISH + DULL", 150, customerInformationBottom + 90)
+      }
+      let footer = (doc, invoice) => {
+        if (invoice.footer.text.length !== 0) {
+          generateHr(doc, 760);
+          doc.fontSize(8).text(invoice.footer.text, 50, 770, {
+            align: "right",
+            width: 500
+          });
+        }
+      }
 
-  				const signaturePosition = amountInWordsPosition + 205;
-  				if (oDetail.AccountNo === "114705500444") {
-  					doc.text(invoice.header.company_name, 430, signaturePosition)
-  						.image(invoice.header.signature, 440, signaturePosition + 20, {
-  							height: 50,
-  							width: 110
-  						})
-  						.text("Designated Partner", 440, signaturePosition + 80)
-  						.moveDown();
-  				} else {
-  					doc.text(invoice.header.company_name, 430, signaturePosition)
-  						.image(invoice.header.signature, 420, signaturePosition + 20, {
-  							height: 80,
-  							width: 155
-  						})
-  						.text("Designated Partner", 440, signaturePosition + 105)
-  						.moveDown();
-  				}
-  			}
+      let totalTable = (
+        doc,
+        y,
+        name,
+        description
+      ) => {
+        doc
+          .fontSize(10)
+          .text(name, 380, y, {
+            width: 90,
+            align: "right"
+          })
+          .text(description, 0, y, {
+            align: "right"
+          })
+      }
 
-  			let footer = (doc, invoice) => {
-  				if (invoice.footer.text.length !== 0) {
-  					generateHr(doc, 760);
-  					doc.fontSize(8).text(invoice.footer.text, 50, 770, {
-  						align: "right",
-  						width: 500
-  					});
-  				}
-  			}
+      let tableRowIGST = (
+        doc,
+        y,
+        sr,
+        code,
+        gross_wt,
+        stone_wt,
+        net_wt,
+        kt,
+        size,
+        qty,
+        remarks
+      ) => {
+        doc
+          .fontSize(10)
+          .text(sr, 50, y)
+          .text(code, 60, y, {
+            width: 90,
+            align: "center"
+          })
+          .text(gross_wt, 150, y, {
+            width: 90,
+            align: "center"
+          })
+          .text(net_wt, 240, y, {
+            width: 90,
+            align: "center"
+          })
+          .text(kt, 330, y, {
+            width: 40,
+            align: "center"
+          })
+          .text(size, 370, y, {
+            width: 40,
+            align: "center"
+          })
+          .text(qty, 410, y, {
+            width: 40,
+            align: "center"
+          })
+          .text(remarks, 450, y, {
+            align: "center"
+          });
+      }
 
-  			let totalTable = (
-  				doc,
-  				y,
-  				name,
-  				description
-  			) => {
-  				doc
-  					.fontSize(10)
-  					.text(name, 380, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(description, 0, y, {
-  						align: "right"
-  					})
-  			}
+      let generateHr = (doc, y) => {
+        doc
+          .strokeColor("#aaaaaa")
+          .lineWidth(1)
+          .moveTo(50, y)
+          .lineTo(550, y)
+          .stroke();
+      }
 
-  			let tableRowIGST = (
-  				doc,
-  				y,
-  				desc,
-  				rate,
-  				igst,
-  				amount
-  			) => {
-  				doc
-  					.fontSize(10)
-  					.text(desc, 50, y)
-  					.text(rate, 300, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(igst + "%", 380, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(amount, 0, y, {
-  						align: "right"
-  					});
-  			}
+      let formatCurrency = (value, symbol = "") => {
+        if (value) {
+          var x = value.toString().split('.');
+          var y = (x.length > 1 ? "." + x[1] : "");
+          x = x[0];
+          var lastThree = x.substring(x.length - 3);
+          var otherNumbers = x.substring(0, x.length - 3);
+          if (otherNumbers != '')
+            lastThree = ',' + lastThree;
+          var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+          return res + y + symbol;
+        } else {
+          return value + symbol;
+        }
+      }
 
-  			let tableRowSGST = (
-  				doc,
-  				y,
-  				desc,
-  				rate,
-  				sgst,
-  				cgst,
-  				amount
-  			) => {
-  				doc
-  					.fontSize(10)
-  					.text(desc, 50, y)
-  					.text(rate, 260, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(sgst + "%", 320, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(cgst + "%", 380, y, {
-  						width: 90,
-  						align: "right"
-  					})
-  					.text(amount, 0, y, {
-  						align: "right"
-  					});
-  			}
+      let getNumber = str => {
+        if (str.length !== 0) {
+          var num = str.replace(/[^0-9]/g, '');
+        } else {
+          var num = 0;
+        }
 
-  			let generateHr = (doc, y) => {
-  				doc
-  					.strokeColor("#aaaaaa")
-  					.lineWidth(1)
-  					.moveTo(50, y)
-  					.lineTo(550, y)
-  					.stroke();
-  			}
+        return num;
+      }
 
-  			let formatCurrency = (value, symbol = "") => {
-  				if (value) {
-  					var x = value.toString().split('.');
-  					var y = (x.length > 1 ? "." + x[1] : "");
-  					x = x[0];
-  					var lastThree = x.substring(x.length - 3);
-  					var otherNumbers = x.substring(0, x.length - 3);
-  					if (otherNumbers != '')
-  						lastThree = ',' + lastThree;
-  					var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
-  					return res + y + symbol;
-  				} else {
-  					return value + symbol;
-  				}
-  			}
+      let checkIfTaxAvailable = tax => {
+        let validatedTax = getNumber(tax);
+        if (Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0) {
+          var taxValue = tax;
+        } else {
+          var taxValue = '---';
+        }
 
-  			let getNumber = str => {
-  				if (str.length !== 0) {
-  					var num = str.replace(/[^0-9]/g, '');
-  				} else {
-  					var num = 0;
-  				}
+        return taxValue;
+      }
 
-  				return num;
-  			}
-
-  			let checkIfTaxAvailable = tax => {
-  				let validatedTax = getNumber(tax);
-  				if (Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0) {
-  					var taxValue = tax;
-  				} else {
-  					var taxValue = '---';
-  				}
-
-  				return taxValue;
-  			}
-
-  			let applyTaxIfAvailable = (price, gst) => {
+      let applyTaxIfAvailable = (price, gst) => {
 
 
-  				let validatedTax = getNumber(gst);
-  				if (Number.isNaN(validatedTax) === false && validatedTax <= 100) {
-  					let taxValue = '.' + validatedTax;
-  					var itemPrice = price * (1 + taxValue);
-  				} else {
-  					var itemPrice = price * (1 + taxValue);
-  				}
+        let validatedTax = getNumber(gst);
+        if (Number.isNaN(validatedTax) === false && validatedTax <= 100) {
+          let taxValue = '.' + validatedTax;
+          var itemPrice = price * (1 + taxValue);
+        } else {
+          var itemPrice = price * (1 + taxValue);
+        }
 
-  				return itemPrice;
-  			}
+        return itemPrice;
+      }
 
-  			let companyAddress = (doc, address) => {
-  				let str = address;
-  				// let chunks = str.match(/.{0,25}(\s|$)/g);
-  				let chunks = str.split("\\");
-  				let first = 50;
-  				chunks.forEach(function(i, x) {
-  					doc.fontSize(10).text(chunks[x], 300, first, {
-  						align: "right"
-  					});
-  					first = +first + 15;
-  				});
-  			}
+      let companyAddress = (doc, address) => {
+        let str = address;
+        // let chunks = str.match(/.{0,25}(\s|$)/g);
+        let chunks = str.split("\\");
+        let first = 50;
+        chunks.forEach(function(i, x) {
+          doc.fontSize(10).text(chunks[x], 300, first, {
+            align: "right"
+          });
+          first = +first + 15;
+        });
+      }
 
-  			let niceInvoice = (invoice) => {
-  				var doc = new PDFDocument({
-  					size: "A4",
-  					margin: 40
-  				});
-  				var stream = doc.pipe(blobStream());
-  				header(doc, invoice);
-  				customerInformation(doc, invoice);
-  				invoiceTable(doc, invoice);
-  				footer(doc, invoice);
-  				doc.end();
-  				stream.on('finish', function() {
-  					// get a blob you can do whatever you like with
-  					const blob = stream.toBlob('application/pdf');
-  					// or get a blob URL for display in the browser
-  					const url = stream.toBlobURL('application/pdf');
+      let niceInvoice = (invoice) => {
+        var doc = new PDFDocument({
+          size: "A4",
+          margin: 40
+        });
+        var stream = doc.pipe(blobStream());
+        header(doc, invoice);
+        customerInformation(doc, invoice);
+        invoiceTable(doc, invoice);
+        footer(doc, invoice);
+        doc.end();
+        stream.on('finish', function() {
+          // get a blob you can do whatever you like with
+          const blob = stream.toBlob('application/pdf');
+          // or get a blob URL for display in the browser
+          const url = stream.toBlobURL('application/pdf');
 
-  					const downloadLink = document.createElement('a');
-  					downloadLink.href = url;
-  					downloadLink.download = invoiceNo + "_" + oDetail.Country + "_" + invoice.shipping.name;
-  					downloadLink.click();
-  				});
-  			}
-  			niceInvoice(invoiceDetail);
+          const downloadLink = document.createElement('a');
+          downloadLink.href = url;
+          downloadLink.download = "invoiceNo" + "_" + "Country" + "_" + invoice.shipping.name;
+          downloadLink.click();
+        });
+      }
+      niceInvoice(invoiceDetail);
     }
   });
 });
