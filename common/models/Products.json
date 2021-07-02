@@ -15,6 +15,12 @@
       "type": "string",
       "required": true
     },
+    "TagNo": {
+      "type": "string"
+    },
+    "BatchId": {
+      "type": "string"
+    },
     "Category": {
       "type": "string",
       "required": true
@@ -97,7 +103,7 @@
 		},
 		"CreatedBy": {
 			"type": "string",
-			"default": "null"
+			"required": true
 		},
 		"ChangedOn": {
 			"type": "date"

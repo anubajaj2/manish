@@ -1,0 +1,27 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog id="idPurchaseDialog" contentHeight="auto" contentWidth="auto" busyIndicatorDelay="0">
+		<content>
+			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="secureDetailsForm"
+				labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2">
+				<f:content>
+					<Label text="TAG NO" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/TagNo}" />
+                    <Label text="G WT" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/GWt}" />
+                    <Label text="AMOUNT" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/Amount}" />
+                    <Label text="PCS" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/PCS}" />
+                    <Label text="SIZE" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/Size}" />
+                    <Label text="Remarks" required=""/>
+					<Input value="{PurchaseLiteModel>/entry/Remark}" />	
+				</f:content>
+			</f:SimpleForm>
+		</content>
+		<buttons>
+			<Button id="idButton" text="Create" press="onPressHandleSecureOkPopup"/>
+			<Button text="Cancel" press="onPressHandleSecureCancelPopup"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

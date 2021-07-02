@@ -1,0 +1,119 @@
+{
+  "name": "CustomCalculation",
+  "plural": "CustomCalculations",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "First": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "Second": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "Gold": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "Silver": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "GoldReturns": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "SilverReturns": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "Gold1": {
+      "type": "number",
+      "required": false,
+      "default": 0
+    },
+    "Silver1": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "KacchaGold": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "KacchaSilver": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "GoldReturns1": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "SilverReturns1": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "KacchaGoldR": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+
+    },
+    "KacchaSilverR": {
+      "type": "Number",
+      "required": false,
+      "default": 0
+    },
+    "EntryLayout":{
+        "type":"boolean",
+        "default":false
+    },
+    "AMCDate": {
+      "type": "date"
+    },
+
+    "CreatedOn": {
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "default": "null"
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
+  },
+  "scope":{
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

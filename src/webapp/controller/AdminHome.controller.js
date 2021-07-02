@@ -37,7 +37,7 @@ sap.ui.define([
 	 						MessageToast.show("cannot fetch the data");
 	 				});
 		},
-		onSelectItem: function(oEvent){
+		onSelectItem: function(oEvent){debugger;
 			var oListItem = oEvent.getParameter("listItem");
 			var sPath = oListItem.getBindingContextPath();
 			var viewId = oListItem.getId().split("--")[oListItem.getId().split("--").length - 1];

@@ -92,18 +92,8 @@ sap.ui.define([
         orFilter.push(new Filter(aFilter, false));
         aFilter = [];
       }
-      //read sub categories
-      // var aItems2 = this.getView().getParent().getParent().getBeginColumnPages()[0].getContent()[0].getContent()[0].getItems();
-      // for (var i = 0; i < aItems2.length; i++) {
-      //   if (aItems2[i].hasStyleClass("colorGreen")) {
-      //     aFilter.push(new Filter("SubCategory", FilterOperator.EQ,
-      //       aItems2[i].getLabel()
-      //     ));
-      //   }
-      // }
       if (this.styleFilter.length > 0) {
         orFilter.push(new Filter(this.styleFilter, false));
-        // aFilter = [];
       }
       // read range Value low and high
       var aRange = oView.byId("range").getRange();
@@ -115,21 +105,12 @@ sap.ui.define([
       aFilter.push(new Filter("ProdStatus", FilterOperator.EQ, "A"));
 
       orFilter.push(new Filter(aFilter));
-      // aFilter = [];
-      //read the type
-      // if (oView.byId("togPlain").getPressed()) {
-      //   aFilter.push(new Filter("Type", FilterOperator.EQ, "P"));
-      // }
-      // if (oView.byId("togStudded").getPressed()) {
-      //   aFilter.push(new Filter("Type", FilterOperator.EQ, "S"));
-      // }
+
       if (this.typeFilter.length > 0) {
         orFilter.push(new Filter(this.typeFilter, false));
-        // aFilter = [];
       }
       if (this.karatFilter.length > 0) {
         orFilter.push(new Filter(this.karatFilter, false));
-        // aFilter = [];
       }
       var oFilter = new Filter({
         filters: orFilter,
@@ -137,7 +118,7 @@ sap.ui.define([
       });
       //set filter
       this.getOwnerComponent().getModel("local").setProperty("/searchFilter", oFilter);
-
+      this.getOwnerComponent().getModel("local").setProperty("/searchFlag", true);
       this.getRouter().navTo("productSearch");
 
     },
@@ -203,6 +184,9 @@ sap.ui.define([
     // },
     _onRouteMatched: function(oEvent) {
       this.loadCategories();
+    },
+    onCartClick: function(oEvent) {
+      this.oRouter.navTo("checkout");
     },
     onNavButtonPress: function() {
       this.oRouter.navTo("CustomerLanding");

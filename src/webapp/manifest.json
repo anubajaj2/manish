@@ -82,7 +82,7 @@
       },
       "routes": [
         {
-               	"pattern": "Maker",
+               	"pattern": "PurchaseLite",
          				"name": "Maker",
                	"target": ["Maker"]
                },
@@ -207,6 +207,14 @@
                   "AdminHome",
                   "Preferences"
                 ]
+              },
+              {
+                "pattern": "Customizing",
+                "name": "Customizing",
+                "target": [
+                  "AdminHome",
+                  "Customizing"
+                ]
               }
             ]
           },
@@ -238,12 +246,14 @@
             ]
           },
           {
-            "pattern": "myhome",
-            "name": "CustomerLanding",
-            "target": [
-              "CustomerLanding"
-            ],
             "subroutes": [
+              {
+                "pattern": "myhome",
+                "name": "CustomerLanding",
+                "target": [
+                  "CustomerLanding"
+                ]
+              },
               {
                 "pattern": "categories",
                 "name": "categories",
@@ -260,11 +270,19 @@
                 ]
               },
               {
-                "pattern": "category/productSearch",
+                "pattern": "productSearch",
                 "name": "productSearch",
                 "target": [
                   "productSearch"
                 ]
+              },
+              {
+                "pattern": "Products{key}",
+                "name": "product",
+                "target": [
+                  "product"
+                ],
+                "titleTarget": "comparison"
               },
               {
                 "pattern": "cart",
@@ -342,11 +360,11 @@
           "viewId": "idCustomerLanding"
         },
         "product": {
-          "viewName": "productSearch",
-          "viewLevel": 3,
-          "viewId": "productSearch",
-          "controlId": "__xmlview0--layout",
-          "controlAggregation": "midColumnPages"
+          "viewName": "Product",
+          "viewLevel": 1,
+          "viewId": "Product",
+          "controlId": "__component0---idMainApp--idMainApp",
+          "controlAggregation": "pages"
         },
         "comparison": {
           "viewName": "Comparison",
@@ -358,7 +376,7 @@
         },
         "productSearch": {
           "viewName": "productSearch",
-          "viewLevel": 2,
+          "viewLevel": 1,
           "controlId": "__component0---idMainApp--idMainApp",
           "controlAggregation": "pages",
           "viewId": "productSearch"
@@ -552,6 +570,13 @@
           "controlAggregation": "midColumnPages",
           "viewLevel": 3,
           "viewId": "downloadQueries"
+        },
+        "Customizing": {
+          "viewName": "Customizing",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "Customizing"
         }
 
       }

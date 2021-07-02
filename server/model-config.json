@@ -112,6 +112,10 @@
     "dataSource": "mongoatlas",
     "public": true
   },
+  "CustomCalculation":{
+    "dataSource": "mongoatlas",
+    "public": true
+  },
   "Category":{
     "dataSource": "mongoatlas",
     "public": true

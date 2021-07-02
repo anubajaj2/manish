@@ -116,20 +116,32 @@
 .sapMIBar-CTX .sapMBtnTransparent:not(.sapMBtnDisabled):not(.sapMToggleBtnPressed) {
     font-size: large;
 }
-<<<<<<< HEAD
 
 .FirstRowCellContent {
   padding: 0rem 0rem;
-  border-radius: 5%;
-  border: solid peru;
+  /* border-radius: 5%;
+  border: solid peru; */
   text-align: center;
-  
+
 }
 .sapUiBlockLayoutSizeXL:not(.sapUiBlockLayoutKeepFontSize) .sapUiBlockCellContent {
   padding: 0.5rem 0.5rem;
 }
-=======
->>>>>>> 034e8e8d9924235a7a18e8fb7a0624250c8d0eb5
+
+.sapMBtn.copycolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: blue;
+}
+
+.sapMBtn.changecolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: green;
+}
+
+.sapMBtn.deletecolor .sapMBtnIcon {
+    font-size: 1.5rem;
+    color: red;
+}
 /* .MainLoginPage {
 	background-image: url("../img/bgimg.jpg");
 	background-size: 100% 100%;
@@ -139,3 +151,24 @@
 #__component0---idMainApp--LoginTitle {
 	color: whitesmoke;
 } */
+
+#__xmlview0--PurchaseLiteBlock-Collapsed--idVBox1{
+  margin-top: -40px;
+}
+
+
+#idAMCDate {
+margin-top: 9px;
+}
+
+#idCalculation{
+    margin-top: 17px;
+
+}
+
+
+.sapUiFormCLContainer>.sapUiFormCLContainerCont {
+    column-gap: 5.5rem;
+    margin-right: 4rem;
+    margin-left: 5rem;
+}
