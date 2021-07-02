@@ -6,7 +6,7 @@
 					<l:BlockLayoutRow>
 						<l:BlockLayoutCell >
 							<l:layoutData>
-								<l:BlockLayoutCellData lSize="5" mSize="5"  xlSize="4"/>
+								<l:BlockLayoutCellData lSize="5" mSize="5"  xlSize="5"/>
 							</l:layoutData>
 							<Image src="../img/bgimg.jpg" class="coverImage" width="100%" height="100%"/>
 						</l:BlockLayoutCell>

@@ -103,53 +103,53 @@
             <t:Column width="20%">
               <Label text="ITEM CODE" />
               <t:template>
-                <Text text="{PurchaseLiteModel>ItemCode}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>ItemCode}" wrapping="true" />
               </t:template>
             </t:Column>
             <t:Column width="20%">
               <Label text="TAG NO" />
               <t:template>
-                <Text text="{PurchaseLiteModel>TagNo}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>TagNo}" wrapping="true" />
               </t:template>
             </t:Column>
 
             <t:Column width="20%">
               <Label text="G WT" />
               <t:template>
-                <Text text="{PurchaseLiteModel>GWt}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>GWt}" wrapping="true" />
               </t:template>
             </t:Column>
 
             <t:Column width="20%">
               <Label text="AMOUNT" />
               <t:template>
-                <Text text="{PurchaseLiteModel>Amount}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>Amount}" wrapping="true" />
               </t:template>
             </t:Column>
 
             <t:Column width="20%">
               <Label text="PCS" />
               <t:template>
-                <Text text="{PurchaseLiteModel>PCS}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>PCS}" wrapping="true" />
               </t:template>
             </t:Column>
             <t:Column width="20%">
               <Label text="Tunch" />
               <t:template>
-                <Text text="" wrapping="true" />
+                <Input text="" wrapping="true" />
               </t:template>
             </t:Column>
             <t:Column width="20%">
               <Label text="Rate" />
               <t:template>
-                <Text text="" wrapping="true" />
+                <Input text="" wrapping="true" />
               </t:template>
             </t:Column>
 
             <t:Column width="20%">
               <Label text="SIZE*" />
               <t:template>
-                <Text text="{PurchaseLiteModel>Size}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>Size}" wrapping="true" />
               </t:template>
             </t:Column>
 
@@ -164,7 +164,7 @@
             <t:Column width="20%">
               <Label text="Remarks" />
               <t:template>
-                <Text text="{PurchaseLiteModel>Remark}" wrapping="true" />
+                <Input text="{PurchaseLiteModel>Remark}" wrapping="true" />
               </t:template>
             </t:Column>
             <t:Column width="20%" visible="{PurchaseLiteModel>/visible}">
