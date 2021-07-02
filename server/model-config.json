@@ -111,5 +111,9 @@
   "BookedProd":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "Category":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }

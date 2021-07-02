@@ -1,31 +1,35 @@
 {
-  "name": "ProductCategory",
-  "plural": "ProductCategories",
+  "name": "Category",
+  "plural": "Categories",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "Category": {
-      "type": "string",
-      "required": true
-    },
-    "SubCategory": {
-      "type": "string",
+    "ItemCode": {
+      "type": "number",
       "required": true
     },
     "Type": {
       "type": "string",
       "required": true
     },
-    "NumberOfProducts": {
+    "Category": {
+      "type": "string",
+      "required": true
+    },
+    "Extra1": {
       "type": "number",
+      "required": false
+    },
+    "Extra2": {
+      "type": "string",
       "required": false
     }
   },
   "relations": {
-    
+
   },
   "validations": [],
   "acls": [
