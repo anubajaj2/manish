@@ -21,6 +21,10 @@
     "BatchId": {
       "type": "string"
     },
+    "ItemCode": {
+      "type": "number",
+      "required": true
+    },
     "Category": {
       "type": "string",
       "required": true

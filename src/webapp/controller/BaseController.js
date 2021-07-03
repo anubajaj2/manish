@@ -407,6 +407,7 @@ sap.ui.define([
         });
     },
     upsertWeights: function() {
+      debugger;
       var that = this;
       var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
       if (allWeights.length === 0) {
