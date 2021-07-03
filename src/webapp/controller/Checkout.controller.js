@@ -543,25 +543,44 @@ sap.ui.define([
         doc
           .fillColor("#444444")
           .fontSize(20);
-        const customerInformationBottom = 400;
+        let customerInformationBottom = 400;
 
         doc.fontSize(10)
           .font("Helvetica-Bold")
           .text("Ohter Details:", 50, customerInformationBottom)
           .font("Helvetica")
-          .text("Remarks:", 50, customerInformationBottom + 15)
-          .text("Bangel size 2-6 aana", 150, customerInformationBottom + 15);
-        doc.text("Purity:", 50, customerInformationBottom + 45 - 15)
-          .text("22K", 150, customerInformationBottom + 45 - 15);
-        doc.fontSize(10)
-          .text("Gold Color:", 50, customerInformationBottom + 60 - 15)
-          .text("YELLOW", 150, customerInformationBottom + 60 - 15)
-          .text("Gold Type:", 50, customerInformationBottom + 60)
-          .text("PG", 150, customerInformationBottom + 60)
-          .text("Stamp (22K):", 50, customerInformationBottom + 75)
-          .text("916", 150, customerInformationBottom + 75)
-          .text("Finishing:", 50, customerInformationBottom + 90)
-          .text("HIGH POLISH + DULL", 150, customerInformationBottom + 90)
+          .text("Remarks:", 50, customerInformationBottom += 15)
+          .text("Bangel size 2-6 aana", 150, customerInformationBottom)
+          .text("Purity:", 50, customerInformationBottom += 15)
+          .text("22K", 150, customerInformationBottom)
+          .text("Gold Color:", 50, customerInformationBottom += 15)
+          .text("YELLOW", 150, customerInformationBottom)
+          .text("Gold Type:", 50, customerInformationBottom += 15)
+          .text("PG", 150, customerInformationBottom)
+          .text("Stamp (22K):", 50, customerInformationBottom += 15)
+          .text("916", 150, customerInformationBottom)
+          .text("Finishing:", 50, customerInformationBottom += 15)
+          .text("HIGH POLISH + DULL", 150, customerInformationBottom)
+          .text("Rhodium:", 50, customerInformationBottom += 15)
+          .text("STONE PART RHODIUM", 150, customerInformationBottom)
+          .text("Screw Type:", 50, customerInformationBottom += 15)
+          .text("NA", 150, customerInformationBottom)
+          .text("Patch Details:", 50, customerInformationBottom += 15)
+          .text("NA", 150, customerInformationBottom)
+          .text("Ladies Ring Size:", 50, customerInformationBottom += 15)
+          .text("12 to 14", 150, customerInformationBottom)
+          .text("Gents Ring Size:", 50, customerInformationBottom += 15)
+          .text("21 to 25", 150, customerInformationBottom)
+          .text("Ladies Bracelet Length:", 50, customerInformationBottom += 15)
+          .text("6.75 to 7.25", 150, customerInformationBottom)
+          .text("Gents Bracelet Length:", 50, customerInformationBottom += 15)
+          .text("8.25 to 8.5", 150, customerInformationBottom)
+          .text("Chain Length:", 50, customerInformationBottom += 15)
+          .text("21 to 21", 150, customerInformationBottom)
+          .text("NK / Mala Length:", 50, customerInformationBottom += 15)
+          .text("20 to 21", 150, customerInformationBottom)
+          .text("Bangle Size:", 50, customerInformationBottom += 15)
+          .text("2.6 to 2.6", 150, customerInformationBottom)
       }
       let footer = (doc, invoice) => {
         if (invoice.footer.text.length !== 0) {

@@ -63,6 +63,23 @@ sap.ui.define([
         }
       }
     },
+    rateFilter: [],
+    onRate: function(oEvent) {
+      var value = oEvent.getSource().getName().split('-');
+      if (oEvent.getParameter('selected')) {
+        if(value.length>1){
+          this.rateFilter.push(new Filter("Wastage", FilterOperator.BT, value[0], value[1]));
+        }else{
+          this.rateFilter.push(new Filter("Wastage", FilterOperator.GT, value[0]));
+        }
+      } else {
+        for (var i = 0; i < this.rateFilter.length; i++) {
+          if (this.rateFilter[i].oValue1 === value[0]) {
+            this.rateFilter.splice(i, 1);
+          }
+        }
+      }
+    },
     onWeightRange: function(oEvent) {
       var range = oEvent.getParameter("range");
       this.getView().byId("idMinWeight").setValue(range[0]);
@@ -111,6 +128,9 @@ sap.ui.define([
       }
       if (this.karatFilter.length > 0) {
         orFilter.push(new Filter(this.karatFilter, false));
+      }
+      if (this.rateFilter.length > 0) {
+        orFilter.push(new Filter(this.rateFilter, false));
       }
       var oFilter = new Filter({
         filters: orFilter,
@@ -184,6 +204,13 @@ sap.ui.define([
     // },
     _onRouteMatched: function(oEvent) {
       this.loadCategories();
+      var type = this.getView().getModel("local").getProperty("/CategoryType");
+      this.getView().byId("gridList").getBinding("items").filter([new Filter("Type", FilterOperator.EQ, type)]);
+    },
+    onHeaderButton: function(oEvent) {
+      var type = oEvent.getSource().getText().toUpperCase();
+      this.getView().getModel("local").setProperty("/CategoryType", type);
+      this.getView().byId("gridList").getBinding("items").filter([new Filter("Type", FilterOperator.EQ, type)]);
     },
     onCartClick: function(oEvent) {
       this.oRouter.navTo("checkout");

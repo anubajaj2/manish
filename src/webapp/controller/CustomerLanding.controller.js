@@ -102,6 +102,7 @@ sap.ui.define([
     onMen: function() {
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("categories");
+      this.getView().getModel("local").setProperty("/CategoryType", "GENTS");
     }
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

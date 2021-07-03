@@ -17,27 +17,27 @@
 					<OverflowToolbarLayoutData priority="NeverOverflow"/>
 				</layoutData>
 			</Button>
-			<Button text="Men" type="Transparent" width="10%">
+			<Button text="Gents" type="Transparent" width="10%" press="onHeaderButton">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
 				</layoutData>
 			</Button>
-			<Button text="Women" type="Transparent" width="10%">
+			<Button text="Women" type="Transparent" width="10%" press="onHeaderButton">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
 				</layoutData>
 			</Button>
-			<Button text="Kids" type="Transparent" width="10%">
+			<Button text="Kids" type="Transparent" width="10%" press="onHeaderButton">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
 				</layoutData>
 			</Button>
-			<Button text="Bridal" type="Transparent" width="10%">
+			<Button text="Bridal" type="Transparent" width="10%" press="onHeaderButton">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
 				</layoutData>
 			</Button>
-			<Button text="Offer" type="Transparent" width="10%">
+			<Button text="Offer" type="Transparent" width="10%" press="onHeaderButton">
 				<layoutData>
 					<OverflowToolbarLayoutData priority="Low"/>
 				</layoutData>
@@ -50,7 +50,7 @@
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
 			<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
 			<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent" press="onCartClick"/>
-			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</semantic:customHeaderContent>
 		<semantic:content>
 			<HBox>
@@ -119,14 +119,14 @@
 					</form:SimpleForm>
 				</VBox>
 				<VBox width="70%">
-					<f:GridList id="gridList" itemPress="onGridItemPress" items="{ path: 'local>/cat/category' }">
+					<f:GridList id="gridList" itemPress="onGridItemPress" items="{ path: '/Categories' }">
 						<f:customLayout>
 							<grid:GridBoxLayout boxMinWidth="12.5rem"/>
 						</f:customLayout>
 						<f:GridListItem type="Active" class="sapUiTinyMargin">
 							<VBox height="100%">
 								<VBox class="sapUiMediumMargin">
-									<Title class="gridCenter" text="{local>Category}"/>
+									<Title class="gridCenter" text="{Category}"/>
 								</VBox>
 							</VBox>
 						</f:GridListItem>
@@ -163,32 +163,32 @@
 							</VBox>
 							<Label text="RATE"/>
 							<VBox class="sapUiSmallMarginBegin">
-								<CheckBox text="1% TO 2%">
+								<CheckBox text="1% TO 2%" name="1-2" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="2% TO 4%">
+								<CheckBox text="2% TO 4%" name="2-4" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="4% TO 6%">
+								<CheckBox text="4% TO 6%" name="4-6" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="6% TO 8%">
+								<CheckBox text="6% TO 8%" name="6-8" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="8% TO 10%">
+								<CheckBox text="8% TO 10%" name="8-10" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</CheckBox>
-								<CheckBox text="10% AND ABOVE">
+								<CheckBox text="10% AND ABOVE" name="10" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
