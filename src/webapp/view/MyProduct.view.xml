@@ -88,21 +88,21 @@
           <Label text="Making" />
           <Input id="idMkg" value="{local>/Product/Making}" submit="onMaking" />
           <Label text="Gross Wt." />
-          <Input id="idGrossWt" value="{ path: 'local>/ProdWeights/GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
+          <Input id="idGrossWt" value="{ path: 'local>/ProdWeights/0/GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
             name="GrossWeight" liveChange="onChange" submit="onGrossWt"></Input>
           <!-- <Input id="idGrossWt" value="{local>/Product/Making}" submit="onGrossWt"/> -->
           <Label text="LS Wt." />
-          <Input id="idlswt" submit="onLsWt" value="{path : 'local>/ProdWeights/LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
+          <Input id="idlswt" submit="onLsWt" value="{path : 'local>/ProdWeights/0/LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
             liveChange="onChange" showValueHelp="false" name="LessWeight" valueHelpRequest="onLessPopup"
             focus="onFocus" valueHelpOnly="false"></Input>
           <!-- <Input id="idlswt" value="{local>/Product/Making}" submit="onLsWt"/> -->
           <Label text="Net Wt." />
-          <Input id="idnetwt" value="{path:'local>/ProdWeights/NetWeight',type: 'sap.ui.model.type.Float'}" submit="onNetWt" />
+          <Input id="idnetwt" value="{path:'local>/ProdWeights/0/NetWeight',type: 'sap.ui.model.type.Float'}" submit="onNetWt" />
           <!-- <Input id="td4" value="{local>NetWeight}" class="highLightText" enabled="false"></Input> -->
           <Label text="Fine" />
-          <Input id="idFine" value="{path:'local>/ProdWeights/Fine',type: 'sap.ui.model.type.Float'}" submit="onFine" />
+          <Input id="idFine" value="{path:'local>/ProdWeights/0/Fine',type: 'sap.ui.model.type.Float'}" submit="onFine" />
           <Label text="Amount" />
-          <Input id="idAmount" value="{path:'local>/ProdWeights/Amount',type: 'sap.ui.model.type.Float'}" submit="onAmount" />
+          <Input id="idAmount" value="{path:'local>/ProdWeights/0/Amount',type: 'sap.ui.model.type.Float'}" submit="onAmount" />
         </form:content>
       </form:SimpleForm>
       <Panel>
