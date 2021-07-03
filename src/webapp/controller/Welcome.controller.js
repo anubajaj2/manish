@@ -143,7 +143,7 @@ sap.ui.define([
 
     },
     onClear: function() {
-
+      debugger;
     },
     onInit: function() {
       this.oRouter = this.getOwnerComponent().getRouter();

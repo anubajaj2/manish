@@ -37,6 +37,17 @@ sap.ui.define([
       this._oRouter = this.getOwnerComponent().getRouter();
       //this._oRouter.attachRoutePatternMatched(this._routePatternMatched,this);
       this._oRouter.getRoute("checkout").attachMatched(this._routePatternMatched, this);
+      var that = this;
+      $.ajax({
+        type: 'GET', // added,
+        url: 'getLogo',
+        success: function(data) {
+          that.logo = data;
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching logo");
+        }
+      });
     },
     _routePatternMatched: function() {
       this._setLayout("One");
@@ -336,6 +347,22 @@ sap.ui.define([
           GSTIN: "NONE",
           address: "NONE"
         },
+        userDetails: {
+          Company: "Mangalam Ornaments",
+          Slab: " USER SLAB 1",
+          Name: "Amit Singhal",
+          Mobile: "9660686771",
+          Email: "Smdaishpra@gmail.com",
+          City: "Jaipur"
+        },
+        clientDetails: {
+          Company: "Mangalam Ornaments",
+          Slab: " USER SLAB 1",
+          Name: "Amit Singhal",
+          Mobile: "9660686771",
+          Email: "Smdaishpra@gmail.com",
+          City: "Jaipur"
+        },
         items: [{
           CODE: "NONE",
           GROSS_WT: "NONE",
@@ -371,7 +398,7 @@ sap.ui.define([
         IsWallet: true,
         header: {
           company_name: "MANGALAM",
-          company_logo: "NONE",
+          company_logo: "data:image/png;base64," + this.logo,
           signature: "NONE",
           // hear \\ is used to change line
           company_address: "NONE",
@@ -390,11 +417,11 @@ sap.ui.define([
       let header = (doc, invoice) => {
 
         if (this.logo) {
-          doc.image(invoice.header.company_logo, 50, 45, {
-              width: 50
+          doc.image(invoice.header.company_logo, 205, 35, {
+              width: 200
             })
-            .fontSize(20)
-            .text(invoice.header.company_name, 220, 57)
+            // .fontSize(20)
+            // .text(invoice.header.company_name, 220, 57)
             .fontSize(10);
           doc.moveDown();
         } else {
@@ -415,7 +442,7 @@ sap.ui.define([
         doc
           .fillColor("#444444")
           .fontSize(20);
-        generateHr(doc, 110);
+        // generateHr(doc, 110);
 
         const customerInformationTop = 120;
 
@@ -424,43 +451,42 @@ sap.ui.define([
           .text("User Details:", 50, customerInformationTop)
           .font("Helvetica")
           .text("Company:", 50, customerInformationTop + 15)
-          .text(invoice.shipping.email, 150, customerInformationTop + 15);
-        doc.text("Slab:", 50, customerInformationTop + 45 - 15)
-          .text(invoice.shipping.GSTIN, 150, customerInformationTop + 45 - 15);
+          .text(invoice.userDetails.Company, 150, customerInformationTop + 15);
+        doc.text("Slab:", 50, customerInformationTop + 30)
+          .text(invoice.userDetails.Slab, 150, customerInformationTop + 30);
         doc.fontSize(10)
-          .text("Name:", 50, customerInformationTop + 60 - 15)
-          .text(invoice.shipping.address, 150, customerInformationTop + 60 - 15)
+          .text("Name:", 50, customerInformationTop + 45)
+          .text(invoice.userDetails.Name, 150, customerInformationTop + 45)
           .text("Mobile No:", 50, customerInformationTop + 60)
-          .text(invoice.shipping.address, 150, customerInformationTop + 60)
+          .text(invoice.userDetails.Mobile, 150, customerInformationTop + 60)
           .text("E-mail:", 50, customerInformationTop + 75)
-          .text(invoice.shipping.address, 150, customerInformationTop + 75)
+          .text(invoice.userDetails.Email, 150, customerInformationTop + 75)
           .text("City:", 50, customerInformationTop + 90)
-          .text(invoice.shipping.address, 150, customerInformationTop + 90)
+          .text(invoice.userDetails.City, 150, customerInformationTop + 90)
 
           .font("Helvetica-Bold")
           .text("Client Details:", 350, customerInformationTop)
           .font("Helvetica")
           .text("Company:", 350, customerInformationTop + 15)
-          .text(invoice.date.billing_date, 450, customerInformationTop + 15)
+          .text(invoice.clientDetails.Company, 450, customerInformationTop + 15)
           .text("Slab:", 350, customerInformationTop + 30)
-          .text(invoice.date.due_date, 450, customerInformationTop + 30)
+          .text(invoice.clientDetails.Slab, 450, customerInformationTop + 30)
           .text("Name:", 350, customerInformationTop + 45)
-          .text(invoice.date.due_date, 450, customerInformationTop + 45)
+          .text(invoice.clientDetails.Name, 450, customerInformationTop + 45)
           .text("Mobile No:", 350, customerInformationTop + 60)
-          .text(invoice.date.due_date, 450, customerInformationTop + 60)
+          .text(invoice.clientDetails.Mobile, 450, customerInformationTop + 60)
           .text("E-mail:", 350, customerInformationTop + 75)
-          .text(invoice.date.due_date, 450, customerInformationTop + 75)
+          // .text(invoice.clientDetails.Email, 450, customerInformationTop + 75)
           .text("City:", 350, customerInformationTop + 90)
-          .text(invoice.date.due_date, 450, customerInformationTop + 90)
+          .text(invoice.clientDetails.City, 450, customerInformationTop + 90)
           .moveDown();
-
-        generateHr(doc, 230);
       }
 
       let invoiceTable = (doc, invoice) => {
         let i;
-        const invoiceTableTop = 260;
+        const invoiceTableTop = 240;
         const currencySymbol = invoice.currency_symbol;
+        generateHr(doc, invoiceTableTop - 5);
         doc.font("Helvetica-Bold");
         tableRowIGST(
           doc,
@@ -499,6 +525,15 @@ sap.ui.define([
           // totalAmount += parseFloat(item.Amount);
           generateHr(doc, position + 20);
         }
+        generateVr(doc, 50, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 65, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 155, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 245, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 335, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 375, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 415, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 455, invoiceTableTop - 5, position + 20);
+        generateVr(doc, 550, invoiceTableTop - 5, position + 20);
         customerInformationOtherDetails(doc, position);
         // const subtotalPosition = invoiceTableTop + (i + 1) * 35;
         // doc.font("Helvetica-Bold");
@@ -572,9 +607,9 @@ sap.ui.define([
           .text("Gents Ring Size:", 50, customerInformationBottom += 15)
           .text("21 to 25", 150, customerInformationBottom)
           .text("Ladies Bracelet Length:", 50, customerInformationBottom += 15)
-          .text("6.75 to 7.25", 150, customerInformationBottom)
+          .text("6.75 to 7.25", 170, customerInformationBottom)
           .text("Gents Bracelet Length:", 50, customerInformationBottom += 15)
-          .text("8.25 to 8.5", 150, customerInformationBottom)
+          .text("8.25 to 8.5", 170, customerInformationBottom)
           .text("Chain Length:", 50, customerInformationBottom += 15)
           .text("21 to 21", 150, customerInformationBottom)
           .text("NK / Mala Length:", 50, customerInformationBottom += 15)
@@ -590,6 +625,13 @@ sap.ui.define([
             width: 500
           });
         }
+        doc.addPage()
+          .fillColor('blue')
+          .text('Here is a link!', 100, 100)
+          .underline(100, 100, 160, 27, {
+            color: '#0000FF'
+          })
+          .link(100, 100, 160, 27, 'http://google.com/');
       }
 
       let totalTable = (
@@ -624,42 +666,52 @@ sap.ui.define([
       ) => {
         doc
           .fontSize(10)
-          .text(sr, 50, y)
-          .text(code, 60, y, {
+          .text(sr, 50, y, {
+            width: 10,
+            align: "center"
+          })
+          .text(code, 65, y, {
             width: 90,
             align: "center"
           })
-          .text(gross_wt, 150, y, {
+          .text(gross_wt, 155, y, {
             width: 90,
             align: "center"
           })
-          .text(net_wt, 240, y, {
+          .text(net_wt, 245, y, {
             width: 90,
             align: "center"
           })
-          .text(kt, 330, y, {
+          .text(kt, 335, y, {
             width: 40,
             align: "center"
           })
-          .text(size, 370, y, {
+          .text(size, 375, y, {
             width: 40,
             align: "center"
           })
-          .text(qty, 410, y, {
+          .text(qty, 415, y, {
             width: 40,
             align: "center"
           })
-          .text(remarks, 450, y, {
+          .text(remarks, 455, y, {
             align: "center"
           });
       }
-
       let generateHr = (doc, y) => {
         doc
           .strokeColor("#aaaaaa")
           .lineWidth(1)
           .moveTo(50, y)
           .lineTo(550, y)
+          .stroke();
+      }
+      let generateVr = (doc, x, y1, y2) => {
+        doc
+          .strokeColor("#aaaaaa")
+          .lineWidth(1)
+          .moveTo(x, y1)
+          .lineTo(x, y2)
           .stroke();
       }
 
