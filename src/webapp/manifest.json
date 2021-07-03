@@ -324,6 +324,7 @@
 
         "Maker": {
          "viewName": "Maker",
+         "viewId": "idMaker",
          "controlId": "__component0---idMainApp--idMainApp",
          "controlAggregation": "pages",
          "viewLevel": 1
