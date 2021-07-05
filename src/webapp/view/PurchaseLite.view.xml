@@ -9,9 +9,9 @@
                 <VBox alignItems="Center" alignContent="Center">
                   <Title text="Purity" />
                   <HBox>
-                    <Button text="22" class="sapUiSmallMarginEnd"></Button>
-                    <Button text="18" class="sapUiSmallMarginEnd"></Button>
-                    <Input width="30px"/>
+                    <Button id="id22" text="22" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
+                    <Button id="id18" text="18" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
+                    <Input id="idPurityInput" width="50px"/>
                   </HBox>
                 </VBox>
                 
