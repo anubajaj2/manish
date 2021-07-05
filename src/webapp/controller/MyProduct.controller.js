@@ -134,7 +134,7 @@ sap.ui.define([
 				});
 				this.mode = "Create";
 				this.setMode();
-				this.setAvailableProductCode();
+				// this.setAvailableProductCode();
 			}
 
 		},
@@ -176,7 +176,7 @@ sap.ui.define([
 				delete productPayload.ToOrder;
 				delete productPayload.ToPhotos;
 				delete productPayload.ToWeights;
-				
+
 				// this.upsertWeights();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Products(\'" + productPayload.id + "\')", "PUT", {}, productPayload, this)
