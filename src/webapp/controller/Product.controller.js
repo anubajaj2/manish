@@ -134,12 +134,16 @@ sap.ui.define([
       var cartItem = {};
       cartItem.Name = productRec.Name;
       cartItem.ProductId = productRec.id;
+      cartItem.Code = productRec.ProductId;
       cartItem.Tunch = productRec.Tunch;
+      cartItem.Karat = productRec.Karat;
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
       cartItem.PictureUrl = PictureUrl;
       for (var i = 0; i < allSelectedWeights.length; i++) {
         cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
+        cartItem.LessWeight = allSelectedWeights[i].LessWeight;
+        cartItem.PairSize = allSelectedWeights[i].PairSize;
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
         cartItem.WeightId = allSelectedWeights[i].id;
