@@ -89,38 +89,58 @@ sap.ui.define([
         //  }
         // }
         var sImage = sPath + "/ToPhotos/0/Content";
-        var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+        var sBase64 = oDataModel.getProperty(sImage);
+        var sUrl = formatter.getImageUrlFromContent(sBase64);
         if (!this.allImageURLs[sImage]) {
-          this.allImageURLs[sImage] = sUrl;
+          this.allImageURLs[sImage] = {
+            sUrl,
+            sBase64
+          };
         }
 
         if (picsSize.length > 1) {
           var sImage = sPath + "/ToPhotos/1/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          var sBase64 = oDataModel.getProperty(sImage);
+          var sUrl = formatter.getImageUrlFromContent(sBase64);
           if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
+            this.allImageURLs[sImage] = {
+              sUrl,
+              sBase64
+            };
           }
         }
 
         if (picsSize.length > 2) {
           var sImage = sPath + "/ToPhotos/2/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          var sBase64 = oDataModel.getProperty(sImage);
+          var sUrl = formatter.getImageUrlFromContent(sBase64);
           if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
+            this.allImageURLs[sImage] = {
+              sUrl,
+              sBase64
+            };
           }
         }
         if (picsSize.length > 3) {
           var sImage = sPath + "/ToPhotos/3/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          var sBase64 = oDataModel.getProperty(sImage);
+          var sUrl = formatter.getImageUrlFromContent(sBase64);
           if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
+            this.allImageURLs[sImage] = {
+              sUrl,
+              sBase64
+            };
           }
         }
         if (picsSize.length > 4) {
           var sImage = sPath + "/ToPhotos/4/Content";
-          var sUrl = formatter.getImageUrlFromContent(oDataModel.getProperty(sImage));
+          var sBase64 = oDataModel.getProperty(sImage);
+          var sUrl = formatter.getImageUrlFromContent(sBase64);
           if (!this.allImageURLs[sImage]) {
-            this.allImageURLs[sImage] = sUrl;
+            this.allImageURLs[sImage] = {
+              sUrl,
+              sBase64
+            };
           }
         }
         //items[i].setIcon(sUrl);
@@ -135,13 +155,13 @@ sap.ui.define([
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
       var sImage = sPath + "/ToPhotos/1/Content";
       if (this.allImageURLs[sImage]) {
-        oEvent.getSource().setSrc(this.allImageURLs[sImage]);
+        oEvent.getSource().setSrc(this.allImageURLs[sImage].sUrl);
       }
     },
     onImageIn: function(oEvent) {
       var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
       var sImage = sPath + "/ToPhotos/0/Content";
-      oEvent.getSource().setSrc(this.allImageURLs[sImage]);
+      oEvent.getSource().setSrc(this.allImageURLs[sImage].sUrl);
     },
     addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");

@@ -31,7 +31,7 @@ sap.ui.define([
         this.getView().byId("idAddtoCartBtn").setText("Add to Cart");
         this.getView().byId("idAddtoCartBtn").setEnabled(true);
       }
-      this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"])
+      this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl)
       var itemPics = [{
         ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"]
       }];

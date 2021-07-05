@@ -352,7 +352,7 @@ sap.ui.define([
           SIZE: item.PairSize,
           QTY: 1,
           REMARKS: "NONE",
-          IMG: "data:image/png;base64," + that.logo
+          IMG: item.PictureUrl.sBase64//"data:image/png;base64," + that.logo
         });
       });
       const invoiceDetail = {
@@ -701,7 +701,7 @@ sap.ui.define([
             align: "center"
           });
         } else {
-          doc.image(img, 435, y, {
+          doc.image(img, 435, y-50, {
             width: 135,
             align: "center"
           });
