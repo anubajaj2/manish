@@ -295,22 +295,37 @@ sap.ui.define([
 				Photo: [],
 				PhotoCheck: false
 			};
-			this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
-			var that = this;
-			if (!this.oAddProduct) {
-				Fragment.load({
-					id: "idAddProduct",
-					name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
-					controller: this
-				}).then(function (oPopup) {
-					that.oAddProduct = oPopup;
-					that.getView().addDependent(oPopup);
-					oPopup.setTitle("ADD");
-					oPopup.open();
-				});
-			} else {
-				this.oAddProduct.open();
-			}
+			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
+			var value = this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
+			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+
+			// var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			// if (sId === "idAddProduct") {
+				if (!data) {
+					data = [];
+				}
+				data.unshift(oNew);
+				debugger;
+				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+				MessageToast.show("Data Added Successful");
+
+			// }
+			// var that = this;
+			// if (!this.oAddProduct) {
+			// 	Fragment.load({
+			// 		id: "idAddProduct",
+			// 		name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
+			// 		controller: this
+			// 	}).then(function (oPopup) {
+			// 		that.oAddProduct = oPopup;
+			// 		that.getView().addDependent(oPopup);
+			// 		oPopup.setTitle("ADD");
+			// 		oPopup.open();
+			// 	});
+			// } else {
+			// 	this.oAddProduct.open();
+			// }
 		},
 		onEdit: function (oEvent) {
 			debugger;
