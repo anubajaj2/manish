@@ -186,7 +186,7 @@ sap.ui.define([
 					for (var i = 0; i < excelData.length; i++) {
 
 						excelD.push({
-							ItemCode: "***",
+							ItemCode: excelData[i]["ItemCode"],
 							TagNo: excelData[i]["TAG NO"],
 							GWt: excelData[i]["G WT"],
 							Amount: excelData[i]["Amount"],
@@ -285,7 +285,7 @@ sap.ui.define([
 		onAdd: function () {
 			debugger;
 			var oNew = {
-				ItemCode: "***",
+				ItemCode: "",
 				TagNo: "",
 				GWt: "",
 				Amount: "",
@@ -394,9 +394,9 @@ sap.ui.define([
 			// if (Array.isArray(exportData) && exportData.length) {
 			aCols = this._createExcelColumns();
 			var reportExcel = [];
-			for (var i = 1; i < 51; i++) {
+			for (var i = 1; i < 11; i++) {
 				reportExcel.push({
-					ItemCode: "***",
+					ItemCode: 100+i,
 					TagNo: "T-" + i,
 					GWt: i * 10,
 					Amount: (i * 10) + (i * 5),
@@ -423,11 +423,11 @@ sap.ui.define([
 		},
 		_createExcelColumns: function () {
 			return [
-				// {
-				// 	label: 'Action',
-				// 	property: 'Action',
-				// 	width: '25'
-				// }, 
+				{
+					label: 'ItemCode',
+					property: 'ItemCode',
+					// width: '25'
+				}, 
 				{
 					label: 'TAG NO',
 					property: 'TagNo'
