@@ -56,23 +56,52 @@ sap.ui.define([
 			if(sId==="id22"){
 				if(oEvent.getSource().getType()==="Emphasized"){
 					this.getView().byId("id22").setType("Default");
+					this.getView().byId("id18").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("");
 				}
 				else{
-					oEvent.getSource().setType("Emphasized");
+					this.getView().byId("id18").setType("Default");
+					this.getView().byId("id22").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("91.66");
 				}
-
+				
 			}
 			else if(sId==="id18"){
 				if(oEvent.getSource().getType()==="Emphasized"){
-					oEvent.getSource().setType("Default");
+					this.getView().byId("id18").setType("Default");
+					this.getView().byId("id22").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("");
 				}
 				else{
-					oEvent.getSource().setType("Emphasized");
+					this.getView().byId("id18").setType("Emphasized");
+					this.getView().byId("id22").setType("Default");
 					this.getView().byId("idPurityInput").setValue("75.20");
 				}
+			}
+		},
+		onTypePress:function(oEvent){
+			var sId=oEvent.getSource().getId();
+			if(sId.includes("idTypeStudded")){
+				this.getView().byId("idTypeStudded").setType("Emphasized");
+				this.getView().byId("idTypePlain").setType("Default");
+			}
+			else{
+				this.getView().byId("idTypeStudded").setType("Default");
+				this.getView().byId("idTypePlain").setType("Emphasized");
+			}
+
+		},
+		onFixPress:function(oEvent){
+			var type=oEvent.getSource().getType();
+			if(type==="Emphasized"){
+				oEvent.getSource().setType("Default");
+				this.getView().byId("idFixInput").setEditable(true);
+				this.getView().byId("idFixInput").setValue("");
+			}
+			else{
+				oEvent.getSource().setType("Emphasized");
+				this.getView().byId("idFixInput").setEditable(false);
+				this.getView().byId("idFixInput").setValue("3.5");
 			}
 		},
 		onEnter: function (oEvent) {
@@ -398,7 +427,7 @@ sap.ui.define([
 				// 	label: 'Action',
 				// 	property: 'Action',
 				// 	width: '25'
-				// },
+				// }, 
 				{
 					label: 'TAG NO',
 					property: 'TagNo'

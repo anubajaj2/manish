@@ -140,7 +140,7 @@
 								<Input id="idItemCode" value="{PurchaseLiteModel>ItemCode}" submit="onEnter" showSuggestion="true"
 									suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{/Categories}" maxSuggestionWidth="auto">
 									<suggestionItems>
-										<core:ListItem key="{ItemCode}" text="{Category}" additionalText="{Type}"/>
+										<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
 									</suggestionItems>
 								</Input>
 							</t:template>
