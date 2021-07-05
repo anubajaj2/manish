@@ -62,7 +62,7 @@ sap.ui.define([
 					oEvent.getSource().setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("91.66");
 				}
-				
+
 			}
 			else if(sId==="id18"){
 				if(oEvent.getSource().getType()==="Emphasized"){
@@ -398,7 +398,7 @@ sap.ui.define([
 				// 	label: 'Action',
 				// 	property: 'Action',
 				// 	width: '25'
-				// }, 
+				// },
 				{
 					label: 'TAG NO',
 					property: 'TagNo'
