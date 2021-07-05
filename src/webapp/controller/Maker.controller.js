@@ -40,6 +40,7 @@ sap.ui.define([
 			if(!auth){
 				this.logOutApp();
 			}
+      this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
       this.getView().setBusy(true);
       this.getView().getModel("local").setProperty("/sKeyType", 'PURCHASESLITE');
       var viewModel = this.getView().getModel("viewModel");

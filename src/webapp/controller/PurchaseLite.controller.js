@@ -28,7 +28,115 @@ sap.ui.define([
 			this.setModel(odataModel, "PurchaseLiteModel");
 			this.getView().getModel("PurchaseLiteModel").setProperty("/title", 0);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", true);
+			var Purc = [];
+			// this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
+			debugger;
+			var oNew = {
+				ItemCode: "",
+				TagNo: "",
+				GWt: "",
+				Amount: "",
+				PCS: "",
+				Size: "",
+				Remark: "",
+				Photo: [],
+				PhotoCheck: false
+			};
+			for (var i = 0; i < 50; i++) {
+				Purc.push(JSON.parse(JSON.stringify(oNew)));
+			}
+			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", Purc);
+			// this.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
+			// var oRouter = this.getRouter();
+			// oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
 		},
+		onPurityClick:function(oEvent){
+			debugger;
+			var sId=oEvent.getSource().getId().split("--")[(oEvent.getSource().getId().split("--").length)-1];
+			if(sId==="id22"){
+				if(oEvent.getSource().getType()==="Emphasized"){
+					this.getView().byId("id22").setType("Default");
+					this.getView().byId("id18").setType("Emphasized");
+					this.getView().byId("idPurityInput").setValue("");
+				}
+				else{
+					this.getView().byId("id18").setType("Default");
+					this.getView().byId("id22").setType("Emphasized");
+					this.getView().byId("idPurityInput").setValue("91.66");
+				}
+				
+			}
+			else if(sId==="id18"){
+				if(oEvent.getSource().getType()==="Emphasized"){
+					this.getView().byId("id18").setType("Default");
+					this.getView().byId("id22").setType("Emphasized");
+					this.getView().byId("idPurityInput").setValue("");
+				}
+				else{
+					this.getView().byId("id18").setType("Emphasized");
+					this.getView().byId("id22").setType("Default");
+					this.getView().byId("idPurityInput").setValue("75.20");
+				}
+			}
+		},
+		onTypePress:function(oEvent){
+			var sId=oEvent.getSource().getId();
+			if(sId.includes("idTypeStudded")){
+				this.getView().byId("idTypeStudded").setType("Emphasized");
+				this.getView().byId("idTypePlain").setType("Default");
+			}
+			else{
+				this.getView().byId("idTypeStudded").setType("Default");
+				this.getView().byId("idTypePlain").setType("Emphasized");
+			}
+
+		},
+		onFixPress:function(oEvent){
+			var type=oEvent.getSource().getType();
+			if(type==="Emphasized"){
+				oEvent.getSource().setType("Default");
+				this.getView().byId("idFixInput").setEditable(true);
+				this.getView().byId("idFixInput").setValue("");
+			}
+			else{
+				oEvent.getSource().setType("Emphasized");
+				this.getView().byId("idFixInput").setEditable(false);
+				this.getView().byId("idFixInput").setValue("3.5");
+			}
+		},
+		onEnter: function (oEvent) {
+			debugger;
+			var currentBoxId=oEvent.getSource().getId();
+			var id = "input[id*='---idMaker--']";
+			var textboxes = $(id);
+			var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
+			var currentBoxNumber = textboxes.index(findCurrentBox[0]);
+			//	if(findCurrentBox.length !== 0){
+			if (textboxes[currentBoxNumber + 1] != null) {
+				var nextBox = textboxes[currentBoxNumber + 1]
+				nextBox.focus();
+				nextBox.select();
+			}
+		},
+		// _onRouteMatched:function(){
+		// 	var Purc=[];
+		// 	debugger;
+		// 	var oNew = {
+		// 		ItemCode: "***",
+		// 		TagNo: "",
+		// 		GWt: "",
+		// 		Amount: "",
+		// 		PCS: "",
+		// 		Size: "",
+		// 		Remark: "",
+		// 		Photo: [],
+		// 		PhotoCheck: false
+		// 	};
+		// 	for(var i=0;i<50;i++){
+		// 		Purc.push(oNew);
+		// 	}
+		// 	this.getView().getModel("PurchaseLiteModel").setProperty("/entry", Purc);
+		// },
 		onAddExcelData: function () {
 			debugger;
 			var that = this;
@@ -78,7 +186,7 @@ sap.ui.define([
 					for (var i = 0; i < excelData.length; i++) {
 
 						excelD.push({
-							ItemCode: "***",
+							ItemCode: excelData[i]["ItemCode"],
 							TagNo: excelData[i]["TAG NO"],
 							GWt: excelData[i]["G WT"],
 							Amount: excelData[i]["Amount"],
@@ -177,7 +285,7 @@ sap.ui.define([
 		onAdd: function () {
 			debugger;
 			var oNew = {
-				ItemCode: "***",
+				ItemCode: "",
 				TagNo: "",
 				GWt: "",
 				Amount: "",
@@ -187,22 +295,37 @@ sap.ui.define([
 				Photo: [],
 				PhotoCheck: false
 			};
-			this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
-			var that = this;
-			if (!this.oAddProduct) {
-				Fragment.load({
-					id: "idAddProduct",
-					name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
-					controller: this
-				}).then(function (oPopup) {
-					that.oAddProduct = oPopup;
-					that.getView().addDependent(oPopup);
-					oPopup.setTitle("ADD");
-					oPopup.open();
-				});
-			} else {
-				this.oAddProduct.open();
-			}
+			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
+			var value = this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
+			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+
+			// var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			// if (sId === "idAddProduct") {
+				if (!data) {
+					data = [];
+				}
+				data.unshift(oNew);
+				debugger;
+				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+				MessageToast.show("Data Added Successful");
+
+			// }
+			// var that = this;
+			// if (!this.oAddProduct) {
+			// 	Fragment.load({
+			// 		id: "idAddProduct",
+			// 		name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
+			// 		controller: this
+			// 	}).then(function (oPopup) {
+			// 		that.oAddProduct = oPopup;
+			// 		that.getView().addDependent(oPopup);
+			// 		oPopup.setTitle("ADD");
+			// 		oPopup.open();
+			// 	});
+			// } else {
+			// 	this.oAddProduct.open();
+			// }
 		},
 		onEdit: function (oEvent) {
 			debugger;
@@ -286,9 +409,9 @@ sap.ui.define([
 			// if (Array.isArray(exportData) && exportData.length) {
 			aCols = this._createExcelColumns();
 			var reportExcel = [];
-			for (var i = 1; i < 51; i++) {
+			for (var i = 1; i < 11; i++) {
 				reportExcel.push({
-					ItemCode: "***",
+					ItemCode: 100+i,
 					TagNo: "T-" + i,
 					GWt: i * 10,
 					Amount: (i * 10) + (i * 5),
@@ -315,11 +438,11 @@ sap.ui.define([
 		},
 		_createExcelColumns: function () {
 			return [
-				// {
-				// 	label: 'Action',
-				// 	property: 'Action',
-				// 	width: '25'
-				// }, 
+				{
+					label: 'ItemCode',
+					property: 'ItemCode',
+					// width: '25'
+				}, 
 				{
 					label: 'TAG NO',
 					property: 'TagNo'
@@ -438,7 +561,7 @@ sap.ui.define([
 		},
 		onMasterSave: function () {
 			debugger;
-			
+
 			// return;
 			var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			if (!payload) {
@@ -466,7 +589,7 @@ sap.ui.define([
 					for (var i = 0; i < payload.length; i++) {
 						payload[i].ItemCode = pattern + "_" + count.toString();
 						payload[i].BatchId = batch_Id;
-						payload[i].CreatedBy=that.getView().getModel("local").getProperty("/CurrentUser");
+						payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
 						count = parseInt(count) + 1;
 						// var pdt={
 						// 	"ProductId":payload[i].ItemCode,
@@ -505,8 +628,8 @@ sap.ui.define([
 						// }
 
 					}
-					var that2=that;
-					
+					var that2 = that;
+
 					// var SData={
 					// 	"Product":Product,
 					// 	"ProdWeight":ProdWeight,

@@ -2,7 +2,7 @@
   xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:form="sap.ui.layout.form"
   xmlns:unified="sap.ui.unified" xmlns:grid="sap.ui.layout.cssgrid" xmlns:anubhav="sap.ui.demo.cart.controls"
   xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cards="sap.f.cards" xmlns:f="sap.f">
-  <Page id="page" title="My Products" backgroundDesign="Solid">
+  <Page id="page" title="My Products" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack">
     <headerContent>
       <Button icon="sap-icon://customer" tooltip="User" press="onUserPress" />
       <Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"
@@ -72,7 +72,7 @@
             </items>
           </Select>
           <!-- <Label text="Gender"/> -->
-          <Select id="idGender" selectedKey="{local>/Product/Gender}" change="onGender">
+          <!-- <Select id="idGender" selectedKey="{local>/Product/Gender}" change="onGender">
             <items>
               <core:Item text="Male" key="M" />
               <core:Item text="Female" key="F" />
@@ -80,7 +80,7 @@
             <layoutData>
               <form:ColumnElementData cellsSmall="5" cellsLarge="4" />
             </layoutData>
-          </Select>
+          </Select> -->
           <Label text="Tunch" />
           <Input id="idTunch" value="{local>/Product/Tunch}" submit="onTunch" />
           <Label text="Wastage" />
@@ -143,7 +143,7 @@
         <ToolbarSpacer/>
         <Button text="Save" type="Accept" press="onSave" id="idSave"></Button>
         <Button text="Clear" type="Reject" press="onCancel" id="idCancel"></Button>
-        <Button text="Delete" type="Reject" press="onDelete" id="idDelete"></Button>
+        <Button text="Deslete" type="Reject" press="onDelete" id="idDelete"></Button>
       </Toolbar>
     </footer>
   </Page>

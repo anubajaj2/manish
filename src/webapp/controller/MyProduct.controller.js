@@ -7,7 +7,8 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/m/Dialog",
-], function(BaseController, formatter, UIComponent, JSONModel, HTML, MessageToast, MessageBox, Dialog) {
+	"sap/ui/core/routing/History"
+], function(BaseController, formatter, UIComponent, JSONModel, HTML, MessageToast, MessageBox, Dialog,History) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.MyProduct", {
@@ -65,7 +66,7 @@ sap.ui.define([
 			}
 			this.lastTwoDisplay();
 			this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
-			this.setAvailableProductCode();
+			// this.setAvailableProductCode();
 		},
 		onDelete: function() {
 			var that = this;
@@ -118,7 +119,6 @@ sap.ui.define([
 					"ShortDescription": "null",
 					"ItemType": "G",
 					"Karat": "22/22",
-					"Gender": "F",
 					"OverallStatus": "N",
 					"ProdStatus": "A",
 					"HindiName": "",
@@ -134,7 +134,7 @@ sap.ui.define([
 				});
 				this.mode = "Create";
 				this.setMode();
-				this.setAvailableProductCode();
+				// this.setAvailableProductCode();
 			}
 
 		},
@@ -176,10 +176,12 @@ sap.ui.define([
 				delete productPayload.ToOrder;
 				delete productPayload.ToPhotos;
 				delete productPayload.ToWeights;
+
 				// this.upsertWeights();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 						"/Products(\'" + productPayload.id + "\')", "PUT", {}, productPayload, this)
 					.then(function(data) {
+
 						that.performCameraSave(productPayload.id);
 						MessageToast.show("Product Updated Successfully");
 						that.getView().getModel("local").setProperty("/checkChange", false);
@@ -391,7 +393,7 @@ sap.ui.define([
 			this.getView().byId("idTunch").focus();
 		},
 		onKarat: function() {
-			this.getView().byId("idGender").focus();
+			this.getView().byId("idTunch").focus();
 		},
 		onSD: function() {
 			this.getView().byId("idCat").focus();
@@ -674,6 +676,17 @@ sap.ui.define([
 				"CreatedBy": ""
 			};
 			// return props;
+},
+
+onNavBack: function() {
+	debugger;
+	var oHistory = History.getInstance();
+	var oPrevHash = oHistory.getPreviousHash();
+	if (oPrevHash !== undefined) {
+		window.history.go(-1);
+	} else {
+		this.getRouter().navTo("Profile");
+	}
 }
 	});
 });
