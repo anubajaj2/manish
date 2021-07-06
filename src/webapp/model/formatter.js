@@ -471,6 +471,40 @@ sap.ui.define([
       return oBundle.getText("cartSavedForLaterFooterText");
     },
 
+    getItemName: function (batchId) {
+			debugger;
+			var oCategory = this.getView().getModel("local").getProperty("/Categories");
+			debugger;
+			if (batchId === undefined || batchId === null || oCategory === undefined) {
+				return;
+			}
+			else {
+				for (var i = 0; i < oCategory.length; i++) {
+					if (oCategory[i].id === batchId) {
+						return oCategory[i].ItemCode;
+					}
+				}
+			}
+		},
+
+    getCategoryName: function (ItemCode) {
+			debugger;
+			var oCategory = sap.ui.getCore().byId("__component0---idMaker").getModel("categories").getData().results;
+			debugger;
+			if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
+				return;
+			}
+			else {
+				for (var i = 0; i < oCategory.length; i++) {
+
+					if (oCategory[i].ItemCode.toString() === ItemCode) {
+            var oCategory1 = oCategory[i].ItemCode + " " + oCategory[i].Category;
+						return oCategory1 ;
+					}
+				}
+			}
+		},
+
     /**
      * Checks if one of the collections contains items.
      * @param {object} oCollection1 First array or object to check
