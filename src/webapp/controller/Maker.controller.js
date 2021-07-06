@@ -58,6 +58,7 @@ sap.ui.define([
       this.setModel(odataModel, "dataModel");
       var oModelManufacturer = new JSONModel();
       var oModelGroup = new JSONModel();
+      var oCategoies=new JSONModel();
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 				"/Manufacturers", "GET", {}, {}, this)
@@ -69,7 +70,16 @@ sap.ui.define([
          that.getView().setBusy(false);
 				 MessageToast.show("cannot fetch the data");
 			 });
-
+       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+       "/Categories", "GET", {}, {}, this)
+      .then(function(oData) {
+        oCategoies.setData(oData);
+        that.getView().setModel(oCategoies, "categories");
+        // that.getView().setBusy(false);
+      }).catch(function(oError) {
+        // that.getView().setBusy(false);
+        MessageToast.show("cannot fetch the data");
+      });
        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
        "/Groups", "GET", {}, {}, this)
         .then(function(oData) {
@@ -85,6 +95,101 @@ sap.ui.define([
       debugger;
     var sKey = oEvent.getParameter("selectedItem").getProperty("key");
     this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
+
+  },
+  onMasterSave: function () {
+    debugger;
+
+    // return;
+    var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+    if (!payload) {
+      MessageToast.show("Please enter a data");
+      return;
+    }
+    sap.ui.core.BusyIndicator.show();
+    this.getView().getModel("PurchaseLiteModel").setProperty("/visible", false);
+    var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+    var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+    var that = this;
+    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+      "/Products/$count", "GET", {
+      filters: [oFilter1]
+    }, {}, that)
+      .then(function (count) {
+        count = parseInt(count) + 1;
+        var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
+        var batch_Id = that.create_UUID();
+        var Product = [];
+        var ProdWeight = [];
+        var Photo = [];
+        var payload = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+
+        for (var i = 0; i < payload.length; i++) {
+          payload[i].ItemCode = pattern + "_" + count.toString();
+          payload[i].BatchId = batch_Id;
+          payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
+          count = parseInt(count) + 1;
+          // var pdt={
+          // 	"ProductId":payload[i].ItemCode,
+          // 	"TagNo":payload[i].TagNo,
+          // 	"Name":payload[i].Remark,
+          // 	"Category":"HardCode",
+          // 	"Tunch":0,
+          // 	"Wastage":0,
+          // 	"GrossWeight":0,
+          // 	"AlertQuantity":0,
+          // 	"BatchId":batch_Id
+          // };
+          // Product.push(pdt);
+          // var wgt={
+          // 	"ProductId":"",
+          // 	"Amount":payload[i].Amount,
+          // 	"GrossWeight":payload[i].GWt,
+          // 	"PairSize":payload[i].Size,
+          // 	"Remarks":payload[i].Remark,
+          // 	"Piece":payload[i].PCS
+          // };
+          // ProdWeight.push(wgt);
+          // if(payload[i].Photo.length>0){
+          // 	var seq=0;
+          // 	for(var j=0;j<payload[i].Photo.length;j++){
+          // 		var pht={
+          // 			"Product":"",
+          // 			"FileName":payload[i].Photo[j].Name,
+          // 			"Stream":payload[i].Photo[j].Stream,
+          // 			"Content":payload[i].Photo[j].Content,
+          // 			"SeqNo":seq
+          // 		};
+          // 		seq=seq+1;
+          // 		Photo.push(pht);
+          // 	}
+          // }
+
+        }
+        var that2 = that;
+
+        // var SData={
+        // 	"Product":Product,
+        // 	"ProdWeight":ProdWeight,
+        // 	"Photo":Photo
+        // };
+        $.post('/PurchaseLiteSave', {
+          "allData": payload,
+        })
+          .done(function (data, status) {
+            debugger;
+            sap.ui.core.BusyIndicator.hide();
+            MessageToast.show("data has been saved successfully");
+            that2.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
+          })
+          .fail(function (xhr, status, error) {
+            sap.ui.core.BusyIndicator.hide();
+            MessageBox.error(error);
+            debugger;
+          });
+        // that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
+      });
+
 
   }
   
