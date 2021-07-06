@@ -172,6 +172,18 @@
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
+								<Label text="Less WT"/>
+								<t:template>
+									<Input id="idLessWT" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+								</t:template>
+							</t:Column>
+							<t:Column width="20%">
+								<Label text="Net WT"/>
+								<t:template>
+									<Text id="idNetWT" text="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+								</t:template>
+							</t:Column>
+							<t:Column width="20%">
 								<Label text="AMOUNT"/>
 								<t:template>
 									<Input id="idAmount" value="{PurchaseLiteModel>Amount}" submit="onEnter"/>
@@ -201,7 +213,7 @@
 									<Input id="idSize" value="{PurchaseLiteModel>Size}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
-							<t:Column width="20%">
+							<t:Column width="12%">
 								<Label text="Photo"/>
 								<t:template>
 									<Button icon="sap-icon://image-viewer" type="{=${PurchaseLiteModel>PhotoCheck}===true?'Accept':'Attention'}" text="" press="onPhotoClick"/>
@@ -216,7 +228,7 @@
 							<t:Column width="20%" visible="{PurchaseLiteModel>/visible}" hAlign="Center">
 								<Label text="Options"/>
 								<t:template>
-									<HBox>
+									<HBox alignItems="Center">
 										<!-- <Button icon="sap-icon://edit" press="onEdit" class="sapUiTinyMarginEnd changecolor"></Button> -->
 										<Button icon="sap-icon://delete" class="sapUiTinyMarginEnd deletecolor" press="onDelete"></Button>
 										<Button icon="sap-icon://copy" press="onCopy" class="copycolor"></Button>
