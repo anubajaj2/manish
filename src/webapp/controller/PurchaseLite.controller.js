@@ -25,6 +25,7 @@ sap.ui.define([
 				"emailState": "None",
 				"PatternState": "None"
 			});
+			debugger;
 			this.setModel(odataModel, "PurchaseLiteModel");
 			this.getView().getModel("PurchaseLiteModel").setProperty("/title", 0);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", true);
@@ -34,12 +35,18 @@ sap.ui.define([
 			var oNew = {
 				ItemCode: "",
 				TagNo: "",
-				GWt: "",
-				Amount: "",
+				GWt: 0,
+				Amount: 0,
+				Rate:0,
 				PCS: "",
 				Size: "",
 				Remark: "",
 				Photo: [],
+				Tunch:0,
+				NetWt:0,
+				LessWt:0,
+				FineGold:0,
+				FineGold:0,
 				PhotoCheck: false
 			};
 			for (var i = 0; i < 50; i++) {
@@ -49,6 +56,17 @@ sap.ui.define([
 			// this.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
 			// var oRouter = this.getRouter();
 			// oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
+		},
+		getTotalItem:function(){
+			var tData=this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count=0;
+			for(var i=0;i<tData.length;i++){
+				if(tData[i].ItemCode && tData[i].GWt && tData[i].Tunch){
+					count++
+				}
+			}
+			this.getView().getModel("PurchaseLiteModel").setProperty("/title", count);
+			return count;
 		},
 		onPurityClick:function(oEvent){
 			debugger;
@@ -91,19 +109,19 @@ sap.ui.define([
 			}
 
 		},
-		onFixPress:function(oEvent){
-			var type=oEvent.getSource().getType();
-			if(type==="Emphasized"){
-				oEvent.getSource().setType("Default");
-				this.getView().byId("idFixInput").setEditable(true);
-				this.getView().byId("idFixInput").setValue("");
-			}
-			else{
-				oEvent.getSource().setType("Emphasized");
-				this.getView().byId("idFixInput").setEditable(false);
-				this.getView().byId("idFixInput").setValue("3.5");
-			}
-		},
+		// onFixPress:function(oEvent){
+		// 	var type=oEvent.getSource().getType();
+		// 	if(type==="Emphasized"){
+		// 		oEvent.getSource().setType("Default");
+		// 		this.getView().byId("idFixInput").setEditable(true);
+		// 		this.getView().byId("idFixInput").setValue("");
+		// 	}
+		// 	else{
+		// 		oEvent.getSource().setType("Emphasized");
+		// 		this.getView().byId("idFixInput").setEditable(false);
+		// 		this.getView().byId("idFixInput").setValue("3.5");
+		// 	}
+		// },
 		onEnter: function (oEvent) {
 			debugger;
 			var currentBoxId=oEvent.getSource().getId();
@@ -287,12 +305,16 @@ sap.ui.define([
 			var oNew = {
 				ItemCode: "",
 				TagNo: "",
-				GWt: "",
-				Amount: "",
+				GWt: 0,
+				Amount: 0,
+				Rate:0,
 				PCS: "",
 				Size: "",
 				Remark: "",
 				Photo: [],
+				Tunch:0,
+				NetWt:0,
+				LessWt:0,
 				PhotoCheck: false
 			};
 			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
@@ -559,109 +581,109 @@ sap.ui.define([
 			MessageToast.show("Deleted Successfully");
 
 		},
-		onMasterSave: function () {
-			debugger;
+		// onMasterSave: function () {
+		// 	debugger;
 
-			// return;
-			var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-			if (!payload) {
-				MessageToast.show("Please enter a data");
-				return;
-			}
-			sap.ui.core.BusyIndicator.show();
-			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", false);
-			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
-			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
-			var that = this;
-			that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-				"/Products/$count", "GET", {
-				filters: [oFilter1]
-			}, {}, that)
-				.then(function (count) {
-					count = parseInt(count) + 1;
-					var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
-					var batch_Id = that.create_UUID();
-					var Product = [];
-					var ProdWeight = [];
-					var Photo = [];
-					var payload = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+		// 	// return;
+		// 	var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+		// 	if (!payload) {
+		// 		MessageToast.show("Please enter a data");
+		// 		return;
+		// 	}
+		// 	sap.ui.core.BusyIndicator.show();
+		// 	this.getView().getModel("PurchaseLiteModel").setProperty("/visible", false);
+		// 	var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+		// 	var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+		// 	var that = this;
+		// 	that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+		// 		"/Products/$count", "GET", {
+		// 		filters: [oFilter1]
+		// 	}, {}, that)
+		// 		.then(function (count) {
+		// 			count = parseInt(count) + 1;
+		// 			var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
+		// 			var batch_Id = that.create_UUID();
+		// 			var Product = [];
+		// 			var ProdWeight = [];
+		// 			var Photo = [];
+		// 			var payload = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 
-					for (var i = 0; i < payload.length; i++) {
-						payload[i].ItemCode = pattern + "_" + count.toString();
-						payload[i].BatchId = batch_Id;
-						payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
-						count = parseInt(count) + 1;
-						// var pdt={
-						// 	"ProductId":payload[i].ItemCode,
-						// 	"TagNo":payload[i].TagNo,
-						// 	"Name":payload[i].Remark,
-						// 	"Category":"HardCode",
-						// 	"Tunch":0,
-						// 	"Wastage":0,
-						// 	"GrossWeight":0,
-						// 	"AlertQuantity":0,
-						// 	"BatchId":batch_Id
-						// };
-						// Product.push(pdt);
-						// var wgt={
-						// 	"ProductId":"",
-						// 	"Amount":payload[i].Amount,
-						// 	"GrossWeight":payload[i].GWt,
-						// 	"PairSize":payload[i].Size,
-						// 	"Remarks":payload[i].Remark,
-						// 	"Piece":payload[i].PCS
-						// };
-						// ProdWeight.push(wgt);
-						// if(payload[i].Photo.length>0){
-						// 	var seq=0;
-						// 	for(var j=0;j<payload[i].Photo.length;j++){
-						// 		var pht={
-						// 			"Product":"",
-						// 			"FileName":payload[i].Photo[j].Name,
-						// 			"Stream":payload[i].Photo[j].Stream,
-						// 			"Content":payload[i].Photo[j].Content,
-						// 			"SeqNo":seq
-						// 		};
-						// 		seq=seq+1;
-						// 		Photo.push(pht);
-						// 	}
-						// }
+		// 			for (var i = 0; i < payload.length; i++) {
+		// 				payload[i].ItemCode = pattern + "_" + count.toString();
+		// 				payload[i].BatchId = batch_Id;
+		// 				payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
+		// 				count = parseInt(count) + 1;
+		// 				// var pdt={
+		// 				// 	"ProductId":payload[i].ItemCode,
+		// 				// 	"TagNo":payload[i].TagNo,
+		// 				// 	"Name":payload[i].Remark,
+		// 				// 	"Category":"HardCode",
+		// 				// 	"Tunch":0,
+		// 				// 	"Wastage":0,
+		// 				// 	"GrossWeight":0,
+		// 				// 	"AlertQuantity":0,
+		// 				// 	"BatchId":batch_Id
+		// 				// };
+		// 				// Product.push(pdt);
+		// 				// var wgt={
+		// 				// 	"ProductId":"",
+		// 				// 	"Amount":payload[i].Amount,
+		// 				// 	"GrossWeight":payload[i].GWt,
+		// 				// 	"PairSize":payload[i].Size,
+		// 				// 	"Remarks":payload[i].Remark,
+		// 				// 	"Piece":payload[i].PCS
+		// 				// };
+		// 				// ProdWeight.push(wgt);
+		// 				// if(payload[i].Photo.length>0){
+		// 				// 	var seq=0;
+		// 				// 	for(var j=0;j<payload[i].Photo.length;j++){
+		// 				// 		var pht={
+		// 				// 			"Product":"",
+		// 				// 			"FileName":payload[i].Photo[j].Name,
+		// 				// 			"Stream":payload[i].Photo[j].Stream,
+		// 				// 			"Content":payload[i].Photo[j].Content,
+		// 				// 			"SeqNo":seq
+		// 				// 		};
+		// 				// 		seq=seq+1;
+		// 				// 		Photo.push(pht);
+		// 				// 	}
+		// 				// }
 
-					}
-					var that2 = that;
+		// 			}
+		// 			var that2 = that;
 
-					// var SData={
-					// 	"Product":Product,
-					// 	"ProdWeight":ProdWeight,
-					// 	"Photo":Photo
-					// };
-					$.post('/PurchaseLiteSave', {
-						"allData": payload,
-					})
-						.done(function (data, status) {
-							debugger;
-							sap.ui.core.BusyIndicator.hide();
-							MessageToast.show("data has been saved successfully");
-							that2.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
-						})
-						.fail(function (xhr, status, error) {
-							sap.ui.core.BusyIndicator.hide();
-							MessageBox.error(error);
-							debugger;
-						});
-					// that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
-				});
+		// 			// var SData={
+		// 			// 	"Product":Product,
+		// 			// 	"ProdWeight":ProdWeight,
+		// 			// 	"Photo":Photo
+		// 			// };
+		// 			$.post('/PurchaseLiteSave', {
+		// 				"allData": payload,
+		// 			})
+		// 				.done(function (data, status) {
+		// 					debugger;
+		// 					sap.ui.core.BusyIndicator.hide();
+		// 					MessageToast.show("data has been saved successfully");
+		// 					that2.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
+		// 				})
+		// 				.fail(function (xhr, status, error) {
+		// 					sap.ui.core.BusyIndicator.hide();
+		// 					MessageBox.error(error);
+		// 					debugger;
+		// 				});
+		// 			// that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
+		// 		});
 
 
-		},
-		create_UUID: function () {
-			var dt = new Date().getTime();
-			var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-				var r = (dt + Math.random() * 16) % 16 | 0;
-				dt = Math.floor(dt / 16);
-				return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-			});
-			return uuid;
-		}
+		// },
+		// create_UUID: function () {
+		// 	var dt = new Date().getTime();
+		// 	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		// 		var r = (dt + Math.random() * 16) % 16 | 0;
+		// 		dt = Math.floor(dt / 16);
+		// 		return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		// 	});
+		// 	return uuid;
+		// }
 	});
 });

@@ -101,13 +101,14 @@ sap.ui.define([
     debugger;
 
     // return;
-    var payload = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+    var oPurchaseView=sap.ui.getCore().byId("__component0---idMaker--PurchaseLiteBlock-Collapsed");
+    var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
     if (!payload) {
       MessageToast.show("Please enter a data");
       return;
     }
     sap.ui.core.BusyIndicator.show();
-    this.getView().getModel("PurchaseLiteModel").setProperty("/visible", false);
+    oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", false);
     var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
     var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
     var that = this;
@@ -119,10 +120,10 @@ sap.ui.define([
         count = parseInt(count) + 1;
         var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
         var batch_Id = that.create_UUID();
-        var Product = [];
-        var ProdWeight = [];
-        var Photo = [];
-        var payload = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+        // var Product = [];
+        // var ProdWeight = [];
+        // var Photo = [];
+        var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 
         for (var i = 0; i < payload.length; i++) {
           payload[i].ItemCode = pattern + "_" + count.toString();
@@ -191,6 +192,15 @@ sap.ui.define([
       });
 
 
+  },
+  create_UUID: function () {
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
   }
   
 

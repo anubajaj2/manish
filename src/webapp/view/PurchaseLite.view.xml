@@ -32,7 +32,7 @@
 							<VBox alignItems="Center">
 								<Title text="Tick Mark" textAlign="Center"/>
 								<HBox>
-									<Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button>
+									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
 									<Input id="idFixInput" value="6" class="sapUiSmallMarginEnd"></Input>
 								</HBox>
 							</VBox>
@@ -152,11 +152,18 @@
 								<Label text="ITEM CODE"/>
 								<t:template>
 									<Input id="idItemCode" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
-										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{/Categories}" maxSuggestionWidth="auto">
+										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
 										</suggestionItems>
 									</Input>
+                  <!-- <Input id="idInputItemCode" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
+										<suggestionItems>
+											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
+										</suggestionItems>
+									</Input> -->
+
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
@@ -174,13 +181,19 @@
 							<t:Column width="20%">
 								<Label text="Less WT"/>
 								<t:template>
-									<Input id="idLessWT" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+									<Input id="idLessWT" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Net WT"/>
 								<t:template>
-									<Text id="idNetWT" text="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+									<Text id="idNetWT" text="{PurchaseLiteModel>NetWt}" />
+								</t:template>
+							</t:Column>
+              <t:Column width="20%">
+								<Label text="Fine Gold"/>
+								<t:template>
+									<Text id="idFineGold" text="{PurchaseLiteModel>FineGold}" />
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
@@ -198,13 +211,13 @@
 							<t:Column width="20%">
 								<Label text="Tunch"/>
 								<t:template>
-									<Input id="idTunch" value="" submit="onEnter"/>
+									<Input id="idTunch" value="{PurchaseLiteModel>Tunch}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Rate"/>
 								<t:template>
-									<Input id="idRate" value="" submit="onEnter"/>
+									<Input id="idRate" value="{PurchaseLiteModel>Rate}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
@@ -230,7 +243,7 @@
 								<t:template>
 									<HBox alignItems="Center">
 										<!-- <Button icon="sap-icon://edit" press="onEdit" class="sapUiTinyMarginEnd changecolor"></Button> -->
-										<Button icon="sap-icon://delete" class="sapUiTinyMarginEnd deletecolor" press="onDelete"></Button>
+										<Button icon="sap-icon://delete" class="sapUiTinyMarginEnd deletecolor sapUiTinyMarginBegin" press="onDelete"></Button>
 										<Button icon="sap-icon://copy" press="onCopy" class="copycolor"></Button>
 									</HBox>
 								</t:template>

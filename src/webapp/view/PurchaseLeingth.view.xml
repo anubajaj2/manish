@@ -135,7 +135,7 @@
       <t:Column width="20%">
         <Label text="Photo" />
         <t:template>
-          <Button text="Photos" wrapping="true" />
+          <Button text="Photos" />
         </t:template>
       </t:Column>
 
