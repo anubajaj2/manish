@@ -151,7 +151,7 @@
 							<t:Column width="20%">
 								<Label text="ITEM CODE"/>
 								<t:template>
-									<Input id="idItemCode" value="{PurchaseLiteModel>ItemCode}" submit="onEnter" showSuggestion="true"
+									<Input id="idItemCode" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{/Categories}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
@@ -226,14 +226,14 @@
 						</t:columns>
 					</t:Table>
 				</smartTable:SmartTable>
-				<footer>
+				<!-- <footer>
 					<Toolbar>
 						<ToolbarSpacer/>
 						<Button text="Save" enabled="{PurchaseLiteModel>/visible}" press="onMasterSave"/>
 						<Button text="Clear"/>
 						<Button/>
 					</Toolbar>
-				</footer>
+				</footer> -->
 			</Page>
 		</pages>
 	</App>
