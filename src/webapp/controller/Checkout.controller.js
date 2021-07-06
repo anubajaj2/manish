@@ -352,7 +352,7 @@ sap.ui.define([
           SIZE: item.PairSize,
           QTY: 1,
           REMARKS: "NONE",
-          IMG: item.PictureUrl.sBase64//"data:image/png;base64," + that.logo
+          IMG: item.PictureUrl.sBase64 //"data:image/png;base64," + that.logo
         });
       });
       const invoiceDetail = {
@@ -477,7 +477,7 @@ sap.ui.define([
 
       let invoiceTable = (doc, invoice) => {
         let i;
-        const invoiceTableTop = 260;
+        let invoiceTableTop = 260;
         const currencySymbol = invoice.currency_symbol;
         generateHr(doc, invoiceTableTop - 5);
         doc.font("Helvetica-Bold");
@@ -499,10 +499,13 @@ sap.ui.define([
         doc.font("Helvetica");
         var totalAmount = 0;
         var totalGST = 0;
+        var total_gross_wt = 0;
+        var total_stone_wt = 0;
+        var total_net_wt = 0;
         let position = invoiceTableTop + 15;
         for (i = 0; i < invoice.items.length; i++) {
           const item = invoice.items[i];
-          position += 70;
+          position += 65;
           tableRowIGST(
             doc,
             position,
@@ -517,20 +520,53 @@ sap.ui.define([
             item.REMARKS,
             item.IMG
           );
+          total_gross_wt += parseFloat(item.GROSS_WT);
+          total_stone_wt += parseFloat(item.STONE_WT);
+          total_net_wt += parseFloat(item.NET_WT);
+          generateHr(doc, position += 65);
           // totalAmount += parseFloat(item.Amount);
-          generateHr(doc, position += 70);
+          if (invoice.items.length - 1 === i || (i === 3 && invoiceTableTop === 260) || (i - 3) % 5 === 0) {
+            generateVr(doc, 30, invoiceTableTop - 5, position);
+            generateVr(doc, 45, invoiceTableTop - 5, position);
+            generateVr(doc, 135, invoiceTableTop - 5, position);
+            generateVr(doc, 195, invoiceTableTop - 5, position);
+            generateVr(doc, 255, invoiceTableTop - 5, position);
+            generateVr(doc, 295, invoiceTableTop - 5, position);
+            generateVr(doc, 335, invoiceTableTop - 5, position);
+            generateVr(doc, 375, invoiceTableTop - 5, position);
+            generateVr(doc, 435, invoiceTableTop - 5, position);
+            generateVr(doc, 570, invoiceTableTop - 5, position);
+          }
+          if ((i === 3 && invoice.items.length > 4) || (i - 3) % 5 === 0) {
+            invoiceTableTop = 40;
+            position = 40;
+            doc.restore();
+            doc.addPage();
+            generateHr(doc, invoiceTableTop - 5);
+          }
         }
-        generateVr(doc, 30, invoiceTableTop - 5, position);
-        generateVr(doc, 45, invoiceTableTop - 5, position);
-        generateVr(doc, 135, invoiceTableTop - 5, position);
-        generateVr(doc, 195, invoiceTableTop - 5, position);
-        generateVr(doc, 255, invoiceTableTop - 5, position);
-        generateVr(doc, 295, invoiceTableTop - 5, position);
-        generateVr(doc, 335, invoiceTableTop - 5, position);
-        generateVr(doc, 375, invoiceTableTop - 5, position);
-        generateVr(doc, 435, invoiceTableTop - 5, position);
-        generateVr(doc, 570, invoiceTableTop - 5, position);
-        customerInformationOtherDetails(doc, position);
+        tableRowIGST(
+          doc,
+          position + 7,
+          i,
+          "-",
+          total_gross_wt.toFixed(3),
+          total_stone_wt.toFixed(3),
+          total_net_wt.toFixed(3),
+          "-",
+          "-",
+          "-",
+          "-",
+          "-"
+        );
+        generateHr(doc, position + 25);
+        // console.log(position);
+        if (position > 600) {
+          doc.addPage();
+          customerInformationOtherDetails(doc, 40);
+        } else {
+          customerInformationOtherDetails(doc, position);
+        }
         // const subtotalPosition = invoiceTableTop + (i + 1) * 35;
         // doc.font("Helvetica-Bold");
         // totalTable(
@@ -574,43 +610,43 @@ sap.ui.define([
         doc
           .fillColor("#444444")
           .fontSize(20);
-        let customerInformationBottom = position + 40;
+        let customerInformationBottom = position > 555 ? position + 35 : position + 40;
 
         doc.fontSize(10)
           .font("Helvetica-Bold")
           .text("Ohter Details:", 30, customerInformationBottom)
           .font("Helvetica")
-          .text("Remarks:", 30, customerInformationBottom += 15)
+          .text("Remarks:", 30, customerInformationBottom += 12)
           .text("Bangel size 2-6 aana", 150, customerInformationBottom)
-          .text("Purity:", 30, customerInformationBottom += 15)
+          .text("Purity:", 30, customerInformationBottom += 12)
           .text("22K", 150, customerInformationBottom)
-          .text("Gold Color:", 30, customerInformationBottom += 15)
+          .text("Gold Color:", 30, customerInformationBottom += 12)
           .text("YELLOW", 150, customerInformationBottom)
-          .text("Gold Type:", 30, customerInformationBottom += 15)
+          .text("Gold Type:", 30, customerInformationBottom += 12)
           .text("PG", 150, customerInformationBottom)
-          .text("Stamp (22K):", 30, customerInformationBottom += 15)
+          .text("Stamp (22K):", 30, customerInformationBottom += 12)
           .text("916", 150, customerInformationBottom)
-          .text("Finishing:", 30, customerInformationBottom += 15)
+          .text("Finishing:", 30, customerInformationBottom += 12)
           .text("HIGH POLISH + DULL", 150, customerInformationBottom)
-          .text("Rhodium:", 30, customerInformationBottom += 15)
+          .text("Rhodium:", 30, customerInformationBottom += 12)
           .text("STONE PART RHODIUM", 150, customerInformationBottom)
-          .text("Screw Type:", 30, customerInformationBottom += 15)
+          .text("Screw Type:", 30, customerInformationBottom += 12)
           .text("NA", 150, customerInformationBottom)
-          .text("Patch Details:", 30, customerInformationBottom += 15)
+          .text("Patch Details:", 30, customerInformationBottom += 12)
           .text("NA", 150, customerInformationBottom)
-          .text("Ladies Ring Size:", 30, customerInformationBottom += 15)
+          .text("Ladies Ring Size:", 30, customerInformationBottom += 12)
           .text("12 to 14", 150, customerInformationBottom)
-          .text("Gents Ring Size:", 30, customerInformationBottom += 15)
+          .text("Gents Ring Size:", 30, customerInformationBottom += 12)
           .text("21 to 25", 150, customerInformationBottom)
-          .text("Ladies Bracelet Length:", 30, customerInformationBottom += 15)
+          .text("Ladies Bracelet Length:", 30, customerInformationBottom += 12)
           .text("6.75 to 7.25", 170, customerInformationBottom)
-          .text("Gents Bracelet Length:", 30, customerInformationBottom += 15)
+          .text("Gents Bracelet Length:", 30, customerInformationBottom += 12)
           .text("8.25 to 8.5", 170, customerInformationBottom)
-          .text("Chain Length:", 30, customerInformationBottom += 15)
+          .text("Chain Length:", 30, customerInformationBottom += 12)
           .text("21 to 21", 150, customerInformationBottom)
-          .text("NK / Mala Length:", 30, customerInformationBottom += 15)
+          .text("NK / Mala Length:", 30, customerInformationBottom += 12)
           .text("20 to 21", 150, customerInformationBottom)
-          .text("Bangle Size:", 30, customerInformationBottom += 15)
+          .text("Bangle Size:", 30, customerInformationBottom += 12)
           .text("2.6 to 2.6", 150, customerInformationBottom)
       }
       let footer = (doc, invoice) => {
@@ -695,14 +731,14 @@ sap.ui.define([
             width: 60,
             align: "center"
           });
-        if (img === "IMG") {
+        if (!img.includes("base64")) {
           doc.text(img, 435, y, {
             width: 135,
             align: "center"
           });
         } else {
-          doc.image(img, 435, y-50, {
-            width: 135,
+          doc.image(img, 435, y - 50, {
+            width: 130,
             align: "center"
           });
         }
@@ -797,7 +833,7 @@ sap.ui.define([
         header(doc, invoice);
         customerInformation(doc, invoice);
         invoiceTable(doc, invoice);
-        footer(doc, invoice);
+        // footer(doc, invoice);
         doc.end();
         stream.on('finish', function() {
           // get a blob you can do whatever you like with
