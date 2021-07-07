@@ -112,11 +112,13 @@ sap.ui.define([
     var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
     var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
     var that = this;
-    that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-      "/Products/$count", "GET", {
-      filters: [oFilter1]
-    }, {}, that)
+    // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+    //   "/Products/$count", "GET", {
+    //   filters: [oFilter1]
+    // }, {}, that)
+    $.get("/getpattern?Createdby="+CreatedBy)
       .then(function (count) {
+        debugger;
         count = parseInt(count) + 1;
         var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
         var batch_Id = that.create_UUID();

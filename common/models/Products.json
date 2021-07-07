@@ -40,6 +40,10 @@
       "type": "number",
       "default": 2
     },
+    "Count":{
+      "type": "number",
+      "required":true
+    },
     "ShortDescription": {
       "type": "string",
       "required": false

@@ -51,12 +51,12 @@ app.use(fileUpload());
 //         }
 // });
 
-app.start = function() {
+app.start = function () {
   // start the web server
   //https.createServer(ssl,app).listen(443);
   //https.createServer(ssl,app).listen(8446);
   //http.createServer(app).listen(80);
-  return app.listen(function() {
+  return app.listen(function () {
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
@@ -112,7 +112,7 @@ app.start = function() {
 //       });
 //     });
 // });
-app.post("/DeleteProduct", function(req, res) {
+app.post("/DeleteProduct", function (req, res) {
   var app = require('../server/server');
   var that = this;
   if (!req.body.productCode) {
@@ -124,34 +124,34 @@ app.post("/DeleteProduct", function(req, res) {
       ProductId: req.body.productCode
     }
   }).
-  then(function(product) {
-    if (!product) {
-      res.send("Product doesn't exist!");
-      return;
-    }
-    that.productId = product.id;
-    var orderItems = app.models.OrderItem;
-    orderItems.findOne({
-      where: {
-        Material: product.id
+    then(function (product) {
+      if (!product) {
+        res.send("Product doesn't exist!");
+        return;
       }
-    }).
-    then(function(result) {
-      debugger;
-      if (!result) {
-        res.send("id :" + that.productId);
-      } else {
-        res.send("No!, Order is created with this product");
-      }
+      that.productId = product.id;
+      var orderItems = app.models.OrderItem;
+      orderItems.findOne({
+        where: {
+          Material: product.id
+        }
+      }).
+        then(function (result) {
+          debugger;
+          if (!result) {
+            res.send("id :" + that.productId);
+          } else {
+            res.send("No!, Order is created with this product");
+          }
+        });
     });
-  });
 });
-app.get("/ToProdPhoto", function(req, res) {
+app.get("/ToProdPhoto", function (req, res) {
   var app = require('../server/server');
   debugger;
 });
 
-app.post("/GetAllPhotos", function(req, res) {
+app.post("/GetAllPhotos", function (req, res) {
   var app = require('../server/server');
   if (!req.body.productId) {
     return;
@@ -162,14 +162,14 @@ app.post("/GetAllPhotos", function(req, res) {
       Product: req.body.productId
     }
   }).
-  then(function(allImages) {
-    res.send({
-      "allImages": allImages
+    then(function (allImages) {
+      res.send({
+        "allImages": allImages
+      });
     });
-  });
 });
 
-app.post("/DeletePhotos", function(req, res) {
+app.post("/DeletePhotos", function (req, res) {
   var app = require('../server/server');
   var Pics = app.models.Photo;
   if (!req.body.images) {
@@ -177,25 +177,25 @@ app.post("/DeletePhotos", function(req, res) {
   }
   var images = req.body.images;
   for (var i = 0; i < images.length; i++) {
-    Pics.destroyById(images[i].id).then(function(token) {
+    Pics.destroyById(images[i].id).then(function (token) {
       res.send("deleted");
     });
   }
 
 });
 
-app.post("/DeletePhoto", function(req, res) {
+app.post("/DeletePhoto", function (req, res) {
   var app = require('../server/server');
   var Pics = app.models.Photo;
   if (!req.body.id) {
     return;
   }
-  Pics.destroyById(req.body.id).then(function(token) {
+  Pics.destroyById(req.body.id).then(function (token) {
     res.send("deleted");
   });
 });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // var Token = app.models.AccessToken;
   // if(req.method === "GET"){
   // 	next();
@@ -218,14 +218,14 @@ app.use(function(req, res, next) {
 });
 
 app.post("/Photos",
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var Pics = app.models.Photo;
     if (!req.body.images) {
       return;
     }
     var productId = req.body.images[0].Product;
-    Pics.create(req.body.images, function(error, created) {
+    Pics.create(req.body.images, function (error, created) {
       debugger;
       if (error) {
         res.send({
@@ -238,17 +238,17 @@ app.post("/Photos",
             Product: productId
           }
         }).
-        then(function(allImages) {
-          res.send({
-            "allImages": allImages
+          then(function (allImages) {
+            res.send({
+              "allImages": allImages
+            });
           });
-        });
       }
     });
   });
 
 
-app.post("/SoldProduct", function(req, res) {
+app.post("/SoldProduct", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var record = req.body.record;
@@ -256,7 +256,7 @@ app.post("/SoldProduct", function(req, res) {
     return;
   }
   ProdWeight.findById(req.body.record.id).then(
-    function(product) {
+    function (product) {
       if (!product) {
         res.send("No Record Found");
         return;
@@ -272,8 +272,28 @@ app.post("/SoldProduct", function(req, res) {
   );
 
 });
+app.get('/getpattern',
+  function (req, res) {
+    debugger;
+    var Createdby=req.Createdby;
+    // var app = require('../server/server');
+    var products = app.models.Product;
+    products.find({
+      where: {
+        "CreatedBy": Createdby
+      },
+      order: "Count DESC",
+      limit: 1
+    })
+      .then(function (Products) {
+        debugger;
+        var pCount=Products[0]["Count"];
+        res.send(pCount.toString());
+      });
+  }
+);
 
-app.post("/UpdateProdWeight", function(req, res) {
+app.post("/UpdateProdWeight", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var record = req.body.record;
@@ -281,7 +301,7 @@ app.post("/UpdateProdWeight", function(req, res) {
     return;
   }
   ProdWeight.findById(req.body.record.id).then(
-    function(product) {
+    function (product) {
       if (!product) {
         res.send("record not found");
         return;
@@ -315,13 +335,13 @@ app.post("/UpdateProdWeight", function(req, res) {
 
 });
 app.get('/getLogo',
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var logo = fs.readFileSync('./server/invoice/mangalam_ornament_logo.png', 'base64');
     res.send(logo);
   }
 );
-app.post("/GetProdWeights", function(req, res) {
+app.post("/GetProdWeights", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   if (!req.body.productId) {
@@ -331,22 +351,22 @@ app.post("/GetProdWeights", function(req, res) {
   ProdWeight.find({
     where: {
       and: [{
-          ProductId: productId
-        },
-        {
-          Status: "A"
-        }
+        ProductId: productId
+      },
+      {
+        Status: "A"
+      }
       ]
     }
   }).
-  then(function(ProdWeights) {
-    res.send({
-      "ProdWeights": ProdWeights
+    then(function (ProdWeights) {
+      res.send({
+        "ProdWeights": ProdWeights
+      });
     });
-  });
 });
 
-app.post("/DeleteProdWeights", function(req, res) {
+app.post("/DeleteProdWeights", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var ProdWeights = req.body.ProdWeights;
@@ -354,15 +374,17 @@ app.post("/DeleteProdWeights", function(req, res) {
     return;
   }
   for (var i = 0; i < ProdWeights.length; i++) {
-    ProdWeight.destroyById(ProdWeights[i].id).then(function(token) {
+    ProdWeight.destroyById(ProdWeights[i].id).then(function (token) {
 
     });
   }
 
 });
 
+
+
 app.post("/ProdWeights",
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var ProdWeight = app.models.ProdWeight;
     if (!req.body.ProdWeights) {
@@ -377,9 +399,9 @@ app.post("/ProdWeights",
     ProdWeight.destroyAll({
       ProductId: productId,
       Status: "A"
-    }, function() {
+    }, function () {
       ProdWeight.create(req.body.ProdWeights,
-        function(error, created) {
+        function (error, created) {
           if (error) {
             res.send({
               error: error
@@ -389,19 +411,19 @@ app.post("/ProdWeights",
             ProdWeight.find({
               where: {
                 and: [{
-                    ProductId: productId
-                  },
-                  {
-                    Status: "A"
-                  }
+                  ProductId: productId
+                },
+                {
+                  Status: "A"
+                }
                 ]
               }
             }).
-            then(function(ProdWeights) {
-              res.send({
-                "ProdWeights": ProdWeights
+              then(function (ProdWeights) {
+                res.send({
+                  "ProdWeights": ProdWeights
+                });
               });
-            });
           }
         }
       );
@@ -410,7 +432,7 @@ app.post("/ProdWeights",
   });
 
 app.post('/changeUserStatus',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -422,7 +444,7 @@ app.post('/changeUserStatus',
       where: {
         "EmailId": req.body.emailId
       }
-    }).then(function(appUser) {
+    }).then(function (appUser) {
       if (appUser) {
         appUser.updateAttributes({
           blocked: req.body.bStat
@@ -431,7 +453,7 @@ app.post('/changeUserStatus',
       } else {
         res.send("User not found");
       }
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("Error Occurred");
     });
 
@@ -439,7 +461,7 @@ app.post('/changeUserStatus',
 );
 
 app.post('/updateLastLogin',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -450,7 +472,7 @@ app.post('/updateLastLogin',
       where: {
         "EmailId": req.body.emailId
       }
-    }).then(function(appUser) {
+    }).then(function (appUser) {
       if (appUser) {
         appUser.updateAttributes({
           lastLogin: new Date()
@@ -459,7 +481,7 @@ app.post('/updateLastLogin',
       } else {
         res.send("User not found");
       }
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("Error Occurred");
     });
 
@@ -472,8 +494,8 @@ app.post('/updateLastLogin',
 //     // data.pipe(res);
 // });
 app.post('/invoice',
-  function(req, res) {
-    fs.readFile('./server/sampledata/invoice.html', null, function(error, data) {
+  function (req, res) {
+    fs.readFile('./server/sampledata/invoice.html', null, function (error, data) {
       if (error) {
         res.send("Error In Printing Invoice " + error);
         return;
@@ -505,7 +527,7 @@ app.post('/invoice',
   }
 );
 app.post('/changePassword',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -526,14 +548,14 @@ app.post('/changePassword',
     this.AppUser = app.models.AppUser;
     this.RoleMapping = app.models.RoleMapping;
     var _this = this;
-    this.Token.findById(req.body.Authorization).then(function(token) {
+    this.Token.findById(req.body.Authorization).then(function (token) {
       var _this2 = _this;
       _this2.userId = token.userId;
       _this.User.findOne({
         where: {
           email: req.body.emailId
         }
-      }).then(function(user) {
+      }).then(function (user) {
         if (user) {
           user.updateAttributes({
             password: req.body.newPassword
@@ -544,7 +566,7 @@ app.post('/changePassword',
             where: {
               "EmailId": user.email
             }
-          }).then(function(appUser) {
+          }).then(function (appUser) {
             if (appUser) {
               appUser.updateAttributes({
                 pwdChange: false,
@@ -556,10 +578,10 @@ app.post('/changePassword',
         } else {
           res.send("User Not Found");
         }
-      }).catch(function(err) {
+      }).catch(function (err) {
         res.send("You are not Authorized to perform this action");
       });
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("You are not Authorized to perform this action");
     });
 
@@ -567,7 +589,7 @@ app.post('/changePassword',
 );
 
 app.post('/createNewUser',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.name) {
       res.send('No user name sent');
       return;
@@ -592,21 +614,21 @@ app.post('/createNewUser',
     this.AppUser = app.models.AppUser;
     this.RoleMapping = app.models.RoleMapping;
     var _this = this;
-    this.Token.findById(req.body.Authorization).then(function(token) {
+    this.Token.findById(req.body.Authorization).then(function (token) {
       var _this2 = _this;
       _this2.userId = token.userId;
       _this.User.findOne({
         where: {
           email: req.body.emailId
         }
-      }).then(function(user) {
+      }).then(function (user) {
         if (!user) {
           var _this3 = _this2;
           _this2.User.create({
             username: req.body.name,
             email: req.body.emailId,
             password: 'Welcome1'
-          }).then(function(user) {
+          }).then(function (user) {
             if (user) {
               var _this4 = _this3;
               _this3.TechnicalId = user.id;
@@ -614,7 +636,7 @@ app.post('/createNewUser',
                 where: {
                   "EmailId": user.email
                 }
-              }).then(function(roleMapping) {
+              }).then(function (roleMapping) {
                 debugger;
                 if (!roleMapping) {
                   _this4.AppUser.create({
@@ -627,7 +649,7 @@ app.post('/createNewUser',
                     blocked: false,
                     pwdChange: true,
                     lastLogin: new Date()
-                  }).then(function(roleMapping) {
+                  }).then(function (roleMapping) {
                     res.send("yes created");
                   });
                 }
@@ -637,10 +659,10 @@ app.post('/createNewUser',
         } else {
           res.send("User Already Exist!!");
         }
-      }).catch(function(err) {
+      }).catch(function (err) {
         res.send("You are not Authorized to perform this action");
       });
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("You are not Authorized to perform this action");
     });
 
@@ -648,7 +670,7 @@ app.post('/createNewUser',
 );
 
 app.post('/upload',
-  function(req, res) {
+  function (req, res) {
     if (!req.files.myFileUpload) {
       res.send('No files were uploaded.');
       return;
@@ -666,7 +688,7 @@ app.post('/upload',
       });
       return "Error";
     }
-    sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
+    sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function (err) {
       if (err) {
         console.log("eror saving");
       } else {
@@ -683,7 +705,7 @@ app.post('/upload',
             input: './uploads/' + req.files.myFileUpload.name,
             output: null, //since we don't need output.json
             lowerCaseHeaders: true
-          }, function(err, result) {
+          }, function (err, result) {
             if (err) {
               return res.json({
                 error_code: 1,
@@ -697,7 +719,7 @@ app.post('/upload',
               data: result
             });
 
-            var getMyDate = function(strDate) {
+            var getMyDate = function (strDate) {
               var qdat = new Date();
               var x = strDate;
               qdat.setYear(parseInt(x.substr(0, 4)));
@@ -721,21 +743,21 @@ app.post('/upload',
                   newRec.Type = singleRec.type;
                   //singleRec.Date = getMyDate(singleRec.Date);
                   Category.findOrCreate({
-                      where: {
-                        and: [{
-                          Category: newRec.Category
-                        }, {
-                          SubCategory: newRec.SubCategory
-                        }, {
-                          Type: newRec.Type
-                        }]
-                      }
-                    }, newRec)
-                    .then(function(inq) {
+                    where: {
+                      and: [{
+                        Category: newRec.Category
+                      }, {
+                        SubCategory: newRec.SubCategory
+                      }, {
+                        Type: newRec.Type
+                      }]
+                    }
+                  }, newRec)
+                    .then(function (inq) {
                       debugger;
                       console.log("created successfully");
                     })
-                    .catch(function(err) {
+                    .catch(function (err) {
                       console.log(err);
                     });
                   break;
@@ -757,7 +779,7 @@ app.post('/upload',
   }
 );
 
-app.post('/PurchaseLiteSave', async function(req, res) {
+app.post('/PurchaseLiteSave', async function (req, res) {
   debugger;
   var app = require('../server/server');
   var oProdWeight = app.models.ProdWeight;
@@ -815,7 +837,7 @@ app.post('/PurchaseLiteSave', async function(req, res) {
 });
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
+boot(app, __dirname, function (err) {
   if (err) throw err;
 
   // start the server if `$ node server.js`
