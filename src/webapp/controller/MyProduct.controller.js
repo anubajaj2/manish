@@ -42,7 +42,7 @@ sap.ui.define([
 			//read count of all products for current supplier
 			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
 			var that = this;
-			// 
+			//
 			$.get("/getpattern?Createdby="+this.CreatedBy)
 				.then(function(count) {
 					count = parseInt(count) + 1;
@@ -51,8 +51,10 @@ sap.ui.define([
 
 		},
 		_routePatternMatched: function() {
+			debugger;
 			var that = this;
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
+			this._oLocalModel.getProperty("/ProdWeights");
 			this.mode = "Create";
 			this.setMode();
 			this.lastTwoDisplay();
@@ -64,9 +66,9 @@ sap.ui.define([
 			}
 			this.lastTwoDisplay();
 			this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
-			// this.setAvailableProductCode();
+			this.setAvailableProductCode();
 		},
-		onDelete: function() {
+		onDelete1: function() {
 			var that = this;
 			var productId = this.getView().byId("idName").getValue();
 			$.post('/DeleteProduct', {
@@ -90,6 +92,7 @@ sap.ui.define([
 								"DELETE", {}, {}, that)
 							.then(function(result) {
 								that2.onCancel();
+								that2.onClear();
 								MessageToast.show("Product deleted successfully");
 								that2.ProductsearchPopup = null;
 							});
@@ -103,6 +106,12 @@ sap.ui.define([
 
 				});
 		},
+
+onClear: function(){
+	var oFileUploader = this.byId("fileUploader");
+	oFileUploader.clear();
+},
+
 		onCancel: function() {
 			debugger;
 			if (this.cancelSave() === true) {
@@ -130,9 +139,10 @@ sap.ui.define([
 					"ChangedBy": "",
 					"ChangedOn": ""
 				});
+
 				this.mode = "Create";
 				this.setMode();
-				// this.setAvailableProductCode();
+				this.setAvailableProductCode();
 			}
 
 		},
@@ -142,17 +152,17 @@ sap.ui.define([
 		onSave: function() {
 			debugger;
 			var that = this;
-			var tunch = this._oLocalModel.getProperty("/Product/Tunch");
-			var Wastage = this._oLocalModel.getProperty("/Product/Wastage");
-			if ((tunch === "" && Wastage === "") || (tunch === "0" && Wastage === "0" ) || (tunch === 0 && Wastage === 0)){
-				MessageToast.show("Please add Tunch First");
-				return;
-			}
-			var props = this._prepModelInitialValues();
-			var oModel = this.getView().getModel("local");
-			var ProdWeights = oModel.getProperty("/ProdWeights");
-			ProdWeights.push(props);
-			oModel.setProperty("/ProdWeights", ProdWeights);
+			// var tunch = this._oLocalModel.getProperty("/Product/Tunch");
+			// var Wastage = this._oLocalModel.getProperty("/Product/Wastage");
+			// if ((tunch === "" && Wastage === "") || (tunch === "0" && Wastage === "0" ) || (tunch === 0 && Wastage === 0)){
+			// 	MessageToast.show("Please add Tunch First");
+			// 	return;
+			// }
+			// var props = this._prepModelInitialValues();
+			// var oModel = this.getView().getModel("local");
+			// var ProdWeights = oModel.getProperty("/ProdWeights");
+			// ProdWeights.push(props);
+			// oModel.setProperty("/ProdWeights", ProdWeights);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 			var productPayload = this._oLocalModel.getProperty("/Product");
 
@@ -162,10 +172,14 @@ sap.ui.define([
 			// 	MessageBox.error(result.error);
 			// 	return;
 			// }
+			// parseInt(productPayload.ProductId.split("_")[1])
+
 			productPayload.ProductId = a.toUpperCase();
 			productPayload.Tunch = parseFloat(productPayload.Tunch).toFixed(2);
 			productPayload.Wastage = parseFloat(productPayload.Wastage).toFixed(0);
 			productPayload.GrossWeight = this.getView().getModel("local").getProperty("/ProdWeights")[0].GrossWeight;
+			productPayload.Count = parseInt(productPayload.ProductId.split("_")[productPayload.ProductId.split("_").length-1])
+
 			//		Product Id Cannot be Duplicated
 			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
 			if (this.mode === "Edit") {
@@ -187,6 +201,7 @@ sap.ui.define([
 						that.setMode();
 						setTimeout(() => {
 							that.onCancel();
+							that.onClear();
 						}, 900);
 					}).catch(function(oError) {
 						MessageBox.error("Error while saving product data");
@@ -217,6 +232,7 @@ sap.ui.define([
 									that2.getView().getModel("local").setProperty("/checkChange", false);
 									setTimeout(() => {
 										that2.onCancel();
+										that2.onClear();
 									}, 900);
 								}).catch(function(oError) {
 									MessageBox.error("Error while saving product data");
@@ -245,6 +261,7 @@ sap.ui.define([
 									that2.setMode();
 									setTimeout(() => {
 										that2.onCancel();
+										that2.onClear();
 									}, 900);
 								}).catch(function(oError) {
 									MessageBox.error("Error while saving product data");
