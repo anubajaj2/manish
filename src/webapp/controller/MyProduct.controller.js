@@ -42,10 +42,8 @@ sap.ui.define([
 			//read count of all products for current supplier
 			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + this.createdBy + "'");
 			var that = this;
-			that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-					"/Products/$count", "GET", {
-						filters: [oFilter1]
-					}, {}, that)
+			// 
+			$.get("/getpattern?Createdby="+this.CreatedBy)
 				.then(function(count) {
 					count = parseInt(count) + 1;
 					that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
