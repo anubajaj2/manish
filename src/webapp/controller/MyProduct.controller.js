@@ -55,8 +55,10 @@ sap.ui.define([
 			var that = this;
 			this._oLocalModel = this.getOwnerComponent().getModel("local");
 			this._oLocalModel.getProperty("/ProdWeights");
-			this.mode = "Create";
-			this.setMode();
+			this.onCancel();
+			// this.mode = "Create";
+			// this.setMode();
+
 			this.lastTwoDisplay();
 			//remove categories not set for Manufacturers
 			this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
@@ -66,7 +68,7 @@ sap.ui.define([
 			}
 			this.lastTwoDisplay();
 			this.createdBy = this.getView().getModel("local").getProperty("/CurrentUser");
-			this.setAvailableProductCode();
+			// this.setAvailableProductCode();
 		},
 		onDelete1: function() {
 			var that = this;
