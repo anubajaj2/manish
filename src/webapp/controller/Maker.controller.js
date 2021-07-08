@@ -126,12 +126,15 @@ sap.ui.define([
         // var ProdWeight = [];
         // var Photo = [];
         var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-
-        for (var i = 0; i < payload.length; i++) {
-          payload[i].ItemCode = pattern + "_" + count.toString();
+        var fPayload=[];
+        var pCount=that.getView().getModel("local").getProperty("/PurchaseLiteCount");
+        for (var i = 0; i < pCount; i++) {
+          payload[i].ProductId = pattern + "_" + count.toString();
           payload[i].BatchId = batch_Id;
           payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
+          payload[i].Count=count;
           count = parseInt(count) + 1;
+          fPayload.push(payload[i]);
           // var pdt={
           // 	"ProductId":payload[i].ItemCode,
           // 	"TagNo":payload[i].TagNo,
@@ -176,8 +179,9 @@ sap.ui.define([
         // 	"ProdWeight":ProdWeight,
         // 	"Photo":Photo
         // };
+        debugger;
         $.post('/PurchaseLiteSave', {
-          "allData": payload,
+          "allData": fPayload,
         })
           .done(function (data, status) {
             debugger;

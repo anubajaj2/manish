@@ -58,7 +58,7 @@
         <m:ToolbarSpacer/>
         <m:Button text="Save" enabled="{PurchaseLiteModel>/visible}" press="onMasterSave"/>
         <m:Button text="Clear"/>
-        <m:Button/>
+        <!-- <m:Button/> -->
       </m:Toolbar>
     </footer>
   </ObjectPageLayout>

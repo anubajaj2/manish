@@ -14,7 +14,7 @@
 									<HBox>
 										<Button id="id22" text="22" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
 										<Button id="id18" text="18" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
-										<Input id="idPurityInput" width="90px"/>
+										<Input id="idPurityInput" editable="false" value="{PurchaseLiteModel>/Purity}" liveChange="onPurityChange" width="90px"/>
 									</HBox>
 								</VBox>
 							</HBox>
@@ -33,7 +33,7 @@
 								<Title text="Tick Mark" textAlign="Center"/>
 								<HBox>
 									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
-									<Input id="idFixInput" value="6" class="sapUiSmallMarginEnd"></Input>
+									<Input id="idFixInput" value="" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
 								</HBox>
 							</VBox>
 						</l:BlockLayoutCell>
@@ -41,7 +41,7 @@
 							<VBox alignItems="Center">
 								<Title text="Style" textAlign="Center"/>
 								<HBox>
-									<ComboBox id="" items="{local>/cat/subCatergory}">
+									<ComboBox id="" items="{local>/cat/subCatergory}" change="onStyleChange">
 										<items>
 											<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 										</items>
@@ -117,13 +117,13 @@
 							<!-- <Text text="" /> -->
 							<Label/>
 							<Title text="T GR WT:"/>
-							<Title text="00"/>
+							<Title text="{PurchaseLiteModel>/titleGW}"/>
 							<Label/>
 							<Title text="T Fine:"/>
-							<Title text="00"/>
+							<Title text="{PurchaseLiteModel>/titleTF}"/>
 							<Label/>
 							<Title text="T Amount:"/>
-							<Title text="00"/>
+							<Title text="{PurchaseLiteModel>/titleTA}"/>
 							<ToolbarSpacer/>
 							<!-- enabled="true" -->
 							<Button icon="sap-icon://picture" press="onAddImageData" enabled="{PurchaseLiteModel>/visible}" text="Mass Image Upload"></Button>
@@ -175,13 +175,13 @@
 							<t:Column width="20%">
 								<Label text="G WT"/>
 								<t:template>
-									<Input id="idGWT" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+									<Input id="idGWT" change="onCalculation" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Less WT"/>
 								<t:template>
-									<Input id="idLessWT" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
+									<Input id="idLessWT" change="onCalculation" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
@@ -211,13 +211,13 @@
 							<t:Column width="20%">
 								<Label text="Tunch"/>
 								<t:template>
-									<Input id="idTunch" value="{PurchaseLiteModel>Tunch}" submit="onEnter"/>
+									<Input id="idTunch" change="onCalculation" value="{PurchaseLiteModel>Tunch}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Rate"/>
 								<t:template>
-									<Input id="idRate" value="{PurchaseLiteModel>Rate}" submit="onEnter"/>
+									<Input id="idRate" change="onCalculation" value="{PurchaseLiteModel>Rate}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">

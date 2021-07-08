@@ -1,3 +1,4 @@
+// const { timesSeries } = require("async");
 sap.ui.define([
 	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/core/UIComponent",
@@ -28,6 +29,9 @@ sap.ui.define([
 			debugger;
 			this.setModel(odataModel, "PurchaseLiteModel");
 			this.getView().getModel("PurchaseLiteModel").setProperty("/title", 0);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/titleGW", 0);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/titleTF", 0);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/titleTA", 0);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", true);
 			var Purc = [];
 			// this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
@@ -35,18 +39,17 @@ sap.ui.define([
 			var oNew = {
 				ItemCode: "",
 				TagNo: "",
-				GWt: 0,
+				GWt: 0.00,
 				Amount: 0,
-				Rate:0,
+				Rate: 0,
 				PCS: "",
 				Size: "",
 				Remark: "",
 				Photo: [],
-				Tunch:0,
-				NetWt:0,
-				LessWt:0,
-				FineGold:0,
-				FineGold:0,
+				Tunch: 0,
+				NetWt: 0.000,
+				LessWt: 0.000,
+				FineGold: 0.000,
 				PhotoCheck: false
 			};
 			for (var i = 0; i < 50; i++) {
@@ -56,56 +59,193 @@ sap.ui.define([
 			// this.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
 			// var oRouter = this.getRouter();
 			// oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
-		},
-		getTotalItem:function(){
-			var tData=this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-			var count=0;
-			for(var i=0;i<tData.length;i++){
-				if(tData[i].ItemCode && tData[i].GWt && tData[i].Tunch){
-					count++
+		}, getTotalItem: function () {
+				debugger;
+				var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+				var count = 0;
+				debugger;
+				for (var i = 0; i < tData.length; i++) {
+					if (!tData[i].ItemCode && !tData[i].GWt && !tData[i].Tunch) {
+						continue;
+					} else {
+						count++;
+					}
 				}
-			}
-			this.getView().getModel("PurchaseLiteModel").setProperty("/title", count);
-			return count;
-		},
-		onPurityClick:function(oEvent){
+				var tGwt = 0;
+				var tFg = 0;
+				var tA = 0;
+				this.getView().getModel("PurchaseLiteModel").setProperty("/title", count);
+				this.getView().getModel("local").setProperty("/PurchaseLiteCount", count);
+				for (var i = 0; i <= count; i++) {
+					if (tData[i].GWt) {
+						tGwt = tGwt + parseFloat(tData[i].GWt);
+					}
+					if (tData[i].FineGold) {
+						tFg = tFg + parseFloat(tData[i].FineGold);
+					}
+					if (tData[i].Amount) {
+						tA = tA + parseFloat(tData[i].Amount);
+					}
+				}
+				this.getView().getModel("PurchaseLiteModel").setProperty("/titleGW", tGwt.toFixed(3));
+				this.getView().getModel("PurchaseLiteModel").setProperty("/titleTF", tFg.toFixed(3));
+				this.getView().getModel("PurchaseLiteModel").setProperty("/titleTA", tA.toFixed(3));
+				return count;
+			},
+		onPurityClick: function (oEvent) {
 			debugger;
-			var sId=oEvent.getSource().getId().split("--")[(oEvent.getSource().getId().split("--").length)-1];
-			if(sId==="id22"){
-				if(oEvent.getSource().getType()==="Emphasized"){
+			var sId = oEvent.getSource().getId().split("--")[(oEvent.getSource().getId().split("--").length) - 1];
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count = this.getTotalItem();
+			this.getView().byId("idPurityInput").setEditable(true);
+			if (sId === "id22") {
+				if (oEvent.getSource().getType() === "Emphasized") {
 					this.getView().byId("id22").setType("Default");
 					this.getView().byId("id18").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("");
+
 				}
-				else{
+				else {
 					this.getView().byId("id18").setType("Default");
 					this.getView().byId("id22").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("91.66");
+					for (var i = 0; i <= count; i++) {
+						if (!tData[i].ItemCode && !tData[i].GWt ){
+							continue;  //this is used due to zero's
+						}else {
+							tData[i].Tunch = 91.66
+							this.onCalculation(i);
+						}
+						// tData[i].Tunch=75.20
+					}
 				}
-				
+
 			}
-			else if(sId==="id18"){
-				if(oEvent.getSource().getType()==="Emphasized"){
+			else if (sId === "id18") {
+				if (oEvent.getSource().getType() === "Emphasized") {
 					this.getView().byId("id18").setType("Default");
 					this.getView().byId("id22").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("");
 				}
-				else{
+				else {
 					this.getView().byId("id18").setType("Emphasized");
 					this.getView().byId("id22").setType("Default");
 					this.getView().byId("idPurityInput").setValue("75.20");
+					// if(count!==0){
+					for (var i = 0; i <= count; i++) {
+						if (!tData[i].ItemCode && !tData[i].GWt ){
+							continue;
+						}else {
+							tData[i].Tunch = 75.20
+							this.onCalculation(i);
+						}
+						// tData[i].Tunch=75.20
+					}
+					// }
 				}
 			}
 		},
-		onTypePress:function(oEvent){
-			var sId=oEvent.getSource().getId();
-			if(sId.includes("idTypeStudded")){
+		onPurityChange: function (oEvent) {
+			debugger;
+			var value = oEvent.getSource().getValue();
+			if (this.getView().byId("id22").getType() === "Emphasized") {
+				if (value > 92 || value < 91.66) {
+					oEvent.getSource().setValueState("Error");
+					oEvent.getSource().setValueStateText("value should be in between 91.66-92");
+					return;
+				}
+				else {
+					oEvent.getSource().setValueState("None");
+				}
+
+			}
+			else if (this.getView().byId("id18").getType() === "Emphasized") {
+				if (value > 76 || value < 75) {
+					oEvent.getSource().setValueState("Error");
+					oEvent.getSource().setValueStateText("value should be in between 75-76");
+					return;
+				}
+				else {
+					oEvent.getSource().setValueState("None");
+				}
+			}
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count = this.getTotalItem();
+			for (var i = 0; i <= count; i++) {
+				if (!tData[i].ItemCode && !tData[i].GWt ){
+					continue;
+				}else {
+					tData[i].Tunch = value;
+					this.onCalculation(i);
+				}
+			}
+
+		},
+		onFixChange:function(oEvent){
+			var value = oEvent.getSource().getValue();
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count = this.getTotalItem();
+			for (var i = 0; i <= count; i++) {
+				if (!tData[i].ItemCode && !tData[i].GWt ){
+					continue;
+				}else  {
+					tData[i].Rate = value;
+					this.onCalculation(i);
+				}
+			}
+		},
+		onStyleChange:function(oEvent){
+			debugger;
+			var value = oEvent.getSource().getSelectedKey();
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count = this.getTotalItem();
+			for (var i = 0; i <= count; i++) {
+				if (!tData[i].ItemCode && !tData[i].GWt ){
+					continue;
+				}else  {
+					tData[i].SubCategory = value;
+				}
+			}
+		},
+		onCalculation: function(oEvent) {
+			debugger;
+			var rowNo;
+			if (typeof (oEvent) === "object") {
+				rowNo = parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length - 1]);
+			}
+			else {
+				rowNo = oEvent;
+			}
+			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
+			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
+			oModel.FineGold = (parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))).toFixed(3);
+			this.getTotalItem();
+		},
+		onTypePress: function (oEvent) {
+			var sId = oEvent.getSource().getId();
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			var count = this.getTotalItem();
+			if (sId.includes("idTypeStudded")) {
 				this.getView().byId("idTypeStudded").setType("Emphasized");
 				this.getView().byId("idTypePlain").setType("Default");
+				for (var i = 0; i <= count; i++) {
+					if (!tData[i].ItemCode && !tData[i].GWt ){
+						continue;
+					}else  {
+						tData[i].Type = "S";
+					}
+				}
 			}
-			else{
+			else {
 				this.getView().byId("idTypeStudded").setType("Default");
 				this.getView().byId("idTypePlain").setType("Emphasized");
+				for (var i = 0; i <= count; i++) {
+					if (!tData[i].ItemCode && !tData[i].GWt ){
+						continue;
+					}else  {
+						tData[i].Type = "P";
+					}
+				}
 			}
 
 		},
@@ -124,7 +264,7 @@ sap.ui.define([
 		// },
 		onEnter: function (oEvent) {
 			debugger;
-			var currentBoxId=oEvent.getSource().getId();
+			var currentBoxId = oEvent.getSource().getId();
 			var id = "input[id*='---idMaker--']";
 			var textboxes = $(id);
 			var findCurrentBox = textboxes.toArray().filter((i) => i.id.includes(currentBoxId));
@@ -201,26 +341,44 @@ sap.ui.define([
 					});
 					var excelD = [];
 					debugger;
+					var allData = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+					var count = that.getTotalItem();
+					var j = 0;
+					if (count !== 0) {
+						j = count + 1;
+					}
 					for (var i = 0; i < excelData.length; i++) {
 
-						excelD.push({
-							ItemCode: excelData[i]["ItemCode"],
-							TagNo: excelData[i]["TAG NO"],
-							GWt: excelData[i]["G WT"],
-							Amount: excelData[i]["Amount"],
-							PCS: excelData[i]["PCS"],
-							Size: excelData[i]["Size"],
-							Remark: excelData[i]["Remark"],
-							Photo: [],
-							PhotoCheck: false
-						});
+						// excelD.push({
+						allData[j].ItemCode = excelData[i]["ItemCode"];
+						allData[j].TagNo = excelData[i]["TAG NO"];
+						allData[j].GWt = excelData[i]["G WT"] ? parseFloat(excelData[i]["G WT"]).toFixed(3) : 0.000;
+						allData[j].Amount = excelData[i]["Amount"] ? excelData[i]["Amount"] : 0.000;
+						allData[j].Rate = 0;
+						allData[j].PCS = excelData[i]["PCS"];
+						allData[j].Size = excelData[i]["Size"];
+						allData[j].Remark = excelData[i]["Remark"];
+						allData[j].Photo = [];
+						allData[j].Tunch = that.getView().byId("idPurityInput").getValue() ? that.getView().byId("idPurityInput").getValue() : 0;
+						allData[j].NetWt = 0.000;
+						allData[j].FineGold = 0.000;
+						allData[j].LessWt = excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000;
+						allData[j].PhotoCheck = false;
+						j++;
+						// });
 
 					}
 					debugger;
 					// Setting the data to the local model
 
-					that.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", excelD);
-					that.getView().getModel("PurchaseLiteModel").setProperty("/title", excelD.length);
+					that.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", allData);
+					count = that.getTotalItem();
+					allData = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+					for (i = 0; i <= count; i++) {
+						that.onCalculation(i);
+					}
+					that.getView().byId("PurchaseLiteTable").getModel("PurchaseLiteModel").refresh();
+					// that.getView().getModel("PurchaseLiteModel").setProperty("/title", excelD.length);
 				};
 				reader.onerror = function (ex) {
 					console.log(ex);
@@ -305,16 +463,17 @@ sap.ui.define([
 			var oNew = {
 				ItemCode: "",
 				TagNo: "",
-				GWt: 0,
+				GWt: 0.000,
 				Amount: 0,
-				Rate:0,
+				Rate: 0,
 				PCS: "",
 				Size: "",
 				Remark: "",
 				Photo: [],
-				Tunch:0,
-				NetWt:0,
-				LessWt:0,
+				Tunch: 0,
+				NetWt: 0.000,
+				LessWt: 0.000,
+				FineGold: 0.000,
 				PhotoCheck: false
 			};
 			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
@@ -323,14 +482,15 @@ sap.ui.define([
 
 			// var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			// if (sId === "idAddProduct") {
-				if (!data) {
-					data = [];
-				}
-				data.unshift(oNew);
-				debugger;
-				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
-				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
-				MessageToast.show("Data Added Successful");
+			if (!data) {
+				data = [];
+			}
+			data.unshift(oNew);
+			debugger;
+			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+			// this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+			this.getTotalItem();
+			MessageToast.show("Data Added Successful");
 
 			// }
 			// var that = this;
@@ -349,28 +509,28 @@ sap.ui.define([
 			// 	this.oAddProduct.open();
 			// }
 		},
-		onEdit: function (oEvent) {
-			debugger;
-			var that = this;
-			this.EditPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
-			var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(this.EditPath)));
-			this.getView().getModel("PurchaseLiteModel").setProperty("/entry", value);
-			if (!this.oEditProduct) {
-				Fragment.load({
-					id: "idEditProduct",
-					name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
-					controller: this
-				}).then(function (oPopup) {
-					that.oEditProduct = oPopup;
-					that.getView().addDependent(oPopup);
-					oPopup.setTitle("EDIT");
-					oPopup.getButtons()[0].setText("Edit");
-					oPopup.open();
-				});
-			} else {
-				this.oEditProduct.open();
-			}
-		},
+		// onEdit: function (oEvent) {
+		// 	debugger;
+		// 	var that = this;
+		// 	this.EditPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
+		// 	var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(this.EditPath)));
+		// 	this.getView().getModel("PurchaseLiteModel").setProperty("/entry", value);
+		// 	if (!this.oEditProduct) {
+		// 		Fragment.load({
+		// 			id: "idEditProduct",
+		// 			name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
+		// 			controller: this
+		// 		}).then(function (oPopup) {
+		// 			that.oEditProduct = oPopup;
+		// 			that.getView().addDependent(oPopup);
+		// 			oPopup.setTitle("EDIT");
+		// 			oPopup.getButtons()[0].setText("Edit");
+		// 			oPopup.open();
+		// 		});
+		// 	} else {
+		// 		this.oEditProduct.open();
+		// 	}
+		// },
 		onCopy: function (oEvent) {
 			debugger;
 			var that = this;
@@ -433,13 +593,14 @@ sap.ui.define([
 			var reportExcel = [];
 			for (var i = 1; i < 11; i++) {
 				reportExcel.push({
-					ItemCode: 100+i,
+					ItemCode: 100 + i,
 					TagNo: "T-" + i,
 					GWt: i * 10,
 					Amount: (i * 10) + (i * 5),
 					PCS: i,
 					Size: i,
 					Remark: i,
+					LessWt: i * 11,
 					Photo: [],
 					PhotoCheck: false
 				});
@@ -464,7 +625,7 @@ sap.ui.define([
 					label: 'ItemCode',
 					property: 'ItemCode',
 					// width: '25'
-				}, 
+				},
 				{
 					label: 'TAG NO',
 					property: 'TagNo'
@@ -472,6 +633,10 @@ sap.ui.define([
 				}, {
 					label: 'G WT',
 					property: 'GWt'
+				}, {
+					label: 'LessWt',
+					property: 'LessWt'
+
 				}, {
 					label: 'Amount',
 					property: 'Amount'
@@ -577,7 +742,7 @@ sap.ui.define([
 			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			data.splice(sPath, 1);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
-			this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+			this.getTotalItem();
 			MessageToast.show("Deleted Successfully");
 
 		},

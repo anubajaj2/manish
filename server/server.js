@@ -790,13 +790,16 @@ app.post('/PurchaseLiteSave', async function (req, res) {
     // var Product=await oProduct.create(data.Product);
     for (var i = 0; i < payload.length; i++) {
       var pdt = {
-        "ProductId": payload[i].ItemCode,
+        "ProductId": payload[i].ProductId,
         "TagNo": payload[i].TagNo,
         "Name": payload[i].Remark,
-        "Category": "HardCode",
-        "Tunch": 0,
-        "Wastage": 0,
-        "GrossWeight": 0,
+        "Category": payload[i].ItemCode,
+        "Tunch": payload[i].Tunch,
+        "Type":payload[i].Type,
+        "SubCategory":payload[i].SubCategory,
+        "Count":payload[i].Count,
+        "Wastage": payload[i].Rate,
+        "GrossWeight": payload[i].GWt,
         "AlertQuantity": 0,
         "BatchId": payload[i].BatchId,
         "CreatedBy": payload[i].CreatedBy
@@ -807,6 +810,9 @@ app.post('/PurchaseLiteSave', async function (req, res) {
         "ProductId": Product.id,
         "Amount": payload[i].Amount,
         "GrossWeight": payload[i].GWt,
+        "LessWeight":payload[i].LessWt,
+        "NetWeight":payload[i].NetWt,
+        "Fine":payload[i].FineGold,
         "PairSize": payload[i].Size,
         "Remarks": payload[i].Remark,
         "Piece": payload[i].PCS
