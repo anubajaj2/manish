@@ -45,6 +45,7 @@ sap.ui.define([
 				PCS: "",
 				Size: "",
 				Remark: "",
+				SubTotal:0,
 				Photo: [],
 				Tunch: 0,
 				NetWt: 0.000,
@@ -219,6 +220,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
 			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 			oModel.FineGold = (parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))).toFixed(3);
+			// oModel.SubTotal=
 			this.getTotalItem();
 		},
 		onTypePress: function (oEvent) {
@@ -364,6 +366,7 @@ sap.ui.define([
 						allData[j].FineGold = 0.000;
 						allData[j].LessWt = excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000;
 						allData[j].PhotoCheck = false;
+						allData[j].SubTotal=0;
 						j++;
 						// });
 
@@ -469,6 +472,7 @@ sap.ui.define([
 				PCS: "",
 				Size: "",
 				Remark: "",
+				SubTotal:0,
 				Photo: [],
 				Tunch: 0,
 				NetWt: 0.000,

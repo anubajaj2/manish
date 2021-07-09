@@ -238,6 +238,12 @@
 									<Input id="idRemark" value="{PurchaseLiteModel>Remark}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
+							<t:Column width="20%">
+								<Label text="Sub Total"/>
+								<t:template>
+									<Input id="idSubTotal" value="{PurchaseLiteModel>SubTotal}" submit="onEnter"/>
+								</t:template>
+							</t:Column>
 							<t:Column width="20%" visible="{PurchaseLiteModel>/visible}" hAlign="Center">
 								<Label text="Options"/>
 								<t:template>

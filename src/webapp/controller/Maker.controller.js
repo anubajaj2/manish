@@ -13,8 +13,9 @@ sap.ui.define([
 	"sap/ui/core/Fragment",
   "sap/m/Dialog",
 	"sap/ui/unified/FileUploader",
+  "sap/ui/demo/cart/controller/PurchaseLite.controller"
 ], function(BaseController, UIComponent, JSONModel,
-  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet,Fragment, Dialog, FileUploader) {
+  MessageToast, Formatter, MessageBox, Filter, FilterOperator, SelectDialog, exportLibrary, Spreadsheet,Fragment, Dialog, FileUploader,pLite) {
   "use strict";
   var manufacturerId;
   var changeCheck = 'false';
@@ -207,6 +208,9 @@ sap.ui.define([
       return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
+  },
+  onClear(){
+    pLite.onInit();
   }
   
 
