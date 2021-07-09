@@ -50,11 +50,13 @@ sap.ui.define([
       });
     },
     _routePatternMatched: function() {
-      this._setLayout("One");
+      // this._setLayout("One");
       if (this.getView().byId("wizardNavContainer")._pageStack.length > 1) {
-        this.getView().byId("wizardNavContainer")._pageStack.pop();
+        // this.getView().byId("wizardNavContainer")._pageStack.pop();
+        this.getView().byId("wizardNavContainer").to(this.byId("wizardContentPage"));
         this.getView().byId("shoppingCartWizard").setCurrentStep(this.getView().byId("shoppingCartWizard").getSteps()[0]);
       }
+      // this.getView().byId("shoppingCartWizard").setCurrentStep(this.getView().byId("shoppingCartWizard").getSteps()[0]);
       this.calculateOrderEstimate();
     },
     onChangeQty: function() {

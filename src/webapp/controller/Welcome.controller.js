@@ -67,9 +67,9 @@ sap.ui.define([
     onRate: function(oEvent) {
       var value = oEvent.getSource().getName().split('-');
       if (oEvent.getParameter('selected')) {
-        if(value.length>1){
+        if (value.length > 1) {
           this.rateFilter.push(new Filter("Wastage", FilterOperator.BT, value[0], value[1]));
-        }else{
+        } else {
           this.rateFilter.push(new Filter("Wastage", FilterOperator.GT, value[0]));
         }
       } else {
@@ -217,6 +217,37 @@ sap.ui.define([
     },
     onNavButtonPress: function() {
       this.oRouter.navTo("CustomerLanding");
+    },
+    onClear: function() {
+      var gridList = this.getView().byId("gridList").getItems();
+      gridList.forEach((item) => {
+        item.removeStyleClass("colorGreen");
+      });
+      var style = this.getView().byId("idStyle").getItems();
+      style.forEach((item) => {
+        item.setSelected(false);
+      });
+      this.styleFilter = [];
+      var weight = this.getView().byId("idWeight").getItems();
+      weight[0].setRange([0, 100]);
+      weight[1].setValue(0);
+      weight[2].setValue(100);
+      this.weightFilter = [];
+      var type = this.getView().byId("idType").getItems();
+      type.forEach((item) => {
+        item.setSelected(false);
+      });
+      this.typeFilter = [];
+      var karat = this.getView().byId("idKarat").getItems();
+      karat.forEach((item) => {
+        item.setSelected(false);
+      });
+      this.karatFilter = [];
+      var rate = this.getView().byId("idRate").getItems();
+      rate.forEach((item) => {
+        item.setSelected(false);
+      });
+      this.rateFilter = [];
     }
   });
 });
