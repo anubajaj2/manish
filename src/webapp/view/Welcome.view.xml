@@ -58,7 +58,7 @@
 					<form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="4">
 						<form:content>
 							<Label text="STYLE"/>
-							<VBox class="sapUiSmallMarginBegin">
+							<VBox class="sapUiSmallMarginBegin" id="idStyle">
 								<CheckBox text="DIAMOND" select="onStyle"/>
 								<CheckBox text="KUNDAN MEENA" name="KUNDAN MEENA" select="onStyle">
 									<layoutData>
@@ -102,14 +102,14 @@
 								</CheckBox>
 							</VBox>
 							<Label text="Weight"/>
-							<VBox class="sapUiSmallMarginBegin">
-								<RangeSlider class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiTinyMarginEnd" showAdvancedTooltip="true" id="range" min="0" max="500" width="85%" liveChange="onWeightRange"/>
-								<Input id="idMinWeight" type="Number" width="70%" description="Min" change="onMinWeight">
+							<VBox class="sapUiSmallMarginBegin" id="idWeight">
+								<RangeSlider class="sapUiTinyMarginTop sapUiTinyMarginBottom sapUiTinyMarginEnd" showAdvancedTooltip="true" id="range" min="0" max="100" width="85%" liveChange="onWeightRange"/>
+								<Input id="idMinWeight" type="Number" width="70%" value="0" description="Min" change="onMinWeight">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
 								</Input>
-								<Input id="idMaxWeight" type="Number" width="70%" description="Max" change="onMaxWeight">
+								<Input id="idMaxWeight" type="Number" value="100" width="70%" description="Max" change="onMaxWeight">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
 									</layoutData>
@@ -136,7 +136,7 @@
 					<form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="4">
 						<form:content>
 							<Label text="TYPE"/>
-							<VBox class="sapUiSmallMarginBegin">
+							<VBox class="sapUiSmallMarginBegin" id="idType">
 								<CheckBox text="STUDDED" select="onType">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
@@ -149,7 +149,7 @@
 								</CheckBox>
 							</VBox>
 							<Label text="CARAT"/>
-							<VBox class="sapUiSmallMarginBegin">
+							<VBox class="sapUiSmallMarginBegin" id="idKarat">
 								<CheckBox text="18KT" select="onKarat">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
@@ -162,7 +162,7 @@
 								</CheckBox>
 							</VBox>
 							<Label text="RATE"/>
-							<VBox class="sapUiSmallMarginBegin">
+							<VBox class="sapUiSmallMarginBegin" id="idRate">
 								<CheckBox text="1% TO 2%" name="1-2" select="onRate">
 									<layoutData>
 										<l:GridData linebreak="true" indentL="4" indentM="4"/>
