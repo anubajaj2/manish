@@ -266,6 +266,11 @@ sap.ui.define([
 		// },
 		onEnter: function (oEvent) {
 			debugger;
+			if(oEvent.getSource().getId().split("-")[oEvent.getSource().getId().split("-").length-2]==="idItemCode"){
+				var value=oEvent.getSource().getValue().split(" ")[0];
+				var row=parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length-1]);
+				var oModel=this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite/"+row+"/ItemCode",value);
+			}
 			var currentBoxId = oEvent.getSource().getId();
 			var id = "input[id*='---idMaker--']";
 			var textboxes = $(id);

@@ -100,9 +100,13 @@ sap.ui.define([
   },
   onMasterSave: function () {
     debugger;
-
-    // return;
     var oPurchaseView=sap.ui.getCore().byId("__component0---idMaker--PurchaseLiteBlock-Collapsed");
+    if(oPurchaseView.getModel("PurchaseLiteModel").getProperty("/visible")===false){
+      MessageToast.show("data is already saved");
+      return;
+    }
+    // return;
+    
     var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
     if (!payload) {
       MessageToast.show("Please enter a data");
@@ -111,7 +115,7 @@ sap.ui.define([
     sap.ui.core.BusyIndicator.show();
     oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", false);
     var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
-    var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+    // var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
     var that = this;
     // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
     //   "/Products/$count", "GET", {
@@ -129,6 +133,11 @@ sap.ui.define([
         var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
         var fPayload=[];
         var pCount=that.getView().getModel("local").getProperty("/PurchaseLiteCount");
+        if(!pCount){
+          MessageBox.error("Blank data can not be saved");
+          sap.ui.core.BusyIndicator.hide();
+          return;
+        }
         for (var i = 0; i < pCount; i++) {
           payload[i].ProductId = pattern + "_" + count.toString();
           payload[i].BatchId = batch_Id;
@@ -187,8 +196,14 @@ sap.ui.define([
           .done(function (data, status) {
             debugger;
             sap.ui.core.BusyIndicator.hide();
-            MessageToast.show("data has been saved successfully");
-            that2.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
+            if(typeof(data)==="string"){
+            MessageToast.show("data has been saved successfully");}
+            else{
+              MessageBox.error(data.message);
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+            }
+
+            oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
           })
           .fail(function (xhr, status, error) {
             sap.ui.core.BusyIndicator.hide();
@@ -210,7 +225,38 @@ sap.ui.define([
     return uuid;
   },
   onClear(){
-    pLite.onInit();
+    debugger;
+    var oPurchaseView=sap.ui.getCore().byId("__component0---idMaker--PurchaseLiteBlock-Collapsed");
+    // var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+    oPurchaseView.getModel("PurchaseLiteModel").setProperty("/title", 0);
+    oPurchaseView.getModel("PurchaseLiteModel").setProperty("/titleGW", 0);
+		oPurchaseView.getModel("PurchaseLiteModel").setProperty("/titleTF", 0);
+    oPurchaseView.getModel("PurchaseLiteModel").setProperty("/titleTA", 0);
+    oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+			var Purc = [];
+			// this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
+			debugger;
+			var oNew = {
+				ItemCode: "",
+				TagNo: "",
+				GWt: 0.00,
+				Amount: 0,
+				Rate: 0,
+				PCS: "",
+				Size: "",
+				Remark: "",
+				SubTotal:0,
+				Photo: [],
+				Tunch: 0,
+				NetWt: 0.000,
+				LessWt: 0.000,
+				FineGold: 0.000,
+				PhotoCheck: false
+			};
+			for (var i = 0; i < 50; i++) {
+				Purc.push(JSON.parse(JSON.stringify(oNew)));
+			}
+			oPurchaseView.getModel("PurchaseLiteModel").setProperty("/PurchaseLite", Purc);
   }
   
 
