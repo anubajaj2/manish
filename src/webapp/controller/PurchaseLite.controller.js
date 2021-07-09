@@ -352,7 +352,7 @@ sap.ui.define([
 					for (var i = 0; i < excelData.length; i++) {
 
 						// excelD.push({
-						if(j<49){
+						if(j<50){
 						allData[j].ItemCode = excelData[i]["ItemCode"];
 						allData[j].TagNo = excelData[i]["TAG NO"];
 						allData[j].GWt = excelData[i]["G WT"] ? parseFloat(excelData[i]["G WT"]).toFixed(3) : 0.000;
