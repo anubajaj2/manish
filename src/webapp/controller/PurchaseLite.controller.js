@@ -352,6 +352,7 @@ sap.ui.define([
 					for (var i = 0; i < excelData.length; i++) {
 
 						// excelD.push({
+						if(j<49){
 						allData[j].ItemCode = excelData[i]["ItemCode"];
 						allData[j].TagNo = excelData[i]["TAG NO"];
 						allData[j].GWt = excelData[i]["G WT"] ? parseFloat(excelData[i]["G WT"]).toFixed(3) : 0.000;
@@ -367,6 +368,27 @@ sap.ui.define([
 						allData[j].LessWt = excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000;
 						allData[j].PhotoCheck = false;
 						allData[j].SubTotal=0;
+						}
+						else{
+							var oNew = {
+								ItemCode: excelData[i]["ItemCode"],
+								TagNo: excelData[i]["TAG NO"],
+								GWt: excelData[i]["G WT"] ? parseFloat(excelData[i]["G WT"]).toFixed(3) : 0.000,
+								Amount: excelData[i]["Amount"] ? excelData[i]["Amount"] : 0.000,
+								Rate: 0,
+								PCS: excelData[i]["PCS"],
+								Size: excelData[i]["Size"],
+								Remark: excelData[i]["Remark"],
+								SubTotal:0,
+								Photo: [],
+								Tunch: that.getView().byId("idPurityInput").getValue() ? that.getView().byId("idPurityInput").getValue() : 0,
+								NetWt: 0.000,
+								LessWt:excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000,
+								FineGold: 0.000,
+								PhotoCheck: false
+							};
+							allData.push(oNew);
+						}
 						j++;
 						// });
 
@@ -540,22 +562,22 @@ sap.ui.define([
 			var that = this;
 			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
 			var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(sPath)));
-			this.getView().getModel("PurchaseLiteModel").setProperty("/entry", value);
-			if (!this.oCopyProduct) {
-				Fragment.load({
-					id: "idCopyProduct",
-					name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
-					controller: this
-				}).then(function (oPopup) {
-					that.oCopyProduct = oPopup;
-					that.getView().addDependent(oPopup);
-					oPopup.setTitle("COPY");
-					oPopup.getButtons()[0].setText("Copy");
-					oPopup.open();
-				});
-			} else {
-				this.oCopyProduct.open();
-			}
+			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", value);
+			// if (!this.oCopyProduct) {
+			// 	Fragment.load({
+			// 		id: "idCopyProduct",
+			// 		name: "sap.ui.demo.cart.fragments.PurchaseStyleCURD",
+			// 		controller: this
+			// 	}).then(function (oPopup) {
+			// 		that.oCopyProduct = oPopup;
+			// 		that.getView().addDependent(oPopup);
+			// 		oPopup.setTitle("COPY");
+			// 		oPopup.getButtons()[0].setText("Copy");
+			// 		oPopup.open();
+			// 	});
+			// } else {
+			// 	this.oCopyProduct.open();
+			// }
 		},
 		onPressHandleSecureCancelPopup: function (oEvent) {
 			debugger;
@@ -623,6 +645,7 @@ sap.ui.define([
 				});
 			// }
 		},
+		onSuggestionItemSelected:function(oEvent){debugger;},
 		_createExcelColumns: function () {
 			return [
 				{
