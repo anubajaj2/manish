@@ -203,10 +203,16 @@ sap.ui.define([
               result=await that.batchPostFun(fPayload,i,j);
             }
             if(result==="error"){
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
               break;
               
             }
-           
+            else{
+              sap.ui.core.BusyIndicator.hide();
+              
+            }
+            oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
 
           }
         }
