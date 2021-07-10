@@ -77,7 +77,7 @@ sap.ui.define([
 				var tA = 0;
 				this.getView().getModel("PurchaseLiteModel").setProperty("/title", count);
 				this.getView().getModel("local").setProperty("/PurchaseLiteCount", count);
-				for (var i = 0; i <= count; i++) {
+				for (var i = 0; i < count; i++) {
 					if (tData[i].GWt) {
 						tGwt = tGwt + parseFloat(tData[i].GWt);
 					}
