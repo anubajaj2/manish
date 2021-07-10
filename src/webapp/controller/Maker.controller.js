@@ -209,12 +209,15 @@ sap.ui.define([
               
             }
             else{
-              sap.ui.core.BusyIndicator.hide();
+              // sap.ui.core.BusyIndicator.hide();
+              
               
             }
             oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
 
           }
+          sap.ui.core.BusyIndicator.hide();
+          MessageToast.show("data has been saved successfully");
         }
 
         // var SData={
@@ -261,7 +264,7 @@ sap.ui.define([
       "allData": fPayload,
     }).then();
     if(typeof(poData)==="string"){
-      MessageToast.show("data has been saved successfully");
+      // MessageToast.show("data has been saved successfully");
       return "success";
     }
     else{
