@@ -1,0 +1,74 @@
+{
+  "name": "CartItem",
+  "plural": "CartItems",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Material": {
+      "type": "string",
+      "required": true
+    },
+    "ProductCode": {
+      "type": "string",
+      "required": true
+    },
+    "WeightId": {
+      "type": "string",
+      "required": true
+    },
+    "Quantity": {
+      "type": "number",
+      "required": true
+    },
+    "CreatedOn": {
+			"type": "date"
+		},
+		"CreatedBy": {
+			"type": "string",
+			"required": true
+		},
+		"ChangedOn": {
+			"type": "date"
+		},
+		"ChangedBy": {
+			"type": "string",
+			"default": "null"
+		}
+
+  },
+  "relations": {
+    "ToWeight": {
+      "type":"belongsTo",
+      "model":"ProdWeight",
+      "foreignKey":"WeightId"
+    },
+    "ToMaterial": {
+      "type":"belongsTo",
+      "model":"Product",
+      "foreignKey":"Material"
+    },
+    "ToCreatedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "CreatedBy"
+		},
+    "ToChangedBy": {
+			"type": "belongsTo",
+			"model": "User",
+			"foreignKey": "ChangedBy"
+		}
+  },
+  "validations": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

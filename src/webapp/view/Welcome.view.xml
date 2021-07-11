@@ -127,6 +127,7 @@
 							<VBox height="100%">
 								<VBox class="sapUiMediumMargin">
 									<Title class="gridCenter" text="{Category}"/>
+									<Text text="{ItemCode}"/>
 								</VBox>
 							</VBox>
 						</f:GridListItem>

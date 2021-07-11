@@ -1,183 +1,189 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt" controllerName="sap.ui.demo.cart.controller.CustomerLanding" xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:f="sap.f" xmlns:cards="sap.f.cards">
-		<Page id="idCustomerLanding" class="MainLoginPage" >
-			<customHeader>
-				<Toolbar>
-					<Button text="Men" press="onMen" type="Transparent" width="10%"/>
-					<Button text="Women" press="onMen" type="Transparent" width="10%"/>
-					<Button text="Kids" type="Transparent" width="10%"/>
-					<Button text="Bridal" type="Transparent" width="10%"/>
-					<Button text="Offer" type="Transparent" width="10%"/>
-					<!-- <ToolbarSpacer width="25%"/> -->
-					<!-- <Title text="Product Manager" /> -->
-					<ToolbarSpacer />
-					<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
-					<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
-					<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent"/>
-					<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
-				</Toolbar>
-			</customHeader>
-			<content>
-				<l:BlockLayout >
-					<l:BlockLayoutRow rowColorSet="ColorSet1">
+<mvc:View
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:tnt="sap.tnt"
+	controllerName="sap.ui.demo.cart.controller.CustomerLanding"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:f="sap.f"
+	xmlns:cards="sap.f.cards">
+	<Page id="idCustomerLanding" class="MainLoginPage">
+		<customHeader>
+			<Toolbar>
+				<Button text="Men" press="onMen" type="Transparent" width="10%"/>
+				<Button text="Women" press="onMen" type="Transparent" width="10%"/>
+				<Button text="Kids" type="Transparent" width="10%"/>
+				<Button text="Bridal" type="Transparent" width="10%"/>
+				<Button text="Offer" type="Transparent" width="10%"/>
+				<!-- <ToolbarSpacer width="25%"/> -->
+				<!-- <Title text="Product Manager" /> -->
+				<ToolbarSpacer/>
+				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
+				<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
+				<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent"/>
+				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+			</Toolbar>
+		</customHeader>
+		<content>
+			<l:BlockLayout >
+				<l:BlockLayoutRow rowColorSet="ColorSet1">
 
-						<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-							<VBox height="100%" width="100%" class="FirstRowCellContent">
-								<form:SimpleForm>
-									<form:content>
-										<Label text="Last Order" />
-										<Text text="_________" />
-										<Label text="Last Amount" />
-										<Text text="_________" />
-									</form:content>
-								</form:SimpleForm>
-							</VBox>
-						</l:BlockLayoutCell>
-
-						<l:BlockLayoutCell width="2" class="frontPageCustomRow">
-							<VBox height="100%" width="100%" class="FirstRowCellContent">
-								<form:SimpleForm>
+					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
+						<VBox height="100%" width="100%" class="FirstRowCellContent">
+							<form:SimpleForm>
 								<form:content>
-									<Label text="Last Month" />
-									<Text text="_________" />
-									<Label text="Last Month Amt" />
-									<Text text="_________" />
+									<Label text="Last Order"/>
+									<Text text="{local>/lastOrder/CreatedOn}"/>
+									<Label text="Last Amount"/>
+									<Text text="{local>/lastOrder/Amount} INR"/>
 								</form:content>
 							</form:SimpleForm>
-							</VBox>	
-						</l:BlockLayoutCell>
+						</VBox>
+					</l:BlockLayoutCell>
 
-						<l:BlockLayoutCell width="2">
-							<VBox height="100%" width="100%" class="FirstRowCellContent">
-								<form:SimpleForm >
+					<l:BlockLayoutCell width="2" class="frontPageCustomRow">
+						<VBox height="100%" width="100%" class="FirstRowCellContent">
+							<form:SimpleForm>
 								<form:content>
-									<Label text="New Order" />
-									<Text text="_________" />
-									<Label text="New Amount" />
-									<Text text="_________" />
+									<Label text="Last Month Gold"/>
+									<Text text="{local>/lastMonthOrders/FineGold} g"/>
+									<Label text="Last Month Amt"/>
+									<Text text="{local>/lastMonthOrders/Amount} INR"/>
 								</form:content>
 							</form:SimpleForm>
-							</VBox>
-						</l:BlockLayoutCell>
+						</VBox>
+					</l:BlockLayoutCell>
 
-						<l:BlockLayoutCell width="2" >
-							<VBox height="100%" width="100%" alignContent="Center" justifyContent="Center" class="FirstRowCellContent">
-								<Button text="Less Offer" class="sapUiSmallMarginBottom" width="80%"/>
-								<Button text="Less Amount" width="80%"/>
-							</VBox>
-						</l:BlockLayoutCell>
-						<l:BlockLayoutCell width="1" >
-							<HBox alignItems="Center" justifyContent="Center" alignContent="Center" class="FirstRowCellContent" fitContainer="true">
-								<VBox height="100%" width="100%"  justifyContent="Center" alignContent="Center" direction="Column" fitContainer="true">
-									<Button text="0.500 gm" width="80%"/>
-									<Button text="1 kg" width="80%"/>
-									<Button text="2 kg" width="80%"/>
-									<Button text="3 kg" width="80%"/>
-								</VBox>
-							</HBox>
-							
-							
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-
-					<l:BlockLayoutRow >
-						<l:BlockLayoutCell >
-							<Carousel loop="true" height="500px" id="caro" showPageIndicator="false">
-								<pages>
-									  <Image id="caroImg1" src="https://www.khazanajewellery.com//wp-content/uploads/2016/06/bridal-collections-banner.png" width="100%"/>
-									  <Image id="caroImg2" src="https://www.ibblondon.com/images/Mens_Banner_Final.jpg"  width="100%"/>
-									  <Image id="caroImg3" src="https://www.annaijewellers.com/wp-content/uploads/2019/04/Bangle-Banner.jpg"  width="100%"/>
-									  <Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg"  width="100%"/>
-								  </pages>
-							  </Carousel>
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-
-					<l:BlockLayoutRow scrollable="true">
-						<l:BlockLayoutCell title="Todays Deals" width="100%">
-							<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
-								<customLayout>
-									<CarouselLayout visiblePagesCount="{local>/GridItemCount}" />
-								</customLayout>
-								<pages>
-									<f:GridList width="100%">
-										<f:items>
-											<f:GridListItem >
-												<VBox>
-													<Image width="100%" height="150px" src="{local>ImageUrl}" />
-													<HBox justifyContent="Center">
-														<Title text="₹ {local>Price}.00" textAlign="Center"/>
-													</HBox>
-												</VBox>
-											</f:GridListItem>
-										</f:items>
-									</f:GridList>
-								</pages>
-							</Carousel>
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-
-					<l:BlockLayoutRow>
-						<l:BlockLayoutCell width="1">
-							<HBox width="100%" height="250px" justifyContent="Center" alignItems="Stretch" alignContent="SpaceAround">
-								<Image width="100%" height="100%" src="../img/Diamond.jpg"/>
-							</HBox>
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-
-					<l:BlockLayoutRow>
-						<l:BlockLayoutCell title="Most Liked Today">
-							<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
-								<customLayout>
-									<CarouselLayout visiblePagesCount="{local>/GridItemCount}" />
-								</customLayout>
-								<pages>
-									<f:GridList width="100%">
-										<f:items>
-											<f:GridListItem >
-												<VBox>
-													<Image width="100%" height="150px" src="{local>ImageUrl}" />
-													<HBox justifyContent="Center">
-														<Title text="₹ {local>Price}.00" textAlign="Center"/>
-													</HBox>
-												</VBox>
-											</f:GridListItem>
-										</f:items>
-									</f:GridList>
-								</pages>
-							</Carousel>
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-					<l:BlockLayoutRow>
-						<l:BlockLayoutCell title="From Retailer for his old Jewellary">
-							
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-					<l:BlockLayoutRow>
-						<l:BlockLayoutCell >
+					<l:BlockLayoutCell width="2">
+						<VBox height="100%" width="100%" class="FirstRowCellContent">
 							<form:SimpleForm >
-								<form:title>
-									<core:Title text="Bhav" />
-								</form:title>
 								<form:content>
-									<Label text="Gold Bhav 22/22" />
-									<Text text="54000" />
-									<Label text="Gold Bhav 20/22"/>
-									<Text text="50000" />
-									<Label text="Silver Bhav 20/22"/>
-									<Text text="65000" />
+									<Label text="New Order"/>
+									<Text text="_________"/>
+									<Label text="New Amount"/>
+									<Text text="_________"/>
 								</form:content>
 							</form:SimpleForm>
-						</l:BlockLayoutCell>
-						<l:BlockLayoutCell>
-							<form:SimpleForm >
-								<form:title>
-									<core:Title text="Cheque Prize" />
-								</form:title>
-							</form:SimpleForm>
-						</l:BlockLayoutCell>
-					</l:BlockLayoutRow>
-				</l:BlockLayout>
-			</content>
-		</Page>
+						</VBox>
+					</l:BlockLayoutCell>
+
+					<l:BlockLayoutCell width="2">
+						<VBox height="100%" width="100%" alignContent="Center" justifyContent="Center" class="FirstRowCellContent">
+							<Button text="Less Offer" class="sapUiSmallMarginBottom" width="80%"/>
+							<Button text="Less Amount" width="80%"/>
+						</VBox>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell width="1">
+						<HBox alignItems="Center" justifyContent="Center" alignContent="Center" class="FirstRowCellContent" fitContainer="true">
+							<VBox height="100%" width="100%" justifyContent="Center" alignContent="Center" direction="Column" fitContainer="true">
+								<Button text="0.500 gm" width="80%"/>
+								<Button text="1 kg" width="80%"/>
+								<Button text="2 kg" width="80%"/>
+								<Button text="3 kg" width="80%"/>
+							</VBox>
+						</HBox>
+
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+
+				<l:BlockLayoutRow >
+					<l:BlockLayoutCell >
+						<Carousel loop="true" height="500px" id="caro" showPageIndicator="false">
+							<pages>
+								<Image id="caroImg1" src="https://www.khazanajewellery.com//wp-content/uploads/2016/06/bridal-collections-banner.png" width="100%"/>
+								<Image id="caroImg2" src="https://www.ibblondon.com/images/Mens_Banner_Final.jpg" width="100%"/>
+								<Image id="caroImg3" src="https://www.annaijewellers.com/wp-content/uploads/2019/04/Bangle-Banner.jpg" width="100%"/>
+								<Image id="caroImg4" src="https://www.kalyanjewellers.net/categories/For-Kids/images/forkids_banner.jpg" width="100%"/>
+							</pages>
+						</Carousel>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+
+				<l:BlockLayoutRow scrollable="true">
+					<l:BlockLayoutCell title="Todays Deals" width="100%">
+						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+							<customLayout>
+								<CarouselLayout visiblePagesCount="{local>/GridItemCount}"/>
+							</customLayout>
+							<pages>
+								<f:GridList width="100%">
+									<f:items>
+										<f:GridListItem >
+											<VBox>
+												<Image width="100%" height="150px" src="{local>ImageUrl}"/>
+												<HBox justifyContent="Center">
+													<Title text="₹ {local>Price}.00" textAlign="Center"/>
+												</HBox>
+											</VBox>
+										</f:GridListItem>
+									</f:items>
+								</f:GridList>
+							</pages>
+						</Carousel>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell width="1">
+						<HBox width="100%" height="250px" justifyContent="Center" alignItems="Stretch" alignContent="SpaceAround">
+							<Image width="100%" height="100%" src="../img/Diamond.jpg"/>
+						</HBox>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell title="Most Liked Today">
+						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+							<customLayout>
+								<CarouselLayout visiblePagesCount="{local>/GridItemCount}"/>
+							</customLayout>
+							<pages>
+								<f:GridList width="100%">
+									<f:items>
+										<f:GridListItem >
+											<VBox>
+												<Image width="100%" height="150px" src="{local>ImageUrl}"/>
+												<HBox justifyContent="Center">
+													<Title text="₹ {local>Price}.00" textAlign="Center"/>
+												</HBox>
+											</VBox>
+										</f:GridListItem>
+									</f:items>
+								</f:GridList>
+							</pages>
+						</Carousel>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell title="From Retailer for his old Jewellary"></l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell >
+						<form:SimpleForm >
+							<form:title>
+								<core:Title text="Bhav"/>
+							</form:title>
+							<form:content>
+								<Label text="Gold Bhav 22/22"/>
+								<Text text="54000"/>
+								<Label text="Gold Bhav 20/22"/>
+								<Text text="50000"/>
+								<Label text="Silver Bhav 20/22"/>
+								<Text text="65000"/>
+							</form:content>
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<form:SimpleForm >
+							<form:title>
+								<core:Title text="Cheque Prize"/>
+							</form:title>
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
 </mvc:View>

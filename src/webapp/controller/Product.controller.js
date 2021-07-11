@@ -33,21 +33,21 @@ sap.ui.define([
       }
       this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl)
       var itemPics = [{
-        ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"]
+        ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl
       }];
       if (this.allImageURLs[sPath + "/ToPhotos/1/Content"]) {
         itemPics.push({
-          ImageUrl: this.allImageURLs[sPath + "/ToPhotos/1/Content"]
+          ImageUrl: this.allImageURLs[sPath + "/ToPhotos/1/Content"].sUrl
         });
       }
       if (this.allImageURLs[sPath + "/ToPhotos/2/Content"]) {
         itemPics.push({
-          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/2/Content"]
+          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/2/Content"].sUrl
         });
       }
       if (this.allImageURLs[sPath + "/ToPhotos/3/Content"]) {
         itemPics.push({
-          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/3/Content"]
+          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/3/Content"].sUrl
         });
       }
       this.getView().getModel("local").setProperty("/ItemPics", itemPics);
@@ -125,13 +125,26 @@ sap.ui.define([
         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
         addedWeights.push(allSelectedWeights[0]);
         that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-        that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
-        sap.m.MessageToast.show("Added to cart");
+        var cartItemPayload = {
+          Material: mainProduct.id,
+          ProductCode: mainProduct.ProductId,
+          WeightId: addedWeights[0].id,
+          Quantity: 1
+        };
+        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+            "/CartItems", "POST", {}, cartItemPayload, that)
+          .then(function(data) {
+            MessageToast.show("Added to cart");
+            that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+          }).catch(function(oError) {
+            MessageBox.error("Error while saving cart item");
+          });
       });
     },
-    addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
+    addProductToCart: function(id, productRec, allSelectedWeights, PictureUrl, oBtn) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var cartItem = {};
+      cartItem.id = id;
       cartItem.Name = productRec.Name;
       cartItem.ProductId = productRec.id;
       cartItem.Code = productRec.ProductId;
