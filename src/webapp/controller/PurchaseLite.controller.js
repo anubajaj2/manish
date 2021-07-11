@@ -564,9 +564,16 @@ sap.ui.define([
 		// },
 		onCopy: function (oEvent) {
 			debugger;
-			var that = this;
+			// var that = this;
 			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
 			var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(sPath)));
+			var ssPath=oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/");
+			sPath = parseInt(ssPath[ssPath.length-1]);
+			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			data.splice((sPath+1), 0 ,value);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+			this.getTotalItem();
+			MessageToast.show("Item Copied Successfully");
 			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", value);
 			// if (!this.oCopyProduct) {
 			// 	Fragment.load({
@@ -584,38 +591,38 @@ sap.ui.define([
 			// 	this.oCopyProduct.open();
 			// }
 		},
-		onPressHandleSecureCancelPopup: function (oEvent) {
-			debugger;
-			oEvent.getSource().getParent().close();
-			MessageToast.show("Operation Cancelled");
-		},
-		onPressHandleSecureOkPopup: function (oEvent) {
-			var sId = oEvent.getSource().getParent().getId().split("--")[0];
-			var value = this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
-			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-			if (sId === "idAddProduct") {
-				if (!data) {
-					data = [];
-				}
-				data.unshift(value);
-				debugger;
-				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
-				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
-				MessageToast.show("Data Added Successful");
+		// onPressHandleSecureCancelPopup: function (oEvent) {
+		// 	debugger;
+		// 	oEvent.getSource().getParent().close();
+		// 	MessageToast.show("Operation Cancelled");
+		// },
+		// onPressHandleSecureOkPopup: function (oEvent) {
+		// 	var sId = oEvent.getSource().getParent().getId().split("--")[0];
+		// 	var value = this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
+		// 	var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+		// 	if (sId === "idAddProduct") {
+		// 		if (!data) {
+		// 			data = [];
+		// 		}
+		// 		data.unshift(value);
+		// 		debugger;
+		// 		this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+		// 		this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+		// 		MessageToast.show("Data Added Successful");
 
-			} else if (sId === "idEditProduct") {
-				debugger;
-				this.getView().getModel("PurchaseLiteModel").setProperty(this.EditPath, value);
-				MessageToast.show("Data Edited Successful");
-			} else if (sId === "idCopyProduct") {
-				data.unshift(value);
-				this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
-				this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
-				debugger;
-				MessageToast.show("Data Copied Successful");
-			}
-			oEvent.getSource().getParent().close();
-		},
+		// 	} else if (sId === "idEditProduct") {
+		// 		debugger;
+		// 		this.getView().getModel("PurchaseLiteModel").setProperty(this.EditPath, value);
+		// 		MessageToast.show("Data Edited Successful");
+		// 	} else if (sId === "idCopyProduct") {
+		// 		data.unshift(value);
+		// 		this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
+		// 		this.getView().getModel("PurchaseLiteModel").setProperty("/title", data.length);
+		// 		debugger;
+		// 		MessageToast.show("Data Copied Successful");
+		// 	}
+		// 	oEvent.getSource().getParent().close();
+		// },
 		onPressTemplateDownload: function () {
 			debugger;
 			var aCols, aMessages, oSettings;
@@ -650,7 +657,7 @@ sap.ui.define([
 				});
 			// }
 		},
-		onSuggestionItemSelected:function(oEvent){debugger;},
+		// onSuggestionItemSelected:function(oEvent){debugger;},
 		_createExcelColumns: function () {
 			return [
 				{
@@ -770,7 +777,8 @@ sap.ui.define([
 			MessageToast.show("Operation Cancelled");
 		},
 		onDelete: function (oEvent) {
-			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/")[length - 1];
+			var ssPath=oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/");
+			var sPath = parseInt(ssPath[ssPath.length-1]);
 			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			data.splice(sPath, 1);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", data);
