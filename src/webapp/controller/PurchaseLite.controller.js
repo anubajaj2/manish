@@ -375,21 +375,21 @@ sap.ui.define([
 							allData[j].SubTotal = 0;
 							var oIn = that.getView().byId("idPurityInput").getValue();
 							if (oIn) {
-								allData.Tunch = oIn;
+								allData[j].Tunch = oIn;
 							}
 							if (that.getView().byId("idTypePlain").getType() === "Emphasized") {
-								allData.Type = "P"
+								allData[j].Type = "P"
 							}
 							if (that.getView().byId("idTypeStudded").getType() === "Emphasized") {
-								allData.Type = "S"
+								allData[j].Type = "S"
 							}
 							oIn = that.getView().byId("idFixInput").getValue();
 							if (oIn) {
-								allData.Rate = oIn;
+								allData[j].Rate = oIn;
 							}
 							oIn = that.getView().byId("idPurchaseStyle").getSelectedKey();
 							if (oIn) {
-								allData.SubCategory = oIn;
+								allData[j].SubCategory = oIn;
 							}
 						}
 						else {
