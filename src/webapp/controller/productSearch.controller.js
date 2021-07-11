@@ -163,9 +163,10 @@ sap.ui.define([
       var sImage = sPath + "/ToPhotos/0/Content";
       oEvent.getSource().setSrc(this.allImageURLs[sImage].sUrl);
     },
-    addProductToCart: function(productRec, allSelectedWeights, PictureUrl, oBtn) {
+    addProductToCart: function(id, productRec, allSelectedWeights, PictureUrl, oBtn) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var cartItem = {};
+      cartItem.id = id;
       cartItem.Name = productRec.Name;
       cartItem.ProductId = productRec.id;
       cartItem.Code = productRec.ProductId;
@@ -225,19 +226,8 @@ sap.ui.define([
       this.oBtn = oBtn;
       this.sPath = sPath;
       var that = this;
-      // if ((!this.loadedWeights[sPath]) && oBtn.getType() !== "Emphasized") {
       this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
       then(function(data) {
-        // that.loadedWeights[sPath] = data.ProdWeights;
-        // that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-        // oBtn.setType("Emphasized");
-        // var allSelectedWeights = [data.ProdWeights[0]];
-        // var mainProduct = that.oBtn.getParent().getModel().getProperty(that.sPath);
-        // var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        // addedWeights.push(allSelectedWeights[0]);
-        // that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-        // that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
-        // MessageToast.show("Added to cart");
         var tempLoaded = data.ProdWeights;
         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
         var cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
@@ -245,15 +235,21 @@ sap.ui.define([
           for (var j = 0; j < addedWeights.length; j++) {
             if (tempLoaded[0].id === addedWeights[j].id) {
               addedWeights.splice(j, 1);
-              oBtn.setType("Default");
+              // oBtn.setType("Default");
               break;
             }
           }
           for (var j = 0; j < cartItems.length; j++) {
             if (tempLoaded[0].id === cartItems[j].WeightId) {
-              cartItems.splice(j, 1);
-              MessageToast.show("Removed from cart");
-              oBtn.setType("Default");
+              that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                  "/CartItems('"+cartItems[j].id+"')", "DELETE", {}, {}, that)
+                .then(function(data) {
+                  cartItems.splice(j, 1);
+                  oBtn.setType("Default");
+                  MessageToast.show("Removed from cart");
+                }).catch(function(oError) {
+                  MessageBox.error("Error while deleting cart item");
+                });
               break;
             }
           }
@@ -264,10 +260,21 @@ sap.ui.define([
           var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
           addedWeights.push(allSelectedWeights[0]);
           that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-          that.addProductToCart(mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
-          MessageToast.show("Added to cart");
+          var cartItemPayload = {
+            Material: mainProduct.id,
+            ProductCode: mainProduct.ProductId,
+            WeightId: addedWeights[0].id,
+            Quantity: 1
+          };
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+              "/CartItems", "POST", {}, cartItemPayload, that)
+            .then(function(data) {
+              MessageToast.show("Added to cart");
+              that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+            }).catch(function(oError) {
+              MessageBox.error("Error while saving cart item");
+            });
         }
-        // }
       });
       // }
       // else {

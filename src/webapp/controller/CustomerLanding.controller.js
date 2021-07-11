@@ -1,11 +1,14 @@
 sap.ui.define([
   "sap/ui/demo/cart/controller/BaseController",
+  "sap/ui/demo/cart/model/formatter",
   "sap/m/MessageToast",
   "sap/m/Dialog",
   "sap/m/DialogType",
+  'sap/ui/model/Filter',
+  'sap/ui/model/FilterOperator',
   "sap/m/Button",
   "sap/m/ButtonType",
-], function(Controller, MessageToast, Dialog, DialogType, Button, ButtonType) {
+], function(Controller, formatter, MessageToast, Dialog, DialogType, Filter, FilterOperator, Button, ButtonType) {
   "use strict";
 
   return Controller.extend("sap.ui.demo.cart.controller.CustomerLanding", {
@@ -15,10 +18,10 @@ sap.ui.define([
      * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
      * @memberOf victoria.view.App
      */
+    formatter: formatter,
     onInit: function() {
       this.oRouter = this.getOwnerComponent().getRouter();
       this.oRouter.getRoute("CustomerLanding").attachMatched(this._onRouteMatched, this);
-
       var oTodayDealData = [{
           "ImageUrl": "https://images-na.ssl-images-amazon.com/images/I/71ILFcQ7NhL._UX569_.jpg",
           "Price": "11,000"
@@ -98,6 +101,95 @@ sap.ui.define([
         this.getView().getModel("local").setProperty("/GridItemCount", 2);
       }
       this.loadCustomCalculation();
+      var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
+      var that = this;
+      // var oFilter = [new Filter({
+      //   path: 'CreatedBy',
+      //   operator: FilterOperator.EQ,
+      //   value1: "'" + currentUser + "'"
+      // })];
+      // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+      //     "/CartItems", "GET", {
+      //       filters: oFilter
+      //     }, {}, that)
+      //   .then(function(data) {
+      //     data.results.forEach((item, i) => {
+      //       that.loadProdWeights("'" + currentUser + "'").
+      //       then(function(data) {
+      //         var tempLoaded = data.ProdWeights;
+      //         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //         var cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      //         var allSelectedWeights = [tempLoaded[0]];
+      //         var mainProduct = that.getView().getModel().getModel().getProperty("/Products('" + item.ProductId + "')");
+      //         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //         addedWeights.push(allSelectedWeights[0]);
+      //         that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+      //         that.addProductToCart(item.id, mainProduct, allSelectedWeights);
+      //       });
+      //     });
+      //   }).catch(function(oError) {
+      //     debugger;
+      //   });
+
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LastOrderItem?CreatedBy=' + currentUser,
+        success: function(data) {
+          that.getView().getModel("local").setProperty("/lastOrder", data);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LastMonthOrderItems?CreatedBy=' + currentUser,
+        success: function(data) {
+          that.getView().getModel("local").setProperty("/lastMonthOrders", data);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
+      that.getView().setBusy(true);
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LoadCartItems?CreatedBy=' + currentUser,
+        success: function(data) {
+          that.getView().setBusy(false);
+          that.addProductToCart(data);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
+    },
+    addProductToCart: function(dataList) {
+      var cartItems = [];
+      dataList.forEach((item, i) => {
+        var cartItem = {};
+        cartItem.id = item.id;
+        cartItem.Name = item.ToMaterial.Name;
+        cartItem.ProductId = item.ToMaterial.id;
+        cartItem.Code = item.ToMaterial.ProductId;
+        cartItem.Tunch = item.ToMaterial.Tunch;
+        cartItem.Karat = item.ToMaterial.Karat;
+        cartItem.Category = item.ToMaterial.Category;
+        cartItem.SubCategory = item.ToMaterial.SubCategory;
+        cartItem.PictureUrl = {
+          sBase64: item.ToMaterial.ToPhotos[0].Content,
+          sUrl: formatter.getImageUrlFromContent(item.ToMaterial.ToPhotos[0].Content)
+        };
+        cartItem.GrossWeight = item.ToWeight.GrossWeight;
+        cartItem.LessWeight = item.ToWeight.LessWeight;
+        cartItem.PairSize = item.ToWeight.PairSize;
+        cartItem.NetWeight = item.ToWeight.NetWeight;
+        cartItem.Amount = item.ToWeight.Amount;
+        cartItem.WeightId = item.ToWeight.id;
+        cartItems.push(JSON.parse(JSON.stringify(cartItem)));
+      });
+      this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+      this.calculateOrderEstimate();
     },
     onMen: function() {
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);

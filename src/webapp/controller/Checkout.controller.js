@@ -174,6 +174,7 @@ sap.ui.define([
       });
     },
     removeProductFromCart: function(productRec) {
+      var that = this;
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
       for (var j = 0; j < allWeightsSel.length; j++) {
@@ -185,15 +186,25 @@ sap.ui.define([
       for (var i = 0; i < cartItems.length; i++) {
         if (cartItems[i].WeightId === productRec.WeightId) {
           var item = this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].ProductId];
-          item.setType("Default");
-          item.setEnabled(true);
-          cartItems.splice(i, 1);
+          // item.setType("Default");
+          // item.setEnabled(true);
+          // cartItems.splice(i, 1);
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+              "/CartItems('" + cartItems[i].id + "')", "DELETE", {}, {}, that)
+            .then(function(data) {
+              item.setType("Default");
+              // item.setEnabled(true);
+              cartItems.splice(i, 1);
+              that.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
+              that.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
+              that.calculateOrderEstimate();
+              MessageToast.show("Removed from cart");
+            }).catch(function(oError) {
+              MessageBox.error("Error while deleting cart item");
+            });
           break;
         }
       }
-      this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
-      this.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
-      this.calculateOrderEstimate();
     },
     checkInvoiceStep: function() {
       //this._checkStep("invoiceStep", ["invoiceAddressAddress", "invoiceAddressCity", "invoiceAddressZip", "invoiceAddressCountry"]);

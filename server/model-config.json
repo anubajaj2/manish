@@ -119,5 +119,9 @@
   "Category":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "CartItem":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }

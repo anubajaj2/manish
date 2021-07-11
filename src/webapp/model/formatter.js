@@ -67,7 +67,16 @@ sap.ui.define([
       } else {
         return false;
       }
-
+    },
+    inCart: function(id){
+      debugger;
+      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      for(var i=0;i<cartItems.length;i++){
+        if(id===cartItems[i].ProductId){
+          return "Emphasized";
+        }
+      }
+      return "Default";
     },
     calculateBhav: function(w, m, b) {
       var oCurrencyFormat = NumberFormat.getCurrencyInstance();

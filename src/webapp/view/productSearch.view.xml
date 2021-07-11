@@ -15,15 +15,8 @@
 						}
 					}" growing="true" growingThreshold="12" itemPress="onImageOpen">
 
-				<!-- <f:headerToolbar>
-					<OverflowToolbar design="Transparent" style = "Clear">
-						<content>
-							<ToolbarSpacer/>
-							<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/>
-							<Button icon="sap-icon://grid" type="Emphasized" press="onGridView"/>
-						</content>
-					</OverflowToolbar>
-				</f:headerToolbar> -->
+				<!-- <f:headerToolbar> <OverflowToolbar design="Transparent" style = "Clear"> <content> <ToolbarSpacer/> <Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/> <Button icon="sap-icon://grid" type="Emphasized" press="onGridView"/>
+				</content> </OverflowToolbar> </f:headerToolbar> -->
 
 				<f:customLayout>
 					<grid:GridBoxLayout boxWidth="33%"/>
@@ -39,7 +32,8 @@
 						<anubhav:ImageHover src="" width="100%" height="100%" press="onProduct" tooltip="" mIn="onImageIn" mOut="onImageOut" alt=""></anubhav:ImageHover>
 					</FlexBox>
 					<FlexBox renderType="Bare" width="100%">
-						<Button tooltip="{i18n>addToCart}" press="onAddToCart" class="sapUiTinyMargin" icon="sap-icon://cart-3">
+						<Button tooltip="{i18n>addToCart}" press="onAddToCart" type="{ path: 'id',
+											formatter: '.formatter.inCart' }" class="sapUiTinyMargin" icon="sap-icon://cart-3">
 							<layoutData>
 								<l:GridData span="XL4 L4 M4 S4"/>
 							</layoutData>
