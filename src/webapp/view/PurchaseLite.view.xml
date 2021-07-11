@@ -241,7 +241,7 @@
 							<t:Column width="20%">
 								<Label text="Sub Total"/>
 								<t:template>
-									<Input id="idSubTotal" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>SubTotal}" submit="onEnter"/>
+									<Text  text="{PurchaseLiteModel>SubTotal}" />
 								</t:template>
 							</t:Column>
 							<t:Column width="20%" visible="{PurchaseLiteModel>/visible}" hAlign="Center">

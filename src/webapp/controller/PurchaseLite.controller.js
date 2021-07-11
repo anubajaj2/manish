@@ -77,7 +77,7 @@ sap.ui.define([
 				var tA = 0;
 				this.getView().getModel("PurchaseLiteModel").setProperty("/title", count);
 				this.getView().getModel("local").setProperty("/PurchaseLiteCount", count);
-				for (var i = 0; i <= count; i++) {
+				for (var i = 0; i < count; i++) {
 					if (tData[i].GWt) {
 						tGwt = tGwt + parseFloat(tData[i].GWt);
 					}
@@ -110,7 +110,7 @@ sap.ui.define([
 					this.getView().byId("id18").setType("Default");
 					this.getView().byId("id22").setType("Emphasized");
 					this.getView().byId("idPurityInput").setValue("91.66");
-					for (var i = 0; i <= count; i++) {
+					for (var i = 0; i < count; i++) {
 						if (!tData[i].ItemCode && !tData[i].GWt ){
 							continue;  //this is used due to zero's
 						}else {
@@ -172,7 +172,7 @@ sap.ui.define([
 			}
 			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			var count = this.getTotalItem();
-			for (var i = 0; i <= count; i++) {
+			for (var i = 0; i < count; i++) {
 				if (!tData[i].ItemCode && !tData[i].GWt ){
 					continue;
 				}else {
@@ -186,7 +186,7 @@ sap.ui.define([
 			var value = oEvent.getSource().getValue();
 			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			var count = this.getTotalItem();
-			for (var i = 0; i <= count; i++) {
+			for (var i = 0; i < count; i++) {
 				if (!tData[i].ItemCode && !tData[i].GWt ){
 					continue;
 				}else  {
@@ -200,7 +200,7 @@ sap.ui.define([
 			var value = oEvent.getSource().getSelectedKey();
 			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			var count = this.getTotalItem();
-			for (var i = 0; i <= count; i++) {
+			for (var i = 0; i < count; i++) {
 				if (!tData[i].ItemCode && !tData[i].GWt ){
 					continue;
 				}else  {
@@ -230,7 +230,7 @@ sap.ui.define([
 			if (sId.includes("idTypeStudded")) {
 				this.getView().byId("idTypeStudded").setType("Emphasized");
 				this.getView().byId("idTypePlain").setType("Default");
-				for (var i = 0; i <= count; i++) {
+				for (var i = 0; i <count; i++) {
 					if (!tData[i].ItemCode && !tData[i].GWt ){
 						continue;
 					}else  {
@@ -404,7 +404,7 @@ sap.ui.define([
 					that.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", allData);
 					count = that.getTotalItem();
 					allData = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
-					for (i = 0; i <= count; i++) {
+					for (i = 0; i < count; i++) {
 						that.onCalculation(i);
 					}
 					that.getView().byId("PurchaseLiteTable").getModel("PurchaseLiteModel").refresh();

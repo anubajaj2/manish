@@ -122,7 +122,7 @@ sap.ui.define([
     //   filters: [oFilter1]
     // }, {}, that)
     $.get("/getpattern?Createdby="+CreatedBy)
-      .then(function (count) {
+      .then(async function (count) {
         debugger;
         count = parseInt(count) + 1;
         var pattern = that.getView().getModel("local").getProperty("/ManufacturerData/Pattern");
@@ -138,6 +138,7 @@ sap.ui.define([
           sap.ui.core.BusyIndicator.hide();
           return;
         }
+        
         for (var i = 0; i < pCount; i++) {
           payload[i].ProductId = pattern + "_" + count.toString();
           payload[i].BatchId = batch_Id;
@@ -183,37 +184,94 @@ sap.ui.define([
 
         }
         var that2 = that;
+        if(fPayload.length<=20){
+          that.batchPostFun(fPayload,0,fPayload.length);
+        }
+        else{
+          var j=0;
+          var result;
+          for(var i=0;i<fPayload.length;i=j){
+            debugger;
+            j=j+20;
+            if(j<fPayload.length){
+              
+              result=await that.batchPostFun(fPayload,i,j);
+            }
+            else{
+              debugger;
+              j=fPayload.length;
+              result=await that.batchPostFun(fPayload,i,j);
+            }
+            if(result==="error"){
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              break;
+              
+            }
+            else{
+              // sap.ui.core.BusyIndicator.hide();
+              
+              
+            }
+            oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
+
+          }
+          sap.ui.core.BusyIndicator.hide();
+          MessageToast.show("data has been saved successfully");
+        }
 
         // var SData={
         // 	"Product":Product,
         // 	"ProdWeight":ProdWeight,
         // 	"Photo":Photo
         // };
-        debugger;
-        $.post('/PurchaseLiteSave', {
-          "allData": fPayload,
-        })
-          .done(function (data, status) {
-            debugger;
-            sap.ui.core.BusyIndicator.hide();
-            if(typeof(data)==="string"){
-            MessageToast.show("data has been saved successfully");}
-            else{
-              MessageBox.error(data.message);
-              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
-            }
+    
+      //   debugger;
+      //  var poData=await $.post('/PurchaseLiteSave', {
+      //     "allData": fPayload,
+      //   }).then();
+      //   debugger;
+      //     .done(function (data, status) {
+      //       debugger;
+      //       sap.ui.core.BusyIndicator.hide();
+      //       if(typeof(data)==="string"){
+      //       MessageToast.show("data has been saved successfully");}
+      //       else{
+      //         MessageBox.error(data.message);
+      //         oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+      //       }
 
-            oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
-          })
-          .fail(function (xhr, status, error) {
-            sap.ui.core.BusyIndicator.hide();
-            MessageBox.error(error);
-            debugger;
-          });
-        // that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
+      //       oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
+      //     })
+      //     .fail(function (xhr, status, error) {
+      //       sap.ui.core.BusyIndicator.hide();
+      //       MessageBox.error(error);
+      //       debugger;
+      //     });
+      //   // that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
       });
 
 
+  },
+  batchPostFun:async function(payload,startIndex,endIndex){
+    var fPayload=[];
+    var oPurchaseView=sap.ui.getCore().byId("__component0---idMaker--PurchaseLiteBlock-Collapsed");
+    for(var i=startIndex;i<endIndex;i++){
+      fPayload.push(payload[i]);
+    }
+    debugger;
+    var poData=await $.post('/PurchaseLiteSave', {
+      "allData": fPayload,
+    }).then();
+    if(typeof(poData)==="string"){
+      // MessageToast.show("data has been saved successfully");
+      return "success";
+    }
+    else{
+      MessageBox.error(poData.message);
+      oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+      return "error"
+    }
   },
   create_UUID: function () {
     var dt = new Date().getTime();
