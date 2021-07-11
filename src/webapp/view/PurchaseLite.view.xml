@@ -41,7 +41,7 @@
 							<VBox alignItems="Center">
 								<Title text="Style" textAlign="Center"/>
 								<HBox>
-									<ComboBox id="" enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
+									<ComboBox id="idPurchaseStyle" enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
 										<items>
 											<core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
 										</items>
