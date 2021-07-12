@@ -217,10 +217,17 @@ sap.ui.define([
 			else {
 				rowNo = oEvent;
 			}
+			var cCal=this.getView().getModel("local").getProperty("/CustomCalculation");
+			if(this.getView().byId("id22").getType()==="Emphasized"){
+				var bhav=cCal.Second;
+			}
+			else{
+				var bhav=cCal.First;
+			}
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
 			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 			oModel.FineGold = (parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))).toFixed(3);
-			// oModel.SubTotal=
+			oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 			this.getTotalItem();
 		},
 		onTypePress: function (oEvent) {
