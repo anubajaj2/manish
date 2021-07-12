@@ -94,20 +94,27 @@ sap.ui.define([
     onSearch: function() {
       var oView = this.getView();
       var aFilter = [];
+      var nFilter = [];
       var orFilter = [];
-      debugger;
       //read categories selected
       var aItems = oView.byId("gridList").getItems();
       for (var i = 0; i < aItems.length; i++) {
         if (aItems[i].hasStyleClass("colorGreen")) {
           aFilter.push(new Filter("Category", FilterOperator.EQ,
-            aItems[i].getContent()[0].getItems()[0].getItems()[0].getText()
+            aItems[i].getContent()[0].getItems()[0].getItems()[1].getText()
+          ));
+        } else {
+          nFilter.push(new Filter("Category", FilterOperator.EQ,
+            aItems[i].getContent()[0].getItems()[0].getItems()[1].getText()
           ));
         }
       }
       if (aFilter.length > 0) {
         orFilter.push(new Filter(aFilter, false));
         aFilter = [];
+      } else {
+        orFilter.push(new Filter(nFilter, false));
+        nFilter = [];
       }
       if (this.styleFilter.length > 0) {
         orFilter.push(new Filter(this.styleFilter, false));

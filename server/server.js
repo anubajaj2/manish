@@ -10,6 +10,7 @@ var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 var express = require('express');
 var path = require('path');
+var async = require('async');
 //var invoicegenerator = require('./invoice-generator');
 // var json2xls = require('json2xls');
 var app = express();
@@ -324,8 +325,8 @@ app.get('/LastMonthOrderItems',
         }]
       })
       .then(function(orderHeader) {
-        var total = 0;
-        totalGold = 0;
+        var total = 0,
+          totalGold = 0;
         orderHeader.forEach((order) => {
           order.__data.ToOrderItems.forEach((item, i) => {
             item = item.__data
@@ -345,29 +346,42 @@ app.get('/LastMonthOrderItems',
 app.get('/LoadCartItems',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
-    var OrderHeader = app.models.CartItem;
-    OrderHeader.find({
-        where: {
-          "CreatedBy": Createdby
-        },
-        include: [{
-          relation: 'ToMaterial',
-          scope: {
+    async.waterfall([
+      function(callback) {
+        var OrderHeader = app.models.CartItem;
+        OrderHeader.find({
+            where: {
+              "CreatedBy": Createdby
+            },
             include: [{
-              relation: 'ToPhotos',
-              limit: 1
-            }]
-          }
-        }, 'ToWeight']
-      })
-      .then(function(cartItems) {
-        cartItems.forEach((item, i) => {
-
-        });
-
-        res.send(cartItems);
+              relation: 'ToMaterial',
+              scope: {
+                include: [{
+                  relation: 'ToPhotos',
+                  limit: 1
+                }]
+              }
+            }, 'ToWeight']
+          })
+          .then(function(cartItems, err) {
+            callback(err, cartItems);
+          });
+      },
+      function(cartItems, callback) {
+        app.models.CustomCalculation.find({
+            //
+          })
+          .then(function(customCalculation, err) {
+            callback(err, cartItems, customCalculation);
+          });
+      }
+    ], function(err, cartItems, customCalculation) {
+      res.send({
+        cartItems,
+        customCalculation
       });
-  }-
+    });
+  }
 );
 
 app.get('/getpattern',

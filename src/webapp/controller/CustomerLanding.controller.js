@@ -84,6 +84,31 @@ sap.ui.define([
         }
       ];
       this.getOwnerComponent().getModel("local").setProperty("/TodayDeal", oTodayDealData);
+      var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
+      var that = this;
+      that.getView().setBusy(true);
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LoadCartItems?CreatedBy=' + currentUser,
+        success: function(data) {
+          var total = 0,
+            totalGold = 0;
+          that.getView().getModel("local").setProperty("/CustomCalculations", data.customCalculation[0]);
+          data.cartItems.forEach((item, i) => {
+            total += item.ToWeight.Amount + (item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) * (item.ToMaterial.Karat === "222" ? data.customCalculation[0].Gold : data.customCalculation[0].Gold) / 100;
+            totalGold += ((item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) / 100);
+          });
+          that.getView().getModel("local").setProperty("/newOrderInCart", {
+            FineGold: totalGold.toFixed(3),
+            Amount: total.toFixed(2)
+          });
+          that.addProductToCart(data.cartItems);
+          that.getView().setBusy(false);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
     },
     _onRouteMatched: function() {
       setInterval(function() {
@@ -100,7 +125,7 @@ sap.ui.define([
       } else {
         this.getView().getModel("local").setProperty("/GridItemCount", 2);
       }
-      this.loadCustomCalculation();
+      // this.loadCustomCalculation();
       var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
       var that = this;
       // var oFilter = [new Filter({
@@ -151,18 +176,6 @@ sap.ui.define([
           sap.m.MessageToast.show("error in fetching data");
         }
       });
-      that.getView().setBusy(true);
-      $.ajax({
-        type: 'GET', // added,
-        url: 'LoadCartItems?CreatedBy=' + currentUser,
-        success: function(data) {
-          that.getView().setBusy(false);
-          that.addProductToCart(data);
-        },
-        error: function(xhr, status, error) {
-          sap.m.MessageToast.show("error in fetching data");
-        }
-      });
     },
     addProductToCart: function(dataList) {
       var cartItems = [];
@@ -195,6 +208,9 @@ sap.ui.define([
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("categories");
       this.getView().getModel("local").setProperty("/CategoryType", "GENTS");
+    },
+    onCartClick: function(oEvent) {
+      this.getRouter().navTo("checkout");
     }
     /**
      * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

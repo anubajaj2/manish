@@ -22,7 +22,7 @@
 				<ToolbarSpacer/>
 				<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" type="Transparent"></Button>
 				<Button icon="sap-icon://favorite" tooltip="Favorite" type="Transparent"/>
-				<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent"/>
+				<Button icon="sap-icon://cart" tooltip="Cart" type="Transparent" press="onCartClick"/>
 				<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 			</Toolbar>
 		</customHeader>
@@ -61,9 +61,9 @@
 							<form:SimpleForm >
 								<form:content>
 									<Label text="New Order"/>
-									<Text text="_________"/>
+									<Text text="{local>/newOrderInCart/FineGold} g"/>
 									<Label text="New Amount"/>
-									<Text text="_________"/>
+									<Text text="{local>/newOrderInCart/Amount} INR"/>
 								</form:content>
 							</form:SimpleForm>
 						</VBox>

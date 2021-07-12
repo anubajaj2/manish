@@ -5,7 +5,7 @@
   "Role": "",
   "messagesLength": "0",
   "messages": [],
-  "oCartBtns":[],
+  "oCartBtns": [],
   "trueOrFalse": [{
       "value": " "
     },
@@ -25,6 +25,10 @@
     "churiSize": "",
     "note": ""
   },
+  "newOrderInCart": {
+    "FineGold": 0,
+    "Amount": 0
+  },
   "customerFilter": [{
     "title": "STYLE",
     "icon": "sap-icon://employee",
@@ -34,41 +38,41 @@
         "Category": "BABY CHAIN",
         "SubCategory": "ANTIQUE",
         "Type": "STUDDED",
-				"enabled":true,
+        "enabled": true,
         "icon": "sap-icon://customer-view"
       },
       {
         "Category": "COUPLE RING",
         "SubCategory": "KUNDAN MEENA",
         "Type": "STUDDED",
-				"enabled":true,
+        "enabled": true,
         "icon": "sap-icon://customer-view"
       },
       {
         "Category": "SINGLE PANDELT",
         "SubCategory": "MACHINE",
         "Type": "STUDDED",
-				"enabled":true,
+        "enabled": true,
         "icon": "sap-icon://customer-view"
       },
       {
         "Category": "CHAIN",
         "SubCategory": "HANDE MADE",
         "Type": "STUDDED",
-				"enabled":true,
+        "enabled": true,
         "icon": "sap-icon://customer-view"
       },
       {
         "Category": "SINGLE PANDELT",
         "SubCategory": "ROSE",
         "Type": "STUDDED",
-				"enabled":false,
+        "enabled": false,
         "icon": "sap-icon://customer-view"
       },
       {
         "Category": "CHAIN",
         "SubCategory": "JADAU",
-				"enabled":false,
+        "enabled": false,
         "Type": "STUDDED",
         "icon": "sap-icon://customer-view"
       },
@@ -155,29 +159,29 @@
         "SubCategory": "2% TO 4%",
         "Type": "STUDDED",
         "icon": "sap-icon://employee"
-      },{
-	        "Category": "COUPLE RING",
-	        "SubCategory": "4% TO 6%",
-	        "Type": "STUDDED",
-	        "icon": "sap-icon://employee"
-	      },
-	      {
-	        "Category": "SINGLE PANDELT",
-	        "SubCategory": "6% TO 8%",
-	        "Type": "STUDDED",
-	        "icon": "sap-icon://employee"
-	      },{
-		        "Category": "COUPLE RING",
-		        "SubCategory": "8% TO 10%",
-		        "Type": "STUDDED",
-		        "icon": "sap-icon://employee"
-		      },
-		      {
-		        "Category": "SINGLE PANDELT",
-		        "SubCategory": "10% AND ABOVE",
-		        "Type": "STUDDED",
-		        "icon": "sap-icon://employee"
-		      }
+      }, {
+        "Category": "COUPLE RING",
+        "SubCategory": "4% TO 6%",
+        "Type": "STUDDED",
+        "icon": "sap-icon://employee"
+      },
+      {
+        "Category": "SINGLE PANDELT",
+        "SubCategory": "6% TO 8%",
+        "Type": "STUDDED",
+        "icon": "sap-icon://employee"
+      }, {
+        "Category": "COUPLE RING",
+        "SubCategory": "8% TO 10%",
+        "Type": "STUDDED",
+        "icon": "sap-icon://employee"
+      },
+      {
+        "Category": "SINGLE PANDELT",
+        "SubCategory": "10% AND ABOVE",
+        "Type": "STUDDED",
+        "icon": "sap-icon://employee"
+      }
     ]
   }],
   "customersSet": [{

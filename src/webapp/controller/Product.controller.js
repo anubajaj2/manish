@@ -1,9 +1,11 @@
 sap.ui.define([
   "sap/ui/demo/cart/controller/BaseController",
-  "sap/ui/demo/cart/model/formatter"
+  "sap/ui/demo/cart/model/formatter",
+  "sap/m/MessageToast",
+  "sap/m/MessageBox"
 ], function(
   BaseController,
-  formatter) {
+  formatter, MessageToast, MessageBox) {
   "use strict";
 
   return BaseController.extend("sap.ui.demo.cart.controller.Product", {
@@ -108,7 +110,20 @@ sap.ui.define([
     //   this.getView().byId("productDetailsArea").setBackgroundDesign("Solid");
     // },
     onProductPic: function(oEvent) {
-      this.getView().byId("prodImg1").setSrc(oEvent.getSource().getSrc());
+      var that = this;
+      that.getView().byId("prodImg1").setSrc(oEvent.getSource().getSrc());
+      setTimeout(function() {
+        if (that.zoomedImg) {
+          that.zoomedImg.kill();
+        }
+        var options = {
+          width: 750,
+          height: 550,
+          // zoomWidth: 550,
+          zoomStyle: 'z-index: 2;border-style: none none none solid;border-width: 15px;border-color: black;'
+        };
+        that.zoomedImg = new ImageZoom(document.getElementById("__component0---Product--img-container"), options);
+      }, 100);
     },
     onAddToCart: function(oEvent) {
       var oBtn = oEvent.getSource();
