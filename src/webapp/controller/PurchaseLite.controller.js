@@ -352,7 +352,7 @@ sap.ui.define([
 					var count = that.getTotalItem();
 					var j = 0;
 					if (count !== 0) {
-						j = count + 1;
+						j = count;
 					}
 					for (var i = 0; i < excelData.length; i++) {
 
