@@ -407,13 +407,8 @@ app.get('/getpattern',
       })
       .then(function(Products) {
         debugger;
-<<<<<<< HEAD
-        if (Products.length === 0) {
-          res.send("1");
-=======
         if(Products.length===0){
           res.send("0");
->>>>>>> 6df4c5a1959cd1acd9ed095b451f028aaad67819
         }
         var pCount = Products[0]["Count"];
         res.send(pCount.toString());
