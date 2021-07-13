@@ -481,16 +481,13 @@ sap.ui.define([
       var allItems = this.getModel("local").getProperty("/cartItems");
       var totalAmount = 0;
       var totalGm = 0;
+      var customCalculation = this.getModel("local").getProperty("/CustomCalculations");
       for (var i = 0; i < allItems.length; i++) {
-        var fineGold = allItems[i].NetWeight;
-        var amount = allItems[i].Amount;
-        totalGm = totalGm + fineGold;
-        totalAmount = totalAmount + amount;
-        fineGold = 0;
-        amount = 0;
+        totalGm += (allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) / 100);
+        totalAmount += (allItems[i].Amount + allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) * (allItems[i].Karat === "222" ? customCalculation.Gold : customCalculation.Gold) / 100);
       }
       this.getModel("local").setProperty("/fineGm", totalGm.toFixed(3));
-      this.getModel("local").setProperty("/fineRs", (totalGm * this.getModel("local").getProperty("/CustomCalculations/Gold")).toFixed(2));
+      this.getModel("local").setProperty("/fineRs", totalAmount);
     },
     firstTwoDisplay: function() {
       this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);

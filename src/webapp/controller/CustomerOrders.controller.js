@@ -35,6 +35,7 @@ sap.ui.define([
     _onRouteMatched: function(oEvent) {
       if(!this.orderStatusList){
 				this.getView().setBusy(true);
+        debugger;
 				this.loadOrderStatus();
 			}
     },

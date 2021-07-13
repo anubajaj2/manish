@@ -68,19 +68,21 @@ sap.ui.define([
         return false;
       }
     },
-    inCart: function(id){
+    inCart: function(id) {
       debugger;
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      for(var i=0;i<cartItems.length;i++){
-        if(id===cartItems[i].ProductId){
+      for (var i = 0; i < cartItems.length; i++) {
+        if (id === cartItems[i].ProductId) {
           return "Emphasized";
         }
       }
       return "Default";
     },
-    calculateBhav: function(w, m, b) {
+    calculateBhav: function(netWeight, amount, tunch, wastage, karat, customCalculations) {
+      debugger;
+      var totalAmount = (amount + (netWeight * (tunch + wastage) * (karat === "222" ? customCalculations.Gold : customCalculations.Gold) / 100));
       var oCurrencyFormat = NumberFormat.getCurrencyInstance();
-      return oCurrencyFormat.format((parseFloat(m) + parseFloat(b)) * parseFloat(w), "INR");
+      return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
     },
     getImageUrlFromContent: function(base64Stream) {
       if (base64Stream) {
@@ -480,39 +482,37 @@ sap.ui.define([
       return oBundle.getText("cartSavedForLaterFooterText");
     },
 
-    getItemName: function (batchId) {
-			debugger;
-			var oCategory = this.getView().getModel("local").getProperty("/Categories");
-			debugger;
-			if (batchId === undefined || batchId === null || oCategory === undefined) {
-				return;
-			}
-			else {
-				for (var i = 0; i < oCategory.length; i++) {
-					if (oCategory[i].id === batchId) {
-						return oCategory[i].ItemCode;
-					}
-				}
-			}
-		},
+    getItemName: function(batchId) {
+      debugger;
+      var oCategory = this.getView().getModel("local").getProperty("/Categories");
+      debugger;
+      if (batchId === undefined || batchId === null || oCategory === undefined) {
+        return;
+      } else {
+        for (var i = 0; i < oCategory.length; i++) {
+          if (oCategory[i].id === batchId) {
+            return oCategory[i].ItemCode;
+          }
+        }
+      }
+    },
 
-    getCategoryName: function (ItemCode) {
-			debugger;
-			var oCategory = sap.ui.getCore().byId("__component0---idMaker").getModel("categories").getData().results;
-			debugger;
-			if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
-				return;
-			}
-			else {
-				for (var i = 0; i < oCategory.length; i++) {
+    getCategoryName: function(ItemCode) {
+      debugger;
+      var oCategory = sap.ui.getCore().byId("__component0---idMaker").getModel("categories").getData().results;
+      debugger;
+      if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
+        return;
+      } else {
+        for (var i = 0; i < oCategory.length; i++) {
 
-					if (oCategory[i].ItemCode.toString() === ItemCode) {
+          if (oCategory[i].ItemCode.toString() === ItemCode) {
             var oCategory1 = oCategory[i].ItemCode + " " + oCategory[i].Category;
-						return oCategory1 ;
-					}
-				}
-			}
-		},
+            return oCategory1;
+          }
+        }
+      }
+    },
 
     /**
      * Checks if one of the collections contains items.

@@ -171,6 +171,7 @@ sap.ui.define([
       cartItem.ProductId = productRec.id;
       cartItem.Code = productRec.ProductId;
       cartItem.Tunch = productRec.Tunch;
+      cartItem.Wastage = productRec.Wastage;
       cartItem.Karat = productRec.Karat;
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
