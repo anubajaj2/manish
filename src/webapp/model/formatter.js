@@ -79,10 +79,10 @@ sap.ui.define([
       return "Default";
     },
     calculateBhav: function(netWeight, amount, tunch, wastage, karat, customCalculations) {
-      debugger;
       var totalAmount = (amount + (netWeight * (tunch + wastage) * (karat === "222" ? customCalculations.Gold : customCalculations.Gold) / 100));
-      var oCurrencyFormat = NumberFormat.getCurrencyInstance();
-      return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
+      // var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+      // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
+      return totalAmount.toFixed(2)+" INR";
     },
     getImageUrlFromContent: function(base64Stream) {
       if (base64Stream) {
@@ -228,16 +228,17 @@ sap.ui.define([
       return oDateFormat.format(oNow); //string in the same format as "Thu, Jan 29, 2017"
     },
     getIndianCurr: function(value) {
-      if (value) {
-        var x = value;
-        x = x.toString();
-        var lastThree = x.substring(x.length - 3);
-        var otherNumbers = x.substring(0, x.length - 3);
-        if (otherNumbers != '')
-          lastThree = ',' + lastThree;
-        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
-        return res;
-      }
+      // if (value) {
+      //   var x = value;
+      //   x = x.toString();
+      //   var lastThree = x.substring(x.length - 3);
+      //   var otherNumbers = x.substring(0, x.length - 3);
+      //   if (otherNumbers != '')
+      //     lastThree = ',' + lastThree;
+      //   var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+      //   return res;
+      // }
+      return value;
     },
     dateAndTime: function(date) {
       date = date.toString();

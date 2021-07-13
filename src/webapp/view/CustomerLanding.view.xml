@@ -35,7 +35,7 @@
 							<form:SimpleForm>
 								<form:content>
 									<Label text="Last Order"/>
-									<Text text="{local>/lastOrder/FineGold}"/>
+									<Text text="{local>/lastOrder/FineGold} g"/>
 									<Label text="Last Amount"/>
 									<Text text="{local>/lastOrder/Amount} INR"/>
 								</form:content>

@@ -168,7 +168,10 @@
   font-weight: 900;
   font-size: 1rem;
 }
-
+.sapMText{
+  font-size: 1rem;
+  font-weight: 900;
+}
 .sapUiFormCLContainer>.sapUiFormCLContainerCont {
   column-gap: 5.5rem;
   margin-right: 4rem;

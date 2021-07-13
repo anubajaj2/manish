@@ -19,7 +19,7 @@
 				</content> </OverflowToolbar> </f:headerToolbar> -->
 
 				<f:customLayout>
-					<grid:GridBoxLayout boxWidth="33%"/>
+					<grid:GridBoxLayout boxWidth="32.6%"/>
 				</f:customLayout>
 
 				<f:GridListItem>

@@ -24,20 +24,26 @@
                 <items>
                   <CustomListItem>
                     <HBox alignContent="Stretch">
-                      <HBox width="20%" height="50%">
-                        <Image width="50%" height="70%" src="{local>PictureUrl/sUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                      <HBox>
+                        <Image width="220px" height="140px" src="{local>PictureUrl/sUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
                       </HBox>
-                      <VBox>
+                      <HBox class="sapUiLargeMargin">
                         <Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop"/>
-                      </VBox>
+                      </HBox>
+                      <HBox class="sapUiLargeMargin">
+                        <Text text="{parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
+                      </HBox>
                     </HBox>
                   </CustomListItem>
                 </items>
               </List>
               <Bar>
+                <contentLeft>
+                  <Text text="Total:"/>
+                </contentLeft>
                 <contentRight>
-                  <Text text="{local>/fineGm} gm"/>
-                  <Text text="{local>/fineRs} INR"/>
+                  <Text text="{local>/fineGm} g"/>
+                  <Text text="{path:'local>/fineRs', formatter:'.formatter.getIndianCurr'} INR"/>
                 </contentRight>
               </Bar>
             </WizardStep>

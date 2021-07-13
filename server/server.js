@@ -294,10 +294,17 @@ app.get('/LastOrderItem',
       .then(function(orderHeader) {
         var total = 0;
         var totalGold = 0;
-        orderHeader[0].__data.ToOrderItems.forEach((item, i) => {
-          item = item.__data
-          total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
-          totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
+        // orderHeader[0].__data.ToOrderItems.forEach((item, i) => {
+        //   item = item.__data
+        //   total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
+        //   totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
+        // });
+        orderHeader.forEach((order) => {
+          order.__data.ToOrderItems.forEach((item, i) => {
+            item = item.__data
+            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
+            totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
+          });
         });
         res.send({
           Amount: total.toFixed(2),
@@ -400,7 +407,7 @@ app.get('/getpattern',
       })
       .then(function(Products) {
         debugger;
-        if(Products.length===0){
+        if (Products.length === 0) {
           res.send("1");
         }
         var pCount = Products[0]["Count"];

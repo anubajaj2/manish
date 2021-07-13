@@ -487,7 +487,7 @@ sap.ui.define([
         totalAmount += (allItems[i].Amount + allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) * (allItems[i].Karat === "222" ? customCalculation.Gold : customCalculation.Gold) / 100);
       }
       this.getModel("local").setProperty("/fineGm", totalGm.toFixed(3));
-      this.getModel("local").setProperty("/fineRs", totalAmount);
+      this.getModel("local").setProperty("/fineRs", totalAmount.toFixed(2));
     },
     firstTwoDisplay: function() {
       this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);

@@ -58,7 +58,7 @@ sap.ui.define([
     onGridView: function(oEvent) {
       var oControl = this.getView().byId("gridList");
       if (oControl.getCustomLayout().getBoxWidth() === "19.5%") {
-        oControl.getCustomLayout().setBoxWidth("33%");
+        oControl.getCustomLayout().setBoxWidth("32.6%");
         oControl.getItems().forEach(function(item) {
           item.getContent()[1].setHeight("22rem");
           item.getContent()[1].getItems()[0].setHeight("22rem");
@@ -243,7 +243,7 @@ sap.ui.define([
           for (var j = 0; j < cartItems.length; j++) {
             if (tempLoaded[0].id === cartItems[j].WeightId) {
               that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-                  "/CartItems('"+cartItems[j].id+"')", "DELETE", {}, {}, that)
+                  "/CartItems('" + cartItems[j].id + "')", "DELETE", {}, {}, that)
                 .then(function(data) {
                   cartItems.splice(j, 1);
                   oBtn.setType("Default");
