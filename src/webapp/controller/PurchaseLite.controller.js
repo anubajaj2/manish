@@ -226,10 +226,50 @@ sap.ui.define([
 			}
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
 			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
-			oModel.FineGold = (parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))).toFixed(3);
+			oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate)))/100).toFixed(3);
 			oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 			this.getTotalItem();
 		},
+		onDeletePhoto: function(oEvent){
+			debugger;
+			var sImage=oEvent.getSource().getParent().getParent().getSelectedContextPaths();
+			var _allImages = this.getView().getModel("PurchaseLiteModel").getProperty("/allImages");
+			for (var j = 0; j < sImage.length; j++) {
+				var oDeleteItem=parseInt(sImage[j].slice(-1));
+				_allImages.splice(oDeleteItem,1);		
+			}
+			this.getView().getModel("PurchaseLiteModel").setProperty("/allImages",_allImages);
+			oEvent.getSource().getParent().getParent().removeSelections()
+			// var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent(),false);
+			// sPaths = this.reverseSort(sPaths,"allImages");
+			// var that = this;
+			// for (var i = 0; i < sPaths.length; i++) {
+			// 	var toBeDeleted = this.getView().getModel("local").getProperty(sPaths[i]);
+			// 	if(toBeDeleted.id){
+			// 		//To be deleted from server also
+			// 		if (toBeDeleted.id !== "") {
+			// 			that._deletedImages.push({id: toBeDeleted.id});
+			// 			that.getView().getModel("local").setProperty("/deleteImages", that._deletedImages);
+			// 			that.getView().getModel("local").setProperty("/checkChange", true);
+			// 		}
+			// 	}else{
+			// 		//this.deleteImage(toBeDeleted.Stream);
+			// 	}
+			// 	this.deleteImage(toBeDeleted.Stream);
+			// }
+			// oEvent.getSource().getParent().getParent().removeSelections();
+		},
+		// deleteImage: function (Stream) {
+		// 	debugger;
+		// 	var _allImages = this.getView().getModel("local").getProperty("/allImages");
+		// 	for (var j = 0; j < _allImages.length; j++) {
+		// 		if(_allImages[j].Stream === Stream){
+		// 			_allImages.splice(j,1);
+		// 			break;
+		// 		}
+		// 	}
+		// 	this.getView().getModel("local").setProperty("/allImages",_allImages);
+		// },
 		onTypePress: function (oEvent) {
 			var sId = oEvent.getSource().getId();
 			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
@@ -700,7 +740,7 @@ sap.ui.define([
 					PCS: i,
 					Size: i,
 					Remark: i,
-					LessWt: i * 11,
+					LessWt: 2,
 					Photo: [],
 					PhotoCheck: false
 				});
@@ -839,6 +879,7 @@ sap.ui.define([
 			MessageToast.show("Operation Cancelled");
 		},
 		onDelete: function (oEvent) {
+			debugger;
 			var ssPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/");
 			var sPath = parseInt(ssPath[ssPath.length - 1]);
 			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");

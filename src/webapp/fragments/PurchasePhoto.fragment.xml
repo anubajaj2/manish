@@ -14,7 +14,7 @@
 						<content>
 							<!-- <Title text="GridList, using custom header with SearchField" /> -->
 							<ToolbarSpacer/>
-							<Button text="" icon="sap-icon://delete" enabled="{PurchaseLiteModel>/visible}" press="onDelete"/>
+							<Button text="" icon="sap-icon://delete" enabled="{PurchaseLiteModel>/visible}" press="onDeletePhoto"/>
 						</content>
 					</Toolbar>
 				</f:headerToolbar>
