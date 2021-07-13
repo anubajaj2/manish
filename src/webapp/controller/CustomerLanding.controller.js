@@ -205,10 +205,16 @@ sap.ui.define([
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
       this.calculateOrderEstimate();
     },
-    onMen: function() {
+    // onMen: function() {
+    //   this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+    //   this.oRouter.navTo("categories");
+    //   this.getView().getModel("local").setProperty("/CategoryType", "GENTS");
+    // },
+    onHeaderButton: function(oEvent) {
+      var type = oEvent.getSource().getText().toUpperCase();
+      this.getView().getModel("local").setProperty("/CategoryType", type);
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("categories");
-      this.getView().getModel("local").setProperty("/CategoryType", "GENTS");
     },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");

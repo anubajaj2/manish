@@ -185,15 +185,13 @@ sap.ui.define([
       }
       for (var i = 0; i < cartItems.length; i++) {
         if (cartItems[i].WeightId === productRec.WeightId) {
-          var item = this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].ProductId];
-          // item.setType("Default");
-          // item.setEnabled(true);
-          // cartItems.splice(i, 1);
           that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
               "/CartItems('" + cartItems[i].id + "')", "DELETE", {}, {}, that)
             .then(function(data) {
-              item.setType("Default");
-              // item.setEnabled(true);
+              var item = that.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].ProductId];
+              if (item) {
+                item.setType("Default");
+              }
               cartItems.splice(i, 1);
               that.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
               that.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
@@ -275,33 +273,35 @@ sap.ui.define([
      * Navigates to the summary page in case there are no errors
      */
     checkCompleted: function() {
-      if (sap.ui.getCore().getMessageManager().getMessageModel().getData().length > 0) {
-        MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
+      // if (sap.ui.getCore().getMessageManager().getMessageModel().getData().length > 0) {
+      //   MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
+      // } else {
+      var orderHeaderPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderHeader");
+      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
+      var customCalculations = this.getView().getModel("local").getProperty("/CustomCalculations")
+      // var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      orderHeaderPayload.OrderNo = this.getOwnerComponent().getModel("local").getProperty("/orderNo");
+      orderHeaderPayload.Date = Date();
+      orderHeaderPayload.GoldBhav22 = customCalculations.Gold;
+      orderHeaderPayload.ApprovedOn = Date();
+      orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
+      this.getOwnerComponent().getModel("local").setProperty("/OrderHeader", orderHeaderPayload);
+      var that = this;
+      if (cartItems.length) {
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+            "/OrderHeaders", "POST", {}, orderHeaderPayload, this)
+          .then(function(data) {
+            that.saveOrderItem(data.id, cartItems, orderItemPayload, that);
+            // MessageToast.show("Product Created Successfully");
+          }).catch(function(oError) {
+            MessageBox.error("Error while saving product data");
+          });
+        that.getView().setBusy(true);
       } else {
-        var orderHeaderPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderHeader");
-        var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-        var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
-        // var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        orderHeaderPayload.OrderNo = this.getOwnerComponent().getModel("local").getProperty("/orderNo");
-        orderHeaderPayload.Date = Date();
-        orderHeaderPayload.ApprovedOn = Date();
-        orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
-        this.getOwnerComponent().getModel("local").setProperty("/OrderHeader", orderHeaderPayload);
-        var that = this;
-        if (cartItems.length) {
-          this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-              "/OrderHeaders", "POST", {}, orderHeaderPayload, this)
-            .then(function(data) {
-              that.saveOrderItem(data.id, cartItems, orderItemPayload, that);
-              // MessageToast.show("Product Created Successfully");
-            }).catch(function(oError) {
-              MessageBox.error("Error while saving product data");
-            });
-          that.getView().setBusy(true);
-        } else {
-          MessageBox.error("Cart is Empty");
-        }
+        MessageBox.error("Cart is Empty");
       }
+      // }
     },
 
     restartOrder: function() {

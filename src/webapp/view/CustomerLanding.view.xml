@@ -12,11 +12,11 @@
 	<Page id="idCustomerLanding" class="MainLoginPage">
 		<customHeader>
 			<Toolbar>
-				<Button text="Men" press="onMen" type="Transparent" width="10%"/>
-				<Button text="Women" press="onMen" type="Transparent" width="10%"/>
-				<Button text="Kids" type="Transparent" width="10%"/>
-				<Button text="Bridal" type="Transparent" width="10%"/>
-				<Button text="Offer" type="Transparent" width="10%"/>
+				<Button text="Gents" press="onHeaderButton" type="Transparent" width="10%"/>
+				<Button text="Women" press="onHeaderButton" type="Transparent" width="10%"/>
+				<Button text="Kids" press="onHeaderButton" type="Transparent" width="10%"/>
+				<Button text="Bridal" press="onHeaderButton" type="Transparent" width="10%"/>
+				<Button text="Offer" press="onHeaderButton" type="Transparent" width="10%"/>
 				<!-- <ToolbarSpacer width="25%"/> -->
 				<!-- <Title text="Product Manager" /> -->
 				<ToolbarSpacer/>
@@ -35,7 +35,7 @@
 							<form:SimpleForm>
 								<form:content>
 									<Label text="Last Order"/>
-									<Text text="{local>/lastOrder/CreatedOn}"/>
+									<Text text="{local>/lastOrder/FineGold}"/>
 									<Label text="Last Amount"/>
 									<Text text="{local>/lastOrder/Amount} INR"/>
 								</form:content>
