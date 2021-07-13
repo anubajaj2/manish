@@ -84,31 +84,6 @@ sap.ui.define([
         }
       ];
       this.getOwnerComponent().getModel("local").setProperty("/TodayDeal", oTodayDealData);
-      var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
-      var that = this;
-      that.getView().setBusy(true);
-      $.ajax({
-        type: 'GET', // added,
-        url: 'LoadCartItems?CreatedBy=' + currentUser,
-        success: function(data) {
-          var total = 0,
-            totalGold = 0;
-          that.getView().getModel("local").setProperty("/CustomCalculations", data.customCalculation[0]);
-          data.cartItems.forEach((item, i) => {
-            total += item.ToWeight.Amount + (item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) * (item.ToMaterial.Karat === "222" ? data.customCalculation[0].Gold : data.customCalculation[0].Gold) / 100;
-            totalGold += ((item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) / 100);
-          });
-          that.getView().getModel("local").setProperty("/newOrderInCart", {
-            FineGold: totalGold.toFixed(3),
-            Amount: total.toFixed(2)
-          });
-          that.addProductToCart(data.cartItems);
-          that.getView().setBusy(false);
-        },
-        error: function(xhr, status, error) {
-          sap.m.MessageToast.show("error in fetching data");
-        }
-      });
     },
     _onRouteMatched: function() {
       setInterval(function() {
@@ -171,6 +146,31 @@ sap.ui.define([
         url: 'LastMonthOrderItems?CreatedBy=' + currentUser,
         success: function(data) {
           that.getView().getModel("local").setProperty("/lastMonthOrders", data);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
+      // var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
+      // var that = this;
+      // that.getView().setBusy(true);
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LoadCartItems?CreatedBy=' + currentUser,
+        success: function(data) {
+          var total = 0,
+            totalGold = 0;
+          that.getView().getModel("local").setProperty("/CustomCalculations", data.customCalculation[0]);
+          data.cartItems.forEach((item, i) => {
+            total += item.ToWeight.Amount + (item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) * (item.ToMaterial.Karat === "222" ? data.customCalculation[0].Gold : data.customCalculation[0].Gold) / 100;
+            totalGold += ((item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) / 100);
+          });
+          that.getView().getModel("local").setProperty("/newOrderInCart", {
+            FineGold: totalGold.toFixed(3),
+            Amount: total.toFixed(2)
+          });
+          that.addProductToCart(data.cartItems);
+          // that.getView().setBusy(false);
         },
         error: function(xhr, status, error) {
           sap.m.MessageToast.show("error in fetching data");
