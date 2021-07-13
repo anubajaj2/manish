@@ -62,7 +62,7 @@
 						</VBox>
 					</HBox>
 					<HBox class="sapUiSmallMarginBegin">
-						<ObjectHeader title="{parts:['GrossWeight','Making','local>/CustomCalculations/Gold'], formatter: '.formatter.calculateBhav'}" titleLevel="H3">
+						<ObjectHeader title="{parts:['ToWeights/0/NetWeight','ToWeights/0/Amount','Tunch','Wastage','Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" titleLevel="H3">
 							<attributes>
 								<ObjectAttribute title="You are saving" text="INR 4,544"/>
 								<!-- <ObjectAttribute title="" text="{Category}"/> -->

@@ -10,7 +10,7 @@
 			<f:GridList id="gridList" items="{
 						path: '/Products',
 						parameters: {
-						      expand: 'ToPhotos',
+						      expand: 'ToPhotos,ToWeights',
 									top: 2
 						}
 					}" growing="true" growingThreshold="12" itemPress="onImageOpen">

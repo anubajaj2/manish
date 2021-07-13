@@ -56,10 +56,10 @@ sap.ui.define([
       this.getView().getModel("local").setProperty("/ItemPicsCount", itemPics.length);
       // var productDetails = oDataModel.getProperty(sPath);
       var that = this;
-      this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
-      then(function(data) {
-        debugger;
-      });
+      // this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
+      // then(function(data) {
+      //   debugger;
+      // });
       // var sId = oEvent.getParameter("arguments").productId,
       var oView = this.getView();
       //   oModel = oView.getModel();
@@ -70,11 +70,14 @@ sap.ui.define([
       //   });
       oView.bindElement({
         path: sPath,
+        parameters: {
+          $expand: "ToWeights,ToPhotos"
+        },
         events: {
           dataRequested: function() {
             oView.setBusy(true);
           },
-          dataReceived: function() {
+          dataReceived: function(data) {
             oView.setBusy(false);
           }
         }
@@ -164,6 +167,7 @@ sap.ui.define([
       cartItem.ProductId = productRec.id;
       cartItem.Code = productRec.ProductId;
       cartItem.Tunch = productRec.Tunch;
+      cartItem.Wastage = productRec.Wastage;
       cartItem.Karat = productRec.Karat;
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
