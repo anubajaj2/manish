@@ -400,6 +400,9 @@ app.get('/getpattern',
       })
       .then(function(Products) {
         debugger;
+        if(Products.length===0){
+          res.send("1");
+        }
         var pCount = Products[0]["Count"];
         res.send(pCount.toString());
       });

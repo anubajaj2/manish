@@ -193,7 +193,20 @@ sap.ui.define([
           }
           var that2 = that;
           if (fPayload.length <= 20) {
-            that.batchPostFun(fPayload, 0, fPayload.length);
+            var result = that.batchPostFun(fPayload, 0, fPayload.length);
+            if (result === "error") {
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              return;
+
+            }
+            else {
+              // sap.ui.core.BusyIndicator.hide();
+              sap.ui.core.BusyIndicator.hide();
+              MessageToast.show("data has been saved successfully");
+
+
+            }
           }
           else {
             var j = 0;
@@ -224,6 +237,7 @@ sap.ui.define([
               oPurchaseView.byId("PurchaseLiteTable").getBinding("rows").refresh();
 
             }
+            debugger;
             sap.ui.core.BusyIndicator.hide();
             MessageToast.show("data has been saved successfully");
           }
