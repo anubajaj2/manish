@@ -151,7 +151,7 @@
 							<t:Column width="20%">
 								<Label text="ITEM CODE"/>
 								<t:template>
-									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" change="onItemCodeChange" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
