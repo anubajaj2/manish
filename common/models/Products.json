@@ -68,7 +68,7 @@
     "ProdStatus": {
       "type": "string",
       "required": false,
-      "default": "N"
+      "default": "A"
     },
     "HindiName": {
       "type": "string"
