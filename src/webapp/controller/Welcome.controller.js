@@ -126,7 +126,7 @@ sap.ui.define([
         orFilter.push(new Filter("GrossWeight", FilterOperator.BT, aRange[0], aRange[1]));
       }
 
-      aFilter.push(new Filter("ProdStatus", FilterOperator.EQ, "A"));
+      aFilter.push(new Filter("OverallStatus", FilterOperator.EQ, "A"));
 
       orFilter.push(new Filter(aFilter));
 

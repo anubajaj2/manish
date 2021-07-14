@@ -57,8 +57,8 @@
 										</layoutData>
 									</Text>
 								</HBox>
-								<ObjectStatus text="{ path: 'OverallStatus',
-													formatter: '.formatter.statusText' }" state="{ path: 'OverallStatus',
+								<ObjectStatus text="{ path: 'ProdStatus',
+													formatter: '.formatter.statusText' }" state="{ path: 'ProdStatus',
 													formatter: '.formatter.statusState' }"></ObjectStatus>
 							</VBox>
 						</HBox>
