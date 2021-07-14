@@ -22,7 +22,8 @@
       "type": "string"
     },
     "ItemCode": {
-      "type": "number"
+      "type": "string",
+      "required": true
     },
     "Category": {
       "type": "string",
@@ -146,6 +147,11 @@
       "type": "belongsTo",
 			"model": "OrderHeader",
 			"foreignKey": "OrderId"
+    },
+    "ToCategory":{
+      "type": "belongsTo",
+			"model": "Category",
+			"foreignKey": "ItemCode"
     }
   },
   "validations": [],
