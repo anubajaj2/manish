@@ -115,7 +115,7 @@ sap.ui.define([
 							continue;  //this is used due to zero's
 						} else {
 							tData[i].Tunch = 91.66
-							tData[i].Karat="22/22";
+							tData[i].Karat = "22/22";
 							this.onCalculation(i);
 						}
 						// tData[i].Tunch=75.20
@@ -139,7 +139,7 @@ sap.ui.define([
 							continue;
 						} else {
 							tData[i].Tunch = 75.20
-							tData[i].Karat="22/20";
+							tData[i].Karat = "22/20";
 							this.onCalculation(i);
 						}
 						// tData[i].Tunch=75.20
@@ -213,34 +213,51 @@ sap.ui.define([
 		onCalculation: function (oEvent) {
 			debugger;
 			var rowNo;
+			var flag = 0;
 			if (typeof (oEvent) === "object") {
 				rowNo = parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length - 1]);
+				var sId = oEvent.getSource().getId();
+				if (sId.includes("idLessWT") || sId.includes("idNetWT") ){
+					flag = 1;
+				}
 			}
 			else {
 				rowNo = oEvent;
 			}
-			var cCal=this.getView().getModel("local").getProperty("/CustomCalculation");
-			if(this.getView().byId("id22").getType()==="Emphasized"){
-				var bhav=cCal.Second;
-			}
-			else{
-				var bhav=cCal.First;
-			}
+			// var cCal=this.getView().getModel("local").getProperty("/CustomCalculation");
+			// if(this.getView().byId("id22").getType()==="Emphasized"){
+			// 	var bhav=cCal.Second;
+			// }
+			// else{
+			// 	var bhav=cCal.First;
+			// }
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
-			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
-			oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate)))/100).toFixed(3);
+			if (flag === 1) {
+				// sId=oEvent.getSource().getId();
+				if (sId.includes("idNetWT")) {
+					oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
+				}
+				else if (sId.includes("idLessWT")) {
+					oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
+				}
+			} 
+			else {
+				oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
+				oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
+			}
+			oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))) / 100).toFixed(3);
 			// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 			this.getTotalItem();
 		},
-		onDeletePhoto: function(oEvent){
+		onDeletePhoto: function (oEvent) {
 			debugger;
-			var sImage=oEvent.getSource().getParent().getParent().getSelectedContextPaths();
+			var sImage = oEvent.getSource().getParent().getParent().getSelectedContextPaths();
 			var _allImages = this.getView().getModel("PurchaseLiteModel").getProperty("/allImages");
 			for (var j = 0; j < sImage.length; j++) {
-				var oDeleteItem=parseInt(sImage[j].slice(-1));
-				_allImages.splice(oDeleteItem,1);		
+				var oDeleteItem = parseInt(sImage[j].slice(-1));
+				_allImages.splice(oDeleteItem, 1);
 			}
-			this.getView().getModel("PurchaseLiteModel").setProperty("/allImages",_allImages);
+			this.getView().getModel("PurchaseLiteModel").setProperty("/allImages", _allImages);
 			oEvent.getSource().getParent().getParent().removeSelections()
 			// var sPaths = this.getAllItems(oEvent.getSource().getParent().getParent(),false);
 			// sPaths = this.reverseSort(sPaths,"allImages");
@@ -644,9 +661,9 @@ sap.ui.define([
 			// 	this.oAddProduct.open();
 			// }
 		},
-		onItemCodeChange:function(oEvent){
+		onItemCodeChange: function (oEvent) {
 			debugger;
-			
+
 		},
 		// onEdit: function (oEvent) {
 		// 	debugger;
