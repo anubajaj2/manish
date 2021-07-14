@@ -49,6 +49,19 @@
 								</HBox>
 							</VBox>
 						</l:BlockLayoutCell>
+						<l:BlockLayoutCell>
+                            <VBox alignItems="Center">
+                                <Title text="More Amount" textAlign="Center" class="sapUiSmallMarginTop" />
+                                <HBox>
+                                    <Input id="idMoreAmount" enabled="{PurchaseLiteModel>/visible}" value="" change="" class="sapUiSmallMarginEnd"></Input>
+                                    <!-- <ComboBox  enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
+                                        <items>
+                                            <core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
+                                        </items>
+                                    </ComboBox> -->
+                                </HBox>
+                            </VBox>
+                        </l:BlockLayoutCell>
 						<!-- <l:BlockLayoutCell>
               <f:SimpleForm layout="ColumnLayout" columnsL="2" columnsM="2" columnsXL="2">
                 <f:title>
