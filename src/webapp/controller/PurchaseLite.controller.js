@@ -115,6 +115,7 @@ sap.ui.define([
 							continue;  //this is used due to zero's
 						} else {
 							tData[i].Tunch = 91.66
+							tData[i].Karat="22/22";
 							this.onCalculation(i);
 						}
 						// tData[i].Tunch=75.20
@@ -138,6 +139,7 @@ sap.ui.define([
 							continue;
 						} else {
 							tData[i].Tunch = 75.20
+							tData[i].Karat="22/20";
 							this.onCalculation(i);
 						}
 						// tData[i].Tunch=75.20
@@ -641,6 +643,10 @@ sap.ui.define([
 			// } else {
 			// 	this.oAddProduct.open();
 			// }
+		},
+		onItemCodeChange:function(oEvent){
+			debugger;
+			
 		},
 		// onEdit: function (oEvent) {
 		// 	debugger;

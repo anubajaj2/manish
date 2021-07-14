@@ -62,6 +62,17 @@ sap.ui.define([
       var oCategoies = new JSONModel();
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+        "/Categories", "GET", {}, {}, this)
+        .then(function (oData) {
+          
+          that.getView().getModel("local").setProperty("/Categories",oData.results);
+          that.getView().setBusy(false);
+        }).catch(function (oError) {
+          that.getView().setBusy(false);
+          MessageToast.show("cannot fetch the data");
+        });
+
+        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         "/Manufacturers", "GET", {}, {}, this)
         .then(function (oData) {
           oModelManufacturer.setData(oData);
@@ -70,7 +81,7 @@ sap.ui.define([
         }).catch(function (oError) {
           that.getView().setBusy(false);
           MessageToast.show("cannot fetch the data");
-        });
+        });  
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         "/CustomCalculations", "GET", {}, {}, this)
@@ -143,6 +154,7 @@ sap.ui.define([
           var pCount = that.getView().getModel("local").getProperty("/PurchaseLiteCount");
           if (!pCount) {
             MessageBox.error("Blank data can not be saved");
+            oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
             sap.ui.core.BusyIndicator.hide();
             return;
           }

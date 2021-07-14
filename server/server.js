@@ -908,10 +908,13 @@ app.post('/PurchaseLiteSave', async function(req, res) {
   var oProdWeight = app.models.ProdWeight;
   var oProduct = app.models.Product;
   var oPhoto = app.models.Photo;
+  var oCategoies=app.models.Category;
   var payload = req.body.allData;
   try {
     // var Product=await oProduct.create(data.Product);
     for (var i = 0; i < payload.length; i++) {
+      var oCat=await oCategoies.find({where: {ItemCode: payload[i].ItemCode}});
+      debugger;
       var pdt = {
         "ProductId": payload[i].ProductId,
         "TagNo": payload[i].TagNo,
@@ -925,7 +928,9 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "GrossWeight": payload[i].GWt,
         "AlertQuantity": 0,
         "BatchId": payload[i].BatchId,
-        "CreatedBy": payload[i].CreatedBy
+        "CreatedBy": payload[i].CreatedBy,
+        "ItemCode":oCat[0].id.toString(),
+        "Karat":payload[i].Karat
       };
       var Product = await oProduct.create(pdt);
       debugger;
