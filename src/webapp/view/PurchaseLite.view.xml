@@ -4,13 +4,13 @@
 	xmlns:smartTable="sap.ui.comp.smarttable" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 	<App>
 		<pages>
-			<Page showHeader="false">
-				<l:BlockLayout>
+			<Page showHeader="false" enableScrolling="false">
+				<l:BlockLayout class="sapUiSmallMarginTop">
 					<l:BlockLayoutRow>
 						<l:BlockLayoutCell>
 							<HBox>
 								<VBox alignItems="Center" alignContent="Center">
-									<Title text="Purity"/>
+									<Title text="Purity" class="sapUiSmallMarginTop"/>
 									<HBox>
 										<Button id="id22" text="22" enabled="{PurchaseLiteModel>/visible}" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
 										<Button id="id18" text="18" enabled="{PurchaseLiteModel>/visible}" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
@@ -21,7 +21,7 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Type" textAlign="Center"/>
+								<Title text="Type" textAlign="Center" class="sapUiSmallMarginTop"/>
 								<HBox>
 									<Button id="idTypeStudded" enabled="{PurchaseLiteModel>/visible}" text="STUDDED" class="sapUiSmallMarginEnd" press="onTypePress"></Button>
 									<Button id="idTypePlain" enabled="{PurchaseLiteModel>/visible}" text="PLAIN" class="sapUiSmallMarginEnd" press="onTypePress"></Button>
@@ -30,7 +30,7 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Tick Mark" textAlign="Center"/>
+								<Title text="Tick Mark" textAlign="Center" class="sapUiSmallMarginTop"/>
 								<HBox>
 									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
 									<Input id="idFixInput" enabled="{PurchaseLiteModel>/visible}" value="" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
@@ -39,7 +39,7 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Style" textAlign="Center"/>
+								<Title text="Style" textAlign="Center" class="sapUiSmallMarginTop" />
 								<HBox>
 									<ComboBox id="idPurchaseStyle" enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
 										<items>
@@ -151,7 +151,7 @@
 							<t:Column width="20%">
 								<Label text="ITEM CODE"/>
 								<t:template>
-									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" change="onItemCodeChange" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onItemCodeChange" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
@@ -203,7 +203,7 @@
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
-								<Label text="PCS"/>
+								<Label text="Stone/Kundan"/>
 								<t:template>
 									<Input id="idPcs" value="{PurchaseLiteModel>PCS}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
@@ -238,12 +238,12 @@
 									<Input id="idRemark" value="{PurchaseLiteModel>Remark}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
-							<t:Column width="20%">
+							<!-- <t:Column width="20%">
 								<Label text="Sub Total"/>
 								<t:template>
 									<Text  text="{PurchaseLiteModel>SubTotal}" />
 								</t:template>
-							</t:Column>
+							</t:Column> -->
 							<t:Column width="20%" visible="{PurchaseLiteModel>/visible}" hAlign="Center">
 								<Label text="Options"/>
 								<t:template>

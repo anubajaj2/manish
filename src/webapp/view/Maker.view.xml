@@ -9,7 +9,7 @@
 
         <content>
 
-          <m:Title text="Home Screen" id="appTitleUser" class="sapUiTinyMarginBegin" wrapping="true"></m:Title>
+          <m:Title text="Add Products" id="appTitleUser" class="sapUiTinyMarginBegin" wrapping="true"></m:Title>
         </content>
 
 
