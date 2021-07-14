@@ -119,12 +119,12 @@ sap.ui.define([
       if (this.styleFilter.length > 0) {
         orFilter.push(new Filter(this.styleFilter, false));
       }
+
       // read range Value low and high
       var aRange = oView.byId("range").getRange();
-      aFilter.push(new Filter("GrossWeight", FilterOperator.BT, aRange[0], aRange[1]));
-
-      orFilter.push(new Filter(aFilter));
-      aFilter = [];
+      if (!(aRange[0] === 0 && aRange[1] === 100)) {
+        orFilter.push(new Filter("GrossWeight", FilterOperator.BT, aRange[0], aRange[1]));
+      }
 
       aFilter.push(new Filter("ProdStatus", FilterOperator.EQ, "A"));
 
