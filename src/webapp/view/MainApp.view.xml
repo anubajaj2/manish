@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:tnt="sap.tnt" controllerName="sap.ui.demo.cart.controller.MainApp" xmlns:html="http://www.w3.org/1999/xhtml">
 	<App id="idMainApp">
-		<Page title="Product Manager" titleAlignment="Center" id="loginPage" class="MainLoginPage">
+		<Page title="Product Manager" titleAlignment="Center" id="loginPage" class="MainLoginPage" enableScrolling="false">
 			<content>
 				<l:BlockLayout >
 					<l:BlockLayoutRow>

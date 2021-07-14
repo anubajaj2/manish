@@ -11,6 +11,22 @@
   font-weight: bold;
 }
 
+/* .sapUiTableDataCell:active {
+  background-color: Red;
+  background: Red;
+  color: Red;
+}
+
+
+.sapUiTableDataCell:focus {
+  background-color: Red;
+  background: Red;
+  color: Red;
+} */
+
+
+
+
 .highLightText {
   font-size: 90;
   font-family: monospace;
@@ -28,7 +44,8 @@
   text-shadow: 0 0 0.125rem black;
 }
 
-.largeFont {}
+.largeFont {
+}
 
 .textClass {
   font-weight: bold;
@@ -168,12 +185,31 @@
   font-weight: 900;
   font-size: 1rem;
 }
-.sapMText{
+
+.sapMText {
   font-size: 1rem;
   font-weight: 900;
 }
+
 .sapUiFormCLContainer>.sapUiFormCLContainerCont {
   column-gap: 5.5rem;
   margin-right: 4rem;
   margin-left: 5rem;
+}
+
+
+.sapUiTableDataCell *.sapMInputBaseInner:focus {
+
+    background: #00FFFF;
+    font-weight: bold;
+      font-size: 20px;
+      color: black;
+}
+
+.sapUiTableDataCell *.sapMInputBaseInner:active {
+
+    background: #00FFFF;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
 }
