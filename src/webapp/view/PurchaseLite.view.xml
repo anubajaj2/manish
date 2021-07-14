@@ -200,7 +200,7 @@
 							<t:Column width="20%">
 								<Label text="Net WT"/>
 								<t:template>
-									<Text id="idNetWT" text="{PurchaseLiteModel>NetWt}" />
+									<Input id="idNetWT" value="{PurchaseLiteModel>NetWt}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
               <t:Column width="20%">
