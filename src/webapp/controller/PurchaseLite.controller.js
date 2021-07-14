@@ -45,7 +45,7 @@ sap.ui.define([
 				PCS: "",
 				Size: "",
 				Remark: "",
-				SubTotal: 0,
+				// SubTotal: 0,
 				Photo: [],
 				Tunch: 0,
 				NetWt: 0.000,
@@ -229,7 +229,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
 			oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 			oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate)))/100).toFixed(3);
-			oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
+			// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 			this.getTotalItem();
 		},
 		onDeletePhoto: function(oEvent){
@@ -421,7 +421,7 @@ sap.ui.define([
 							allData[j].FineGold = 0.000;
 							allData[j].LessWt = excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000;
 							allData[j].PhotoCheck = false;
-							allData[j].SubTotal = 0;
+							// allData[j].SubTotal = 0;
 							var oIn = that.getView().byId("idPurityInput").getValue();
 							if (oIn) {
 								allData[j].Tunch = oIn;
@@ -451,7 +451,7 @@ sap.ui.define([
 								PCS: excelData[i]["PCS"],
 								Size: excelData[i]["Size"],
 								Remark: excelData[i]["Remark"],
-								SubTotal: 0,
+								// SubTotal: 0,
 								Photo: [],
 								Tunch: that.getView().byId("idPurityInput").getValue() ? that.getView().byId("idPurityInput").getValue() : 0,
 								NetWt: 0.000,
@@ -584,7 +584,7 @@ sap.ui.define([
 				PCS: "",
 				Size: "",
 				Remark: "",
-				SubTotal: 0,
+				// SubTotal: 0,
 				Photo: [],
 				Tunch: 0,
 				NetWt: 0.000,
