@@ -3,8 +3,18 @@
 	<Page id="page" title="Manage Product Approvals" backgroundDesign="Solid" showNavButton="true"
 	navButtonPress="onBack">
 	<headerContent>
+		<CheckBox
+
+			text="Select / deselect all"
+			id="idSelected"
+			selected=""
+			partiallySelected=""
+			select="onParentClicked"
+
+		/>
 		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+
 	</headerContent>
 		<List
 			id="idListPA"
@@ -19,7 +29,6 @@
 				icon="https://5.imimg.com/data5/RU/WR/MY-8087605/kundan-meena-set-500x500.jpg"
 				info="{local>Quantity}"/> -->
 		</List>
-
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>

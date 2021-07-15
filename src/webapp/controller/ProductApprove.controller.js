@@ -64,6 +64,27 @@ sap.ui.define([
  			 }
  		 },
 
+		 onParentClicked:function(oEvent){
+			 debugger;
+			 var bSelected = oEvent.getParameter("selected");
+			 if(this.getView().byId("idListPA").getItems().length === 0){
+				 this.getView().byId("idSelected").setSelected(false);
+				 MessageToast.show("No Data Found");
+				}
+			else {
+				this.getView().byId("idSelected").setSelected(true);
+			}
+			 if(bSelected){
+				 this.getView().byId("idListPA").selectAll();
+			 }
+			 else {
+			 	this.getView().byId("idListPA").removeSelections(true);
+			 }
+
+
+			 	// var sPaths = this.getView().byId("idListPA").getSelectedContextPaths();
+		 },
+
 		 onApprove : function(){
 			 //get list object
 			 //get all selected items of list object
@@ -73,6 +94,8 @@ sap.ui.define([
 				this.getOwnerComponent().getModel().update(item, {OverallStatus : "A"}, {
 					success: function(){
 						MessageToast.show("Items Approved Successfully");
+						sap.ui.getCore().byId("__component0---ProductApprove--idSelected").setSelected(false)
+						// this.getView().byId("idSelected").setSelected(false);
 					},
 					error: function(oErr){
 						MessageToast.show("Problem in Aprooving");
