@@ -33,7 +33,7 @@
 								<Label design="Bold" text="Tick Mark"  textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
 								<HBox>
 									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
-									<Input id="idFixInput" type="Number" enabled="{PurchaseLiteModel>/visible}" value="" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
+									<Input id="idFixInput" type="Number" enabled="{PurchaseLiteModel>/visible}" value="0" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
 								</HBox>
 							</VBox>
 						</l:BlockLayoutCell>
@@ -53,7 +53,7 @@
                             <VBox alignItems="Center">
                                 <Label design="Bold" text="Stone Price" textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
                                 <HBox>
-									<Input  enabled="{PurchaseLiteModel>/visible}" type="Number" change="onStonePriceAdd" value="" class="sapUiSmallMarginEnd"></Input>
+									<Input id="idStonePrice"  enabled="{PurchaseLiteModel>/visible}" type="Number" change="onStonePriceAdd" value="" class="sapUiSmallMarginEnd"></Input>
                                 </HBox>
                             </VBox>
                         </l:BlockLayoutCell>
@@ -177,7 +177,7 @@
 							<t:Column width="23%">
 								<Label text="ITEM CODE" required="true"/>
 								<t:template>
-									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onItemCodeChange" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+									<Input id="idItemCode" valueState="{PurchaseLiteModel>sItemCode}" valueStateText="Invalid Item code" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onCalculation" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:true}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
@@ -195,25 +195,25 @@
 							<t:Column width="20%">
 								<Label text="TAG NO"/>
 								<t:template>
-									<Input id="idTagNo" value="{PurchaseLiteModel>TagNo}" editable="{PurchaseLiteModel>/visible}" change="onTagNoChange" submit="onEnter"/>
+									<Input id="idTagNo" valueState="{PurchaseLiteModel>sTagNo}" valueStateText="Tag No is already exist" value="{PurchaseLiteModel>TagNo}" editable="{PurchaseLiteModel>/visible}" change="onCalculation" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="G WT" required="true"/>
 								<t:template>
-									<Input id="idGWT" type="Number" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+									<Input id="idGWT" type="Number" change="onCalculation" valueStateText="should be greater then Zero" editable="{PurchaseLiteModel>/visible}" valueState="{PurchaseLiteModel>sGWt}" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Less WT"/>
 								<t:template>
-									<Input id="idLessWT" type="Number" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
+									<Input id="idLessWT" type="Number" change="onCalculation" valueStateText="should be greater or equal then Zero " editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>LessWt}" valueState="{PurchaseLiteModel>sLessWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Net WT"/>
 								<t:template>
-									<Input id="idNetWT" type="Number" value="{PurchaseLiteModel>NetWt}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idNetWT" type="Number" value="{PurchaseLiteModel>NetWt}" valueStateText="should be greater then Zero" valueState="{PurchaseLiteModel>sNetWt}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
               <t:Column width="20%">
@@ -225,31 +225,31 @@
 							<t:Column width="20%">
 								<Label text="AMOUNT"/>
 								<t:template>
-									<Input id="idAmount" type="Number" value="{PurchaseLiteModel>Amount}" change="onCalculation"  editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idAmount" type="Number" valueStateText="should be greater then Zero" value="{PurchaseLiteModel>Amount}" change="onCalculation" valueState="{PurchaseLiteModel>sAmount}"  editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="23%">
 								<Label text="Stone/Kundan"/>
 								<t:template>
-									<Input id="idPcs" value="{PurchaseLiteModel>PCS}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idPcs" type="Number" valueStateText="should be greater then or equal Zero " valueState="{PurchaseLiteModel>sPCS}" value="{PurchaseLiteModel>PCS}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Tunch" required="true"/>
 								<t:template>
-									<Input id="idTunch" type="Number" change="onCalculation" value="{PurchaseLiteModel>Tunch}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idTunch" type="Number" change="onCalculation" valueStateText="should be greater then Zero" valueState="{PurchaseLiteModel>sTunch}" value="{PurchaseLiteModel>Tunch}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Rate"/>
 								<t:template>
-									<Input id="idRate" type="Number" change="onCalculation" value="{PurchaseLiteModel>Rate}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idRate" type="Number" change="onCalculation" valueStateText="should be greater then  or equal Zero" valueState="{PurchaseLiteModel>sRate}" value="{PurchaseLiteModel>Rate}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="SIZE"/>
 								<t:template>
-									<Input id="idSize" value="{PurchaseLiteModel>Size}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idSize" value="{PurchaseLiteModel>Size}" change="onCalculation" valueStateText="should be greater then or equal Zero " valueState="{PurchaseLiteModel>sSize}" type="Number" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="12%">

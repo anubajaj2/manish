@@ -124,11 +124,30 @@ sap.ui.define([
         MessageToast.show("data is already saved");
         return;
       }
-      // return;
-
       var payload = oPurchaseView.getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
       if (!payload) {
         MessageToast.show("Please enter a data");
+        return;
+      }
+      if(!oPurchaseView.byId("idPurityInput").getValue()){
+        MessageToast.show("Please enter/select the Purity");
+        return;
+      }
+      if(oPurchaseView.byId("idTypeStudded").getType()==="Default" && oPurchaseView.byId("idTypePlain").getType()==="Default"){
+        MessageToast.show("Please select the Type");
+        return;
+      }
+      if(parseFloat(oPurchaseView.byId("idFixInput").getValue())<0){
+        MessageToast.show("Please enter the positive number or zero Tick Mark/Rate");
+        return;
+      }
+      
+      if(!oPurchaseView.byId("idPurchaseStyle").getSelectedKey()){
+        MessageToast.show("Please select the Style");
+        return;
+      }
+      if(!oPurchaseView.byId("idStonePrice").getValue()){
+        MessageToast.show("Please enter the Stone Price");
         return;
       }
       sap.ui.core.BusyIndicator.show();
@@ -157,6 +176,14 @@ sap.ui.define([
             oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
             sap.ui.core.BusyIndicator.hide();
             return;
+          }
+          for (var i = 0; i < pCount; i++){
+            if(payload[i].sAmount==="Error"||payload[i].sGWt==="Error"||payload[i].sItemCode==="Error"||payload[i].sLessWt==="Error"||payload[i].sNetWt==="Error"||payload[i].sPCS==="Error"||payload[i].sRate==="Error"||payload[i].sSize==="Error"||payload[i].sTagNo==="Error"||payload[i].sTunch==="Error"){
+              MessageToast.show("Please remove the Error's from the table before save");
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              return;
+            }
           }
 
           for (var i = 0; i < pCount; i++) {

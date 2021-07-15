@@ -51,7 +51,18 @@ sap.ui.define([
 				NetWt: 0.000,
 				LessWt: 0.000,
 				FineGold: 0.000,
-				PhotoCheck: false
+				PhotoCheck: false,
+				sItemCode: "None",
+				sTagNo: "None",
+				sGWt: "None",
+				sAmount: "None",
+				sRate: "None",
+				sPCS: "None",
+				sSize: "None",
+				sTunch: "None",
+				sNetWt: "None",
+				sLessWt: "None"
+
 			};
 			for (var i = 0; i < 50; i++) {
 				Purc.push(JSON.parse(JSON.stringify(oNew)));
@@ -247,7 +258,7 @@ sap.ui.define([
 				}
 			}
 		},
-		onCalculation: function (oEvent) {
+		onCalculation: async function (oEvent) {
 			debugger;
 			var rowNo;
 			var flag = 0;
@@ -269,22 +280,129 @@ sap.ui.define([
 			// 	var bhav=cCal.First;
 			// }
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
-			if (flag === 1) {
-				// sId=oEvent.getSource().getId();
-				if (sId.includes("idNetWT")) {
+			if (oModel.ItemCode && oModel.GWt) {
+				if (flag === 1) {
+					// sId=oEvent.getSource().getId();
+					if (sId.includes("idNetWT")) {
+						oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
+					}
+					else if (sId.includes("idLessWT")) {
+						oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
+					}
+				}
+				else {
+					oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 					oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
 				}
-				else if (sId.includes("idLessWT")) {
-					oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
+				oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))) / 100).toFixed(3);
+				// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
+
+				//item Code validation
+				if (this.ItemCodevalidator(oModel.ItemCode) === 1) {
+					oModel.sItemCode = "Error";
+				}
+				else {
+					oModel.sItemCode = "None";
+				}
+
+				//tag no. unique validation
+				if (await this.TagNoUnique(oModel.TagNo) === 1) {
+					oModel.sTagNo = "Error";
+				}
+				else {
+					oModel.sTagNo = "None";
+				}
+				//GWt validation
+				if (parseFloat(oModel.GWt) <= 0) {
+					oModel.sGWt = "Error"
+				}
+				else {
+					oModel.sGWt = "None"
+				}
+				//LessWt validation
+				if (parseFloat(oModel.LessWt) < 0) {
+					oModel.sLessWt = "Error"
+				}
+				else {
+					oModel.sLessWt = "None"
+				}
+				// NetWt validation
+				if (parseFloat(oModel.NetWt) <= 0) {
+					oModel.sNetWt = "Error"
+				}
+				else {
+					oModel.sNetWt = "None"
+				}
+				// Amount Validation
+				if (parseFloat(oModel.Amount) <= 0) {
+					oModel.sAmount = "Error"
+				}
+				else {
+					oModel.sAmount = "None"
+				}
+				//Tunch validation
+				if (parseFloat(oModel.Tunch) <= 0) {
+					oModel.sTunch = "Error"
+				}
+				else {
+					oModel.sTunch = "None"
+				}
+				// Rate validation
+				if (parseFloat(oModel.Rate) < 0) {
+					oModel.sRate = "Error"
+				}
+				else {
+					oModel.sRate = "None"
+				}
+				//size validation
+				if (parseFloat(oModel.Size) < 0) {
+					oModel.sSize = "Error"
+				}
+				else {
+					oModel.sSize = "None"
+				}
+				//stone/kundan validation
+				if (parseFloat(oModel.PCS) < 0) {
+					oModel.sPCS = "Error"
+				}
+				else {
+					oModel.sPCS = "None"
 				}
 			}
-			else {
-				oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
-				oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
-			}
-			oModel.FineGold = ((parseFloat(oModel.NetWt) * (parseFloat(oModel.Tunch) + parseFloat(oModel.Rate))) / 100).toFixed(3);
-			// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 			this.getTotalItem();
+
+		},
+		TagNoUnique: async function (value) {
+			var oFilter = [];
+			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+			var oFilter2 = new sap.ui.model.Filter("TagNo", sap.ui.model.FilterOperator.EQ, value.toUpperCase());
+			oFilter.push(oFilter1);
+			oFilter.push(oFilter2);
+			debugger;
+			var result = await this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+				"/Products", "GET", { filters: oFilter }, {}, this).then();
+			if (result.results.length !== 0) {
+				return 1;
+
+			}
+			else {
+				return 0;
+			}
+		},
+		ItemCodevalidator: function (value) {
+			var flag = 0;
+			var oCat = this.getView().getModel("local").getProperty("/Categories");
+			for (var i = 0; i < oCat.length; i++) {
+				if (oCat[i].ItemCode.toString() === value.toString()) {
+					flag = 1;
+					break;
+				}
+			}
+			if (flag === 1) {
+				return 0;
+			}
+			return 1;
 		},
 		onDeletePhoto: function (oEvent) {
 			debugger;
@@ -421,7 +539,7 @@ sap.ui.define([
 					content: [
 						new FileUploader("excelUploader", {
 							fileType: "XLSX,xlsx",
-							sameFilenameAllowed:true,
+							sameFilenameAllowed: true,
 							change: [this.onUpload, this],
 							class: "sapUiLargeMargin"
 						})
@@ -430,14 +548,14 @@ sap.ui.define([
 				this.getView().addDependent(this.fixedDialog);
 				// this.fixedDialog.open();
 			}
-			
-				debugger;
-				// this.fixedDialog.getContent()[0].setValue("");
-				this.fixedDialog.open();
-		
-			
-		},
 
+			debugger;
+			// this.fixedDialog.getContent()[0].setValue("");
+			this.fixedDialog.open();
+
+
+
+		},
 		onUpload: function (e) {
 			this._import(e.getParameter("files") && e.getParameter("files")[0]);
 		},
@@ -518,7 +636,17 @@ sap.ui.define([
 								NetWt: 0.000,
 								LessWt: excelData[i]["LessWt"] ? parseFloat(excelData[i]["LessWt"]).toFixed(3) : 0.000,
 								FineGold: 0.000,
-								PhotoCheck: false
+								PhotoCheck: false,
+								sItemCode: "None",
+								sTagNo: "None",
+								sGWt: "None",
+								sAmount: "None",
+								sRate: "None",
+								sPCS: "None",
+								sSize: "None",
+								sTunch: "None",
+								sNetWt: "None",
+								sLessWt: "None"
 							};
 							var oIn = that.getView().byId("idPurityInput").getValue();
 							if (oIn) {
@@ -651,7 +779,17 @@ sap.ui.define([
 				NetWt: 0.000,
 				LessWt: 0.000,
 				FineGold: 0.000,
-				PhotoCheck: false
+				PhotoCheck: false,
+				sItemCode: "None",
+				sTagNo: "None",
+				sGWt: "None",
+				sAmount: "None",
+				sRate: "None",
+				sPCS: "None",
+				sSize: "None",
+				sTunch: "None",
+				sNetWt: "None",
+				sLessWt: "None"
 			};
 			var oIn = this.getView().byId("idPurityInput").getValue();
 			if (oIn) {
@@ -704,10 +842,6 @@ sap.ui.define([
 			// } else {
 			// 	this.oAddProduct.open();
 			// }
-		},
-		onItemCodeChange: function (oEvent) {
-			debugger;
-
 		},
 		// onEdit: function (oEvent) {
 		// 	debugger;
@@ -826,7 +960,11 @@ sap.ui.define([
 				});
 			// }
 		},
-		// onSuggestionItemSelected:function(oEvent){debugger;},
+		onSuggestionItemSelected: function (oEvent) {
+			debugger;
+			var sPath = oEvent.getSource().getParent().getRowBindingContext().getPath();
+			this.getView().getModel("PurchaseLiteModel").setProperty(sPath, oEvent.getSource().getSelectedKey());
+		},
 		_createExcelColumns: function () {
 			return [
 				{
@@ -849,7 +987,7 @@ sap.ui.define([
 					label: 'Amount',
 					property: 'Amount'
 				}, {
-					label: 'PCS',
+					label: 'Stone/Kundan',
 					property: 'PCS'
 
 				}, {
