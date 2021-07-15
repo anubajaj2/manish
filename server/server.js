@@ -931,7 +931,8 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "CreatedBy": payload[i].CreatedBy,
         "ItemCode":oCat[0].id.toString(),
         "Karat":payload[i].Karat,
-        "CreatedOn":new Date()
+        "CreatedOn":new Date(),
+
       };
       var Product = await oProduct.create(pdt);
       debugger;
@@ -944,7 +945,8 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "Fine": payload[i].FineGold,
         "PairSize": payload[i].Size,
         "Remarks": payload[i].Remark,
-        "Piece": payload[i].PCS
+        "Piece": payload[i].PCS,
+        "MoreAmount":payload[i].MoreAmount
       };
       var weight = await oProdWeight.create(wgt);
       debugger;
