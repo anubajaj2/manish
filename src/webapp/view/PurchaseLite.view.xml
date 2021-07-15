@@ -10,18 +10,18 @@
 						<l:BlockLayoutCell>
 							<HBox>
 								<VBox alignItems="Center" alignContent="Center">
-									<Title text="Purity" class="sapUiSmallMarginTop"/>
+									<Label design="Bold" text="Purity" class="sapUiSmallMarginTop" required="true"/>
 									<HBox>
 										<Button id="id22" text="22" enabled="{PurchaseLiteModel>/visible}" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
 										<Button id="id18" text="18" enabled="{PurchaseLiteModel>/visible}" class="sapUiSmallMarginEnd" press="onPurityClick"></Button>
-										<Input id="idPurityInput"  editable="false" enabled="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>/Purity}" liveChange="onPurityChange" width="90px"/>
+										<Input id="idPurityInput" type="Number" editable="false" enabled="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>/Purity}" liveChange="onPurityChange" width="80px"/>
 									</HBox>
 								</VBox>
 							</HBox>
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Type" textAlign="Center" class="sapUiSmallMarginTop"/>
+								<Label design="Bold" text="Type" textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
 								<HBox>
 									<Button id="idTypeStudded" enabled="{PurchaseLiteModel>/visible}" text="STUDDED" class="sapUiSmallMarginEnd" press="onTypePress"></Button>
 									<Button id="idTypePlain" enabled="{PurchaseLiteModel>/visible}" text="PLAIN" class="sapUiSmallMarginEnd" press="onTypePress"></Button>
@@ -30,16 +30,16 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Tick Mark" textAlign="Center" class="sapUiSmallMarginTop"/>
+								<Label design="Bold" text="Tick Mark"  textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
 								<HBox>
 									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
-									<Input id="idFixInput" enabled="{PurchaseLiteModel>/visible}" value="" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
+									<Input id="idFixInput" type="Number" enabled="{PurchaseLiteModel>/visible}" value="" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
 								</HBox>
 							</VBox>
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Title text="Style" textAlign="Center" class="sapUiSmallMarginTop" />
+								<Label design="Bold" text="Style" textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
 								<HBox>
 									<ComboBox id="idPurchaseStyle" enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
 										<items>
@@ -51,9 +51,22 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
                             <VBox alignItems="Center">
-                                <Title text="More Amount" textAlign="Center" class="sapUiSmallMarginTop" />
+                                <Label design="Bold" text="Stone Price" textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
                                 <HBox>
-                                    <Input id="idMoreAmount" enabled="{PurchaseLiteModel>/visible}" value="" change="" class="sapUiSmallMarginEnd"></Input>
+									<Input  enabled="{PurchaseLiteModel>/visible}" type="Number" change="onStonePriceAdd" value="" class="sapUiSmallMarginEnd"></Input>
+                                </HBox>
+                            </VBox>
+                        </l:BlockLayoutCell>
+						<l:BlockLayoutCell>
+                            <VBox alignItems="Center">
+                                <Label design="Bold" text="Mass Item code" textAlign="Center" class="sapUiSmallMarginTop" />
+                                <HBox>
+									<Input  editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onMassItemCodeChange"  submit="" showSuggestion="true"
+										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
+										<suggestionItems>
+											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
+										</suggestionItems>
+									</Input>
                                     <!-- <ComboBox  enabled="{PurchaseLiteModel>/visible}" items="{local>/cat/subCatergory}" change="onStyleChange">
                                         <items>
                                             <core:Item text="{local>SubCategory}" key="{local>SubCategory}"/>
@@ -161,8 +174,8 @@
 						<!-- </OverflowToolbar> -->
 						<!-- </t:extension> -->
 						<t:columns>
-							<t:Column width="20%">
-								<Label text="ITEM CODE"/>
+							<t:Column width="23%">
+								<Label text="ITEM CODE" required="true"/>
 								<t:template>
 									<Input id="idItemCode" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onItemCodeChange" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
@@ -186,21 +199,21 @@
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
-								<Label text="G WT"/>
+								<Label text="G WT" required="true"/>
 								<t:template>
-									<Input id="idGWT" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
+									<Input id="idGWT" type="Number" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>GWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Less WT"/>
 								<t:template>
-									<Input id="idLessWT" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
+									<Input id="idLessWT" type="Number" change="onCalculation" editable="{PurchaseLiteModel>/visible}" value="{PurchaseLiteModel>LessWt}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Net WT"/>
 								<t:template>
-									<Input id="idNetWT" value="{PurchaseLiteModel>NetWt}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idNetWT" type="Number" value="{PurchaseLiteModel>NetWt}" change="onCalculation" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
               <t:Column width="20%">
@@ -212,29 +225,29 @@
 							<t:Column width="20%">
 								<Label text="AMOUNT"/>
 								<t:template>
-									<Input id="idAmount" value="{PurchaseLiteModel>Amount}" change="onCalculation"  editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idAmount" type="Number" value="{PurchaseLiteModel>Amount}" change="onCalculation"  editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
-							<t:Column width="20%">
+							<t:Column width="23%">
 								<Label text="Stone/Kundan"/>
 								<t:template>
 									<Input id="idPcs" value="{PurchaseLiteModel>PCS}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
-								<Label text="Tunch"/>
+								<Label text="Tunch" required="true"/>
 								<t:template>
-									<Input id="idTunch" change="onCalculation" value="{PurchaseLiteModel>Tunch}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idTunch" type="Number" change="onCalculation" value="{PurchaseLiteModel>Tunch}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
 								<Label text="Rate"/>
 								<t:template>
-									<Input id="idRate" change="onCalculation" value="{PurchaseLiteModel>Rate}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
+									<Input id="idRate" type="Number" change="onCalculation" value="{PurchaseLiteModel>Rate}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
-								<Label text="SIZE*"/>
+								<Label text="SIZE"/>
 								<t:template>
 									<Input id="idSize" value="{PurchaseLiteModel>Size}" editable="{PurchaseLiteModel>/visible}" submit="onEnter"/>
 								</t:template>

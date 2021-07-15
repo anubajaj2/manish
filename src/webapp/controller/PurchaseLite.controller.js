@@ -60,7 +60,44 @@ sap.ui.define([
 			// this.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
 			// var oRouter = this.getRouter();
 			// oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
-		}, getTotalItem: function () {
+		},
+		onMassItemCodeChange(oEvent) {
+			var value = oEvent.getSource().getValue().split(" ")[0];
+			var that = this;
+			MessageBox.warning("All Item Code will be Overwrite.\nDo you want to Mass Change the Item Code?", {
+				actions: [MessageBox.Action.OK, MessageBox.Action.CLOSE],
+				onClose: function (sAction) {
+					debugger;
+					if (sAction === "OK") {
+						var count = that.getTotalItem();
+						var tData = that.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+						for (var i = 0; i < count; i++) {
+							if (!tData[i].ItemCode && !tData[i].GWt) {
+								continue;  //this is used due to zero's
+							} else {
+								tData[i].ItemCode = value;
+							}
+						}
+						that.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", tData);
+					}
+				}
+			});
+		},
+		onStonePriceAdd: function (oEvent) {
+			var value = oEvent.getSource().getValue();
+			var count = this.getTotalItem();
+			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
+			for (var i = 0; i < count; i++) {
+				if (!tData[i].ItemCode && !tData[i].GWt) {
+					continue;  //this is used due to zero's
+				} else {
+					tData[i].MoreAmount = value;
+				}
+			}
+			this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite", tData);
+
+		},
+		getTotalItem: function () {
 			debugger;
 			var tData = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
 			var count = 0;
@@ -217,7 +254,7 @@ sap.ui.define([
 			if (typeof (oEvent) === "object") {
 				rowNo = parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length - 1]);
 				var sId = oEvent.getSource().getId();
-				if (sId.includes("idLessWT") || sId.includes("idNetWT") ){
+				if (sId.includes("idLessWT") || sId.includes("idNetWT")) {
 					flag = 1;
 				}
 			}
@@ -240,7 +277,7 @@ sap.ui.define([
 				else if (sId.includes("idLessWT")) {
 					oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 				}
-			} 
+			}
 			else {
 				oModel.NetWt = (parseFloat(oModel.GWt) - parseFloat(oModel.LessWt)).toFixed(3);
 				oModel.LessWt = (parseFloat(oModel.GWt) - parseFloat(oModel.NetWt)).toFixed(3);
