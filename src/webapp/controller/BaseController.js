@@ -95,6 +95,21 @@ sap.ui.define([
       // oNavCon.to(oDetailPage);
       // this._oPopover.focus();
     },
+
+    onPressAbout:function(){
+      var that = this;
+			if (!that.About) {
+				that.About = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.About", that);
+				that.getView().addDependent(that.About);
+			}
+
+
+			that.About.open();
+    },
+
+    onCloseAbout:function(){
+      this.About.close();
+    },
     onOrders: function(oEvent) {
       if (this.getView().getModel("local").getProperty("/Role") === "Retailer") {
         this.getRouter().navTo("orders");

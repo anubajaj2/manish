@@ -7,8 +7,10 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/m/Dialog",
-	"sap/ui/core/routing/History"
-], function(BaseController, formatter, UIComponent, JSONModel, HTML, MessageToast, MessageBox, Dialog,History) {
+	"sap/ui/core/routing/History",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
+], function(BaseController, formatter, UIComponent, JSONModel, HTML, MessageToast, MessageBox, Dialog,History,Filter,FilterOperator) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.MyProduct", {
@@ -71,8 +73,9 @@ sap.ui.define([
 			// this.setAvailableProductCode();
 		},
 		onDelete1: function() {
+			debugger;
 			var that = this;
-			var productId = this.getView().byId("idName").getValue();
+			var productId = this.getView().getModel("local").getProperty("/Product").ProductId;
 			$.post('/DeleteProduct', {
 					"productCode": productId
 				})
@@ -144,7 +147,7 @@ onClear: function(){
 
 				this.mode = "Create";
 				this.setMode();
-				this.setAvailableProductCode();
+				// this.setAvailableProductCode();
 			}
 
 		},
@@ -183,13 +186,14 @@ onClear: function(){
 			productPayload.Count = parseInt(productPayload.ProductId.split("_")[productPayload.ProductId.split("_").length-1])
 
 			//		Product Id Cannot be Duplicated
-			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", this.getView().byId("idName").getValue());
+			var Filter1 = new sap.ui.model.Filter("TagNo", "EQ", this.getView().byId("idName").getValue());
 			if (this.mode === "Edit") {
 				delete productPayload.ToChangedBy;
 				delete productPayload.ToCreatedBy;
 				delete productPayload.ToOrder;
 				delete productPayload.ToPhotos;
 				delete productPayload.ToWeights;
+				delete productPayload.ToCategory;
 
 				// this.upsertWeights();
 				this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
@@ -296,6 +300,7 @@ onClear: function(){
 			}
 		},
 		onProductValueHelp: function(oEvent) {
+			debugger;
 			if (!this.ProductsearchPopup) {
 				this.ProductsearchPopup = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.popup0", this);
 				this.getView().addDependent(this.ProductsearchPopup);
@@ -310,7 +315,7 @@ onClear: function(){
 					},
 					filters: [oFilter1],
 					template: new sap.m.StandardListItem({
-						title: "{ProductId}",
+						title: "{TagNo}",
 						description: "{Category} / {SubCategory} / {Name}"
 					})
 				});
@@ -325,18 +330,21 @@ onClear: function(){
 		},
 
 		onConfirm: function(oEvent) {
+			debugger;
 			var that = this;
 			//Push the selected product id to the local model
 			var myData = this.getView().getModel("local").getProperty("/Product");
 			var selProd = oEvent.getParameter("selectedItem").getTitle();
-			myData.ProductId = selProd;
+			myData.TagNo = selProd;
+			this.getView().byId("idName").setValue(myData.TagNo);
 			this.getView().byId("idName").fireSubmit();
 		},
 		onEnter: function(oEvent) {
+			debugger;
 			var that = this;
 			var sValue = this.getView().byId("idName").getValue().toUpperCase();
 			this.getView().byId("idName").setValue(sValue);
-			var Filter1 = new sap.ui.model.Filter("ProductId", "EQ", sValue);
+			var Filter1 = new sap.ui.model.Filter("TagNo", "EQ", sValue);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
 					filters: [Filter1]
 				}, {}, this)
@@ -399,6 +407,12 @@ onClear: function(){
 
 		onFine: function() {
 			this.getView().byId("idAmount").focus();
+		},
+		onAmount: function() {
+			this.getView().byId("idPiece").focus();
+		},
+		onPiece: function() {
+			this.getView().byId("idMoreAmount").focus();
 		},
 		onWastage: function() {
 			this.getView().byId("idMkg").focus();
@@ -597,7 +611,7 @@ onClear: function(){
 				}
 			}
 		},
-		onChange: function(oEvent) {
+		onChange1: function(oEvent) {
 			debugger;
 			var nVal = oEvent.getSource().getValue();
 			var sPath = oEvent.getSource().getBindingContext("local").getPath();
@@ -683,6 +697,7 @@ onClear: function(){
 				"Quantity": 1,
 				"Fine": 0,
 				"MoreAmount": 0,
+				"Piece":0,
 				"Amount": 0,
 				"Values": [],
 				"Status": "A",
@@ -704,6 +719,22 @@ onNavBack: function() {
 	} else {
 		this.getRouter().navTo("Profile");
 	}
+},
+
+onPopUpSearch:function(oEvent){
+	debugger;
+			var aFilter = [];
+			var searchStr = oEvent.getParameter("value").toUpperCase();
+			var oFilter1 = new Filter("TagNo", FilterOperator.Contains, searchStr);
+			var oFilter2 = new Filter("Category", FilterOperator.Contains, searchStr);
+			var oFilter3 = new Filter("SubCategory", FilterOperator.Contains, searchStr);
+			var oFilter4 = new Filter("Name", FilterOperator.Contains, searchStr);
+			var aFilter = new Filter({
+				filters: [oFilter1, oFilter2, oFilter3, oFilter4],
+				and: false
+			});
+			var oBinding = oEvent.getParameter("itemsBinding");
+			oBinding.filter([aFilter]);
 }
 	});
 });

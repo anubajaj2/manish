@@ -10,11 +10,11 @@
     </headerContent>
     <content>
       <form:SimpleForm id="idSF" editable="true" layout="ColumnLayout" columnsM="2" columnsL="2"
-        columnsXL="3">
+        columnsXL="4">
         <form:content>
           <!-- <core:Title text=" " /> -->
           <Label text="Product Code" />
-          <Input id="idName" value="{local>/Product/ProductId}" submit="onEnter" liveChange="onLiveChange"
+          <Input id="idName" value="{local>/Product/TagNo}" submit="onEnter" liveChange="onLiveChange"
             valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onProductValueHelp"
           />
           <Label text="Remarks" />
@@ -103,6 +103,10 @@
           <Input id="idFine" value="{path:'local>/ProdWeights/0/Fine',type: 'sap.ui.model.type.Float'}" submit="onFine" />
           <Label text="Amount" />
           <Input id="idAmount" value="{path:'local>/ProdWeights/0/Amount',type: 'sap.ui.model.type.Float'}" submit="onAmount" />
+          <Label text="Piece" />
+          <Input id="idPiece" value="{path:'local>/ProdWeights/0/Piece',type: 'sap.ui.model.type.number'}" submit="onPiece" />
+          <Label text="Stone Price" />
+          <Input id="idMoreAmount" value="{path:'local>/ProdWeights/0/MoreAmount',type: 'sap.ui.model.type.Float'}" submit="onAmount" />
         </form:content>
       </form:SimpleForm>
       <Panel>

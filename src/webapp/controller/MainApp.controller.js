@@ -21,9 +21,9 @@ sap.ui.define([
 		idleLogout: function() {
 			var t;
 			var that = this;
-			window.onbeforeunload = function() {
-			 that.logOutApp("X");
-			}
+			// window.onbeforeunload = function() {
+			//  that.logOutApp("X");
+			// }
 
 			window.onload = resetTimer;
 			window.onmousemove = resetTimer;

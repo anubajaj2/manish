@@ -24,7 +24,30 @@
   color: Red;
 } */
 
+#idAboutContact{
+  font-size: 1rem;
+  font-weight: bold;
+}
 
+#idAboutName{
+  font-size: 1rem;
+   font-weight: bold;
+}
+#idAboutEmail{
+  font-size: 1rem;
+   font-weight: bold;
+}
+#idAboutAddress{
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#idTitleAbout{
+  margin-left: 29px;
+}
+#idImage11{
+  margin-left: 10px;
+}
 
 
 .highLightText {
