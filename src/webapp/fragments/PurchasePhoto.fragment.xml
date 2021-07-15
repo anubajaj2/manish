@@ -4,7 +4,7 @@
 			<Panel>
               <!-- <Label text="Remarks" />
               <Label text="Remarks" /> -->
-			  <unified:FileUploader id="idPopUpFileUploader" name="myFileUpload" enabled="{PurchaseLiteModel>/visible}" fileType='jpeg,jpg' multiple="true" change="onUploadChange"
+			  <unified:FileUploader id="idPopUpFileUploader" sameFilenameAllowed="true" name="myFileUpload" enabled="{PurchaseLiteModel>/visible}" fileType='jpeg,jpg' multiple="true" change="onUploadChange"
 					tooltip="Upload your file to the local system"/>
 			</Panel>
 			<f:GridList id="gridList" items="{ path: 'PurchaseLiteModel>/allImages' }" growing="true" growingThreshold="20" mode="MultiSelect"

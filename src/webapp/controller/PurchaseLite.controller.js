@@ -421,14 +421,21 @@ sap.ui.define([
 					content: [
 						new FileUploader("excelUploader", {
 							fileType: "XLSX,xlsx",
+							sameFilenameAllowed:true,
 							change: [this.onUpload, this],
 							class: "sapUiLargeMargin"
 						})
 					]
 				});
 				this.getView().addDependent(this.fixedDialog);
+				// this.fixedDialog.open();
 			}
-			this.fixedDialog.open();
+			
+				debugger;
+				// this.fixedDialog.getContent()[0].setValue("");
+				this.fixedDialog.open();
+		
+			
 		},
 
 		onUpload: function (e) {
