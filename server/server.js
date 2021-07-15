@@ -917,7 +917,7 @@ app.post('/PurchaseLiteSave', async function(req, res) {
       debugger;
       var pdt = {
         "ProductId": payload[i].ProductId,
-        "TagNo": payload[i].TagNo,
+        "TagNo": payload[i].TagNo.toUpperCase(),
         "Name": payload[i].Remark,
         "Category": payload[i].ItemCode,
         "Tunch": payload[i].Tunch,
@@ -930,7 +930,8 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "BatchId": payload[i].BatchId,
         "CreatedBy": payload[i].CreatedBy,
         "ItemCode":oCat[0].id.toString(),
-        "Karat":payload[i].Karat
+        "Karat":payload[i].Karat,
+        "CreatedOn":new Date()
       };
       var Product = await oProduct.create(pdt);
       debugger;
