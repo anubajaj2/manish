@@ -69,6 +69,17 @@
       "required": false,
       "default":""
     },
+    "RejectionReason": {
+      "type": "string",
+      "required": false
+    },
+    "ApprovedOn": {
+			"type": "date"
+		},
+		"ApproverId": {
+			"type": "string",
+			"default": "null"
+		},
     "CreatedOn": {
 			"type": "date"
 		},
