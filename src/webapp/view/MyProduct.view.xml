@@ -14,8 +14,8 @@
         <form:content>
           <!-- <core:Title text=" " /> -->
           <Label text="Product Code" />
-          <Input id="idName" value="{local>/Product/TagNo}" submit="onEnter" liveChange="onLiveChange"
-            valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onProductValueHelp"
+          <Input id="idName" value="{local>/Product/TagNo}" change="onProductCodeChange" submit="onEnter" liveChange="onLiveChange"
+            valueHelpOnly="false" showValueHelp="true" valueHelpRequest="onProductValueHelp"
           />
           <Label text="Remarks" />
           <Input id="idPName" value="{local>/Product/Name}" submit="onEnterRemark" />

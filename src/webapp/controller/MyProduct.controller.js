@@ -48,7 +48,8 @@ sap.ui.define([
 			$.get("/getpattern?Createdby="+this.CreatedBy)
 				.then(function(count) {
 					count = parseInt(count) + 1;
-					that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
+					that._oLocalModel.setProperty("/Product/ProductId",that.pattern + "_" + count.toString());
+					// that.getView().byId("idName").setValue(that.pattern + "_" + count.toString());
 				});
 
 		},
@@ -170,6 +171,15 @@ onClear: function(){
 			// oModel.setProperty("/ProdWeights", ProdWeights);
 			this.getView().getModel("local").setProperty("/checkChange", true);
 			var productPayload = this._oLocalModel.getProperty("/Product");
+			if(!productPayload.ItemCode){
+				var oCat = this.getView().getModel("local").getProperty("/Categories");
+				for (var i = 0; i < oCat.length; i++) {
+					if (oCat[i].ItemCode.toString() === productPayload.Category.toString()) {
+						productPayload.ItemCode=oCat[i].id;
+						break;
+					}
+				}
+			}
 
 			var a = productPayload.ProductId;
 			var result = that.validateProductData();
@@ -344,9 +354,11 @@ onClear: function(){
 			var that = this;
 			var sValue = this.getView().byId("idName").getValue().toUpperCase();
 			this.getView().byId("idName").setValue(sValue);
-			var Filter1 = new sap.ui.model.Filter("TagNo", "EQ", sValue);
+			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+			var Filter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+			var Filter2 = new sap.ui.model.Filter("TagNo", "EQ", sValue);
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
-					filters: [Filter1]
+					filters: [Filter1,Filter2]
 				}, {}, this)
 				.then(function(oData) {
 					if (oData.results.length != 0) {
@@ -360,6 +372,9 @@ onClear: function(){
 							MessageToast.show("Product Already Exist, Please choose a different name");
 						}
 					} else {
+						that.mode = "Create";
+						that.setMode();
+						that.setAvailableProductCode();
 						MessageToast.show("Create as new product");
 						that.getView().byId("idPName").focus();
 					}
