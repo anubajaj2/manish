@@ -79,6 +79,7 @@ sap.ui.define([
 			 }
 			 else {
 			 	this.getView().byId("idListPA").removeSelections(true);
+				this.getView().byId("idSelected").setSelected(false);
 			 }
 
 
