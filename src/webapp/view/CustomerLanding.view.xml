@@ -60,9 +60,9 @@
 						<VBox height="100%" width="100%" class="FirstRowCellContent">
 							<form:SimpleForm >
 								<form:content>
-									<Label text="New Order"/>
+									<Label text="In Cart"/>
 									<Text text="{local>/newOrderInCart/FineGold} g"/>
-									<Label text="New Amount"/>
+									<Label text="Amount"/>
 									<Text text="{local>/newOrderInCart/Amount} INR"/>
 								</form:content>
 							</form:SimpleForm>
