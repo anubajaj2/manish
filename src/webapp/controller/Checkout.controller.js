@@ -253,6 +253,7 @@ sap.ui.define([
         orderItemPayload.OrderNo = id;
         orderItemPayload.Material = cartItems[index].ProductId;
         orderItemPayload.WeightId = cartItems[index].WeightId;
+        orderItemPayload.ApproverId = cartItems[index].ApproverId;
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
             "/OrderItems", "POST", {}, orderItemPayload, that)
           .then(function(data) {

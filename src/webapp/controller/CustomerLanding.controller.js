@@ -190,6 +190,7 @@ sap.ui.define([
         cartItem.Karat = item.ToMaterial.Karat;
         cartItem.Category = item.ToMaterial.Category;
         cartItem.SubCategory = item.ToMaterial.SubCategory;
+        cartItem.ApproverId = item.ToMaterial.CreatedBy;
         cartItem.PictureUrl = {
           sBase64: item.ToMaterial.ToPhotos[0].Content,
           sUrl: formatter.getImageUrlFromContent(item.ToMaterial.ToPhotos[0].Content)

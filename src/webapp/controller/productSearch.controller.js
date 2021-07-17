@@ -175,6 +175,7 @@ sap.ui.define([
       cartItem.Karat = productRec.Karat;
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
+      cartItem.ApproverId =  productRec.CreatedBy;
       cartItem.PictureUrl = PictureUrl;
       for (var i = 0; i < allSelectedWeights.length; i++) {
         cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
