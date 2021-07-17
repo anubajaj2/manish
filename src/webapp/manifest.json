@@ -109,6 +109,11 @@
                  "name": "MyProduct",
                  "target": ["MyProduct"]
                },
+               {
+                 "pattern": "ItemsApproval",
+                 "name": "ItemsApproval",
+                 "target": ["ItemsApproval"]
+               },
 
         {
         "pattern": "split",
@@ -332,6 +337,13 @@
 
        "ChangeStock": {
          "viewName": "ChangeStock",
+         "controlId": "__component0---idMainApp--idMainApp",
+         "controlAggregation": "pages",
+         "viewLevel": 1
+
+       },
+       "ItemsApproval": {
+         "viewName": "MyItemsApproval",
          "controlId": "__component0---idMainApp--idMainApp",
          "controlAggregation": "pages",
          "viewLevel": 1

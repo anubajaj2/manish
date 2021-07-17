@@ -750,6 +750,49 @@ onPopUpSearch:function(oEvent){
 			});
 			var oBinding = oEvent.getParameter("itemsBinding");
 			oBinding.filter([aFilter]);
+},
+
+onTagNoSelect:function(oEvent){
+	debugger;
+	var that = this;
+	if (oEvent.getParameter("selectedItem")) {
+					var selectedData = oEvent.getParameter("selectedItem").getBindingContext().getObject();
+					this.getView().byId("idName").setValue(selectedData.TagNo);
+					var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+					var Filter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+					var Filter2 = new sap.ui.model.Filter("TagNo", "EQ", selectedData.TagNo);
+					this.ODataHelper.callOData(this.getOwnerComponent().getModel(), "/Products", "GET", {
+							filters: [Filter1,Filter2]
+						}, {}, this)
+						.then(function(oData) {
+							if (oData.results.length != 0) {
+								if (oData.results[0].CreatedBy === that.createdBy) {
+									MessageToast.show("Product Already Exist");
+									that.loadProductData(oData.results[0].id);
+									that.getView().getModel("local").setProperty("/Product", oData.results[0]);
+									that.mode = "Edit";
+									that.setMode();
+								} else {
+									MessageToast.show("Product Already Exist, Please choose a different name");
+								}
+							} else {
+								that.mode = "Create";
+								that.setMode();
+								that.setAvailableProductCode();
+								MessageToast.show("Create as new product");
+								that.getView().byId("idPName").focus();
+							}
+						});
+					// this.setCustomerIdAndCustomerName(selectedData);
+					// that.getView().byId("idCash").focus();
+					// that.getView().byId("idCash").$().find("input").select();
+					jQuery.sap.delayedCall(100, this, function() {
+						this.getView().byId("idPName").focus();
+						this.getView().byId("idPName").$().find("input").select();
+					});
+
+				}
 }
+
 	});
 });

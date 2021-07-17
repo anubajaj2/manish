@@ -8,6 +8,7 @@
     <ActionListItem id = "" text="orders" visible = "{= ${local>/Role} === 'Maker' ? false:true }" press= "onOrders"/>
     <ActionListItem text="My Approvals" press="showApprovals" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
     <ActionListItem text="Booked Products" press="showBookedProd" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem text="Items Approval" press="showItemsApproval" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
     <ActionListItem text="Profile" press="showProfile" visible="true"/>
     <ActionListItem text = "About" press="onPressAbout" visible="true" />
 

@@ -77,6 +77,13 @@ sap.ui.define([
       this.closePopover();
     },
 
+    showItemsApproval: function() {
+      debugger;
+      this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+      this.oRouter.navTo("ItemsApproval");
+      this.closePopover();
+    },
+
     showProducts: function() {
       debugger;
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
