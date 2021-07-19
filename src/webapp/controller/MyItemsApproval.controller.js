@@ -51,6 +51,12 @@ sap.ui.define([
 			})
 				.done(function (data, status) {
 					debugger;
+					$.get("/OrderItemApproval?Createdby=" + CreatedBy)
+				.then(function (data) {
+					debugger;
+					that.getView().getModel("ItemApprovalModel").setProperty("/OrderItems", data);
+
+				});
 
 				})
 				.fail(function (xhr, status, error) {
