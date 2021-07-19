@@ -139,6 +139,11 @@
 			"type": "belongsTo",
 			"model": "ProdWeight",
 			"foreignKey": "WeightId"
+		},
+    "ToApprover": {
+			"type": "belongsTo",
+			"model": "Manufacturer",
+			"foreignKey": "ApproverId"
 		}
   },
   "acls": [
