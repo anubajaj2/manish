@@ -329,6 +329,38 @@ app.get('/LastOrderItem',
   }
 );
 
+app.get('/OrderItemApproval',
+  function(req, res) {
+    debugger;
+    var Createdby = req.query.CreatedBy;
+    // var Createdby = '5f3a07da8af0a32a509198c2';
+    var OrderItem = app.models.OrderItem;
+    OrderItem.find({
+        where: {
+          "ApproverId": Createdby
+        },
+        include: [ ['ToMaterial', 'ToWeight','ToOrderHeader'],
+
+        {
+          relation: 'ToOrderHeader',
+          scope: {
+            include: ['ToOrderItems']
+          }
+        },
+      
+        ],
+        order: "CreatedOn DESC"
+      })
+      .then(function(orderItems) {
+        debugger;
+        res.send(orderItems);
+  })
+  .catch(function (err) {
+    debugger;
+  });
+}
+);
+
 app.get('/LastMonthOrderItems',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
@@ -479,6 +511,27 @@ app.get('/getLogo',
     res.send(logo);
   }
 );
+app.post("/OrderItemApproval", function(req, res) {
+  debugger;
+  var id=req.body.data.id;
+  var status=req.body.data.Status;
+  var OrderItem = app.models.OrderItem;
+  OrderItem.findById(id).then(function(Order){
+    debugger;
+    if(!Order){
+      res.send("No Record Found");
+    }
+    Order.updateAttributes({
+      "Status":status
+    }).then(function(d){
+      debugger;
+    })
+    .catch(function (err) {
+      debugger;
+      
+    });
+  })
+});
 app.post("/GetProdWeights", function(req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
