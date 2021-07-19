@@ -23,6 +23,7 @@ sap.ui.define([
 		},
 		_onRouteMatched: function(oEvent) {
 			debugger;
+      this.loadOrderStatus();
 			if (!this.orderStatusList) {
 				this.getView().setBusy(true);
 				this.loadOrderStatus();
@@ -689,7 +690,36 @@ sap.ui.define([
 
 				// oBinding.filter(oFilter1);
 
-			}
+			},
+
+  //     onNextItem: function(oEvent){
+  //       debugger;
+  //   var selectedItem = oEvent.getParameter("listItem");
+  //   var sPath = selectedItem.getBindingContextPath();
+  //   // var oParent =  this.getView().getParent().getParent();
+  //   // var oView2 = oParent.getDetailPages()[1];
+  //   // oView2.bindElement(sPath);
+  //   //"/fruits/10" --> split by slash and take last item
+  //   var sIndex = sPath.split("/")[sPath.split("/").length - 1];
+  //   this.onNext(sIndex);
+  // },
+
+
+      onNextItem:function(sPaths){
+        debugger;
+        this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        this.oRouter.navTo("OrderItems",{
+          id:this.orderStatusList[0].id
+    });
+        // this.oRouter.navTo("OrderItems");
+        // MessageToast.show("Cannot fetch Order Status please Refresh");
+      }
+
+
+      // onBack:function(){
+      //   this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+      //   this.oRouter.navTo("OrderStatus");
+      // }
 			// onFilterOrderStatus: function(oEvent) {
 			// 	debugger;
 			// 	this.Popup = null;
