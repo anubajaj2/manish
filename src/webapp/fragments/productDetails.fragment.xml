@@ -33,16 +33,16 @@
 						<Label text="Pair Type"/>
 						<Text text="{PairType}"/>
 						<Label text="Category"/>
-						<Text text="{Category}"/>
+						<Text text="{ToCategory/Category}"/>
 						<Label text="Sub Category"/>
 						<Text text="{SubCategory}"/>
 						<core:Title text=""/>
 						<Label text="Type"/>
-						<Text text="{Type}"/>
+						<Text text="{=${Type}==='S'?'STUDDED':'PALIN'}"/>
 						<Label text="Karat"/>
 						<Text text="{Karat}"/>
-						<Label text="Gender"/>
-						<Text text="{Gender}"/>
+						<Label text="Category Type"/>
+						<Text text="{ToCategory/Type}"/>
 						<Label text="Tunch"/>
 						<Text text="{Tunch}"/>
 						<Label text="Wastage"/>

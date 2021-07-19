@@ -212,6 +212,9 @@ sap.ui.define([
         cartItem.PairSize = item.ToWeight.PairSize;
         cartItem.NetWeight = item.ToWeight.NetWeight;
         cartItem.Amount = item.ToWeight.Amount;
+        cartItem.MoreAmount = item.ToWeight.MoreAmount;
+        cartItem.Piece = item.ToWeight.Piece;
+        cartItem.PairSize = item.ToWeight.PairSize;
         cartItem.WeightId = item.ToWeight.id;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));
       });
