@@ -30,31 +30,31 @@
 					</infoToolbar> -->
 						<columns>
 							<Column width="12em" hAlign="Center">
-								<Text text="Product" />
+								<Text text="TagNo" />
 							</Column>
 							<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-								<Text text="Supplier" />
+								<Text text="Category" />
 							</Column>
 							<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-								<Text text="Dimensions" />
+								<Text text="GrossWeight" />
 							</Column>
 							<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-								<Text text="Weight" />
+								<Text text="LessWeight" />
 							</Column>
 							<Column hAlign="Center">
-								<Text text="Price" />
+								<Text text="NetWeight" />
 							</Column>
 							<Column hAlign="Center">
-								<Text text="Price" />
+								<Text text="Karat" />
 							</Column>
 							<Column hAlign="Center">
-								<Text text="Price" />
+								<Text text="Wastage" />
 							</Column>
 							<Column hAlign="Center">
-								<Text text="Price" />
+								<Text text="Tunch" />
 							</Column>
 							<Column hAlign="Center">
-								<Text text="Price" />
+								<Text text="Status" />
 							</Column>
 						</columns>
 						<items>
