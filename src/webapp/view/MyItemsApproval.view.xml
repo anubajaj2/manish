@@ -1,5 +1,5 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.MyItemsApproval" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
-	<Page id="page" title="Booked Products" backgroundDesign="Solid">
+	<Page id="page" title="Items Approval" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress" />
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp" />
@@ -7,11 +7,11 @@
 		<content>
 			<IconTabBar id="idIconTabBar" select="onFilterSelect" class="sapUiResponsiveContentPadding">
 				<items>
-					<IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="All Order Items" key="All" />
+					<IconTabFilter showAll="true" count="" text="All Order Items" key="All" />
 					<IconTabSeparator />
-					<IconTabFilter icon="sap-icon://add-coursebook" iconColor="Contrast" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="New" key="New" />
-					<IconTabFilter icon="sap-icon://accept" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="Approved" key="Approved" />
-					<IconTabFilter icon="sap-icon://decline" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="Rejected" key="Rejected" />
+					<IconTabFilter icon="sap-icon://add-coursebook" iconColor="Contrast" count="" text="New" key="New" />
+					<IconTabFilter icon="sap-icon://accept" iconColor="Positive" count="" text="Approved" key="Approved" />
+					<IconTabFilter icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected" key="Rejected" />
 				</items>
 				<content>
 					<Table id="idOrderItemTable" inset="false" showSeparators="Inner" headerText="Order Item" items="{
@@ -21,7 +21,7 @@
 						},
 						sorter: {
 							path: 'CreatedOn'
-						}			
+						}
 					}">
 						<!-- <infoToolbar>
 						<OverflowToolbar>
