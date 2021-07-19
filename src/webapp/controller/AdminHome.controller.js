@@ -36,6 +36,11 @@ sap.ui.define([
 	 				}).catch(function(oError) {
 	 						MessageToast.show("cannot fetch the data");
 	 				});
+
+					var auth = this.getView().getModel("local").getProperty("/Authorization");
+					if (!auth) {
+						this.logOutApp();
+					}
 		},
 		onSelectItem: function(oEvent){debugger;
 			var oListItem = oEvent.getParameter("listItem");
