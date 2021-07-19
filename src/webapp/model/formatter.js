@@ -69,7 +69,6 @@ sap.ui.define([
       }
     },
     inCart: function(id) {
-      debugger;
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       for (var i = 0; i < cartItems.length; i++) {
         if (id === cartItems[i].ProductId) {
@@ -78,11 +77,25 @@ sap.ui.define([
       }
       return "Default";
     },
+    isInCart: function(id, cartItems) {
+      for (var i = 0; i < cartItems.length; i++) {
+        if (id === cartItems[i].ProductId) {
+          return true;
+        }
+      }
+      return false;
+    },
     calculateBhav: function(netWeight, amount, tunch, wastage, karat, customCalculations) {
       var totalAmount = (amount + (netWeight * (tunch + wastage) * (karat === "222" ? customCalculations.Gold : customCalculations.Gold) / 100));
       // var oCurrencyFormat = NumberFormat.getCurrencyInstance();
       // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
-      return totalAmount.toFixed(2)+" INR";
+      return totalAmount.toFixed(2) + " INR";
+    },
+    calculateFineGold: function(netWeight, amount, tunch, wastage, karat) {
+      var fineGold = netWeight * (tunch + wastage) / 100;
+      // var oCurrencyFormat = NumberFormat.getCurrencyInstance();
+      // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
+      return fineGold.toFixed(3) + " g";
     },
     getImageUrlFromContent: function(base64Stream) {
       if (base64Stream) {

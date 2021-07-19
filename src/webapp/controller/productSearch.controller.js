@@ -37,13 +37,12 @@ sap.ui.define([
     },
     _onRouteMatched: function(oEvent) {
       //if previous route is search then only we search
+      var oList = this.getView().byId("gridList");
       if (this._oLocalModel.getProperty("/searchFlag")) {
-        var oList = this.getView().byId("gridList");
         oList.getBinding("items");
-        var a = this._oLocalModel.getProperty("/searchFilter");
-        oList.getBinding("items").filter(a);
+        var searchFilter = this._oLocalModel.getProperty("/searchFilter");
+        oList.getBinding("items").filter(searchFilter);
         this.loadedWeights = [];
-
         // oList.bindItems({
         // 	path : '/Products',
         // 	parameters: {
@@ -54,6 +53,10 @@ sap.ui.define([
         oList.attachUpdateFinished(this.counter, this);
         this._oLocalModel.setProperty("/searchFlag", false);
       }
+      var cartItems = this._oLocalModel.getProperty("/cartItems");
+      oList.getItems().forEach((item) => {
+        item.getContent()[2].getItems()[0].setType(formatter.isInCart(item.getBindingContextPath().split("'")[1], cartItems) ? "Emphasized" : "Default");
+      });
     },
     onGridView: function(oEvent) {
       var oControl = this.getView().byId("gridList");
@@ -175,7 +178,7 @@ sap.ui.define([
       cartItem.Karat = productRec.Karat;
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
-      cartItem.ApproverId =  productRec.CreatedBy;
+      cartItem.ApproverId = productRec.CreatedBy;
       cartItem.PictureUrl = PictureUrl;
       for (var i = 0; i < allSelectedWeights.length; i++) {
         cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
@@ -184,7 +187,7 @@ sap.ui.define([
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
         cartItem.WeightId = allSelectedWeights[i].id;
-        this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] = oBtn;
+        // this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] = oBtn;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));
       }
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
@@ -416,18 +419,18 @@ sap.ui.define([
       var sPath = oButton.getParent().getBindingContext().getPath();
       // this.sPath = sPath;
       var that = this;
-      if (!this.loadedWeights[sPath]) {
-        this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2])
-          .then(function(data) {
-            that.loadedWeights[sPath] = data.ProdWeights;
-            that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
-          });
-      } else {
-        var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
-        var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
-      }
-      debugger;
+      // if (!this.loadedWeights[sPath]) {
+      //   this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2])
+      //     .then(function(data) {
+      //       that.loadedWeights[sPath] = data.ProdWeights;
+      //       that.getView().getModel("local").setProperty("/ProdWeights", data.ProdWeights);
+      //     });
+      // } else {
+      //   var tempLoaded = JSON.parse(JSON.stringify(this.loadedWeights[sPath]));
+      //   var addedWeights = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //   this.getView().getModel("local").setProperty("/ProdWeights", tempLoaded);
+      // }
+      // debugger;
       if (!this._oPopover) {
         Fragment.load({
           name: "sap.ui.demo.cart.fragments.productDetails",

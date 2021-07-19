@@ -42,6 +42,7 @@ app.use(session({
   secret: 'anuragApp'
 }));
 app.use(fileUpload());
+
 // app.use (function (req, res, next) {
 //         if (req.secure) {
 //                 // request was via https, so do no special handling
@@ -274,6 +275,22 @@ app.post("/SoldProduct", function(req, res) {
 
 });
 
+// app.get('/GetOrderNumber',
+//   function(req, res) {
+//     var Createdby = req.query.CreatedBy;
+//     var OrderHeader = app.models.OrderHeader;
+//     OrderHeader.count({
+//         where: {
+//           "CreatedBy": Createdby
+//         }
+//       })
+//       .then(function(count) {
+//         debugger;
+//         res.send(count);
+//       });
+//   }
+// );
+
 app.get('/LastOrderItem',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
@@ -294,21 +311,19 @@ app.get('/LastOrderItem',
       .then(function(orderHeader) {
         var total = 0;
         var totalGold = 0;
-        // orderHeader[0].__data.ToOrderItems.forEach((item, i) => {
-        //   item = item.__data
-        //   total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
-        //   totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
-        // });
+        var orderNo = 0;
         orderHeader.forEach((order) => {
           order.__data.ToOrderItems.forEach((item, i) => {
             item = item.__data
-            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
+            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
             totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
           });
+          orderNo = order.OrderNo;
         });
         res.send({
           Amount: total.toFixed(2),
-          FineGold: totalGold.toFixed(3)
+          FineGold: totalGold.toFixed(3),
+          OrderNo: orderNo
         });
       });
   }
@@ -339,7 +354,7 @@ app.get('/LastMonthOrderItems',
         orderHeader.forEach((order) => {
           order.__data.ToOrderItems.forEach((item, i) => {
             item = item.__data
-            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? orderHeader[0].GoldBhav22 : orderHeader[0].GoldBhav22) / 100;
+            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
             totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
           });
         });
@@ -407,7 +422,7 @@ app.get('/getpattern',
       })
       .then(function(Products) {
         debugger;
-        if(Products.length===0){
+        if (Products.length === 0) {
           res.send("0");
         }
         var pCount = Products[0]["Count"];
@@ -908,12 +923,16 @@ app.post('/PurchaseLiteSave', async function(req, res) {
   var oProdWeight = app.models.ProdWeight;
   var oProduct = app.models.Product;
   var oPhoto = app.models.Photo;
-  var oCategoies=app.models.Category;
+  var oCategoies = app.models.Category;
   var payload = req.body.allData;
   try {
     // var Product=await oProduct.create(data.Product);
     for (var i = 0; i < payload.length; i++) {
-      var oCat=await oCategoies.find({where: {ItemCode: payload[i].ItemCode}});
+      var oCat = await oCategoies.find({
+        where: {
+          ItemCode: payload[i].ItemCode
+        }
+      });
       debugger;
       var pdt = {
         "ProductId": payload[i].ProductId,
@@ -929,9 +948,9 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "AlertQuantity": 0,
         "BatchId": payload[i].BatchId,
         "CreatedBy": payload[i].CreatedBy,
-        "ItemCode":oCat[0].id.toString(),
-        "Karat":payload[i].Karat,
-        "CreatedOn":new Date(),
+        "ItemCode": oCat[0].id.toString(),
+        "Karat": payload[i].Karat,
+        "CreatedOn": new Date(),
 
       };
       var Product = await oProduct.create(pdt);
@@ -946,7 +965,7 @@ app.post('/PurchaseLiteSave', async function(req, res) {
         "PairSize": payload[i].Size,
         "Remarks": payload[i].Remark,
         "Piece": payload[i].PCS,
-        "MoreAmount":payload[i].MoreAmount
+        "MoreAmount": payload[i].MoreAmount
       };
       var weight = await oProdWeight.create(wgt);
       debugger;

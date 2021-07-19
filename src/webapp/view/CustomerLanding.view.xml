@@ -166,19 +166,16 @@
 								<core:Title text="Bhav"/>
 							</form:title>
 							<form:content>
-								<Label text="Gold Bhav 22/22"/>
-								<Text text="54000"/>
-								<Label text="Gold Bhav 20/22"/>
-								<Text text="50000"/>
-								<Label text="Silver Bhav 20/22"/>
-								<Text text="65000"/>
+								<Label text="Today's Gold Bhav"/>
+								<Text text="{local>/CustomCalculations/Gold} INR"/>
+								<!-- <Label text="Gold Bhav 20/22"/> <Text text="50000"/> <Label text="Silver Bhav 20/22"/> <Text text="65000"/> -->
 							</form:content>
 						</form:SimpleForm>
 					</l:BlockLayoutCell>
 					<l:BlockLayoutCell>
 						<form:SimpleForm >
 							<form:title>
-								<core:Title text="Cheque Prize"/>
+								<core:Title text=""/>
 							</form:title>
 						</form:SimpleForm>
 					</l:BlockLayoutCell>

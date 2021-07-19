@@ -52,60 +52,12 @@
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
-			<VBox>
-				<t:Table rows="{local>/ProdWeights/0/Values}" selectionMode="None" visibleRowCount="6" ariaLabelledBy="title"
-					alternateRowColors="true"	minAutoRowCount="4" visibleRowCountMode="Auto">
-					<t:extension>
-						<OverflowToolbar>
-							<Title id="title" text="Less Weights"/>
-						</OverflowToolbar>
-					</t:extension>
-					<t:columns>
-						<t:Column >
-							<Label text="Item Name"/>
-							<t:template>
-								<Text text="{path : 'local>Item', formatter : '.formatter.getItemName'}" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Unit"/>
-							<t:template>
-								<Text text="{local>Type}" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Pcs."/>
-							<t:template>
-								<Text text="{local>sPc}" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Weight"/>
-							<t:template>
-								<Text text="{local>Weight} gm" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Rate"/>
-							<t:template>
-								<Text text="{path : 'local>Rate', formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Less Weight"/>
-							<t:template>
-								<Text text="{local>Net} gm" wrapping="false"/>
-							</t:template>
-						</t:Column>
-						<t:Column >
-							<Label text="Total Amount"/>
-							<t:template>
-								<Text text="{path : 'local>MoreAmount', formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/>
-							</t:template>
-						</t:Column>
-					</t:columns>
-				</t:Table>
-			</VBox>
+			<!-- <VBox> <t:Table rows="{local>/ProdWeights/0/Values}" selectionMode="None" visibleRowCount="6" ariaLabelledBy="title" alternateRowColors="true" minAutoRowCount="4" visibleRowCountMode="Auto"> <t:extension> <OverflowToolbar> <Title id="title"
+			text="Less Weights"/> </OverflowToolbar> </t:extension> <t:columns> <t:Column > <Label text="Item Name"/> <t:template> <Text text="{path : 'local>Item', formatter : '.formatter.getItemName'}" wrapping="false"/> </t:template> </t:Column> <t:Column >
+			<Label text="Unit"/> <t:template> <Text text="{local>Type}" wrapping="false"/> </t:template> </t:Column> <t:Column > <Label text="Pcs."/> <t:template> <Text text="{local>sPc}" wrapping="false"/> </t:template> </t:Column> <t:Column > <Label
+			text="Weight"/> <t:template> <Text text="{local>Weight} gm" wrapping="false"/> </t:template> </t:Column> <t:Column > <Label text="Rate"/> <t:template> <Text text="{path : 'local>Rate', formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/>
+			</t:template> </t:Column> <t:Column > <Label text="Less Weight"/> <t:template> <Text text="{local>Net} gm" wrapping="false"/> </t:template> </t:Column> <t:Column > <Label text="Total Amount"/> <t:template> <Text text="{path : 'local>MoreAmount',
+			formatter : '.formatter.getIndianCurr'} INR" wrapping="false"/> </t:template> </t:Column> </t:columns> </t:Table> </VBox> -->
 		</content>
 	</ResponsivePopover>
 </core:FragmentDefinition>

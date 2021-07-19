@@ -29,6 +29,11 @@
     "FineGold": 0,
     "Amount": 0
   },
+  "lastOrder": {
+    "Amount": 0,
+    "FineGold": 0,
+    "OrderNo": 0
+  },
   "customerFilter": [{
     "title": "STYLE",
     "icon": "sap-icon://employee",

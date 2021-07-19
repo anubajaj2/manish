@@ -28,7 +28,10 @@
                         <Image width="220px" height="140px" src="{local>PictureUrl/sUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
-                        <Text text="{local>Name} ( {local>NetWeight} gm X {local>Tunch} T )" class="sapUiSmallMarginTop"/>
+                        <Text text="{local>NetWeight} g X ({local>Tunch}+{local>Wastage}) T =  {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat'], formatter: '.formatter.calculateFineGold'}" class="sapUiSmallMarginTop"/>
+                      </HBox>
+                      <HBox class="sapUiLargeMargin">
+                        <Text text="Amount: {local>Amount} INR" class="sapUiSmallMarginTop"/>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
                         <Text text="{parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
@@ -49,46 +52,10 @@
             </WizardStep>
             <WizardStep id="paymentTypeStep" title="{i18n>checkoutPaymentTitle}" icon="sap-icon://money-bills">
               <form:SimpleForm layout="ResponsiveGridLayout" editable="true">
-                <Label text="Churi Size" required="true" labelFor="TxtChuriSize">
-                  <layoutData>
-                    <layout:GridData span="XL4 L4 M4 S12"/>
-                  </layoutData>
-                </Label>
-                <Input
-                  id="TxtChuriSize"
-                  placeholder="example 4.8"
-                  value="{
-											path: 'local>/SizeDetails/churiSize',
-											type: 'sap.ui.model.type.String',
-											constraints: {
-												minLength: 3,
-												search: '[0-9]+|[0-9]+.'
-											}
-										}">
-                  <layoutData>
-                    <layout:GridData span="XL8 L8 M8 S12"/>
-                  </layoutData>
-                </Input>
-                <Label text="Chain/Mala Size" required="true" labelFor="malaSize">
-                  <layoutData>
-                    <layout:GridData span="XL4 L4 M4 S12"/>
-                  </layoutData>
-                </Label>
-                <Input
-                  id="malaSize"
-                  placeholder="Mala Size (inch.) e.g. 20.50"
-                  value="{
-											path: 'local>/SizeDetails/malaSize',
-											type: 'sap.ui.model.type.String',
-											constraints: {
-												minLength: 3,
-												search: '[0-9]+|[0-9]+.'
-											}
-										}">
-                  <layoutData>
-                    <layout:GridData span="XL8 L8 M8 S12"/>
-                  </layoutData>
-                </Input>
+                <!-- <Label text="Churi Size" required="true" labelFor="TxtChuriSize"> <layoutData> <layout:GridData span="XL4 L4 M4 S12"/> </layoutData> </Label> <Input id="TxtChuriSize" placeholder="example 4.8" value="{ path: 'local>/SizeDetails/churiSize', type:
+                'sap.ui.model.type.String', constraints: { minLength: 3, search: '[0-9]+|[0-9]+.' } }"> <layoutData> <layout:GridData span="XL8 L8 M8 S12"/> </layoutData> </Input> -->
+                <!-- <Label text="Chain/Mala Size" required="true" labelFor="malaSize"> <layoutData> <layout:GridData span="XL4 L4 M4 S12"/> </layoutData> </Label> <Input id="malaSize" placeholder="Mala Size (inch.) e.g. 20.50" value="{ path:
+                'local>/SizeDetails/malaSize', type: 'sap.ui.model.type.String', constraints: { minLength: 3, search: '[0-9]+|[0-9]+.' } }"> <layoutData> <layout:GridData span="XL8 L8 M8 S12"/> </layoutData> </Input> -->
                 <Label text="{i18n>checkoutInvoiceAddressNote}" required="false">
                   <layoutData>
                     <layout:GridData span="XL4 L4 M4 S12"/>

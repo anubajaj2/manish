@@ -109,27 +109,39 @@ sap.ui.define([
       //   value1: "'" + currentUser + "'"
       // })];
       // that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-      //     "/CartItems", "GET", {
+      //     "/OrderHeaders/$count", "GET", {
       //       filters: oFilter
       //     }, {}, that)
       //   .then(function(data) {
-      //     data.results.forEach((item, i) => {
-      //       that.loadProdWeights("'" + currentUser + "'").
-      //       then(function(data) {
-      //         var tempLoaded = data.ProdWeights;
-      //         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-      //         var cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      //         var allSelectedWeights = [tempLoaded[0]];
-      //         var mainProduct = that.getView().getModel().getModel().getProperty("/Products('" + item.ProductId + "')");
-      //         var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-      //         addedWeights.push(allSelectedWeights[0]);
-      //         that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-      //         that.addProductToCart(item.id, mainProduct, allSelectedWeights);
-      //       });
-      //     });
-      //   }).catch(function(oError) {
-      //     debugger;
+      //     that.getOwnerComponent().getModel("local").setProperty("/orderNo", parseInt(data));
+      // data.results.forEach((item, i) => {
+      //   that.loadProdWeights("'" + currentUser + "'").
+      //   then(function(data) {
+      //     var tempLoaded = data.ProdWeights;
+      //     var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //     var cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      //     var allSelectedWeights = [tempLoaded[0]];
+      //     var mainProduct = that.getView().getModel().getModel().getProperty("/Products('" + item.ProductId + "')");
+      //     var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      //     addedWeights.push(allSelectedWeights[0]);
+      //     that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+      //     that.addProductToCart(item.id, mainProduct, allSelectedWeights);
       //   });
+      // });
+      // }).catch(function(oError) {
+      //   sap.m.MessageToast.show("error in fetching data");
+      // });
+      // $.ajax({
+      //   type: 'GET', // added,
+      //   url: 'GetOrderNumber?CreatedBy=' + currentUser,
+      //   success: function(data) {
+      //     debugger;
+      //   },
+      //   error: function(xhr, status, error) {
+      //     sap.m.MessageToast.show("error in fetching data");
+      //   }
+      // });
+
 
       $.ajax({
         type: 'GET', // added,

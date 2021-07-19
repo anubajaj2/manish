@@ -29,7 +29,7 @@ sap.ui.define([
   return BaseController.extend("sap.ui.demo.cart.controller.Checkout", {
     formatter: formatter,
     onInit: function() {
-      this.setModel(this.getOwnerComponent().getModel("local"), "local");
+      this.setModel(this._oLocalModel, "local");
       this._oLocalModel = this.getOwnerComponent().getModel("local");
       // Assign the model object to the SAPUI5 core
       this.setModel(sap.ui.getCore().getMessageManager().getMessageModel(), "message");
@@ -175,8 +175,8 @@ sap.ui.define([
     },
     removeProductFromCart: function(productRec) {
       var that = this;
-      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+      var cartItems = this._oLocalModel.getProperty("/cartItems");
+      var allWeightsSel = this._oLocalModel.getProperty("/addedWeights");
       for (var j = 0; j < allWeightsSel.length; j++) {
         if (allWeightsSel[j].id === productRec.WeightId) {
           allWeightsSel.splice(j, 1);
@@ -188,13 +188,13 @@ sap.ui.define([
           that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
               "/CartItems('" + cartItems[i].id + "')", "DELETE", {}, {}, that)
             .then(function(data) {
-              var item = that.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItems[i].ProductId];
-              if (item) {
-                item.setType("Default");
-              }
+              // var item = that._oLocalModel.getProperty("/oCartBtns")[cartItems[i].ProductId];
+              // if (item) {
+              //   item.setType("Default");
+              // }
               cartItems.splice(i, 1);
-              that.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
-              that.getOwnerComponent().getModel("local").setProperty("/addedWeights", allWeightsSel);
+              that._oLocalModel.setProperty("/cartItems", cartItems);
+              that._oLocalModel.setProperty("/addedWeights", allWeightsSel);
               that.calculateOrderEstimate();
               MessageToast.show("Removed from cart");
             }).catch(function(oError) {
@@ -229,6 +229,7 @@ sap.ui.define([
       var html = "";
       var totalAmount = 0;
       var totalWeight = 0;
+      var date = new Date();
       cartItems.forEach((oItem) => {
         html += "<li><p style=\"font-weight:500;font-size:larger;\"> Item : " + oItem.Category + " / " + oItem.SubCategory + " / " + oItem.Name +
           "<br> Gross Weight : " + oItem.GrossWeight + " g" +
@@ -237,15 +238,15 @@ sap.ui.define([
         totalAmount += oItem.Amount;
         totalWeight += oItem.GrossWeight;
       });
-      var customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData");
+      var customer = this._oLocalModel.getProperty("/CustomerData");
       html = "<h1 style=\"color:green; font-weight:800; font-size:xx-large;\">Order Summary</h1><hr>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Name : " + customer.Name + " &nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0, 24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
-      var orderNo = that.getOwnerComponent().getModel("local").getProperty("/orderNo");
+      var orderNo = customer.CustomerCode + "-" + date.getFullYear() + "" + (date.getMonth() + 1) + "-" + that._oLocalModel.getProperty("/lastOrder/OrderNo");
       html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + orderNo + " , Please check your email for more details</p>";
-      that.getOwnerComponent().getModel("local").setProperty("/OrderSummaryHTML", html);
+      that._oLocalModel.setProperty("/OrderSummaryHTML", html);
     },
     saveOrderItem: function(id, cartItems, orderItemPayload, that, index = 0) {
       // MessageToast.show("Successfully"+id);
@@ -263,9 +264,26 @@ sap.ui.define([
             MessageBox.error("Error while saving order Item data");
           });
       } else {
-        that.getView().setBusy(false);
         that.getOrderSummary(cartItems, that);
         that.byId("wizardNavContainer").to(this.byId("summaryPage"));
+        for (var i = 0; i < cartItems.length; i++) {
+          // if (cartItems[i].WeightId === productRec.WeightId) {
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+              "/CartItems('" + cartItems[i].id + "')", "DELETE", {}, {}, that)
+            .then(function(data) {
+              // cartItems.splice(i, 1);
+              //
+              // that.calculateOrderEstimate();
+              // MessageToast.show("Removed from cart");
+            }).catch(function(oError) {
+              MessageBox.error("Error while deleting cart item");
+            });
+          // break;
+          // }
+        }
+        that._oLocalModel.setProperty("/cartItems", []);
+        that._oLocalModel.setProperty("/addedWeights", []);
+        that.getView().setBusy(false);
       }
     },
 
@@ -277,26 +295,30 @@ sap.ui.define([
       // if (sap.ui.getCore().getMessageManager().getMessageModel().getData().length > 0) {
       //   MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
       // } else {
-      var orderHeaderPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderHeader");
-      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
-      var orderItemPayload = this.getOwnerComponent().getModel("local").getProperty("/OrderItem");
-      var customCalculations = this.getView().getModel("local").getProperty("/CustomCalculations")
-      // var allWeightsSel = this.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-      orderHeaderPayload.OrderNo = this.getOwnerComponent().getModel("local").getProperty("/orderNo");
+      var orderHeaderPayload = this._oLocalModel.getProperty("/OrderHeader");
+      var cartItems = this._oLocalModel.getProperty("/cartItems");
+      var orderItemPayload = this._oLocalModel.getProperty("/OrderItem");
+      var customCalculations = this._oLocalModel.getProperty("/CustomCalculations");
+      // var allWeightsSel = this._oLocalModel.getProperty("/addedWeights");
+      var orderNo = this._oLocalModel.getProperty("/lastOrder/OrderNo") + 1;
+      orderHeaderPayload.OrderNo = orderNo;
       orderHeaderPayload.Date = Date();
       orderHeaderPayload.GoldBhav22 = customCalculations.Gold;
+      orderHeaderPayload.GoldBhav20 = customCalculations.Gold;
       orderHeaderPayload.ApprovedOn = Date();
-      orderHeaderPayload.Customer = this.getOwnerComponent().getModel("local").getProperty("/CustomerData/id");
-      this.getOwnerComponent().getModel("local").setProperty("/OrderHeader", orderHeaderPayload);
+      orderHeaderPayload.Customer = this._oLocalModel.getProperty("/CustomerData/id");
+      this._oLocalModel.setProperty("/OrderHeader", orderHeaderPayload);
       var that = this;
       if (cartItems.length) {
         this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
             "/OrderHeaders", "POST", {}, orderHeaderPayload, this)
           .then(function(data) {
+            that._oLocalModel.setProperty("/lastOrder/OrderNo", orderNo);
             that.saveOrderItem(data.id, cartItems, orderItemPayload, that);
             // MessageToast.show("Product Created Successfully");
           }).catch(function(oError) {
             MessageBox.error("Error while saving product data");
+            that.getView().setBusy(false);
           });
         that.getView().setBusy(true);
       } else {
@@ -353,7 +375,7 @@ sap.ui.define([
     onDownloadInvoice: function() {
 
       // var country = this.getCountryNameFromCode(Country);
-      var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems"),
+      var cartItems = this._oLocalModel.getProperty("/cartItems"),
         invoiceItems = [],
         that = this;
       cartItems.forEach(function(item) {
