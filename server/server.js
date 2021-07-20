@@ -315,7 +315,7 @@ app.get('/LastOrderItem',
         orderHeader.forEach((order) => {
           order.__data.ToOrderItems.forEach((item, i) => {
             item = item.__data
-            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
+            total += item.ToWeight.$Amount + (item.ToWeight.$Piece * item.ToWeight.$MoreAmount) + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
             totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
           });
           orderNo = order.OrderNo;
@@ -339,26 +339,27 @@ app.get('/OrderItemApproval',
         where: {
           "ApproverId": Createdby
         },
-        include: [ ['ToMaterial', 'ToWeight','ToOrderHeader'],
+        include: [
+          ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
 
-        {
-          relation: 'ToOrderHeader',
-          scope: {
-            include: ['ToOrderItems']
-          }
-        },
-      
+          {
+            relation: 'ToOrderHeader',
+            scope: {
+              include: ['ToOrderItems']
+            }
+          },
+
         ],
         order: "CreatedOn DESC"
       })
       .then(function(orderItems) {
         debugger;
         res.send(orderItems);
-  })
-  .catch(function (err) {
-    debugger;
-  });
-}
+      })
+      .catch(function(err) {
+        debugger;
+      });
+  }
 );
 
 app.get('/LastMonthOrderItems',
@@ -386,7 +387,7 @@ app.get('/LastMonthOrderItems',
         orderHeader.forEach((order) => {
           order.__data.ToOrderItems.forEach((item, i) => {
             item = item.__data
-            total += item.ToWeight.$Amount + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
+            total += item.ToWeight.$Amount + (item.ToWeight.$Piece * item.ToWeight.$MoreAmount) + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
             totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
           });
         });
@@ -513,23 +514,23 @@ app.get('/getLogo',
 );
 app.post("/OrderItemApproval", function(req, res) {
   debugger;
-  var id=req.body.data.id;
-  var status=req.body.data.Status;
+  var id = req.body.data.id;
+  var status = req.body.data.Status;
   var OrderItem = app.models.OrderItem;
-  OrderItem.findById(id).then(function(Order){
+  OrderItem.findById(id).then(function(Order) {
     debugger;
-    if(!Order){
+    if (!Order) {
       res.send("No Record Found");
     }
     Order.updateAttributes({
-      "Status":status
-    }).then(function(d){
-      debugger;
-    })
-    .catch(function (err) {
-      debugger;
-      
-    });
+        "Status": status
+      }).then(function(d) {
+        debugger;
+      })
+      .catch(function(err) {
+        debugger;
+
+      });
   })
 });
 app.post("/GetProdWeights", function(req, res) {

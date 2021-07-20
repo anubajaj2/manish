@@ -245,6 +245,7 @@ sap.ui.define([
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
       var orderNo = customer.CustomerCode + "-" + date.getFullYear() + "" + (date.getMonth() + 1) + "-" + that._oLocalModel.getProperty("/lastOrder/OrderNo");
+      that.orderNo = orderNo;
       html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + orderNo + " , Please check your email for more details</p>";
       that._oLocalModel.setProperty("/OrderSummaryHTML", html);
     },
@@ -281,6 +282,7 @@ sap.ui.define([
           // break;
           // }
         }
+        that._oLocalModel.setProperty("/invoiceData", cartItems);
         that._oLocalModel.setProperty("/cartItems", []);
         that._oLocalModel.setProperty("/addedWeights", []);
         that.getView().setBusy(false);
@@ -375,7 +377,7 @@ sap.ui.define([
     onDownloadInvoice: function() {
 
       // var country = this.getCountryNameFromCode(Country);
-      var cartItems = this._oLocalModel.getProperty("/cartItems"),
+      var cartItems = this._oLocalModel.getProperty("/invoiceData"),
         invoiceItems = [],
         that = this;
       cartItems.forEach(function(item) {
@@ -386,8 +388,10 @@ sap.ui.define([
           NET_WT: item.NetWeight,
           KT: item.Karat,
           SIZE: item.PairSize,
-          QTY: 1,
-          REMARKS: "NONE",
+          PCS: item.Piece,
+          AMOUNT: item.MoreAmount,
+          FINE: parseFloat((item.NetWeight * (item.Tunch + item.Wastage) / 100).toFixed(3)),
+          TOTAL: item.Amount + (item.Piece * item.MoreAmount),
           IMG: item.PictureUrl.sBase64 //"data:image/png;base64," + that.logo
         });
       });
@@ -415,6 +419,8 @@ sap.ui.define([
           Email: "Smdaishpra@gmail.com",
           City: "Jaipur"
         },
+        orderNo: this.orderNo ? this.orderNo : "N/A",
+        remarks: "N/A",
         items: invoiceItems,
         IGST: "NONE",
         fullAmount: 9999,
@@ -475,7 +481,7 @@ sap.ui.define([
           .font("Helvetica-Bold")
           .text("Order No:", 30, customerInformationTop - 20)
           .font("Helvetica")
-          .text("xxxx", 90, customerInformationTop - 20)
+          .text(invoice.orderNo, 90, customerInformationTop - 20)
           .font("Helvetica-Bold")
           .text("User Details:", 30, customerInformationTop)
           .font("Helvetica")
@@ -492,6 +498,11 @@ sap.ui.define([
           .text(invoice.userDetails.Email, 150, customerInformationTop + 75)
           .text("City:", 30, customerInformationTop + 90)
           .text(invoice.userDetails.City, 150, customerInformationTop + 90)
+
+          .font("Helvetica-Bold")
+          .text("Remarks:", 30, customerInformationTop + 108)
+          .font("Helvetica")
+          .text(invoice.remarks, 150, customerInformationTop + 108)
 
           .font("Helvetica-Bold")
           .text("Client Details:", 350, customerInformationTop)
@@ -522,21 +533,22 @@ sap.ui.define([
           invoiceTableTop,
           "#",
           "CODE",
-          "GROSS WT",
-          "STONE WT",
+          "GRS-STN",
           "NET WT",
           "KT",
           "SIZE",
-          "QTY",
-          "REMARKS",
+          "PCS",
+          "AMOUNT",
+          "FINE",
+          "TOTAL",
           "IMG"
         );
         generateHr(doc, invoiceTableTop + 15);
         doc.font("Helvetica");
         var totalAmount = 0;
         var totalGST = 0;
-        var total_gross_wt = 0;
-        var total_stone_wt = 0;
+        var total_amount = 0;
+        var total_fine = 0;
         var total_net_wt = 0;
         let position = invoiceTableTop + 15;
         for (i = 0; i < invoice.items.length; i++) {
@@ -547,30 +559,33 @@ sap.ui.define([
             position,
             i + 1,
             item.CODE,
-            item.GROSS_WT,
-            item.STONE_WT,
+            item.GROSS_WT + '-' + item.STONE_WT,
             item.NET_WT,
             item.KT,
             item.SIZE,
-            item.QTY,
-            item.REMARKS,
+            item.PCS,
+            item.AMOUNT,
+            item.FINE,
+            item.TOTAL,
             item.IMG
           );
-          total_gross_wt += parseFloat(item.GROSS_WT);
-          total_stone_wt += parseFloat(item.STONE_WT);
+          total_amount += parseFloat(item.TOTAL);
+          total_fine += parseFloat(item.FINE);
           total_net_wt += parseFloat(item.NET_WT);
           generateHr(doc, position += 65);
           // totalAmount += parseFloat(item.Amount);
           if (invoice.items.length - 1 === i || (i === 3 && invoiceTableTop === 260) || (i - 3) % 5 === 0) {
             generateVr(doc, 30, invoiceTableTop - 5, position);
             generateVr(doc, 45, invoiceTableTop - 5, position);
-            generateVr(doc, 135, invoiceTableTop - 5, position);
-            generateVr(doc, 195, invoiceTableTop - 5, position);
-            generateVr(doc, 255, invoiceTableTop - 5, position);
-            generateVr(doc, 295, invoiceTableTop - 5, position);
-            generateVr(doc, 335, invoiceTableTop - 5, position);
-            generateVr(doc, 375, invoiceTableTop - 5, position);
-            generateVr(doc, 435, invoiceTableTop - 5, position);
+            generateVr(doc, 95, invoiceTableTop - 5, position);
+            generateVr(doc, 150, invoiceTableTop - 5, position);
+            generateVr(doc, 200, invoiceTableTop - 5, position);
+            generateVr(doc, 230, invoiceTableTop - 5, position);
+            generateVr(doc, 260, invoiceTableTop - 5, position);
+            generateVr(doc, 285, invoiceTableTop - 5, position);
+            generateVr(doc, 340, invoiceTableTop - 5, position);
+            generateVr(doc, 390, invoiceTableTop - 5, position);
+            generateVr(doc, 445, invoiceTableTop - 5, position);
             generateVr(doc, 570, invoiceTableTop - 5, position);
           }
           if ((i === 3 && invoice.items.length > 4) || (i - 3) % 5 === 0) {
@@ -586,13 +601,14 @@ sap.ui.define([
           position + 7,
           i,
           "-",
-          total_gross_wt.toFixed(3),
-          total_stone_wt.toFixed(3),
+          "-",
           total_net_wt.toFixed(3),
           "-",
           "-",
           "-",
           "-",
+          total_fine.toFixed(3),
+          parseInt(total_amount),
           "-"
         );
         generateHr(doc, position + 25);
@@ -724,13 +740,14 @@ sap.ui.define([
         y,
         sr,
         code,
-        gross_wt,
-        stone_wt,
+        gross_stone,
         net_wt,
         kt,
         size,
-        qty,
-        remarks,
+        pcs,
+        amount,
+        fine,
+        total,
         img
       ) => {
         doc
@@ -740,41 +757,50 @@ sap.ui.define([
             align: "center"
           })
           .text(code, 45, y, {
-            width: 90,
+            width: 50,
             align: "center"
           })
-          .text(gross_wt, 135, y, {
-            width: 60,
+          .text(gross_stone, 95, y, {
+            width: 55,
             align: "center"
           })
-          .text(net_wt, 195, y, {
-            width: 60,
+          .text(net_wt, 150, y, {
+            width: 50,
             align: "center"
           })
-          .text(kt, 255, y, {
-            width: 40,
+          .text(kt, 200, y, {
+            width: 30,
             align: "center"
           })
-          .text(size, 295, y, {
-            width: 40,
+          .text(size, 230, y, {
+            width: 30,
             align: "center"
           })
-          .text(qty, 335, y, {
-            width: 40,
+          .text(pcs, 260, y, {
+            width: 25,
             align: "center"
           })
-          .text(remarks, 375, y, {
-            width: 60,
+          .text(amount, 285, y, {
+            width: 55,
+            align: "center"
+          })
+          .text(fine, 340, y, {
+            width: 50,
+            align: "center"
+          })
+          .text(total, 390, y, {
+            width: 55,
             align: "center"
           });
         if (!img.includes("base64")) {
-          doc.text(img, 435, y, {
-            width: 135,
+          doc.text(img, 445, y, {
+            width: 125,
             align: "center"
           });
         } else {
-          doc.image(img, 435, y - 50, {
-            width: 130,
+          doc.image(img, 445, y - 50, {
+            width: 120,
+            height: 100,
             align: "center"
           });
         }

@@ -174,7 +174,7 @@ sap.ui.define([
             totalGold = 0;
           that.getView().getModel("local").setProperty("/CustomCalculations", data.customCalculation[0]);
           data.cartItems.forEach((item, i) => {
-            total += item.ToWeight.Amount + (item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) * (item.ToMaterial.Karat === "222" ? data.customCalculation[0].Gold : data.customCalculation[0].Gold) / 100;
+            total += item.ToWeight.Amount + (item.ToWeight.Piece * item.ToWeight.MoreAmount) + (item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) * (item.ToMaterial.Karat === "222" ? data.customCalculation[0].Gold : data.customCalculation[0].Gold) / 100;
             totalGold += ((item.ToWeight.GrossWeight - item.ToWeight.LessWeight) * (item.ToMaterial.Tunch + item.ToMaterial.Wastage) / 100);
           });
           that.getView().getModel("local").setProperty("/newOrderInCart", {
