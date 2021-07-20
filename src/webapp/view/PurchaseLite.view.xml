@@ -177,8 +177,8 @@
 							<t:Column width="23%">
 								<Label text="ITEM CODE" required="true"/>
 								<t:template>
-									<Input id="idItemCode" valueState="{PurchaseLiteModel>sItemCode}" valueStateText="Invalid Item code" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" liveChange="onBlankValid" change="onCalculation" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
-										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:true}" maxSuggestionWidth="auto">
+									<Input id="idItemCode" valueState="{PurchaseLiteModel>sItemCode}" valueStateText="Invalid Item code" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onCalculation" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:true}" maxSuggestionWidth="auto" autocomplete="false">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
 										</suggestionItems>
