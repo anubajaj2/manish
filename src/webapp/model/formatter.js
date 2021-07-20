@@ -33,8 +33,8 @@ sap.ui.define([
   var mProdStateC = {
     "A": "greenClass",
     "N": "orangeClass",
-    "R":"redClass",
-    "D":"pinkClass"
+    "R": "redClass",
+    "D": "pinkClass"
   };
   var formatter = {
     /**
@@ -87,13 +87,14 @@ sap.ui.define([
       }
       return false;
     },
-    calculateBhav: function(netWeight, amount, tunch, wastage, karat, customCalculations) {
-      var totalAmount = (amount + (netWeight * (tunch + wastage) * (karat === "222" ? customCalculations.Gold : customCalculations.Gold) / 100));
+    calculateBhav: function(netWeight, amount, tunch, wastage, karat, pcs, moreAmount, customCalculations) {
+      var fineGold = parseFloat((netWeight * (tunch + wastage) / 100).toFixed(3));
+      var totalAmount = amount + (fineGold * customCalculations.Gold) + (pcs * moreAmount);
       // var oCurrencyFormat = NumberFormat.getCurrencyInstance();
       // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
       return totalAmount.toFixed(2) + " INR";
     },
-    calculateFineGold: function(netWeight, amount, tunch, wastage, karat) {
+    calculateFineGold: function(netWeight, tunch, wastage) {
       var fineGold = netWeight * (tunch + wastage) / 100;
       // var oCurrencyFormat = NumberFormat.getCurrencyInstance();
       // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");

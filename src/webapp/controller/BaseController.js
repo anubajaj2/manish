@@ -103,18 +103,18 @@ sap.ui.define([
       // this._oPopover.focus();
     },
 
-    onPressAbout:function(){
+    onPressAbout: function() {
       var that = this;
-			if (!that.About) {
-				that.About = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.About", that);
-				that.getView().addDependent(that.About);
-			}
+      if (!that.About) {
+        that.About = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.About", that);
+        that.getView().addDependent(that.About);
+      }
 
 
-			that.About.open();
+      that.About.open();
     },
 
-    onCloseAbout:function(){
+    onCloseAbout: function() {
       this.About.close();
     },
     onOrders: function(oEvent) {
@@ -505,8 +505,8 @@ sap.ui.define([
       var totalGm = 0;
       var customCalculation = this.getModel("local").getProperty("/CustomCalculations");
       for (var i = 0; i < allItems.length; i++) {
-        totalGm += (allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) / 100);
-        totalAmount += (allItems[i].Amount + allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) * (allItems[i].Karat === "222" ? customCalculation.Gold : customCalculation.Gold) / 100);
+        totalGm += parseFloat(((allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) / 100).toFixed(3)));
+        totalAmount += (allItems[i].Amount + (allItems[i].Piece * allItems[i].MoreAmount) + (parseFloat(((allItems[i].NetWeight * (allItems[i].Tunch + allItems[i].Wastage) / 100).toFixed(3))) * customCalculation.Gold));
       }
       this.getModel("local").setProperty("/fineGm", totalGm.toFixed(3));
       this.getModel("local").setProperty("/fineRs", totalAmount.toFixed(2));

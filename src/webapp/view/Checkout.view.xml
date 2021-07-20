@@ -29,7 +29,7 @@
                       </HBox>
                       <HBox class="sapUiLargeMargin">
                         <VBox>
-                          <Text text="{local>NetWeight} g X ({local>Tunch}+{local>Wastage}) T =  {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat'], formatter: '.formatter.calculateFineGold'}" class="sapUiSmallMarginTop"/>
+                          <Text text="{local>NetWeight} g X ({local>Tunch}+{local>Wastage}) T =  {parts:['local>NetWeight','local>Tunch','local>Wastage'], formatter: '.formatter.calculateFineGold'}" class="sapUiSmallMarginTop"/>
                           <Text text="Stone/Kundan: {local>Piece} X {local>MoreAmount} = {=${local>Piece}*${local>MoreAmount}} INR" class="sapUiSmallMarginTop"/>
                         </VBox>
                       </HBox>
@@ -41,7 +41,7 @@
                         </VBox>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
-                        <Text text="Total Amount: {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
+                        <Text text="Total Amount: {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>Piece','local>MoreAmount','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
                       </HBox>
                     </HBox>
                   </CustomListItem>
