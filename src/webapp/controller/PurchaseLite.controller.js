@@ -959,7 +959,7 @@ sap.ui.define([
 			for (var i = 1; i < 11; i++) {
 				reportExcel.push({
 					ItemCode: 100 + i,
-					TagNo: "T-" + i,
+					TagNo: "A-" + i,
 					GWt: i * 10,
 					Amount: (i * 10) + (i * 5),
 					PCS: i,
@@ -987,7 +987,8 @@ sap.ui.define([
 		onSuggestionItemSelected: function (oEvent) {
 			debugger;
 			var sPath = oEvent.getSource().getParent().getRowBindingContext().getPath();
-			this.getView().getModel("PurchaseLiteModel").setProperty(sPath, oEvent.getSource().getSelectedKey());
+			this.getView().getModel("PurchaseLiteModel").setProperty(sPath+"/ItemCode", oEvent.getSource().getSelectedKey());
+			this.getView().byId("PurchaseLiteTable").getModel("PurchaseLiteModel").refresh();
 		},
 		_createExcelColumns: function () {
 			return [
