@@ -184,8 +184,8 @@ sap.ui.define([
               sap.ui.core.BusyIndicator.hide();
               return;
             }
-            if(payload[i].GWt==="0"||payload[i].GWt===0||payload[i].Tunch==="0"){
-              MessageToast.show("GWt should not be zero");
+            if(payload[i].GWt==="0"||payload[i].GWt===0||payload[i].Tunch==="0"||!payload[i].Tunch||!payload[i].GWt){
+              MessageToast.show("GWt,Tunch should not be zero/blank");
               oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
               sap.ui.core.BusyIndicator.hide();
               return;
