@@ -186,6 +186,8 @@ sap.ui.define([
         cartItem.PairSize = allSelectedWeights[i].PairSize;
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
+        cartItem.MoreAmount = allSelectedWeights[i].MoreAmount;
+        cartItem.Piece = allSelectedWeights[i].Piece;
         cartItem.WeightId = allSelectedWeights[i].id;
         // this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] = oBtn;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));
@@ -442,7 +444,12 @@ sap.ui.define([
           this._oPopover.openBy(oButton);
         }.bind(this));
       } else {
-        this._oPopover.bindElement(sPath);
+        this._oPopover.bindElement({
+          path: sPath,
+          parameters: {
+            expand: "ToCategory"
+          }
+        });
         this._oPopover.openBy(oButton);
       }
     },

@@ -181,6 +181,8 @@ sap.ui.define([
         cartItem.PairSize = allSelectedWeights[i].PairSize;
         cartItem.NetWeight = allSelectedWeights[i].NetWeight;
         cartItem.Amount = allSelectedWeights[i].Amount;
+        cartItem.MoreAmount = allSelectedWeights[i].MoreAmount;
+        cartItem.Piece = allSelectedWeights[i].Piece;
         cartItem.WeightId = allSelectedWeights[i].id;
         // this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[cartItem.ProductId] ;
         cartItems.push(JSON.parse(JSON.stringify(cartItem)));

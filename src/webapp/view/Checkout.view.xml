@@ -28,13 +28,20 @@
                         <Image width="220px" height="140px" src="{local>PictureUrl/sUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
-                        <Text text="{local>NetWeight} g X ({local>Tunch}+{local>Wastage}) T =  {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat'], formatter: '.formatter.calculateFineGold'}" class="sapUiSmallMarginTop"/>
+                        <VBox>
+                          <Text text="{local>NetWeight} g X ({local>Tunch}+{local>Wastage}) T =  {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat'], formatter: '.formatter.calculateFineGold'}" class="sapUiSmallMarginTop"/>
+                          <Text text="Stone/Kundan: {local>Piece} X {local>MoreAmount} = {=${local>Piece}*${local>MoreAmount}} INR" class="sapUiSmallMarginTop"/>
+                        </VBox>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
-                        <Text text="Amount: {local>Amount} INR" class="sapUiSmallMarginTop"/>
+                        <VBox>
+                          <Text text="Amount: {local>Amount} INR" class="sapUiSmallMarginTop"/>
+                          <Text text="Type: {local>Karat}" class="sapUiSmallMarginTop"/>
+                          <Text text="Size: {local>PairSize}" class="sapUiSmallMarginTop"/>
+                        </VBox>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
-                        <Text text="{parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
+                        <Text text="Total Amount: {parts:['local>NetWeight','local>Amount','local>Tunch','local>Wastage','local>Karat','local>/CustomCalculations'], formatter: '.formatter.calculateBhav'}" class="sapUiSmallMarginTop"/>
                       </HBox>
                     </HBox>
                   </CustomListItem>
@@ -45,8 +52,8 @@
                   <Text text="Total:"/>
                 </contentLeft>
                 <contentRight>
-                  <Text text="{local>/fineGm} g"/>
-                  <Text text="{path:'local>/fineRs', formatter:'.formatter.getIndianCurr'} INR"/>
+                  <Text text="Gold: {local>/fineGm} g"/>
+                  <Text text="Amount: {path:'local>/fineRs', formatter:'.formatter.getIndianCurr'} INR"/>
                 </contentRight>
               </Bar>
             </WizardStep>
