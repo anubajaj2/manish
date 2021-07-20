@@ -30,7 +30,7 @@
 						</l:BlockLayoutCell>
 						<l:BlockLayoutCell>
 							<VBox alignItems="Center">
-								<Label design="Bold" text="Tick Mark"  textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
+								<Label design="Bold" text="Rate"  textAlign="Center" class="sapUiSmallMarginTop" required="true"/>
 								<HBox>
 									<!-- <Button text="FIX*" class="sapUiSmallMarginEnd" press="onFixPress"></Button> -->
 									<Input id="idFixInput" type="Number" enabled="{PurchaseLiteModel>/visible}" value="0" change="onFixChange" class="sapUiSmallMarginEnd"></Input>
