@@ -213,6 +213,15 @@
                   "Preferences"
                 ]
               },
+
+              {
+                "pattern": "OrderItems/{id}",
+                "name": "OrderItems",
+                "target": [
+                  "AdminHome",
+                  "OrderItems"
+                ]
+              },
               {
                 "pattern": "Customizing",
                 "name": "Customizing",
@@ -223,6 +232,7 @@
               }
             ]
           },
+
           {
             "pattern": "ManuHome",
             "name": "ManuHome",
@@ -590,7 +600,17 @@
           "controlAggregation": "midColumnPages",
           "viewLevel": 3,
           "viewId": "Customizing"
+        },
+
+        "OrderItems": {
+          "viewName": "OrderItems",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "OrderItems"
+
         }
+
 
       }
     }

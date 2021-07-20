@@ -1,26 +1,27 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.OrderStatus" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
-	<Page id="page" title="Manage Order Status" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+	<Page id="page" title="Manage Order Status" backgroundDesign="Solid" showNavButton="false" navButtonPress="onBack">
 		<headerContent>
 			<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/>
 			<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+
 		</headerContent>
 		<IconTabBar id="idIconTabBar" select="onFilterSelect" class="sapUiResponsiveContentPadding">
 			<items>
 				<!-- <IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Products" key="All"/> -->
 				<IconTabSeparator/>
-				<IconTabFilter icon="sap-icon://begin" iconColor="Positive" count="" text="All Orders" key="allOrder"/>
-				<IconTabFilter icon="sap-icon://add-document" iconColor="Critical" count="" text="New Orders" key="NewOrders"/>
-				<IconTabFilter icon="sap-icon://shipping-status" iconColor="Marker" count="" text="Delivered Orders" key="DeliveredOrders"/>
-				<IconTabFilter icon="sap-icon://approvals" iconColor="Positive" count="" text="Approval Orders" key="ApprovalOrders"/>
-				<IconTabFilter icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected Orders"
+				<IconTabFilter id="idBegin" icon="sap-icon://begin" iconColor="Positive" count="{local>/list/OrderHeader/OrderStatus}" text="All Orders" key="allOrder"/>
+				<IconTabFilter id="idNewOrders" icon="sap-icon://add-document" iconColor="Critical" count="" text="New" key="NewOrders"/>
+				<IconTabFilter id= "idDeliveredOrders" icon="sap-icon://shipping-status" iconColor="Marker" count="" text="Delivered" key="DeliveredOrders"/>
+				<IconTabFilter id="idApprovalOrders" icon="sap-icon://approvals" iconColor="Positive" count="" text="Approval" key="ApprovalOrders"/>
+				<IconTabFilter id="idRejected" icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected"
 					key="RejectedOrders"/>
 			</items>
 			<content>
-				<List id="idListOS" items="{local>/list/OrderHeader}" mode="MultiSelect" includeItemInSelection="true" itemPress="onItemPress">
+				<List id="idListOS" items="{local>/list/OrderHeader}" mode="MultiSelect" includeItemInSelection="false">
 					<ObjectListItem title="{local>CustomerCode} - {local>CustomerName}"
-						number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR">
+						number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" type="Navigation" navigated="true" press="onNextItem">
 						<attributes>
 							<ObjectAttribute text="Order No. : {local>OrderNo}" visible="true"/>
 							<ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>

@@ -3,8 +3,16 @@
 	<Page id="page" title="Manage Product Approvals" backgroundDesign="Solid" showNavButton="true"
 	navButtonPress="onBack">
 	<headerContent>
-		<CheckBox
+		<Label text="Category"/>
+		<ComboBox id="idCategory" items="{/Categories}" showSecondaryValues="true" selectedKey="{local>/Product/Category}" change="onCat">
+			<items>
+				<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
+				<!-- <core:Item text="{Category} {Type}" key="{ItemCode}"/> -->
+			</items>
+		</ComboBox>
 
+
+		<CheckBox
 			text="Select / deselect all"
 			id="idSelected"
 			selected=""
