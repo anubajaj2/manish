@@ -513,7 +513,22 @@ sap.ui.define([
         }
       }
     },
-
+    getCategoryName2: function(ItemCode) {
+      var oCategory = this.getOwnerComponent().getModel("local").getProperty("/Categories");
+      for (var i = 0; i < oCategory.length; i++) {
+        if (oCategory[i].ItemCode.toString() === ItemCode) {
+          return oCategory[i].Category;
+        }
+      }
+    },
+    getCategoryType: function(ItemCode) {
+      var oCategory = this.getOwnerComponent().getModel("local").getProperty("/Categories");
+      for (var i = 0; i < oCategory.length; i++) {
+        if (oCategory[i].ItemCode.toString() === ItemCode) {
+          return oCategory[i].Type;
+        }
+      }
+    },
     getCategoryName: function(ItemCode) {
       debugger;
       var oCategory = sap.ui.getCore().byId("__component0---idMaker").getModel("categories").getData().results;

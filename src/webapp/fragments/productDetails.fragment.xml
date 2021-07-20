@@ -33,7 +33,7 @@
 						<Label text="Pair Type"/>
 						<Text text="{PairType}"/>
 						<Label text="Category"/>
-						<Text text="{ToCategory/Category}"/>
+						<Text text="{path:'Category',formatter:'.formatter.getCategoryName2'}"/>
 						<Label text="Sub Category"/>
 						<Text text="{SubCategory}"/>
 						<core:Title text=""/>
@@ -42,7 +42,7 @@
 						<Label text="Karat"/>
 						<Text text="{Karat}"/>
 						<Label text="Category Type"/>
-						<Text text="{ToCategory/Type}"/>
+						<Text text="{path:'Category',formatter:'.formatter.getCategoryType'}"/>
 						<Label text="Tunch"/>
 						<Text text="{Tunch}"/>
 						<Label text="Wastage"/>

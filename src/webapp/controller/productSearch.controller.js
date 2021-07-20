@@ -445,10 +445,7 @@ sap.ui.define([
         }.bind(this));
       } else {
         this._oPopover.bindElement({
-          path: sPath,
-          parameters: {
-            expand: "ToCategory"
-          }
+          path: sPath
         });
         this._oPopover.openBy(oButton);
       }
