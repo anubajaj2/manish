@@ -24,9 +24,10 @@
 					<Label text="Remarks"/>
 					<Input id="idPName" value="{local>/Product/Name}" submit="onEnterRemark"/>
 					<Label text="Category"/>
-					<ComboBox id="idCat" items="{/Categories}" selectedKey="{local>/Product/Category}" change="onCat">
+					<ComboBox id="idCat" items="{/Categories}" showSecondaryValues="true" selectedKey="{local>/Product/Category}" change="onCat">
 						<items>
-							<core:Item text="{Category} {Type}" key="{ItemCode}"/>
+							<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
+							<!-- <core:Item text="{Category} {Type}" key="{ItemCode}"/> -->
 						</items>
 					</ComboBox>
 					<Label text="SubCategory"/>
@@ -64,7 +65,7 @@
 					<Label visible="false" text="Short Description"/>
 					<Input visible="false" id="idSD" value="{local>/Product/ShortDescription}" maxLength="60" submit="onSD"/>
 					<!-- <core:Title text=" " /> -->
-					<Label visible="true" text="Kt/Gen"/>
+					<Label visible="true" text="Caret"/>
 					<Select visible="true" id="idKarat" selectedKey="{local>/Product/Karat}" change="onKarat">
 						<items>
 							<core:Item text="22 Caret" key="222"/>
@@ -88,17 +89,17 @@
 					<Input id="idWastage" value="{local>/Product/Wastage}" submit="onWastage"/>
 					<Label text="Making"/>
 					<Input id="idMkg" value="{local>/Product/Making}" submit="onMaking"/>
-					<Label text="Gross Wt."/>
+					<Label text="Gross Weight"/>
 					<Input id="idGrossWt"
 						value="{ path: 'local>/ProdWeights/0/GrossWeight', type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
 						name="GrossWeight" liveChange="onChange" submit="onGrossWt"></Input>
 					<!-- <Input id="idGrossWt" value="{local>/Product/Making}" submit="onGrossWt"/> -->
-					<Label text="LS Wt."/>
+					<Label text="Less Weight"/>
 					<Input id="idlswt" submit="onLsWt"
 						value="{path : 'local>/ProdWeights/0/LessWeight' , type: 'sap.ui.model.type.Float', formatOptions: { maxFractionDigits: 3 } }"
 						liveChange="onChange" showValueHelp="false" name="LessWeight" valueHelpRequest="onLessPopup" focus="onFocus" valueHelpOnly="false"></Input>
 					<!-- <Input id="idlswt" value="{local>/Product/Making}" submit="onLsWt"/> -->
-					<Label text="Net Wt."/>
+					<Label text="Net Weight"/>
 					<Input id="idnetwt" value="{path:'local>/ProdWeights/0/NetWeight',type: 'sap.ui.model.type.Float'}" submit="onNetWt"/>
 					<!-- <Input id="td4" value="{local>NetWeight}" class="highLightText" enabled="false"></Input> -->
 					<Label text="Fine"/>

@@ -280,6 +280,18 @@ sap.ui.define([
 			// 	var bhav=cCal.First;
 			// }
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
+			// if (!oModel.ItemCode) {
+			// 	oModel.sItemCode = "Error";
+			// }
+			// else {
+			// 	oModel.sItemCode = "None";
+			// }
+			// if (!oModel.TagNo) {
+			// 	oModel.sTagNo = "Error";
+			// }
+			// else {
+			// 	oModel.sTagNo = "None";
+			// }
 			if (oModel.ItemCode && oModel.GWt) {
 				if (flag === 1) {
 					// sId=oEvent.getSource().getId();
@@ -298,7 +310,7 @@ sap.ui.define([
 				// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 
 				//item Code validation
-				if (this.ItemCodevalidator(oModel.ItemCode) === 1) {
+				if (!oModel.ItemCode||this.ItemCodevalidator(oModel.ItemCode) === 1) {
 					oModel.sItemCode = "Error";
 				}
 				else {
@@ -306,7 +318,7 @@ sap.ui.define([
 				}
 
 				//tag no. unique validation
-				if (await this.TagNoUnique(oModel.TagNo) === 1) {
+				if (!oModel.TagNo || await this.TagNoUnique(oModel.TagNo) === 1) {
 					oModel.sTagNo = "Error";
 				}
 				else {
@@ -341,7 +353,7 @@ sap.ui.define([
 					oModel.sAmount = "None"
 				}
 				//Tunch validation
-				if (parseFloat(oModel.Tunch) <= 0) {
+				if (!oModel.Tunch||parseFloat(oModel.Tunch) <= 0) {
 					oModel.sTunch = "Error"
 				}
 				else {
@@ -372,8 +384,20 @@ sap.ui.define([
 			this.getTotalItem();
 
 		},
+		onBlankValid:function(oEvent){
+			var val=oEvent.getSource().getValue();
+			if(!val|| val===""){
+				oEvent.getSource().setValueState("Error");
+			}
+			else{
+				oEvent.getSource().setValueState("None");
+			}
+		},
 		TagNoUnique: async function (value) {
 			var oFilter = [];
+			if(!value){
+				return 1;
+			}
 			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
 			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
 			var oFilter2 = new sap.ui.model.Filter("TagNo", sap.ui.model.FilterOperator.EQ, value.toUpperCase());
@@ -394,7 +418,7 @@ sap.ui.define([
 			var flag = 0;
 			var oCat = this.getView().getModel("local").getProperty("/Categories");
 			for (var i = 0; i < oCat.length; i++) {
-				if (oCat[i].ItemCode.toString() === value.toString()) {
+				if (oCat[i].ItemCode.toString() === value.toString() || oCat[i].ItemCode.toString()==="") {
 					flag = 1;
 					break;
 				}
@@ -619,6 +643,10 @@ sap.ui.define([
 							if (oIn) {
 								allData[j].SubCategory = oIn;
 							}
+							oIn = that.getView().byId("idStonePrice").getValue();
+							if (oIn) {
+								allData[j].MoreAmount = oIn;
+							}
 						}
 						else {
 							var oNew = {
@@ -666,6 +694,10 @@ sap.ui.define([
 							if (oIn) {
 								oNew.SubCategory = oIn;
 							}
+							oIn = that.getView().byId("idStonePrice").getValue();
+							if (oIn) {
+								oNew.MoreAmount = oIn;
+							}
 							allData.push(oNew);
 						}
 						j++;
@@ -706,6 +738,7 @@ sap.ui.define([
 					content: [
 						new FileUploader("PhotoMassUploader", {
 							fileType: "jpeg,jpg",
+							sameFilenameAllowed: true,
 							change: [this.onMassImageUpload, this],
 
 							multiple: true
@@ -743,6 +776,9 @@ sap.ui.define([
 								that.getView().byId("PurchaseLiteTable").getBinding("rows").refresh();
 								break;
 							}
+						}
+						if(that.photoCount!==0){
+						MessageToast.show(that.photoCount+"Photo Mapped in the system");
 						}
 					} catch (e) {
 
@@ -809,6 +845,11 @@ sap.ui.define([
 			if (oIn) {
 				oNew.SubCategory = oIn;
 			}
+
+			oIn = this.getView().byId("idStonePrice").getValue();
+			if (oIn) {
+				oNew.MoreAmount = oIn;
+			}
 			// idTypeStudded
 			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
 			var value = this.getView().getModel("PurchaseLiteModel").getProperty("/entry");
@@ -870,6 +911,8 @@ sap.ui.define([
 			// var that = this;
 			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
 			var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(sPath)));
+			value.Photo=[];
+			value.PhotoCheck=false;
 			var ssPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/");
 			sPath = parseInt(ssPath[ssPath.length - 1]);
 			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
@@ -935,7 +978,7 @@ sap.ui.define([
 			for (var i = 1; i < 11; i++) {
 				reportExcel.push({
 					ItemCode: 100 + i,
-					TagNo: "T-" + i,
+					TagNo: "A-" + i,
 					GWt: i * 10,
 					Amount: (i * 10) + (i * 5),
 					PCS: i,
@@ -963,7 +1006,8 @@ sap.ui.define([
 		onSuggestionItemSelected: function (oEvent) {
 			debugger;
 			var sPath = oEvent.getSource().getParent().getRowBindingContext().getPath();
-			this.getView().getModel("PurchaseLiteModel").setProperty(sPath, oEvent.getSource().getSelectedKey());
+			this.getView().getModel("PurchaseLiteModel").setProperty(sPath+"/ItemCode", oEvent.getSource().getSelectedKey());
+			this.getView().byId("PurchaseLiteTable").getModel("PurchaseLiteModel").refresh();
 		},
 		_createExcelColumns: function () {
 			return [

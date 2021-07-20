@@ -31,6 +31,7 @@ sap.ui.define([
 		},
 		setOrderStatus: function(orderHeader, that) {
 			debugger;
+			var that = this;
 			var i = 0;
 			var totalWeight = 0;
 			var totalAmount = 0;
@@ -94,8 +95,41 @@ sap.ui.define([
 			that.getView().byId('idListOS').refreshItems();
 			that.getView().byId('idListOS').removeSelections();
 			that.getView().setBusy(false);
+			var oData212 = this.getView().getModel("local").getProperty("/list/OrderHeader");
+			let bigData = [];
+			let bigData1 = [];
+			let bigData2 = [];
+			let bigData3 = [];
+			let bigData4 = [];
+			var bfff=oData212.length;
+			this.getView().byId("idBegin").setCount(bfff);
+				for (let i = 0; i < oData212.length; i++) {
+					if (oData212[i].OrderStatus === "D") {
+						bigData.push(oData212[i]);
+						var Data11 = bigData.length;
+        		this.getView().byId("idDeliveredOrders").setCount(Data11);
+					}
+					else if (oData212[i].OrderStatus === "N") {
+						bigData1.push(oData212[i]);
+						var Data111 = bigData1.length;
+        		this.getView().byId("idNewOrders").setCount(Data111);
+					}
+					else if (oData212[i].OrderStatus === "A") {
+						bigData2.push(oData212[i]);
+						var Data112 = bigData2.length;
+        		this.getView().byId("idApprovalOrders").setCount(Data112);
+					}
+					else if (oData212[i].OrderStatus === "R") {
+						bigData3.push(oData212[i]);
+						var Data113 = bigData3.length;
+        		this.getView().byId("idRejected").setCount(Data113);
+					}
+					
+				}
+
 		},
 		loadProdWeights: function(orderHeader, that) {
+			// debugger;
 			var oFilters = [];
 			orderHeader.get("Weight").forEach((item, key) => {
 				oFilters.push(new sap.ui.model.Filter("id", "EQ", "'" + key + "'"));
@@ -117,6 +151,8 @@ sap.ui.define([
 					that.getView().setBusy(false);
 					MessageToast.show("Cannot fetch Order Status please Refresh");
 				});
+
+
 		},
 		loadProducts: function(orderHeader, that) {
 			var oFilters = [];
@@ -671,18 +707,19 @@ sap.ui.define([
 				if (sKey === "allOrder") {
 					// oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "");
           oFilter1 = [];
-
-
+					this.getView().byId("idDel").setVisible(true);
 				} else if (sKey === "NewOrders") {
 					oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, 'N');
-
-
-				} else if (sKey === "ApprovalOrders") {
+					this.getView().byId("idDel").setVisible(true);
+			} else if (sKey === "ApprovalOrders") {
 					oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "A");
+					this.getView().byId("idDel").setVisible(true);
 				} else if (sKey === "RejectedOrders") {
 					oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "R");
+					this.getView().byId("idDel").setVisible(true);
 				} else if (sKey === "DeliveredOrders") {
 					oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "D");
+					this.getView().byId("idDel").setVisible(false);
 				}
 
 				aFilters.push(oFilter1);
@@ -713,41 +750,41 @@ sap.ui.define([
     });
         // this.oRouter.navTo("OrderItems");
         // MessageToast.show("Cannot fetch Order Status please Refresh");
-      }
+      },
 
 
       // onBack:function(){
       //   this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       //   this.oRouter.navTo("OrderStatus");
       // }
-			// onFilterOrderStatus: function(oEvent) {
-			// 	debugger;
-			// 	this.Popup = null;
-			// 	if (this.Popup === null) {
-			// 		this.Popup = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.popup", this);
-			// 		this.Popup.bindAggregation("items", {
-			// 			path: '/OrderHeaders',
-			// 			template: new sap.m.DisplayListItem({
-			// 				label: "{OrderNo}"
-			// 					//value:"{City}"
-			// 			})
-			// 		});
-			// 		this.getView().addDependent(this.Popup);
-			// 		this.Popup.setTitle("Order No");
-			// 	}
-			// 	this.Popup.open();
-			// 	// build filter array
-			// 	var aFilter = [];
-			// 	var sQuery = oEvent.getParameter("query");
-			// 	if (sQuery) {
-			// 		aFilter.push(new sap.ui.model.Filter("OrderNo", FilterOperator.Contains, sQuery));
-			// 	}
-			//
-			// 	// filter binding
-			// 	var oList = this.getView().byId("idListOS");
-			// 	var oBinding = oList.getBinding("items");
-			// 	oBinding.filter(aFilter);
-			// },
+			onFilterOrderStatus: function(oEvent) {
+				debugger;
+				this.Popup = null;
+				if (this.Popup === null) {
+					this.Popup = new sap.ui.xmlfragment("sap.ui.demo.cart.fragments.popup", this);
+					this.Popup.bindAggregation("items", {
+						path: '/OrderHeaders',
+						template: new sap.m.DisplayListItem({
+							label: "{OrderNo}"
+								//value:"{City}"
+						})
+					});
+					this.getView().addDependent(this.Popup);
+					this.Popup.setTitle("Order No");
+				}
+				this.Popup.open();
+				// build filter array
+				var aFilter = [];
+				var sQuery = oEvent.getParameter("query");
+				if (sQuery) {
+					aFilter.push(new sap.ui.model.Filter("OrderNo", FilterOperator.Contains, sQuery));
+				}
+
+				// filter binding
+				var oList = this.getView().byId("idListOS");
+				var oBinding = oList.getBinding("items");
+				oBinding.filter(aFilter);
+			},
 			// onConfirm: function(oEvent) {
 			// 	debugger;
 			// 	if (oEvent.getSource().getTitle() === "Order No") {

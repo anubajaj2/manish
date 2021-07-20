@@ -1,0 +1,31 @@
+<mvc:View
+	controllerName="sap.ui.demo.cart.controller.OrderItems"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page id="page" title="Order Items" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<content>
+      <List id="idListOS" items="{local>/list/OrderItems}" mode="MultiSelect" includeItemInSelection="false">
+        <ObjectListItem title="{local>Status} - {local>CustomerName}"
+          number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" type="Navigation" navigated="true" press="onNextItem">
+          <attributes>
+            <ObjectAttribute text="Order No. : {local>CreatedOn}" visible="true"/>
+            <ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>
+          </attributes>
+          <firstStatus>
+            <ObjectStatus text="Total Weight : {local>Status}"/>
+              <ObjectStatus text="Total Weight : {local>Qty}"/>
+          </firstStatus>
+          <secondStatus>
+            <ObjectStatus text="{ path: 'local>OrderStatus', formatter: '.formatter.prodText' }"
+              state="{ path: 'local>OrderStatus', formatter: '.formatter.prodState' }"/>
+          </secondStatus>
+        </ObjectListItem>
+      </List>
+		</content>
+	</Page>
+</mvc:View>

@@ -184,6 +184,18 @@ sap.ui.define([
               sap.ui.core.BusyIndicator.hide();
               return;
             }
+            if(payload[i].GWt==="0"||payload[i].GWt===0||payload[i].Tunch==="0"||!payload[i].Tunch||!payload[i].GWt){
+              MessageToast.show("GWt,Tunch should not be zero/blank");
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              return;
+            }
+            if(payload[i].ItemCode===""){
+              MessageToast.show("Please enter Item code");
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              return;
+            }
           }
 
           for (var i = 0; i < pCount; i++) {
