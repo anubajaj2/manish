@@ -645,7 +645,7 @@ sap.ui.define([
 							}
 							oIn = that.getView().byId("idStonePrice").getValue();
 							if (oIn) {
-								oNew.MoreAmount = oIn;
+								allData[j].MoreAmount = oIn;
 							}
 						}
 						else {
@@ -693,6 +693,10 @@ sap.ui.define([
 							oIn = that.getView().byId("idPurchaseStyle").getSelectedKey();
 							if (oIn) {
 								oNew.SubCategory = oIn;
+							}
+							oIn = that.getView().byId("idStonePrice").getValue();
+							if (oIn) {
+								oNew.MoreAmount = oIn;
 							}
 							allData.push(oNew);
 						}
