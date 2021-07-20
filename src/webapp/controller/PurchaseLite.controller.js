@@ -353,7 +353,7 @@ sap.ui.define([
 					oModel.sAmount = "None"
 				}
 				//Tunch validation
-				if (parseFloat(oModel.Tunch) <= 0) {
+				if (!oModel.Tunch||parseFloat(oModel.Tunch) <= 0) {
 					oModel.sTunch = "Error"
 				}
 				else {
@@ -903,6 +903,8 @@ sap.ui.define([
 			// var that = this;
 			var sPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
 			var value = JSON.parse(JSON.stringify(this.getView().getModel("PurchaseLiteModel").getProperty(sPath)));
+			value.Photo=[];
+			value.PhotoCheck=false;
 			var ssPath = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath().split("/");
 			sPath = parseInt(ssPath[ssPath.length - 1]);
 			var data = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite");
