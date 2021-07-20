@@ -280,6 +280,18 @@ sap.ui.define([
 			// 	var bhav=cCal.First;
 			// }
 			var oModel = this.getView().getModel("PurchaseLiteModel").getProperty("/PurchaseLite/" + rowNo);
+			// if (!oModel.ItemCode) {
+			// 	oModel.sItemCode = "Error";
+			// }
+			// else {
+			// 	oModel.sItemCode = "None";
+			// }
+			// if (!oModel.TagNo) {
+			// 	oModel.sTagNo = "Error";
+			// }
+			// else {
+			// 	oModel.sTagNo = "None";
+			// }
 			if (oModel.ItemCode && oModel.GWt) {
 				if (flag === 1) {
 					// sId=oEvent.getSource().getId();
@@ -298,7 +310,7 @@ sap.ui.define([
 				// oModel.SubTotal=((parseFloat(oModel.FineGold)*parseFloat(bhav))+parseFloat(oModel.Amount)).toFixed(3);
 
 				//item Code validation
-				if (this.ItemCodevalidator(oModel.ItemCode) === 1) {
+				if (!oModel.ItemCode||this.ItemCodevalidator(oModel.ItemCode) === 1) {
 					oModel.sItemCode = "Error";
 				}
 				else {
@@ -306,7 +318,7 @@ sap.ui.define([
 				}
 
 				//tag no. unique validation
-				if (await this.TagNoUnique(oModel.TagNo) === 1) {
+				if (!oModel.TagNo || await this.TagNoUnique(oModel.TagNo) === 1) {
 					oModel.sTagNo = "Error";
 				}
 				else {
@@ -372,8 +384,20 @@ sap.ui.define([
 			this.getTotalItem();
 
 		},
+		onBlankValid:function(oEvent){
+			var val=oEvent.getSource().getValue();
+			if(!val|| val===""){
+				oEvent.getSource().setValueState("Error");
+			}
+			else{
+				oEvent.getSource().setValueState("None");
+			}
+		},
 		TagNoUnique: async function (value) {
 			var oFilter = [];
+			if(!value){
+				return 1;
+			}
 			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
 			var oFilter1 = new sap.ui.model.Filter("CreatedBy", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
 			var oFilter2 = new sap.ui.model.Filter("TagNo", sap.ui.model.FilterOperator.EQ, value.toUpperCase());
@@ -394,7 +418,7 @@ sap.ui.define([
 			var flag = 0;
 			var oCat = this.getView().getModel("local").getProperty("/Categories");
 			for (var i = 0; i < oCat.length; i++) {
-				if (oCat[i].ItemCode.toString() === value.toString()) {
+				if (oCat[i].ItemCode.toString() === value.toString() || oCat[i].ItemCode.toString()==="") {
 					flag = 1;
 					break;
 				}

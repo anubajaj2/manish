@@ -177,7 +177,7 @@
 							<t:Column width="23%">
 								<Label text="ITEM CODE" required="true"/>
 								<t:template>
-									<Input id="idItemCode" valueState="{PurchaseLiteModel>sItemCode}" valueStateText="Invalid Item code" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onCalculation" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
+									<Input id="idItemCode" valueState="{PurchaseLiteModel>sItemCode}" valueStateText="Invalid Item code" editable="{PurchaseLiteModel>/visible}" startSuggestion="0" liveChange="onBlankValid" change="onCalculation" value="{path: 'PurchaseLiteModel>ItemCode', formatter:'.formatter.getCategoryName'}" submit="onEnter" showSuggestion="true"
 										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:true}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
@@ -195,7 +195,7 @@
 							<t:Column width="20%">
 								<Label text="TAG NO"/>
 								<t:template>
-									<Input id="idTagNo" valueState="{PurchaseLiteModel>sTagNo}" valueStateText="Tag No is already exist" value="{PurchaseLiteModel>TagNo}" editable="{PurchaseLiteModel>/visible}" change="onCalculation" submit="onEnter"/>
+									<Input id="idTagNo" valueState="{PurchaseLiteModel>sTagNo}" valueStateText="Tag No is already exist" value="{PurchaseLiteModel>TagNo}" editable="{PurchaseLiteModel>/visible}" change="onCalculation" liveChange="onBlankValid" submit="onEnter"/>
 								</t:template>
 							</t:Column>
 							<t:Column width="20%">
