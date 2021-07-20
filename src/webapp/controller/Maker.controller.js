@@ -190,6 +190,12 @@ sap.ui.define([
               sap.ui.core.BusyIndicator.hide();
               return;
             }
+            if(payload[i].ItemCode===""){
+              MessageToast.show("Please enter Item code");
+              oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
+              sap.ui.core.BusyIndicator.hide();
+              return;
+            }
           }
 
           for (var i = 0; i < pCount; i++) {
