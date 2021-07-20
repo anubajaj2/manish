@@ -738,6 +738,7 @@ sap.ui.define([
 					content: [
 						new FileUploader("PhotoMassUploader", {
 							fileType: "jpeg,jpg",
+							sameFilenameAllowed: true,
 							change: [this.onMassImageUpload, this],
 
 							multiple: true
