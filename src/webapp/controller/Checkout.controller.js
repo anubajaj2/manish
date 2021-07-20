@@ -244,7 +244,7 @@ sap.ui.define([
         " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0, 24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
-      var orderNo = customer.CustomerCode + "-" + date.getFullYear() + "" + (date.getMonth() + 1) + "-" + that._oLocalModel.getProperty("/lastOrder/OrderNo");
+      var orderNo = customer.CustomerCode + "-" + date.getFullYear() + "" + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + "-" + that._oLocalModel.getProperty("/lastOrder/OrderNo");
       that.orderNo = orderNo;
       html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + orderNo + " , Please check your email for more details</p>";
       that._oLocalModel.setProperty("/OrderSummaryHTML", html);
@@ -375,7 +375,7 @@ sap.ui.define([
       oNavContainer.to(this.byId("wizardContentPage"));
     },
     onDownloadInvoice: function() {
-
+      var customer = this._oLocalModel.getProperty("/CustomerData");
       // var country = this.getCountryNameFromCode(Country);
       var cartItems = this._oLocalModel.getProperty("/invoiceData"),
         invoiceItems = [],
@@ -905,7 +905,7 @@ sap.ui.define([
 
           const downloadLink = document.createElement('a');
           downloadLink.href = url;
-          downloadLink.download = "invoiceNo" + "_" + "Country" + "_" + invoice.shipping.name;
+          downloadLink.download = customer.Name + "_" + that.orderNo;
           downloadLink.click();
         });
       }
