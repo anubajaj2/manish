@@ -776,6 +776,9 @@ sap.ui.define([
 								break;
 							}
 						}
+						if(that.photoCount!==0){
+						MessageToast.show(that.photoCount+"Photo Mapped in the system");
+						}
 					} catch (e) {
 
 					}
