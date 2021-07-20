@@ -643,6 +643,10 @@ sap.ui.define([
 							if (oIn) {
 								allData[j].SubCategory = oIn;
 							}
+							oIn = that.getView().byId("idStonePrice").getValue();
+							if (oIn) {
+								oNew.MoreAmount = oIn;
+							}
 						}
 						else {
 							var oNew = {
@@ -832,6 +836,11 @@ sap.ui.define([
 			oIn = this.getView().byId("idPurchaseStyle").getSelectedKey();
 			if (oIn) {
 				oNew.SubCategory = oIn;
+			}
+
+			oIn = this.getView().byId("idStonePrice").getValue();
+			if (oIn) {
+				oNew.MoreAmount = oIn;
 			}
 			// idTypeStudded
 			// this.getView().getModel("PurchaseLiteModel").setProperty("/entry", oNew);
