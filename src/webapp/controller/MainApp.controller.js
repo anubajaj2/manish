@@ -69,7 +69,7 @@ sap.ui.define([
 				"password": this.getView().byId("pwd").getValue(),
 			};
 			var that = this;
-			that.getView().setBusy(true);
+			// that.getView().setBusy(true);
 			if(!loginPayload.email || !loginPayload.password){
 				sap.m.MessageBox.error("User/password cannot be empty");
 				return; //--- Added - Swaroop
@@ -211,6 +211,7 @@ sap.ui.define([
 						 								filters: [Filter1]
 						 							}, {}, that2)
 													.then(function(oData) {
+														debugger;
 														that2.getView().setBusy(false);
 														that3.getView().getModel("local").setProperty("/ManufacturerData",oData.results[0]);
 														if(that3.getView().getModel("local").getProperty("/ManufacturerData/Status")==="U"){

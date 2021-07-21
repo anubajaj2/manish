@@ -39,8 +39,8 @@
 						<Label text="Contact" required="true"/>
 						<Input id="idContact" type="Number" value="{local>/Manufacturer/MobilePhone}" submit="onContEnt"/>
 						<Label text="Group"/>
-						<MultiComboBox id="idgpCode" selectedKeys="{local>/Manufacturer/Groups}" items="{groupModelCode>/results}" selectionFinish="onSelectionFinish">
-							<core:Item key="{groupModelCode>id}" text="{groupModelCode>groupCode}"/>
+						<MultiComboBox id="idgpCode" selectedKeys="{local>/Manufacturer/Groups}" items="{groupModelInfo>/results}" selectionFinish="onSelectionFinish">
+							<core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupCode}"/>
 						</MultiComboBox>
 						<Label text="Display Categories"/>
 						<MultiComboBox id="idCatCode" selectedKeys="{local>/Manufacturer/Categories}" items="{local>/cat/subCatergory}" selectionFinish="onSelectionFinish1">

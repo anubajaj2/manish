@@ -9,11 +9,11 @@
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
-      <List id="idListOS" items="{local>/list/OrderItems}" mode="MultiSelect" includeItemInSelection="false">
+      <List id="idListOS" items="{local>/list/OrderHeader}" mode="MultiSelect" includeItemInSelection="false">
         <ObjectListItem title="{local>Status} - {local>CustomerName}"
           number="{ path: 'local>TotalAmount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" type="Navigation" navigated="true" press="onNextItem">
           <attributes>
-            <ObjectAttribute text="Order No. : {local>CreatedOn}" visible="true"/>
+            <ObjectAttribute text="Order No. : {local>OrderNo}" visible="true"/>
             <ObjectAttribute id="idOADate" text="{ path: 'local>OrderDate', formatter: '.formatter.dateAndTime' }"/>
           </attributes>
           <firstStatus>
