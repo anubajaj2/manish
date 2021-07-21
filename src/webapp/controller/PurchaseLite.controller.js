@@ -72,6 +72,15 @@ sap.ui.define([
 			// var oRouter = this.getRouter();
 			// oRouter.getRoute("Maker").attachMatched(this._onRouteMatched, this);
 		},
+		onAfterRendering: function() {
+	jQuery("input").on("keydown",
+		function(evt) {
+			if (evt.keyCode == 122 || evt.ctrlKey || evt.keyCode === 38 || evt.keyCode === 40) {
+				evt.preventDefault();
+				// sap.m.MessageToast.show('Alert');
+			}
+		});
+},
 		onMassItemCodeChange(oEvent) {
 			var value = oEvent.getSource().getValue().split(" ")[0];
 			var that = this;
@@ -527,7 +536,10 @@ sap.ui.define([
 				nextBox.focus();
 				nextBox.select();
 			}
+
+
 		},
+
 		// _onRouteMatched:function(){
 		// 	var Purc=[];
 		// 	debugger;
@@ -1137,7 +1149,7 @@ sap.ui.define([
 			this.getTotalItem();
 			MessageToast.show("Deleted Successfully");
 
-		},
+		}
 		// onMasterSave: function () {
 		// 	debugger;
 
