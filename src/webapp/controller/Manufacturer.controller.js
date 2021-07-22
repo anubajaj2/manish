@@ -33,6 +33,7 @@ sap.ui.define([
     _onRouteMatched: function(oEvent) {
       var that = this;
       this.getView().setBusy(true);
+      this.loadProductCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
       this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
       var viewModel = this.getView().getModel("viewModel");
       viewModel.setProperty("/codeEnabled", true);

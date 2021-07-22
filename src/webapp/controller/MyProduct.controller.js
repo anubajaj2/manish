@@ -64,7 +64,7 @@ sap.ui.define([
 
 			this.lastTwoDisplay();
 			//remove categories not set for Manufacturers
-			this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
+			this.loadProductCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
 			//pattern to set
 			if (this.getOwnerComponent().getModel('local').getProperty('/Authorization') === "") {
 				this.logOutApp();
