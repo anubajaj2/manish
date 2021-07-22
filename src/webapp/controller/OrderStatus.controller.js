@@ -759,6 +759,22 @@ sap.ui.define([
       },
 
 
+			onNextItem: function(oEvent){
+				debugger;
+				var selectedItem = oEvent.getSource();
+				var sPath = selectedItem.getBindingContextPath();
+				var sIndex1=this.getView().getModel("local").getProperty(sPath)
+				this.onNext(sIndex1.id);
+			},
+			onNext: function(Path){
+				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				this.oRouter.navTo("OrderItems",{
+					id: Path
+				});
+
+			},
+
+
       onBack1:function(){
         this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         this.oRouter.navTo("OrderStatus");
