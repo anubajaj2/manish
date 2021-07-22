@@ -41,6 +41,7 @@ sap.ui.define([
       if (!auth) {
         this.logOutApp();
       }
+      debugger;
       this.loadCategories(this.getView().getModel("local").getProperty("/ManufacturerData/Categories"));
       this.getView().setBusy(true);
       this.getView().getModel("local").setProperty("/sKeyType", 'PURCHASESLITE');
@@ -64,7 +65,7 @@ sap.ui.define([
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         "/Categories", "GET", {}, {}, this)
         .then(function (oData) {
-          
+
           that.getView().getModel("local").setProperty("/Categories",oData.results);
           that.getView().setBusy(false);
         }).catch(function (oError) {
@@ -81,7 +82,7 @@ sap.ui.define([
         }).catch(function (oError) {
           that.getView().setBusy(false);
           MessageToast.show("cannot fetch the data");
-        });  
+        });
 
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
         "/CustomCalculations", "GET", {}, {}, this)
@@ -141,7 +142,7 @@ sap.ui.define([
         MessageToast.show("Please enter the positive number or zero Tick Mark/Rate");
         return;
       }
-      
+
       if(!oPurchaseView.byId("idPurchaseStyle").getSelectedKey()){
         MessageToast.show("Please select the Style");
         return;
@@ -365,7 +366,7 @@ sap.ui.define([
       oPurchaseView.getModel("PurchaseLiteModel").setProperty("/titleTA", 0);
       oPurchaseView.getModel("PurchaseLiteModel").setProperty("/visible", true);
       var Purc = [];
-      // this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
+      this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
       debugger;
       var oNew = {
         ItemCode: "",

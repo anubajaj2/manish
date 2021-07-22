@@ -38,11 +38,11 @@
         <Input id="idContact" type="Number" value="{local>/Customer/MobilePhone}" submit="onContEnt"/>
         <Label text="Group"/>
         <MultiComboBox id="idgpCode"
-          items="{groupModelCode>/results}"
+          items="{groupModelInfo>/results}"
           selectedKeys="{local>/Customer/Groups}"
           selectionChange="onSelectionChange"
           selectionFinish="onSelectionFinish">
-          <core:Item key="{groupModelCode>id}" text="{groupModelCode>groupCode}" />
+          <core:Item key="{groupModelInfo>id}" text="{groupModelInfo>groupCode}" />
         </MultiComboBox>
         <Label text="Email"/>
         <Input id="idEmail" type="Email" change="checkEmail"

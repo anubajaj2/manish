@@ -101,8 +101,8 @@ sap.ui.define([
 			let bigData2 = [];
 			let bigData3 = [];
 			let bigData4 = [];
-			var bfff=oData212.length;
-			this.getView().byId("idBegin").setCount(bfff);
+			this.bfff=oData212.length;
+			this.getView().byId("idBegin").setCount(this.bfff);
 				for (let i = 0; i < oData212.length; i++) {
 					if (oData212[i].OrderStatus === "D") {
 						bigData.push(oData212[i]);
@@ -124,7 +124,7 @@ sap.ui.define([
 						var Data113 = bigData3.length;
         		this.getView().byId("idRejected").setCount(Data113);
 					}
-					
+
 				}
 
 		},
@@ -150,6 +150,8 @@ sap.ui.define([
 				.catch(function(oError) {
 					that.getView().setBusy(false);
 					MessageToast.show("Cannot fetch Order Status please Refresh");
+
+
 				});
 
 
@@ -176,6 +178,8 @@ sap.ui.define([
 				.catch(function(oError) {
 					that.getView().setBusy(false);
 					MessageToast.show("Cannot fetch Order Status please Refresh");
+
+
 				});
 		},
 		loadOrderItems: function(orderHeader, that) {
@@ -201,6 +205,7 @@ sap.ui.define([
 				})
 				.catch(function(oError) {
 					that.getView().setBusy(false);
+
 					MessageToast.show("Cannot fetch Order Status please Refresh");
 				});
 		},
@@ -259,6 +264,7 @@ sap.ui.define([
 				.catch(function(oError) {
 					that.getView().setBusy(false);
 					MessageToast.show("Cannot fetch Order Status please Refresh");
+
 				});
 
 		},
@@ -753,10 +759,26 @@ sap.ui.define([
       },
 
 
-      // onBack:function(){
-      //   this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      //   this.oRouter.navTo("OrderStatus");
-      // }
+			onNextItem: function(oEvent){
+				debugger;
+				var selectedItem = oEvent.getSource();
+				var sPath = selectedItem.getBindingContextPath();
+				var sIndex1=this.getView().getModel("local").getProperty(sPath)
+				this.onNext(sIndex1.id);
+			},
+			onNext: function(Path){
+				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				this.oRouter.navTo("OrderItems",{
+					id: Path
+				});
+
+			},
+
+
+      onBack1:function(){
+        this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        this.oRouter.navTo("OrderStatus");
+      },
 			onFilterOrderStatus: function(oEvent) {
 				debugger;
 				this.Popup = null;
