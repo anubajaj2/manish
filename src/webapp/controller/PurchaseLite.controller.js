@@ -274,6 +274,11 @@ sap.ui.define([
 			if (typeof (oEvent) === "object") {
 				rowNo = parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length - 1]);
 				var sId = oEvent.getSource().getId();
+				if(sId.includes("idItemCode")){
+					var value = oEvent.getSource().getValue().split(" ")[0];
+				// var row = parseInt(oEvent.getSource().getParent().getId().split("row")[oEvent.getSource().getParent().getId().split("row").length - 1]);
+				var oModel = this.getView().getModel("PurchaseLiteModel").setProperty("/PurchaseLite/" + rowNo + "/ItemCode", value);
+				}
 				if (sId.includes("idLessWT") || sId.includes("idNetWT")) {
 					flag = 1;
 				}
