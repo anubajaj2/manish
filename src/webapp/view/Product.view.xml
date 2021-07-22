@@ -22,7 +22,7 @@
 					<HBox>
 						<html:div id="img-container" class="sapUiLargeMarginBegin">
 							<!-- <Image id="prodImg1" width="650px" height="850px"/> -->
-							<anubhav:ImageHover id="prodImg1" mIn="onImageIn" mOut="onImageOut" height="550px" width="750px"></anubhav:ImageHover>
+							<anubhav:ImageHover id="prodImg1" mIn="onImageIn" mOut="onImageOut" src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}" height="550px" width="750px"></anubhav:ImageHover>
 						</html:div>
 					</HBox>
 					<!-- <Label/> -->
@@ -30,10 +30,9 @@
 						<!-- <Carousel height="200px" loop="true" showPageIndicator="false" pages=""> <customLayout> <CarouselLayout visiblePagesCount=""/> </customLayout> <pages> -->
 						<f:GridList class="sapUiLargeMarginBegin" items="{path: 'local>/ItemPics'}">
 							<f:items>
-								<f:GridListItem alignItems="Center">
+								<f:GridListItem>
 									<VBox>
-										<anubhav:ImageHover src="{local>ImageUrl}" width="100%" height="150px" press="onProductPic"></anubhav:ImageHover>
-										<!-- <Image width="100%" height="150px" src="{local>ImageUrl}"/> -->
+										<anubhav:ImageHover src="{path:'local>Content',formatter:'.formatter.getImageUrlFromContent'}" width="100%" height="150px" press="onProductPic"></anubhav:ImageHover>
 									</VBox>
 								</f:GridListItem>
 							</f:items>

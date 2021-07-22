@@ -35,27 +35,31 @@ sap.ui.define([
       //   this.getView().byId("idAddtoCartBtn").setText("Add to Cart");
       //   this.getView().byId("idAddtoCartBtn").setEnabled(true);
       // }
-      this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl)
-      var itemPics = [{
-        ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl
-      }];
-      if (this.allImageURLs[sPath + "/ToPhotos/1/Content"]) {
-        itemPics.push({
-          ImageUrl: this.allImageURLs[sPath + "/ToPhotos/1/Content"].sUrl
-        });
-      }
-      if (this.allImageURLs[sPath + "/ToPhotos/2/Content"]) {
-        itemPics.push({
-          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/2/Content"].sUrl
-        });
-      }
-      if (this.allImageURLs[sPath + "/ToPhotos/3/Content"]) {
-        itemPics.push({
-          "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/3/Content"].sUrl
-        });
-      }
-      this._oLocalModel.setProperty("/ItemPics", itemPics);
-      this._oLocalModel.setProperty("/ItemPicsCount", itemPics.length);
+
+
+      // this.getView().byId("prodImg1").setSrc(this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl)
+      // var itemPics = [{
+      //   ImageUrl: this.allImageURLs[sPath + "/ToPhotos/0/Content"].sUrl
+      // }];
+      // if (this.allImageURLs[sPath + "/ToPhotos/1/Content"]) {
+      //   itemPics.push({
+      //     ImageUrl: this.allImageURLs[sPath + "/ToPhotos/1/Content"].sUrl
+      //   });
+      // }
+      // if (this.allImageURLs[sPath + "/ToPhotos/2/Content"]) {
+      //   itemPics.push({
+      //     "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/2/Content"].sUrl
+      //   });
+      // }
+      // if (this.allImageURLs[sPath + "/ToPhotos/3/Content"]) {
+      //   itemPics.push({
+      //     "ImageUrl": this.allImageURLs[sPath + "/ToPhotos/3/Content"].sUrl
+      //   });
+      // }
+      // this._oLocalModel.setProperty("/ItemPics", itemPics);
+      // this._oLocalModel.setProperty("/ItemPicsCount", itemPics.length);
+
+
       // var productDetails = oDataModel.getProperty(sPath);
       var that = this;
       // this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
@@ -80,6 +84,8 @@ sap.ui.define([
             oView.setBusy(true);
           },
           dataReceived: function(data) {
+            that._oLocalModel.setProperty("/ItemPics", data.getParameter('data').ToPhotos);
+            that._oLocalModel.setProperty("/ItemPicsCount", data.getParameter('data').ToPhotos.length);
             oView.setBusy(false);
           }
         }

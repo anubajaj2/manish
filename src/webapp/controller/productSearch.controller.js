@@ -317,10 +317,10 @@ sap.ui.define([
       // }
     },
     onMore: function(oEvent) {
-      debugger;
+      // debugger;
       var oButton = oEvent.getSource(),
-        oView = this.getView(),
-        sPath = oButton.getParent().getBindingContext().getPath();
+        oView = this.getView();
+      this.onMoreBtnsPath = oButton.getParent().getBindingContext().getPath();
       // create popover
       if (!this._pPopover) {
         this._pPopover = Fragment.load({
@@ -333,9 +333,12 @@ sap.ui.define([
         });
       }
       this._pPopover.then(function(oPopover) {
-        oPopover.bindElement(sPath);
+        // oPopover.bindElement(sPath);
         oPopover.openBy(oButton);
       });
+    },
+    handleExpandPress: function(oEvent) {
+      this.onImageOpen(this.onMoreBtnsPath);
     },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");
@@ -380,8 +383,8 @@ sap.ui.define([
       var oBtn = oEvent.getSource().getParent().getParent().getContent()[2].getItems()[0];
       this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
     },
-    onImageOpen: function(oEvent) {
-      var sPath = oEvent.getSource().getParent().getBindingContext().getPath();
+    onImageOpen: function(sPath) {
+      // var sPath = oEvent.getSource().getParent().getBindingContext().getPath();
       var aImages = [];
       for (var i = 0; i < 5; i++) {
         var sImage = sPath + "/ToPhotos/" + i + "/Content";

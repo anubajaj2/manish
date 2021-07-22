@@ -242,8 +242,8 @@ sap.ui.define([
       this.getRouter().navTo("product", {
         key: sIndex
       });
-      var oBtn = oEvent.getSource().getParent().getParent().getContent()[2].getItems()[0];
-      this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
+      // var oBtn = oEvent.getSource().getParent().getParent().getContent()[2].getItems()[0];
+      // this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
     },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");
