@@ -2,7 +2,7 @@
 	<Page id="page" title="Manage Order Status" backgroundDesign="Solid" showNavButton="false" navButtonPress="onBack">
 		<headerContent>
 			<Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/>
-			<Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button>
+			<!-- <Button icon="sap-icon://filter" press="onFilterOrderStatus"></Button> -->
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 
@@ -17,6 +17,7 @@
 				<IconTabFilter id="idApprovalOrders" icon="sap-icon://approvals" iconColor="Positive" count="" text="Approval" key="ApprovalOrders"/>
 				<IconTabFilter id="idRejected" icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected"
 					key="RejectedOrders"/>
+				<IconTabFilter id="idPartialOrder" icon="sap-icon://validate" iconColor="Positive" count="{local>/list/OrderHeader/OrderStatus/P}" text="Partial" key="PartialOrders"/>
 			</items>
 			<content>
 				<List id="idListOS" items="{local>/list/OrderHeader}" mode="MultiSelect" includeItemInSelection="false">

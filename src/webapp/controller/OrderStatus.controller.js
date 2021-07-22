@@ -125,6 +125,22 @@ sap.ui.define([
         		this.getView().byId("idRejected").setCount(Data113);
 					}
 
+					else if (oData212[i].OrderStatus === "P") {
+						bigData3.push(oData212[i]);
+						var Data114 = bigData3.length;
+        		this.getView().byId("idPartialOrder").setCount(Data114);
+					}
+
+					// else if (oData212[i].OrderStatus === "" || oData212[i].OrderStatus === " " || oData212[i].OrderStatus === undefined || oData212[i].OrderStatus === "") {
+					// 	this.getView().byId("idDeliveredOrders").setCount(0);
+					// 	this.getView().byId("idNewOrders").setCount(0);
+					// 	this.getView().byId("idApprovalOrders").setCount(0);
+					// 	this.getView().byId("idRejected").setCount(0);
+					// 	this.getView().byId("idPartialOrder").setCount(0);
+					// 	this.getView().byId("idBegin").setCount(0);
+					//
+					// }
+
 				}
 
 		},
@@ -728,6 +744,11 @@ sap.ui.define([
 					this.getView().byId("idDel").setVisible(false);
 				}
 
+				else if (sKey === "PartialOrders") {
+					oFilter1 = new Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "P");
+					this.getView().byId("idDel").setVisible(false);
+				}
+
 				aFilters.push(oFilter1);
 				oBinding.filter(aFilters);
 
@@ -807,31 +828,43 @@ sap.ui.define([
 				var oBinding = oList.getBinding("items");
 				oBinding.filter(aFilter);
 			},
-			// onConfirm: function(oEvent) {
-			// 	debugger;
-			// 	if (oEvent.getSource().getTitle() === "Order No") {
-			// 		var allItems = oEvent.getParameter("selectedItems");
-			// 		var aFilters = [];
-			// 		for (var i = 0; i < allItems.length; i++) {
-			// 			var OrdNo = allItems[i].getLabel();
-			// 			var oFilter = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ,
-			// 				OrdNo);
-			// 			aFilters.push(oFilter);
-			// 		}
-			// 		var mainFilter = new sap.ui.model.Filter({
-			// 			filters: aFilters,
-			// 			and: false
-			// 		});
-			// 		// filter binding
-			// 		var oList = this.getView().byId("idListOS");
-			// 		var oBinding = oList.getBinding("items");
-			// 		oBinding.filter(mainFilter);
-			// 	} else {
-			// 		var selectedItem = oEvent.getParameter("selectedItem");
-			// 		var myValue = selectedItem.getLabel();
-			// 		sap.ui.getCore().byId(this.Popup).setValue(myValue);
-			// 	}
-			// }
+
+			onPopUpSearch: function(oEvent) {
+				debugger;
+				var searchStr = oEvent.getParameter("value");
+				var value1 = parseInt(searchStr);
+				var aFilters = [];
+				var oFilter1 = new Filter("OrderNo", sap.ui.model.FilterOperator.Contains, value1);
+					aFilters.push(oFilter1);
+				var oPopup = oEvent.getSource();
+				oPopup.getBinding("items").filter(aFilters);
+			},
+
+			onConfirm: function(oEvent) {
+				debugger;
+				if (oEvent.getSource().getTitle() === "Order No") {
+					var allItems = oEvent.getParameter("selectedItems");
+					var aFilters = [];
+					for (var i = 0; i < allItems.length; i++) {
+						var OrdNo = allItems[i].getLabel();
+						var oFilter = new sap.ui.model.Filter("OrderNo", sap.ui.model.FilterOperator.EQ,
+							OrdNo);
+						aFilters.push(oFilter);
+					}
+					var mainFilter = new sap.ui.model.Filter({
+						filters: aFilters,
+						and: false
+					});
+					// filter binding
+					var oList = this.getView().byId("idListOS");
+					var oBinding = oList.getBinding("items");
+					oBinding.filter(mainFilter);
+				} else {
+					var selectedItem = oEvent.getParameter("selectedItem");
+					var myValue = selectedItem.getLabel();
+					sap.ui.getCore().byId(this.Popup).setValue(myValue);
+				}
+			}
 
 	});
 });
