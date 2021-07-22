@@ -34,7 +34,7 @@ sap.ui.define([
 			this.getView().getModel("PurchaseLiteModel").setProperty("/titleTA", 0);
 			this.getView().getModel("PurchaseLiteModel").setProperty("/visible", true);
 			var Purc = [];
-			// this.loadCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
+			// this.loadProductCategories(this.getOwnerComponent().getModel("local").getProperty("/ManufacturerData/Categories"));
 			debugger;
 			var oNew = {
 				ItemCode: "",

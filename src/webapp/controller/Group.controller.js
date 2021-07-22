@@ -83,6 +83,7 @@ sap.ui.define([
 			var that = this;
 			this.getView().setBusy(true);
 			this.loadCategories();
+			this.loadProductCategories();
 			var viewModel = this.getView().getModel("viewModel");
 			viewModel.setProperty("/codeEnabled", true);
 			viewModel.setProperty("/buttonText", "Save");
