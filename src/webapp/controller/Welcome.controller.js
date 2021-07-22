@@ -210,7 +210,6 @@ sap.ui.define([
     //   oPopover.openBy(event.getSource());
     // },
     _onRouteMatched: function(oEvent) {
-      this.loadCategories();
       var type = this.getView().getModel("local").getProperty("/CategoryType");
       this.getView().byId("gridList").getBinding("items").filter([new Filter("Type", FilterOperator.EQ, type)]);
     },

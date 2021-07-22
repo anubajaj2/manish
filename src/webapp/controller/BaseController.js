@@ -1,4 +1,3 @@
-
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
@@ -525,49 +524,49 @@ sap.ui.define([
     loadCategories: function(subCats) {
       var that = this;
       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-          "/ProductCategories", "GET", {}, {}, this)
+          "/Categories", "GET", {}, {}, this)
         .then(function(oData) {
-          // that.getOwnerComponent().getModel("local").setProperty("/ProductCategories",oData.results);
-          var a = [];
-          var b = [];
-          for (var i = 0; i < oData.results.length; i++) {
-            if (a.indexOf(oData.results[i].Category) === -1) {
-              a.push(oData.results[i]);
-            }
-          }
-          //SubCategory
-          var c = [];
-          var d = [];
-          if (subCats) {
-            if (subCats.length > 0) {
-              for (var i = 0; i < oData.results.length; i++) {
-                for (var j = 0; j < subCats.length; j++) {
-                  if (subCats[j] === oData.results[i].id) {
-                    c.push(oData.results[i]);
-                  }
-                }
-              }
-            }
-          } else {
-            for (var i = 0; i < oData.results.length; i++) {
-              if (c.indexOf(oData.results[i].SubCategory) === -1) {
-                c.push(oData.results[i]);
-              }
-            }
-          }
-          a = that.removeDuplicates(a, "Category");
-          c = that.removeDuplicates(c, "SubCategory");
-          that.getOwnerComponent().getModel("local").setProperty("/cat", {
-            category: a,
-            subCatergory: c,
-            type: [{
-              Type: "Plain",
-              Key: "P"
-            }, {
-              Type: "Studded",
-              Key: "S"
-            }]
-          });
+          that.getOwnerComponent().getModel("local").setProperty("/Categories", oData.results);
+          // var a = [];
+          // var b = [];
+          // for (var i = 0; i < oData.results.length; i++) {
+          //   if (a.indexOf(oData.results[i].Category) === -1) {
+          //     a.push(oData.results[i]);
+          //   }
+          // }
+          // //SubCategory
+          // var c = [];
+          // var d = [];
+          // if (subCats) {
+          //   if (subCats.length > 0) {
+          //     for (var i = 0; i < oData.results.length; i++) {
+          //       for (var j = 0; j < subCats.length; j++) {
+          //         if (subCats[j] === oData.results[i].id) {
+          //           c.push(oData.results[i]);
+          //         }
+          //       }
+          //     }
+          //   }
+          // } else {
+          //   for (var i = 0; i < oData.results.length; i++) {
+          //     if (c.indexOf(oData.results[i].SubCategory) === -1) {
+          //       c.push(oData.results[i]);
+          //     }
+          //   }
+          // }
+          // a = that.removeDuplicates(a, "Category");
+          // c = that.removeDuplicates(c, "SubCategory");
+          // that.getOwnerComponent().getModel("local").setProperty("/cat", {
+          //   category: a,
+          //   subCatergory: c,
+          //   type: [{
+          //     Type: "Plain",
+          //     Key: "P"
+          //   }, {
+          //     Type: "Studded",
+          //     Key: "S"
+          //   }]
+          // });
         })
         .catch(function(oError) {
           MessageToast.show("cannot fetch the data");

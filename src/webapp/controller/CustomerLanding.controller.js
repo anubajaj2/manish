@@ -155,7 +155,7 @@ sap.ui.define([
       //     sap.m.MessageToast.show("error in fetching data");
       //   }
       // });
-
+      this.loadCategories();
       $.ajax({
         type: 'GET', // added,
         url: 'LastOrderItem?CreatedBy=' + currentUser,
