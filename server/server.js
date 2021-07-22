@@ -362,6 +362,48 @@ app.get('/OrderItemApproval',
   }
 );
 
+
+app.get('/OrderItemShows',
+  function(req, res) {
+    debugger;
+    var Createdby = req.query.OrderNo;
+    // var Createdby = '60f7dccb3ae72a407443ff0b';
+    var OrderItem = app.models.OrderItem;
+    OrderItem.find({
+        where: {
+          "OrderNo": Createdby
+        },
+        include: [
+          ['ToMaterial', 'ToWeight', 'ToOrderHeader', "ToProduct"],
+
+          {
+            relation: 'ToOrderHeader',
+            scope: {
+              include: ['ToOrderItems']
+            }
+            },
+            {
+              relation: 'ToProduct',
+              scope: {
+                include: ['ToPhotos']
+              }
+          },
+
+        ],
+        order: "CreatedOn DESC"
+      })
+      .then(function(orderItems) {
+        debugger;
+        res.send(orderItems);
+      })
+      .catch(function(err) {
+        debugger;
+      });
+  }
+);
+
+
+
 app.get('/LastMonthOrderItems',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
