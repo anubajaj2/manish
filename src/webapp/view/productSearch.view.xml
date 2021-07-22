@@ -62,6 +62,7 @@
 													formatter: '.formatter.statusState' }"></ObjectStatus>
 							</VBox>
 						</HBox>
+						<Button class="sapUiTinyMargin sapUiLargeMarginBegin" ariaHasPopup="Dialog" text="..." press="onImageOpen"/>
 					</FlexBox>
 				</f:GridListItem>
 			</f:GridList>

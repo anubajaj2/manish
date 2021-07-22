@@ -8,6 +8,7 @@
 	controllerName="sap.ui.demo.cart.controller.CustomerLanding"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:f="sap.f"
+	xmlns:anubhav="sap.ui.demo.cart.controls"
 	xmlns:cards="sap.f.cards">
 	<Page id="idCustomerLanding" class="MainLoginPage">
 		<customHeader>
@@ -102,19 +103,24 @@
 				</l:BlockLayoutRow>
 
 				<l:BlockLayoutRow scrollable="true">
-					<l:BlockLayoutCell title="Todays Deals" width="100%">
-						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+					<l:BlockLayoutCell title="Favorite" width="100%">
+						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: '/Products',
+						parameters: {
+						      expand: 'ToPhotos',
+									top: 1
+							}
+						}">
 							<customLayout>
-								<CarouselLayout visiblePagesCount="{local>/GridItemCount}"/>
+								<CarouselLayout visiblePagesCount="10"/>
 							</customLayout>
 							<pages>
 								<f:GridList width="100%">
 									<f:items>
 										<f:GridListItem >
 											<VBox>
-												<Image width="100%" height="150px" src="{local>ImageUrl}"/>
+												<Image width="100%" height="150px" src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}"/>
 												<HBox justifyContent="Center">
-													<Title text="₹ {local>Price}.00" textAlign="Center"/>
+													<Title text="Weight: {GrossWeight} g" textAlign="Center"/>
 												</HBox>
 											</VBox>
 										</f:GridListItem>
@@ -134,19 +140,21 @@
 				</l:BlockLayoutRow>
 
 				<l:BlockLayoutRow>
-					<l:BlockLayoutCell title="Most Liked Today">
-						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/TodayDeal'}">
+					<l:BlockLayoutCell title="Most Liked">
+						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: 'local>/MostSold'}">
 							<customLayout>
-								<CarouselLayout visiblePagesCount="{local>/GridItemCount}"/>
+								<CarouselLayout visiblePagesCount="2"/>
 							</customLayout>
 							<pages>
 								<f:GridList width="100%">
 									<f:items>
 										<f:GridListItem >
 											<VBox>
-												<Image width="100%" height="150px" src="{local>ImageUrl}"/>
+												<!-- <Image width="100%" height="150px" src="{path:'local>ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}"/> -->
+												<anubhav:ImageHover src="{path:'local>ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}" width="100%" height="150px" press="onProduct"></anubhav:ImageHover>
 												<HBox justifyContent="Center">
-													<Title text="₹ {local>Price}.00" textAlign="Center"/>
+													<!-- <Title text="₹ {local>Price}.00" textAlign="Center"/> -->
+													<Title text="Weight: {local>GrossWeight} g" textAlign="Center"/>
 												</HBox>
 											</VBox>
 										</f:GridListItem>

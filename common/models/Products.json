@@ -38,13 +38,17 @@
       "type": "string",
       "default": "S"
     },
-    "PairType":{
+    "PairType": {
       "type": "number",
       "default": 2
     },
-    "Count":{
+    "Rank": {
       "type": "number",
-      "required":true
+      "default": 0
+    },
+    "Count": {
+      "type": "number",
+      "required": true
     },
     "ShortDescription": {
       "type": "string",
@@ -54,12 +58,12 @@
       "type": "string",
       "default": "G"
     },
-    "Karat":{
+    "Karat": {
       "type": "string"
     },
     "Gender": {
       "type": "string",
-      "default":"F"
+      "default": "F"
     },
     "OverallStatus": {
       "type": "string",
@@ -76,93 +80,90 @@
     },
     "Tunch": {
       "type": "number",
-      "default":0,
+      "default": 0,
       "required": true
     },
     "Wastage": {
       "type": "number",
-      "default":0,
+      "default": 0,
       "required": true
     },
     "Making": {
       "type": "number",
-      "default":0,
+      "default": 0,
       "required": false
     },
-    "GrossWeight":{
+    "GrossWeight": {
       "type": "number",
       "required": true
     },
     "ApprovedOn": {
-			"type": "date"
-		},
-    "AlertQuantity": {
-      "type": "number",
-      "default":0,
-      "required": true
-    },
-    "SoldOn":{
       "type": "date"
     },
-    "OrderId":{
-      "type":"string"
+    "AlertQuantity": {
+      "type": "number",
+      "default": 0,
+      "required": true
+    },
+    "SoldOn": {
+      "type": "date"
+    },
+    "OrderId": {
+      "type": "string"
     },
     "CreatedOn": {
-			"type": "date"
-		},
-		"CreatedBy": {
-			"type": "string",
-			"required": true
-		},
-		"ChangedOn": {
-			"type": "date"
-		},
-		"ChangedBy": {
-			"type": "string",
-			"default": "null"
-		}
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "required": true
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
 
   },
   "relations": {
-    "ToPhotos":{
-      "type":"hasMany",
-      "model":"Photo",
-      "foreignKey":"Product"
+    "ToPhotos": {
+      "type": "hasMany",
+      "model": "Photo",
+      "foreignKey": "Product"
     },
     "ToWeights": {
-      "type":"hasMany",
-      "model":"ProdWeight",
-      "foreignKey":"ProductId"
+      "type": "hasMany",
+      "model": "ProdWeight",
+      "foreignKey": "ProductId"
     },
     "ToCreatedBy": {
-			"type": "belongsTo",
-			"model": "User",
-			"foreignKey": "CreatedBy"
-		},
-    "ToChangedBy": {
-			"type": "belongsTo",
-			"model": "User",
-			"foreignKey": "ChangedBy"
-		},
-    "ToOrder":{
       "type": "belongsTo",
-			"model": "OrderHeader",
-			"foreignKey": "OrderId"
+      "model": "User",
+      "foreignKey": "CreatedBy"
     },
-    "ToCategory":{
+    "ToChangedBy": {
       "type": "belongsTo",
-			"model": "Category",
-			"foreignKey": "ItemCode"
+      "model": "User",
+      "foreignKey": "ChangedBy"
+    },
+    "ToOrder": {
+      "type": "belongsTo",
+      "model": "OrderHeader","foreignKey": "OrderId"
+    },
+    "ToCategory": {
+      "type": "belongsTo",
+      "model": "Category",
+      "foreignKey": "ItemCode"
     }
   },
   "validations": [],
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$unauthenticated",
-      "permission": "DENY"
-    }
-  ],
+  "acls": [{
+    "accessType": "*",
+    "principalType": "ROLE",
+    "principalId": "$unauthenticated",
+    "permission": "DENY"
+  }],
   "methods": {}
 }

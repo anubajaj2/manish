@@ -84,6 +84,20 @@ sap.ui.define([
         }
       ];
       this.getOwnerComponent().getModel("local").setProperty("/TodayDeal", oTodayDealData);
+      var that = this;
+      this.getView().setBusy(true);
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LoadMostSold',
+        success: function(data) {
+          that.getView().getModel("local").setProperty("/MostSold", data);
+          that.getView().setBusy(false);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+          that.getView().setBusy(false);
+        }
+      });
     },
     _onRouteMatched: function() {
       setInterval(function() {
@@ -142,7 +156,6 @@ sap.ui.define([
       //   }
       // });
 
-
       $.ajax({
         type: 'GET', // added,
         url: 'LastOrderItem?CreatedBy=' + currentUser,
@@ -163,9 +176,6 @@ sap.ui.define([
           sap.m.MessageToast.show("error in fetching data");
         }
       });
-      // var currentUser = this.getOwnerComponent().getModel("local").getProperty("/CurrentUser");
-      // var that = this;
-      // that.getView().setBusy(true);
       $.ajax({
         type: 'GET', // added,
         url: 'LoadCartItems?CreatedBy=' + currentUser,
@@ -221,16 +231,19 @@ sap.ui.define([
       this.getOwnerComponent().getModel("local").setProperty("/cartItems", cartItems);
       this.calculateOrderEstimate();
     },
-    // onMen: function() {
-    //   this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-    //   this.oRouter.navTo("categories");
-    //   this.getView().getModel("local").setProperty("/CategoryType", "GENTS");
-    // },
     onHeaderButton: function(oEvent) {
       var type = oEvent.getSource().getText().toUpperCase();
       this.getView().getModel("local").setProperty("/CategoryType", type);
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("categories");
+    },
+    onProduct: function(oEvent) {
+      var sIndex = oEvent.getSource().getBindingContext().sPath.split("Products")[1];
+      this.getRouter().navTo("product", {
+        key: sIndex
+      });
+      var oBtn = oEvent.getSource().getParent().getParent().getContent()[2].getItems()[0];
+      this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
     },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");

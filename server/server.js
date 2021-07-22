@@ -441,6 +441,23 @@ app.get('/LoadCartItems',
   }
 );
 
+app.get('/LoadMostSold',
+  function(req, res) {
+    var Products = app.models.Product;
+    Products.find({
+        include: [{
+          relation: 'ToPhotos',
+          limit: 1
+        }],
+        order: "CreatedOn DESC",
+        limit: 20
+      })
+      .then(function(products, err) {
+        res.send(products)
+      });
+  }
+);
+
 app.get('/getpattern',
   function(req, res) {
     var Createdby = req.Createdby;

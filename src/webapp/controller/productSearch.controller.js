@@ -316,6 +316,27 @@ sap.ui.define([
       //   }
       // }
     },
+    onMore: function(oEvent) {
+      debugger;
+      var oButton = oEvent.getSource(),
+        oView = this.getView(),
+        sPath = oButton.getParent().getBindingContext().getPath();
+      // create popover
+      if (!this._pPopover) {
+        this._pPopover = Fragment.load({
+          id: oView.getId(),
+          name: "sap.ui.demo.cart.fragments.ProductPopover",
+          controller: this
+        }).then(function(oPopover) {
+          oView.addDependent(oPopover);
+          return oPopover;
+        });
+      }
+      this._pPopover.then(function(oPopover) {
+        oPopover.bindElement(sPath);
+        oPopover.openBy(oButton);
+      });
+    },
     onCartClick: function(oEvent) {
       this.getRouter().navTo("checkout");
     },
@@ -360,13 +381,13 @@ sap.ui.define([
       this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[sIndex.split("'")[1]] = oBtn;
     },
     onImageOpen: function(oEvent) {
-      var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+      var sPath = oEvent.getSource().getParent().getBindingContext().getPath();
       var aImages = [];
       for (var i = 0; i < 5; i++) {
         var sImage = sPath + "/ToPhotos/" + i + "/Content";
         if (this.allImageURLs[sImage]) {
           aImages.push(new Image({
-            src: this.allImageURLs[sImage]
+            src: this.allImageURLs[sImage].sUrl
           }));
         }
       }

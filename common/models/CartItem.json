@@ -23,52 +23,54 @@
       "type": "number",
       "required": true
     },
+    "Favorite": {
+      "type": "boolean",
+      "default": false
+    },
     "CreatedOn": {
-			"type": "date"
-		},
-		"CreatedBy": {
-			"type": "string",
-			"required": true
-		},
-		"ChangedOn": {
-			"type": "date"
-		},
-		"ChangedBy": {
-			"type": "string",
-			"default": "null"
-		}
+      "type": "date"
+    },
+    "CreatedBy": {
+      "type": "string",
+      "required": true
+    },
+    "ChangedOn": {
+      "type": "date"
+    },
+    "ChangedBy": {
+      "type": "string",
+      "default": "null"
+    }
 
   },
   "relations": {
     "ToWeight": {
-      "type":"belongsTo",
-      "model":"ProdWeight",
-      "foreignKey":"WeightId"
+      "type": "belongsTo",
+      "model": "ProdWeight",
+      "foreignKey": "WeightId"
     },
     "ToMaterial": {
-      "type":"belongsTo",
-      "model":"Product",
-      "foreignKey":"Material"
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "Material"
     },
     "ToCreatedBy": {
-			"type": "belongsTo",
-			"model": "User",
-			"foreignKey": "CreatedBy"
-		},
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "CreatedBy"
+    },
     "ToChangedBy": {
-			"type": "belongsTo",
-			"model": "User",
-			"foreignKey": "ChangedBy"
-		}
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "ChangedBy"
+    }
   },
   "validations": [],
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$unauthenticated",
-      "permission": "DENY"
-    }
-  ],
+  "acls": [{
+    "accessType": "*",
+    "principalType": "ROLE",
+    "principalId": "$unauthenticated",
+    "permission": "DENY"
+  }],
   "methods": {}
 }
