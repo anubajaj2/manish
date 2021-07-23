@@ -101,6 +101,7 @@ sap.ui.define([
       return fineGold.toFixed(3) + " g";
     },
     getImageUrlFromContent: function(base64Stream) {
+      debugger
       if (base64Stream) {
         var b64toBlob = function(dataURI) {
           var byteString = atob(dataURI.split(',')[1]);
@@ -118,6 +119,27 @@ sap.ui.define([
       }
 
     },
+
+    getImageUrlFromContent1: function (base64Stream) {
+			if (base64Stream) {
+				var b64toBlob = function (dataURI) {
+					var byteString = atob(dataURI.split(',')[1]);
+					var ab = new ArrayBuffer(byteString.length);
+					var ia = new Uint8Array(ab);
+					for (var i = 0; i < byteString.length; i++) {
+						ia[i] = byteString.charCodeAt(i);
+					}
+					return new Blob([ab], {
+						type: 'image/jpeg'
+					});
+				};
+				var x = b64toBlob(base64Stream);
+				return URL.createObjectURL(x);
+			}
+
+		},
+
+
     // getExcelUrlFromContent: function(base64Stream){
     // 	if(base64Stream){
     // 		var b64toBlob = function(dataURI) {
@@ -257,9 +279,17 @@ sap.ui.define([
       return value;
     },
     dateAndTime: function(date) {
+      debugger;
       date = date.toString();
       return date.slice(4, 15) + ", Time : " + date.slice(16, 24) + " IST";
     },
+
+    dateAndTime1: function(date) {
+      debugger;
+      date = date.toString();
+      return date.slice(0, 10);
+    },
+
     getItemName: function(key) {
       switch (key) {
         case "CST":
@@ -540,6 +570,24 @@ sap.ui.define([
 
           if (oCategory[i].ItemCode.toString() === ItemCode) {
             var oCategory1 = oCategory[i].ItemCode + " " + oCategory[i].Category;
+            return oCategory1;
+          }
+        }
+      }
+    },
+
+    getCategoryName22: function(ItemCode) {
+      debugger;
+      var oCategory=this.getView().getModel("local").getProperty("/Categories");
+      // var oCategory = sap.ui.getCore().byId("__component0---AdminHome").getModel("categories").getData().results;
+      debugger;
+      if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
+        return;
+      } else {
+        for (var i = 0; i < oCategory.length; i++) {
+
+          if (oCategory[i].ItemCode.toString() === ItemCode) {
+            var oCategory1 = oCategory[i].ItemCode + " " + oCategory[i].Category + "-" + oCategory[i].Type;
             return oCategory1;
           }
         }
