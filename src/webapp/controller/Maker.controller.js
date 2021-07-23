@@ -118,6 +118,15 @@ sap.ui.define([
       this.getOwnerComponent().getModel("local").setProperty("/sKeyType", sKey);
 
     },
+    ItemCodeToName: function (value) {
+			var oCat = this.getView().getModel("local").getProperty("/Categories");
+			for (var i = 0; i < oCat.length; i++) {
+				if (oCat[i].ItemCode.toString() === value.toString()) {
+          return oCat[i].Category;
+				}
+			}
+		
+		},
     onMasterSave: function () {
       debugger;
       var oPurchaseView = sap.ui.getCore().byId("__component0---idMaker--PurchaseLiteBlock-Collapsed");
@@ -204,6 +213,7 @@ sap.ui.define([
             payload[i].BatchId = batch_Id;
             payload[i].CreatedBy = that.getView().getModel("local").getProperty("/CurrentUser");
             payload[i].Count = count;
+            payload[i].Name=that.ItemCodeToName(payload[i].ItemCode);
             count = parseInt(count) + 1;
             fPayload.push(payload[i]);
             // var pdt={
