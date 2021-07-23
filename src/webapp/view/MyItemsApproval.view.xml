@@ -23,11 +23,13 @@
 							path: 'CreatedOn'
 						}
 					}">
-						<!-- <infoToolbar>
+					<headerToolbar>
 						<OverflowToolbar>
-							<Label text="Wide range of available products"/>
+							<Title text="OrderItems"/>
+							<ToolbarSpacer/>
+							<SearchField search="onSearch" width="17.5rem"/>
 						</OverflowToolbar>
-					</infoToolbar> -->
+					</headerToolbar>
 						<columns>
 							<Column width="12em" hAlign="Center">
 								<Text text="TagNo" />
@@ -93,6 +95,11 @@
 							</ColumnListItem>
 						</items>
 					</Table>
+					<OverflowToolbar id="otb1">
+						<ToolbarSpacer/>
+						<Button id="idPreviousButton" icon="sap-icon://arrow-left" press="onPrevious"/>
+						<Button id="idNextButton" icon="sap-icon://arrow-right" press="onNext"/>
+					</OverflowToolbar>
 				</content>
 			</IconTabBar>
 		</content>

@@ -21,6 +21,7 @@ sap.ui.define([
 			this.setModel(odataModel, "ItemApprovalModel")
 			oRouter.getRoute("ItemsApproval").attachMatched(this._onRouteMatched, this);
 		},
+		
 		_onRouteMatched: function () {
 			debugger;
 			// var cUser = this.getView().getModel("local").getProperty("/CurrentUser");;
@@ -30,13 +31,44 @@ sap.ui.define([
 				this.logOutApp();
 			}
 			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+			var oFilter1 = new sap.ui.model.Filter("ApproverId", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+			var that=this;
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+			"/OrderItems/$count", "GET", { filters: [oFilter1]}, {}, this)
+			
+			.then(function (oData) {
+				that.TotalDataCount=parseInt(oData);
+				if(that.TotalDataCount<=10){
+					that.getView().byId("idPreviousButton").setEnabled(false);
+					that.getView().byId("idNextButton").setEnabled(false);	
+				}
+				else{
+					that.getView().byId("idPreviousButton").setEnabled(false);
+				}
+			  
+			}).catch(function (oError) {
+			  debugger;
+			});
+			this.RowCount=10;
+			this.onLoadData();
+		},
+		onSearch:function(oEvent){
+			debugger;
+			this.onLoadData(oEvent.getSource().getValue());
+		},
+		onLoadData:function(search){
+			var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
 			var that = this;
-			$.get("/OrderItemApproval?Createdby=" + CreatedBy)
+			$.get("/OrderItemApproval?Createdby=" + CreatedBy+"&limit="+this.RowCount+"&search="+search)
 				.then(function (data) {
 					debugger;
 					that.getView().getModel("ItemApprovalModel").setProperty("/OrderItems", data);
 
+				})
+				.catch(function(err){
+					sap.m.MessageToast.show("error fatching data");
 				});
+
 		},
 		onStatusChange: function (oEvent) {
 			debugger;
@@ -102,5 +134,38 @@ sap.ui.define([
 				this.getRouter().navTo("Profile");
 			}
 		},
+		onPrevious:function(){
+			this.RowCount=this.RowCount-10;
+			this.onLoadData();
+			if(this.RowCount===0){
+				this.getView().byId("idPreviousButton").setEnabled(false);
+			}
+			else{
+				this.getView().byId("idPreviousButton").setEnabled(true);		
+			}
+			if(this.TotalDataCount<=this.RowCount){
+				this.getView().byId("idNextButton").setEnabled(false);
+			}
+			else{
+				this.getView().byId("idNextButton").setEnabled(true);
+			}
+		},
+		onNext:function(){
+			this.RowCount=this.RowCount+10;
+			this.onLoadData();
+			this.getView().byId("idPreviousButton").setEnabled(true);
+			if(this.TotalDataCount<=this.RowCount){
+				this.getView().byId("idNextButton").setEnabled(false);
+			}
+			else{
+				this.getView().byId("idNextButton").setEnabled(true);
+			}
+			if(this.RowCount===0){
+				this.getView().byId("idPreviousButton").setEnabled(false);
+			}
+			else{
+				this.getView().byId("idPreviousButton").setEnabled(true);		
+			}
+		}
 	});
 });

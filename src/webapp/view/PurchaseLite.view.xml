@@ -62,7 +62,7 @@
                                 <Label design="Bold" text="Mass Item code" textAlign="Center" class="sapUiSmallMarginTop" />
                                 <HBox>
 									<Input  editable="{PurchaseLiteModel>/visible}" startSuggestion="0" change="onMassItemCodeChange"  submit="" showSuggestion="true"
-										suggestionItemSelected="onSuggestionItemSelected" suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
+										 suggestionItems="{path: '/Categories', templateShareable:false}" maxSuggestionWidth="auto">
 										<suggestionItems>
 											<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
 										</suggestionItems>
