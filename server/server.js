@@ -381,12 +381,12 @@ app.get('/OrderItemShows',
             scope: {
               include: ['ToOrderItems']
             }
-            },
-            {
-              relation: 'ToProduct',
-              scope: {
-                include: ['ToPhotos']
-              }
+          },
+          {
+            relation: 'ToProduct',
+            scope: {
+              include: ['ToPhotos']
+            }
           },
 
         ],
@@ -407,13 +407,15 @@ app.get('/OrderItemShows',
 app.get('/LastMonthOrderItems',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
-    var date = new Date();
+    var date = new Date(),
+      y = date.getFullYear(),
+      m = date.getMonth();
     var OrderHeader = app.models.OrderHeader;
     OrderHeader.find({
         where: {
           "CreatedBy": Createdby,
           "CreatedOn": {
-            gte: new Date(date.getFullYear(), date.getMonth(), 1)
+            between: [new Date(y, m - 1, 1), new Date(y, m, 0)]
           }
         },
         include: [{
