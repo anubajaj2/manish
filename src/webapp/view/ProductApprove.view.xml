@@ -4,7 +4,7 @@
 	navButtonPress="onBack">
 	<headerContent>
 		<Label text="Category"/>
-		<ComboBox id="idCategory" items="{/Categories}" showSecondaryValues="true" selectedKey="{local>/Product/Category}" change="onCat">
+		<ComboBox id="idCategory" items="{/Categories}" showSecondaryValues="true" selectedKey="{local>/Product/Category}" change="handleChange1" selectionChange="handleChange1">
 			<items>
 				<core:ListItem key="{ItemCode}" text="{ItemCode} {Category}" additionalText="{Type}"/>
 				<!-- <core:Item text="{Category} {Type}" key="{ItemCode}"/> -->

@@ -4,8 +4,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/demo/cart/model/formatter",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/model/Filter"
-], function(BaseController, UIComponent, MessageToast, formatter, JSONModel, Filter) {
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
+], function(BaseController, UIComponent, MessageToast, formatter, JSONModel, Filter,FilterOperator) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.ProductApprove", {
@@ -115,6 +116,25 @@ sap.ui.define([
 						 MessageToast.show("Problem in Rejection");
 					 }});
 			 });
+		 },
+
+		 handleChange1:function(oEvent){
+			 debugger;
+			 var selectedText = oEvent.getSource().getSelectedItem().getText();
+			 var key1 = parseInt(oEvent.getSource().getSelectedItem().getKey());
+			 var type1 = oEvent.getSource().getSelectedItem().getAdditionalText();
+			 var categeory1 = oEvent.getSource().getSelectedItem().getText().split(" ")[1];
+			 var aFilter = [];
+			 var oFilter11 = new Filter("ItemCode", sap.ui.model.FilterOperator.EQ, key1);
+			 var oFilter12 = new Filter("Category", sap.ui.model.FilterOperator.EQ, categeory1);
+			 var oFilter13 = new Filter("Type", sap.ui.model.FilterOperator.EQ, type1);
+			 var oFilter = new sap.ui.model.Filter({filters:[oFilter11, oFilter12, oFilter13],and:false});
+			 aFilter.push(oFilter);
+			 // filter binding
+			 var oList = this.getView().byId("idListPA");
+			 var oBinding = oList.getBinding("items");
+			 oBinding.filter(aFilter);
+
 		 }
 
 			// loadProductApprovals: function(){

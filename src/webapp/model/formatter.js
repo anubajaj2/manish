@@ -279,13 +279,11 @@ sap.ui.define([
       return value;
     },
     dateAndTime: function(date) {
-      debugger;
       date = date.toString();
       return date.slice(4, 15) + ", Time : " + date.slice(16, 24) + " IST";
     },
 
     dateAndTime1: function(date) {
-      debugger;
       date = date.toString();
       return date.slice(0, 10);
     },
@@ -338,7 +336,6 @@ sap.ui.define([
       return array.sort(lol(property));
     },
     getIncrementDate: function(dateObj, monthInc) {
-      debugger;
       //	var dd = dateObj.getDate();
       dateObj.setMonth(dateObj.getMonth() + monthInc);
       var dd = dateObj.getDate();
@@ -363,7 +360,6 @@ sap.ui.define([
       var mm1 = ddToday.getMonth();
       var yyyy1 = ddToday.getFullYear();
 
-      debugger;
       if (yyyy > yyyy1) {
         return true;
       } else {
@@ -419,7 +415,6 @@ sap.ui.define([
     },
 
     noSpace: function(oInput) {
-      debugger;
       if (oInput) {
         var Pattern = oInput.getValue();
         var regex = "[ \t]";
@@ -435,7 +430,7 @@ sap.ui.define([
     },
 
     checkEmail: function(oInput) {
-      debugger;
+
       if (oInput) {
         var email = oInput.getValue();
         var mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
@@ -507,7 +502,7 @@ sap.ui.define([
      * @return {string} relative image URL
      */
     /*	pictureUrl: function (sUrl) {
-    		debugger;
+    	
     		if (sUrl){
     			return  sap.ui.require.toUrl(sUrl);
     		} else {
@@ -530,9 +525,9 @@ sap.ui.define([
     },
 
     getItemName: function(batchId) {
-      debugger;
+
       var oCategory = this.getView().getModel("local").getProperty("/Categories");
-      debugger;
+
       if (batchId === undefined || batchId === null || oCategory === undefined) {
         return;
       } else {
@@ -560,9 +555,9 @@ sap.ui.define([
       }
     },
     getCategoryName: function(ItemCode) {
-      debugger;
+
       var oCategory = sap.ui.getCore().byId("__component0---idMaker").getModel("categories").getData().results;
-      debugger;
+
       if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
         return;
       } else {
@@ -577,10 +572,10 @@ sap.ui.define([
     },
 
     getCategoryName22: function(ItemCode) {
-      debugger;
+
       var oCategory=this.getView().getModel("local").getProperty("/Categories");
       // var oCategory = sap.ui.getCore().byId("__component0---AdminHome").getModel("categories").getData().results;
-      debugger;
+
       if (ItemCode === undefined || ItemCode === null || oCategory === undefined) {
         return;
       } else {

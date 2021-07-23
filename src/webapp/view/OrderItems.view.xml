@@ -8,14 +8,14 @@
 			<List id="idListOI" items="{
 				path: 'OrderItemModel>/OrderItems',
 				parameters : {
-					expand : 'ToMaterial,ToWeight, ToProduct'
+					expand : 'ToMaterial,ToWeight,ToOrderHeader'
 				},
 				sorter: {
 					path: 'CreatedOn'
 				}
 			}" mode="None" includeItemInSelection="false">
 				<ObjectListItem title="{OrderItemModel>ToMaterial/TagNo} - {path: 'OrderItemModel>ToMaterial/Category', formatter: '.formatter.getCategoryName22'}"
-					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem">
+					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem" icon = "{path: 'OrderItemModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }">
 					<attributes>
 						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
 						<ObjectAttribute text="Less Weight. : {OrderItemModel>ToWeight/LessWeigh}" visible="true"/>
@@ -33,6 +33,8 @@
 							state="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodState' }"/>
 					</secondStatus>
 				</ObjectListItem>
+
+
 			</List>
 			<!-- <Table id="idListOI1" inset="false" showSeparators="Inner" headerText="Order Item" items="{
 				path: 'OrderItemModel>/OrderItems',

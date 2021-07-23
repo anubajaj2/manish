@@ -2,100 +2,109 @@ sap.ui.define([
 	"sap/ui/demo/cart/controller/BaseController",
 	"sap/ui/core/UIComponent",
 	"sap/ui/model/Filter",
-  "sap/ui/model/FilterOperator",
+	"sap/ui/model/FilterOperator",
 	"sap/m/MessageToast",
 	"sap/ui/demo/cart/model/formatter",
 	"sap/ui/model/json/JSONModel",
-], function(BaseController, UIComponent,Filter,FilterOperator,MessageToast,formatter,JSONModel) {
+], function(BaseController, UIComponent, Filter, FilterOperator, MessageToast, formatter, JSONModel) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.OrderItems", {
-		onInit: function () {
+		onInit: function() {
 			debugger;
 			var odataModel = new JSONModel({
 				"groupCodeState": "None",
 				"emailState": "None",
 				"PatternState": "None",
-				"Image":""
+				"Image": ""
 			});
-			debugger;
 			this.setModel(odataModel, "OrderItemModel");
 			this._router = UIComponent.getRouterFor(this);
-      this._router.getRoute("OrderItems").attachMatched(this.herculis, this);
+			this._router.getRoute("OrderItems").attachMatched(this.herculis, this);
+			this.getView().byId('idListOI').refreshItems();
 		},
 
-    herculis: function(oEvent){
-      debugger;
+		herculis: function(oEvent) {
+			debugger;
+			this.getView().setBusy(true);
 			var oList = this.getView().byId("idListOI");
-
 			oEvent.getParameter('arguments').id;
-      // this.loadOrderItems(oEvent.getParameter('arguments').id);
-			// var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
-		var CreatedBy =	oEvent.getParameter('arguments').id;
+			var CreatedBy = oEvent.getParameter('arguments').id;
 			var that = this;
+
 			$.get("/OrderItemShows?OrderNo=" + oEvent.getParameter('arguments').id)
-				.then(function (data) {
+				.then(function(data) {
 					debugger;
 					that.getView().getModel("OrderItemModel").setProperty("/OrderItems", data);
 
 				});
+				// oList.attachUpdateFinished(this.counter, this);
 
-					oList.attachUpdateFinished(this.counter, this);
+				setTimeout(() => {
+					this.getView().setBusy(false);
+				}, 1000);
 
-      // this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
-      // this.firstTwoDisplay();
+			that.getView().byId('idListOI').refreshItems();
+
+
+			// this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
+			// this.firstTwoDisplay();
 			// var sScooby = oEvent.getParameters().arguments.id;
-      //
+			//
 
 		},
 
-    loadOrderItems: function(id){
-      debugger;
-        var that = this;
-				var oFilters = [];
-				 oFilters.push(new sap.ui.model.Filter("OrderNo", "EQ", "'" + id + "'"));
-				 this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-	 					"/OrderItems", "GET", {
-	 						filters: oFilters
-	 					},
-	 					// {},
-	 					{}, this)
-	 				.then(function(oData) {
-						debugger;
-						that.getOwnerComponent().getModel("local").setProperty("/list", {
-							OrderItem: oData.results
-						});
-	 				})
-	 				.catch(function(oError) {
-						debugger;
-	 					that.getView().setBusy(false);
-	 					MessageToast.show("Cannot fetch Order Status please Refresh");
+		loadOrderItems: function(id) {
+			debugger;
+			var that = this;
+			var oFilters = [];
+			oFilters.push(new sap.ui.model.Filter("OrderNo", "EQ", "'" + id + "'"));
+			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+					"/OrderItems", "GET", {
+						filters: oFilters
+					},
+					// {},
+					{}, this)
+				.then(function(oData) {
+					debugger;
+					that.getOwnerComponent().getModel("local").setProperty("/list", {
+						OrderItem: oData.results
+					});
+				})
+				.catch(function(oError) {
+					debugger;
+					that.getView().setBusy(false);
+					MessageToast.show("Cannot fetch Order Status please Refresh");
 
+				});
+		},
 
-	 				});
-      },
-
-
-
-
-			counter: function(oEvent){
-			 debugger;
-			 var items = oEvent.getSource().getItems();
-			 var oLocal = this.getView().getModel("local");
-			 var oDataModel = this.getView().getModel();
-			 var oDataModel1 = this.getView().getModel("OrderItemModel");
-			 for (var i = 0; i < items.length; i++) {
+		counter: function(oEvent) {
+			debugger;
+			var items = oEvent.getSource().getItems();
+			var oLocal = this.getView().getModel("local");
+			var oDataModel = this.getView().getModel();
+			var oDataModel1 = this.getView().getModel("OrderItemModel");
+			for (var i = 0; i < items.length; i++) {
 				var sPath = items[i].getBindingContextPath();
-				var sImage = sPath + "/ToProduct/ToPhotos/0/Content" ;
+				// var picsSize = oDataModel1.getProperty(sPath + "/ToProduct/ToPhotos");
+				var sImage = sPath + "/ToProduct/ToPhotos/0/Content";
 				var sUrl = formatter.getImageUrlFromContent(oDataModel1.getProperty(sImage));
+				if (!this.allImageURLs[sImage]) {
+					this.allImageURLs[sImage] = sUrl;
+				}
 				items[i].setIcon(sUrl);
-				// this.getView().getModel("OrderItemModel").setProperty("/OrderItems/Image",sUrl)
-			 }
-		 },
+			}
 
-      onBack:function(){
-        this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        this.oRouter.navTo("OrderStatus");
-      }
+		},
+
+
+		onBack: function() {
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			this.getView().byId('idListOI').refreshItems();
+			// this.getView().byId('idListOI').removeAllItems();
+			this.oRouter.navTo("OrderStatus");
+
+		}
 	});
 });
