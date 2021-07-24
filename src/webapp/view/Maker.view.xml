@@ -1,8 +1,8 @@
 <mvc:View xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.uxap" xmlns:layout="sap.ui.layout" xmlns:m="sap.m" xmlns:block="sap.ui.demo.cart.sharedBlock"
   controllerName="sap.ui.demo.cart.controller.Maker" height="100%">
-  <ObjectPageLayout id="ObjectPageLayout" showFooter="true" enableLazyLoading="true" useIconTabBar="true"
-    headerContentPinnable="false">
+  <ObjectPageLayout id="ObjectPageLayout" showFooter="true" useIconTabBar="true"
+    headerContentPinnable="false" showAnchorBarPopover="false" enableLazyLoading="false">
     <headerTitle>
 
       <ObjectPageDynamicHeaderTitle id="idHeaderTitleUser">
