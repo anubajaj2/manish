@@ -18,22 +18,26 @@
 <!-- icon = "{path: 'OrderItemModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }" -->
 
 				<ObjectListItem title="{OrderItemModel>ToMaterial/TagNo} - {path: 'OrderItemModel>ToMaterial/Category', formatter: '.formatter.getCategoryName22'}"
-					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem">
+					number="Amount: { path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem" intro="Karat : {OrderItemModel>ToMaterial/Karat}, Piece : {OrderItemModel>ToWeight/Piece}">
 					<attributes>
 						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
-						<ObjectAttribute text="Less Weight. : {OrderItemModel>ToWeight/LessWeigh}" visible="true"/>
-						<ObjectAttribute text="Net Weight. : {OrderItemModel>ToWeight/NetWeight}" visible="true"/>
-						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
+						<ObjectAttribute text="Less Weight : {OrderItemModel>ToWeight/LessWeight}" visible="true"/>
+						<ObjectAttribute text="Net Weight : {OrderItemModel>ToWeight/NetWeight}" visible="true"/>
+						<!-- <ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/> -->
+							<!-- <ObjectAttribute text="Amount : {OrderItemModel>ToWeight/Amount}" visible="true"/>WWWWWWW -->
+					<ObjectAttribute text="Fine : {OrderItemModel>ToWeight/Fine}" visible="true"/>
 						<ObjectAttribute id="idOADate1" text="CreatedOn: { path: 'OrderItemModel>CreatedOn', formatter: '.formatter.dateAndTime1' }"/>
 					</attributes>
 					<firstStatus>
 						<ObjectStatus text="Karat : {OrderItemModel>ToMaterial/Karat}"/>
-						<ObjectStatus text="Wastage : {OrderItemModel>ToMaterial/Wastage}"/>
-						<ObjectStatus text="Tunch : {OrderItemModel>ToMaterial/Tunch}"/>
+						<ObjectStatus text="Piece : {OrderItemModel>ToWeight/Piece}"/>
+						<ObjectStatus text="Size : {OrderItemModel>ToWeight/PairSize}"/>
 					</firstStatus>
 					<secondStatus>
-						<ObjectStatus text="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodText' }"
-							state="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodState' }"/>
+						<!-- <ObjectStatus text="Wastage : {OrderItemModel>ToMaterial/Wastage}"/> -->
+						<ObjectStatus text="Tunch : {OrderItemModel>ToMaterial/Tunch}"/>
+						<!-- <ObjectStatus text="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodText' }"
+							state="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodState' }"/> -->
 					</secondStatus>
 				</ObjectListItem>
 

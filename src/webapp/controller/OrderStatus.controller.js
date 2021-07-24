@@ -19,11 +19,19 @@ sap.ui.define([
 		onInit: function() {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("OrderStatus").attachMatched(this._onRouteMatched, this);
+			var odataModel = new JSONModel({
+				"groupCodeState": "None",
+				"emailState": "None",
+				"PatternState": "None"
+			});
+			debugger;
+			this.setModel(odataModel, "TotalOrderStatusModel");
 
 		},
 		_onRouteMatched: function(oEvent) {
 			debugger;
       this.loadOrderStatus();
+			this.onCountLoad();
 			if (!this.orderStatusList) {
 				this.getView().setBusy(true);
 				this.loadOrderStatus();
@@ -95,54 +103,6 @@ sap.ui.define([
 			that.getView().byId('idListOS').refreshItems();
 			that.getView().byId('idListOS').removeSelections();
 			that.getView().setBusy(false);
-			var oData212 = this.getView().getModel("local").getProperty("/list/OrderHeader");
-			let bigData = [];
-			let bigData1 = [];
-			let bigData2 = [];
-			let bigData3 = [];
-			let bigData4 = [];
-			this.bfff=oData212.length;
-			this.getView().byId("idBegin").setCount(this.bfff);
-				for (let i = 0; i < oData212.length; i++) {
-					if (oData212[i].OrderStatus === "D") {
-						bigData.push(oData212[i]);
-						var Data11 = bigData.length;
-        		this.getView().byId("idDeliveredOrders").setCount(Data11);
-					}
-					else if (oData212[i].OrderStatus === "N") {
-						bigData1.push(oData212[i]);
-						var Data111 = bigData1.length;
-        		this.getView().byId("idNewOrders").setCount(Data111);
-					}
-					else if (oData212[i].OrderStatus === "A") {
-						bigData2.push(oData212[i]);
-						var Data112 = bigData2.length;
-        		this.getView().byId("idApprovalOrders").setCount(Data112);
-					}
-					else if (oData212[i].OrderStatus === "R") {
-						bigData3.push(oData212[i]);
-						var Data113 = bigData3.length;
-        		this.getView().byId("idRejected").setCount(Data113);
-					}
-
-					else if (oData212[i].OrderStatus === "P") {
-						bigData3.push(oData212[i]);
-						var Data114 = bigData3.length;
-        		this.getView().byId("idPartialOrder").setCount(Data114);
-					}
-
-					// else if (oData212[i].OrderStatus === "" || oData212[i].OrderStatus === " " || oData212[i].OrderStatus === undefined || oData212[i].OrderStatus === "") {
-					// 	this.getView().byId("idDeliveredOrders").setCount(0);
-					// 	this.getView().byId("idNewOrders").setCount(0);
-					// 	this.getView().byId("idApprovalOrders").setCount(0);
-					// 	this.getView().byId("idRejected").setCount(0);
-					// 	this.getView().byId("idPartialOrder").setCount(0);
-					// 	this.getView().byId("idBegin").setCount(0);
-					//
-					// }
-
-				}
-
 		},
 		loadProdWeights: function(orderHeader, that) {
 			// debugger;
@@ -376,11 +336,20 @@ sap.ui.define([
 		onPrint: function() {
       debugger;
 			var sPaths = this.getView().byId('idListOS').getSelectedContextPaths();
-      if(sPaths.length === 0){
-        sap.m.MessageBox.error("Please select at least one data");
-      }
-			this.getView().setBusy(true);
-			this.getPrint(sPaths, this)
+			if(sPaths.length === 0){
+				sap.m.MessageBox.error("Please select at least one data");
+			}
+
+			else if (sPaths.length === 1) {
+				var id = this.getView().getModel("local").getProperty(sPaths[0]).id;
+				this.generateInvoiceWithOrderId1(id);
+				// this.getPrint(sPaths, this)
+			}
+
+			else {
+				sap.m.MessageBox.error("Please select only one list");
+			}
+
 		},
 		getPdf: function(sPaths, that, pIndex = 0) {
       debugger;
@@ -760,9 +729,9 @@ sap.ui.define([
 				debugger;
 				var selectedItem = oEvent.getSource();
 				var sPath = selectedItem.getBindingContextPath();
-				var sIndex1=this.getView().getModel("local").getProperty(sPath)
+				var sIndex1=this.getView().getModel("local").getProperty(sPath);
 				this.onNext(sIndex1.id);
-				
+
 
 			},
 			onNext: function(Path){
@@ -841,7 +810,105 @@ sap.ui.define([
 					var myValue = selectedItem.getLabel();
 					sap.ui.getCore().byId(this.Popup).setValue(myValue);
 				}
-			}
+			},
+
+			onDownloadInvoice: function() {
+				debugger;
+				var sPaths = this.getView().byId('idListOS').getSelectedContextPaths();
+	      if(sPaths.length === 0){
+	        sap.m.MessageBox.error("Please select at least one data");
+	      }
+
+				else if (sPaths.length === 1) {
+					var id = this.getView().getModel("local").getProperty(sPaths[0]).id;
+					this.generateInvoiceWithOrderId(id);
+				}
+
+				else {
+					sap.m.MessageBox.error("Please select only one list");
+				}
+
+			},
+
+			onCountLoad:function(){
+				debugger
+            var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+            var oFilter1 = new sap.ui.model.Filter("ApproverId", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+            var oFilter2 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "N");
+            var oFilter3 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "A");
+            var oFilter4 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "R");
+						var oFilter5 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "D");
+						var oFilter6 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "P");
+            var that = this;
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderHeaders/$count", "GET", {
+                    filters: [oFilter1]
+                }, {}, this)
+
+            .then(function(oData) {
+                that.TotalDataCount = parseInt(oData);
+                that.getView().getModel("TotalOrderStatusModel").setProperty("/AllDataCount", oData);
+                // if (that.TotalDataCount <= 10) {
+                //  that.getView().byId("idPreviousButton").setEnabled(false);
+                //  that.getView().byId("idNextButton").setEnabled(false);
+                // } else {
+                //  that.getView().byId("idPreviousButton").setEnabled(false);
+                // }
+
+            }).catch(function(oError) {
+                debugger;
+            });
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderHeaders/$count", "GET", {
+                    filters: [oFilter1,oFilter2]
+                }, {}, this)
+            .then(function(oData) {
+                that.TotalDataCount = parseInt(oData);
+                that.getView().getModel("TotalOrderStatusModel").setProperty("/NewDataCount", oData);
+            }).catch(function(oError) {
+                debugger;
+            });
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderHeaders/$count", "GET", {
+                    filters: [oFilter1,oFilter3]
+                }, {}, this)
+            .then(function(oData) {
+                that.TotalDataCount = parseInt(oData);
+                that.getView().getModel("TotalOrderStatusModel").setProperty("/ApproveDataCount", oData);
+            }).catch(function(oError) {
+                debugger;
+            });
+            this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+                "/OrderHeaders/$count", "GET", {
+                    filters: [oFilter1,oFilter4]
+                }, {}, this)
+            .then(function(oData) {
+                that.TotalDataCount = parseInt(oData);
+                that.getView().getModel("TotalOrderStatusModel").setProperty("/RejectedDataCount", oData);
+            }).catch(function(oError) {
+                debugger;
+            });
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								"/OrderHeaders/$count", "GET", {
+										filters: [oFilter1,oFilter5]
+								}, {}, this)
+						.then(function(oData) {
+								that.TotalDataCount = parseInt(oData);
+								that.getView().getModel("TotalOrderStatusModel").setProperty("/DeliveredDataCount", oData);
+						}).catch(function(oError) {
+								debugger;
+						});
+						this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+								"/OrderHeaders/$count", "GET", {
+										filters: [oFilter1,oFilter6]
+								}, {}, this)
+						.then(function(oData) {
+								that.TotalDataCount = parseInt(oData);
+								that.getView().getModel("TotalOrderStatusModel").setProperty("/PartialDataCount", oData);
+						}).catch(function(oError) {
+								debugger;
+						});
+        },
 
 	});
 });
