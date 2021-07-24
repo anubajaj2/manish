@@ -849,6 +849,7 @@ app.post("/OrderItemApproval", function(req, res) {
   debugger;
   var id = req.body.data.id;
   var status = req.body.data.Status;
+  var RejectionReason=req.body.data.RejectionReason;
   var OrderItem = app.models.OrderItem;
   OrderItem.findById(id).then(function(Order) {
     debugger;
@@ -856,7 +857,8 @@ app.post("/OrderItemApproval", function(req, res) {
       res.send("No Record Found");
     }
     Order.updateAttributes({
-        "Status": status
+        "Status": status,
+        "RejectionReason":RejectionReason
       }).then(function(d) {
         debugger;
       })

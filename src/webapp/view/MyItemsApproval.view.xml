@@ -1,6 +1,6 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.MyItemsApproval" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:vm="sap.ui.comp.variants" xmlns:l="sap.ui.layout">
-	<Page id="page" title="Items Approval" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack" enableScrolling="false">
+	<Page id="page" title="Items Approval" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack" enableScrolling="true">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
@@ -8,11 +8,11 @@
 		<content>
 			<IconTabBar id="idIconTabBar" select="onFilterSelect" class="sapUiResponsiveContentPadding">
 				<items>
-					<IconTabFilter showAll="true" count="" text="All Order Items" key="All"/>
+					<IconTabFilter showAll="true" count="{ItemApprovalModel>/AllDataCount}" text="All Order Items" key="All"/>
 					<IconTabSeparator/>
-					<IconTabFilter icon="sap-icon://add-coursebook" iconColor="Contrast" count="" text="New" key="New"/>
-					<IconTabFilter icon="sap-icon://accept" iconColor="Positive" count="" text="Approved" key="Approved"/>
-					<IconTabFilter icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected" key="Rejected"/>
+					<IconTabFilter icon="sap-icon://add-coursebook" iconColor="Contrast" count="{ItemApprovalModel>/NewDataCount}" text="New" key="New"/>
+					<IconTabFilter icon="sap-icon://accept" iconColor="Positive" count="{ItemApprovalModel>/ApproveDataCount}" text="Approved" key="Approved"/>
+					<IconTabFilter icon="sap-icon://decline" iconColor="Negative" count="{ItemApprovalModel>/RejectedDataCount}" text="Rejected" key="Rejected"/>
 				</items>
 			</IconTabBar>
 			<fb:FilterBar reset="onReset" search="onSearch" showRestoreButton="true" showClearButton="true" showFilterConfiguration="true"
@@ -20,33 +20,36 @@
 				<fb:filterGroupItems>
 					<fb:FilterGroupItem groupName="G1" groupTitle="Group1" name="A1" label="Order Number " visibleInFilterBar="true">
 						<fb:control>
-							<Input type="Text"/>
+							<Input id="idOrderSearch" type="Text" change="onOrderNumberSearch"/>
 						</fb:control>
 					</fb:FilterGroupItem>
 					<fb:FilterGroupItem groupName="G1" groupTitle="Group1" name="B1" label="Tag Number" visibleInFilterBar="true">
 						<fb:control>
-							<Input type="Text"/>
+							<Input id="idTagSearch" type="Text" change="onTagNoSearch"/>
 						</fb:control>
 					</fb:FilterGroupItem>
 					<fb:FilterGroupItem groupName="G2" groupTitle="Group2" name="A2" label="Category" visibleInFilterBar="true">
 						<fb:control>
-							<Input type="Text"/>
+							<Input id="idCategorySearch" type="Text" change="onCategorySearch"/>
 						</fb:control>
 					</fb:FilterGroupItem>
 				</fb:filterGroupItems>
 			</fb:FilterBar>
 			<Table id="idOrderItemTable" inset="false" showSeparators="Inner" headerText="Order Item"
-				items="{ path: 'ItemApprovalModel>/OrderItems', parameters : { expand : 'ToMaterial,ToWeight' }, sorter: { path: 'CreatedOn' } }">
+				items="{ path: 'ItemApprovalModel>/OrderItems', parameters : { expand : 'ToMaterial,ToWeight,ToOrderHeader' }, sorter: { path: 'CreatedOn' } }">
 				<headerToolbar>
 					<OverflowToolbar>
 						<Title text="OrderItems"/>
 						<ToolbarSpacer/>
-						<SearchField search="onSearch" width="17.5rem"/>
+						<!-- <SearchField search="onSearch" width="17.5rem"/> -->
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
 					<Column width="12em" hAlign="Center">
 						<Text text="TagNo"/>
+					</Column>
+					<Column width="12em" hAlign="Center">
+						<Text text="OrderNo"/>
 					</Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 						<Text text="Category"/>
@@ -78,6 +81,7 @@
 						<cells>
 							<!-- <ObjectIdentifier title="{Name}" text="{ProductId}" /> -->
 							<Text text="{ItemApprovalModel>ToMaterial/TagNo}"/>
+							<Text text="{ItemApprovalModel>ToOrderHeader/InvoiceNo}"/>
 							<Text text="{path: 'ItemApprovalModel>ToMaterial/Category', formatter:'.formatter.getCategoryName'}"/>
 							<Text text="{ItemApprovalModel>ToWeight/GrossWeight}"/>
 							<Text text="{ItemApprovalModel>ToWeight/LessWeight}"/>
@@ -85,7 +89,7 @@
 							<Text text="{ItemApprovalModel>ToMaterial/Karat}"/>
 							<Text text="{ItemApprovalModel>ToMaterial/Tunch}"/>
 							<Text text="{ItemApprovalModel>ToMaterial/Wastage}"/>
-							<Select forceSelection="false" change="onStatusChange" editable="{=${ItemApprovalModel>Status}==='N'?true:false}"
+							<Select  forceSelection="false" change="onStatusChange" editable="{=${ItemApprovalModel>Status}==='N'?true:false}"
 								selectedKey="{ItemApprovalModel>Status}">
 								<core:Item key="N" text="New"/>
 								<core:Item key="A" text="Approve"/>
@@ -110,8 +114,8 @@
 			</Table>
 			<OverflowToolbar id="otb1">
 				<ToolbarSpacer/>
-				<Button id="idPreviousButton" icon="sap-icon://arrow-left" press="onPrevious"/>
-				<Button id="idNextButton" icon="sap-icon://arrow-right" press="onNext"/>
+				<Button id="idPreviousButton" icon="sap-icon://arrow-left" enabled="true" press="onPrevious"/>
+				<Button id="idNextButton" icon="sap-icon://arrow-right" enabled="true" press="onNext"/>
 			</OverflowToolbar>
 		</content>
 	</Page>
