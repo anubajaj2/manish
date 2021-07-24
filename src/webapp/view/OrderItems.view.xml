@@ -5,42 +5,38 @@
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
 		</headerContent>
 		<content>
-			<List id="idListOI" items="{
-				path: 'OrderItemModel>/OrderItems',
-				parameters : {
-					expand : 'ToMaterial,ToWeight,ToOrderHeader'
-				},
-				sorter: {
-					path: 'CreatedOn'
-				}
-			}" mode="None" includeItemInSelection="false">
-
-<!-- icon = "{path: 'OrderItemModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }" -->
-
-				<ObjectListItem title="{OrderItemModel>ToMaterial/TagNo} - {path: 'OrderItemModel>ToMaterial/Category', formatter: '.formatter.getCategoryName22'}"
-					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem">
+			<List id="idListOI"
+				items="{ path: 'local>/OrderItems', parameters : { expand : 'ToMaterial,ToWeight,ToOrderHeader' }, sorter: { path: 'CreatedOn' } }"
+				mode="None" includeItemInSelection="false">
+				<!-- icon = "{path: 'local>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }" -->
+				<ObjectListItem title="{local>ToMaterial/TagNo} - {path: 'local>ToMaterial/Category', formatter: '.formatter.getCategoryName22'}"
+					number="Amount: { path: 'local>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true"
+					press="onNextItem" intro="Karat : {local>ToMaterial/Karat}, Piece : {local>ToWeight/Piece}"
+					icon="{path: 'local>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }">
 					<attributes>
-						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
-						<ObjectAttribute text="Less Weight. : {OrderItemModel>ToWeight/LessWeigh}" visible="true"/>
-						<ObjectAttribute text="Net Weight. : {OrderItemModel>ToWeight/NetWeight}" visible="true"/>
-						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
-						<ObjectAttribute id="idOADate1" text="CreatedOn: { path: 'OrderItemModel>CreatedOn', formatter: '.formatter.dateAndTime1' }"/>
+						<ObjectAttribute text="Gross Weight. : {local>ToWeight/GrossWeight}" visible="true"/>
+						<ObjectAttribute text="Less Weight : {local>ToWeight/LessWeight}" visible="true"/>
+						<ObjectAttribute text="Net Weight : {local>ToWeight/NetWeight}" visible="true"/>
+						<!-- <ObjectAttribute text="Gross Weight. : {local>ToWeight/GrossWeight}" visible="true"/> -->
+						<!-- <ObjectAttribute text="Amount : {local>ToWeight/Amount}" visible="true"/>WWWWWWW -->
+						<ObjectAttribute text="Fine : {local>ToWeight/Fine}" visible="true"/>
+						<ObjectAttribute id="idOADate1" text="CreatedOn: { path: 'local>CreatedOn', formatter: '.formatter.dateAndTime1' }"/>
 					</attributes>
 					<firstStatus>
-						<ObjectStatus text="Karat : {OrderItemModel>ToMaterial/Karat}"/>
-						<ObjectStatus text="Wastage : {OrderItemModel>ToMaterial/Wastage}"/>
-						<ObjectStatus text="Tunch : {OrderItemModel>ToMaterial/Tunch}"/>
+						<ObjectStatus text="Karat : {local>ToMaterial/Karat}"/>
+						<ObjectStatus text="Piece : {local>ToWeight/Piece}"/>
+						<ObjectStatus text="Size : {local>ToWeight/PairSize}"/>
 					</firstStatus>
 					<secondStatus>
-						<ObjectStatus text="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodText' }"
-							state="{ path: 'OrderItemModel>Status', formatter: '.formatter.prodState' }"/>
+						<!-- <ObjectStatus text="Wastage : {local>ToMaterial/Wastage}"/> -->
+						<ObjectStatus text="Tunch : {local>ToMaterial/Tunch}"/>
+						<!-- <ObjectStatus text="{ path: 'local>Status', formatter: '.formatter.prodText' }"
+							state="{ path: 'local>Status', formatter: '.formatter.prodState' }"/> -->
 					</secondStatus>
 				</ObjectListItem>
-
-
 			</List>
 			<!-- <Table id="idListOI1" inset="false" showSeparators="Inner" headerText="Order Item" items="{
-				path: 'OrderItemModel>/OrderItems',
+				path: 'local>/OrderItems',
 				parameters : {
 					expand : 'ToMaterial,ToWeight, ToProduct'
 				},
@@ -89,18 +85,18 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Image src="{OrderItemModel>Image}"/>
-							<Text text="{OrderItemModel>ToMaterial/TagNo}" />
-							<Text text="{path: 'OrderItemModel>ToMaterial/Category'}" />
-							<Text text="{OrderItemModel>ToWeight/GrossWeight}" />
-							<Text text="{OrderItemModel>ToWeight/LessWeight}" />
-							<Text text="{OrderItemModel>ToWeight/NetWeight}" />
-							<Text text="{OrderItemModel>ToMaterial/Karat}" />
-							<Text text="{OrderItemModel>ToMaterial/Wastage}" />
-							<Text text="{OrderItemModel>ToWeight/Amount}" />
-							<Text text="{OrderItemModel>ToWeight/Fine}" />
-							<Text text="{OrderItemModel>ToMaterial/Tunch}" />
-							<Text text="{OrderItemModel>Status}" />
+							<Image src="{local>Image}"/>
+							<Text text="{local>ToMaterial/TagNo}" />
+							<Text text="{path: 'local>ToMaterial/Category'}" />
+							<Text text="{local>ToWeight/GrossWeight}" />
+							<Text text="{local>ToWeight/LessWeight}" />
+							<Text text="{local>ToWeight/NetWeight}" />
+							<Text text="{local>ToMaterial/Karat}" />
+							<Text text="{local>ToMaterial/Wastage}" />
+							<Text text="{local>ToWeight/Amount}" />
+							<Text text="{local>ToWeight/Fine}" />
+							<Text text="{local>ToMaterial/Tunch}" />
+							<Text text="{local>Status}" />
 						</cells>
 					</ColumnListItem>
 				</items>

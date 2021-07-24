@@ -334,216 +334,10 @@ app.get('/OrderItemApproval',
     debugger;
     var Createdby = req.query.Createdby;
     var limit = parseInt(req.query.limit);
-    // var Createdby = '60f7a49be26fabac12b998cd';
+    var Createdby = '60f7a49be26fabac12b998cd';
     var TagNo = req.query.TagNo;
     var OrderNo = req.query.OrderNo;
-    var Category = req.query.Category;
-     if (Category && Category!=="undefined") {
-      var product = app.models.Product;
-      product.find({
-          where: {
-            and: [{
-                "CreatedBy": Createdby
-              },
-              {
-             
-                "Category":Category
-              }
-            ]
-          }
-          // ,
-          // include: [
-          //   ['ToOrderItem'],
-
-          //   {
-          //     relation: 'ToOrderItem',
-          //     scope: {
-          //       include: ['ToOrderItems'],
-          //       where:{
-          //         "ApproverId": Createdby
-          //       },
-          //       limit:limit,
-          //       skip:limit-10
-          //     }
-          //   },
-
-          // ],
-        })
-        .then(async function(product) {
-          debugger;
-          if(product.length>1){
-            var ordar=[];
-            for(var i=0;i<product.length;i++){
-              var id = product[i].id.toString();
-              
-              ordar.push(id);
-            }
-            var OrderItem = app.models.OrderItem;
-              var OrderIt=await OrderItem.find({
-                where: {
-                  and: [{
-                      "ApproverId": Createdby
-                    },
-                    {
-                      "Material":  {inq: ordar}
-                    }
-                  ]
-                },
-                include: [
-                  ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-  
-                  {
-                    relation: 'ToOrderHeader',
-                    scope: {
-                      include: ['ToOrderItems']
-                    }
-                  },
-  
-                ],
-                order: "CreatedOn DESC",
-                limit: limit,
-                skip: limit - 10
-              })
-              .then()
-            res.send(OrderIt);
-          }
-          else{
-          var id = product[0].id.toString()
-          var OrderItem = app.models.OrderItem;
-          var OrderIt=await OrderItem.find({
-              where: {
-                and: [{
-                    "ApproverId": Createdby
-                  },
-                  {
-                    "Material": id
-                  }
-                ]
-              },
-              include: [
-                ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-
-                {
-                  relation: 'ToOrderHeader',
-                  scope: {
-                    include: ['ToOrderItems']
-                  }
-                },
-
-              ],
-              order: "CreatedOn DESC",
-              limit: limit,
-              skip: limit - 10
-            })
-            .then()
-          res.send(OrderIt);
-          }
-        })
-        .catch(function(err) {
-          debugger;
-        });
-    } else if(OrderNo && OrderNo!=="undefined") {
-      var OrderHeader = app.models.OrderHeader;
-      OrderHeader.find({
-          where: {
-            "InvoiceNo": OrderNo
-          },
-          limit: limit,
-          skip: limit - 10
-        })
-        .then(function(orderHead) {
-          // res.send(orderItems);
-          debugger;
-          var id = orderHead[0].id.toString()
-          var OrderItem = app.models.OrderItem;
-      OrderItem.find({
-          where: {
-            and: [{
-              "ApproverId": Createdby
-            },
-            {
-              "OrderNo": id
-            }
-          ]
-          },
-          include: [
-            ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-
-            {
-              relation: 'ToOrderHeader',
-              scope: {
-                include: ['ToOrderItems']
-              }
-            },
-
-          ],
-          order: "CreatedOn DESC",
-          limit: limit,
-          skip: limit - 10
-        })
-        .then(function(orderItems) {
-          debugger;
-          res.send(orderItems);
-        })
-        .catch(function(err) {
-          debugger;
-        });
-        })
-        .catch(function(err) {
-          debugger;
-        });
-    }
-    else if(TagNo && TagNo!=="undefined"){
-      var product = app.models.Product;
-      product.find({
-          where: {
-            and: [{
-                "CreatedBy": Createdby
-              },
-              {
-             
-                "TagNo":TagNo
-              }
-            ]
-          }
-        })
-        .then(async function(product) {
-          debugger;
-          var id = product[0].id.toString()
-          var OrderItem = app.models.OrderItem;
-          var OrderIt=await OrderItem.find({
-              where: {
-                and: [{
-                    "ApproverId": Createdby
-                  },
-                  {
-                    "Material": id
-                  }
-                ]
-              },
-              include: [
-                ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-
-                {
-                  relation: 'ToOrderHeader',
-                  scope: {
-                    include: ['ToOrderItems']
-                  }
-                },
-
-              ],
-              order: "CreatedOn DESC",
-              limit: limit,
-              skip: limit - 10
-            })
-            .then()
-          res.send(OrderIt);
-        })
-        .catch(function(err) {
-          debugger;
-        });
-    }
-    else{
+    if (!TagNo && !OrderNo) {
       var OrderItem = app.models.OrderItem;
       OrderItem.find({
           where: {
@@ -570,6 +364,78 @@ app.get('/OrderItemApproval',
         .catch(function(err) {
           debugger;
         });
+    } else if (TagNo) {
+      var product = app.models.Product;
+      product.find({
+          where: {
+            and: [{
+                "CreatedBy": Createdby
+              },
+              {
+                "TagNo": TagNo
+              }
+            ]
+          }
+          // ,
+          // include: [
+          //   ['ToOrderItem'],
+
+          //   {
+          //     relation: 'ToOrderItem',
+          //     scope: {
+          //       include: ['ToOrderItems'],
+          //       where:{
+          //         "ApproverId": Createdby
+          //       },
+          //       limit:limit,
+          //       skip:limit-10
+          //     }
+          //   },
+
+          // ],
+        })
+        .then(function(product) {
+          debugger;
+          var id = product[0].id.toString()
+          var OrderItem = app.models.OrderItem;
+          OrderItem.find({
+              where: {
+                and: [{
+                    "ApproverId": Createdby
+                  },
+                  {
+                    "Material": id
+                  }
+                ]
+              },
+              include: [
+                ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+
+                {
+                  relation: 'ToOrderHeader',
+                  scope: {
+                    include: ['ToOrderItems']
+                  }
+                },
+
+              ],
+              order: "CreatedOn DESC",
+              limit: limit,
+              skip: limit - 10
+            })
+            .then(function(orderItems) {
+              res.send(orderItems);
+            })
+            .catch(function(err) {
+              debugger;
+            });
+          res.send(orderItems);
+        })
+        .catch(function(err) {
+          debugger;
+        });
+    } else {
+
     }
 
   }

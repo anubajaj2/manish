@@ -11,13 +11,13 @@
 			<items>
 				<!-- <IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Products" key="All"/> -->
 				<IconTabSeparator/>
-				<IconTabFilter id="idBegin" icon="sap-icon://begin" iconColor="Positive" count="{local>/list/OrderHeader/OrderStatus}" text="All Orders" key="allOrder"/>
-				<IconTabFilter id="idNewOrders" icon="sap-icon://add-document" iconColor="Critical" count="" text="New" key="NewOrders"/>
-				<IconTabFilter id= "idDeliveredOrders" icon="sap-icon://shipping-status" iconColor="Marker" count="" text="Delivered" key="DeliveredOrders"/>
-				<IconTabFilter id="idApprovalOrders" icon="sap-icon://approvals" iconColor="Positive" count="" text="Approval" key="ApprovalOrders"/>
-				<IconTabFilter id="idRejected" icon="sap-icon://decline" iconColor="Negative" count="" text="Rejected"
+				<IconTabFilter id="idBegin" icon="sap-icon://begin" iconColor="Positive" count="{TotalOrderStatusModel>/AllDataCount}" text="All Orders" key="allOrder"/>
+				<IconTabFilter id="idNewOrders" icon="sap-icon://add-document" iconColor="Critical" count="{TotalOrderStatusModel>/NewDataCount}" text="New" key="NewOrders"/>
+				<IconTabFilter id= "idDeliveredOrders" icon="sap-icon://shipping-status" iconColor="Marker" count="{TotalOrderStatusModel>/DeliveredDataCount}" text="Delivered" key="DeliveredOrders"/>
+				<IconTabFilter id="idApprovalOrders" icon="sap-icon://approvals" iconColor="Positive" count="{TotalOrderStatusModel>/ApproveDataCount}" text="Approval" key="ApprovalOrders"/>
+				<IconTabFilter id="idRejected" icon="sap-icon://decline" iconColor="Negative" count="{TotalOrderStatusModel>/RejectedDataCount}" text="Rejected"
 					key="RejectedOrders"/>
-				<IconTabFilter id="idPartialOrder" icon="sap-icon://validate" iconColor="Positive" count="{local>/list/OrderHeader/OrderStatus/P}" text="Partial" key="PartialOrders"/>
+				<IconTabFilter id="idPartialOrder" icon="sap-icon://validate" iconColor="Positive" count="{TotalOrderStatusModel>/PartialDataCount}" text="Partial" key="PartialOrders"/>
 			</items>
 			<content>
 				<List id="idListOS" items="{local>/list/OrderHeader}" mode="MultiSelect" includeItemInSelection="false">
@@ -44,8 +44,8 @@
 					<!-- <Button text="Approve" type="" press="onApprove" id="idApprove"></Button> -->
 					<Button text="Deliver" type="" press="onDelivered" id="idDel"></Button>
 					<!-- <Button text="Reject" type="" press="onReject" id="idCancel"></Button> -->
-					<Button text="Print" type="" press="onPrint" id="idPrint"></Button>
-					<Button text="Download Invoice" type="" press="onInvoiceDownload" id="idPdf"></Button>
+					<Button text="Print" type="" press="onPrint" id="idPrint" visible="false"></Button>
+					<Button text="Download Invoice" type="" press="onDownloadInvoice" id="idPdf"></Button>
 				</Toolbar>
 			</footer>
 		</Page>

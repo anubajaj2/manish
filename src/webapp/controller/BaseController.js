@@ -893,7 +893,7 @@ sap.ui.define([
         IsWallet: true,
         header: {
           company_name: "MANGALAM",
-          company_logo: "",
+          company_logo: null,
           signature: "NONE",
           // hear \\ is used to change line
           company_address: "NONE",
@@ -928,7 +928,7 @@ sap.ui.define([
 
       let header = (doc, invoice) => {
 
-        if (this.logo) {
+        if (invoice.header.company_logo) {
           doc.image(invoice.header.company_logo, 205, 35, {
               width: 200
             })
