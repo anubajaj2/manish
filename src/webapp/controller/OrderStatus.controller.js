@@ -103,6 +103,54 @@ sap.ui.define([
 			that.getView().byId('idListOS').refreshItems();
 			that.getView().byId('idListOS').removeSelections();
 			that.getView().setBusy(false);
+			var oData212 = this.getView().getModel("local").getProperty("/list/OrderHeader");
+			let bigData = [];
+			let bigData1 = [];
+			let bigData2 = [];
+			let bigData3 = [];
+			let bigData4 = [];
+			this.bfff=oData212.length;
+			this.getView().byId("idBegin").setCount(this.bfff);
+				for (let i = 0; i < oData212.length; i++) {
+					if (oData212[i].OrderStatus === "D") {
+						bigData.push(oData212[i]);
+						var Data11 = bigData.length;
+        		this.getView().byId("idDeliveredOrders").setCount(Data11);
+					}
+					else if (oData212[i].OrderStatus === "N") {
+						bigData1.push(oData212[i]);
+						var Data111 = bigData1.length;
+        		this.getView().byId("idNewOrders").setCount(Data111);
+					}
+					else if (oData212[i].OrderStatus === "A") {
+						bigData2.push(oData212[i]);
+						var Data112 = bigData2.length;
+        		this.getView().byId("idApprovalOrders").setCount(Data112);
+					}
+					else if (oData212[i].OrderStatus === "R") {
+						bigData3.push(oData212[i]);
+						var Data113 = bigData3.length;
+        		this.getView().byId("idRejected").setCount(Data113);
+					}
+
+					else if (oData212[i].OrderStatus === "P") {
+						bigData3.push(oData212[i]);
+						var Data114 = bigData3.length;
+        		this.getView().byId("idPartialOrder").setCount(Data114);
+					}
+
+					// else if (oData212[i].OrderStatus === "" || oData212[i].OrderStatus === " " || oData212[i].OrderStatus === undefined || oData212[i].OrderStatus === "") {
+					// 	this.getView().byId("idDeliveredOrders").setCount(0);
+					// 	this.getView().byId("idNewOrders").setCount(0);
+					// 	this.getView().byId("idApprovalOrders").setCount(0);
+					// 	this.getView().byId("idRejected").setCount(0);
+					// 	this.getView().byId("idPartialOrder").setCount(0);
+					// 	this.getView().byId("idBegin").setCount(0);
+					//
+					// }
+
+				}
+
 		},
 		loadProdWeights: function(orderHeader, that) {
 			// debugger;
