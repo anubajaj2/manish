@@ -334,9 +334,10 @@ app.get('/OrderItemApproval',
     debugger;
     var Createdby = req.query.Createdby;
     var limit = parseInt(req.query.limit);
-    var Createdby = '60f7a49be26fabac12b998cd';
+    // var Createdby = '60f7a49be26fabac12b998cd';
     var TagNo = req.query.TagNo;
     var OrderNo = req.query.OrderNo;
+    var Category = req.query.Category;
     if (!TagNo && !OrderNo) {
       var OrderItem = app.models.OrderItem;
       OrderItem.find({
@@ -364,7 +365,7 @@ app.get('/OrderItemApproval',
         .catch(function(err) {
           debugger;
         });
-    } else if (TagNo) {
+    } else if (TagNo||Category) {
       var product = app.models.Product;
       product.find({
           where: {
@@ -372,8 +373,11 @@ app.get('/OrderItemApproval',
                 "CreatedBy": Createdby
               },
               {
+              or:[{
                 "TagNo": TagNo
-              }
+              },{
+                "Category":Category
+              }]}
             ]
           }
           // ,
@@ -429,13 +433,61 @@ app.get('/OrderItemApproval',
             .catch(function(err) {
               debugger;
             });
+          // res.send(orderItems);
+        })
+        .catch(function(err) {
+          debugger;
+        });
+    } else if(OrderNo) {
+      var OrderHeader = app.models.OrderHeader;
+      OrderHeader.find({
+          where: {
+            "InvoiceNo": OrderNo
+          },
+          limit: limit,
+          skip: limit - 10
+        })
+        .then(function(orderHead) {
+          // res.send(orderItems);
+          debugger;
+          var id = orderHead[0].id.toString()
+          var OrderItem = app.models.OrderItem;
+      OrderItem.find({
+          where: {
+            and: [{
+              "ApproverId": Createdby
+            },
+            {
+              "OrderNo": id
+            }
+          ]
+          },
+          include: [
+            ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+
+            {
+              relation: 'ToOrderHeader',
+              scope: {
+                include: ['ToOrderItems']
+              }
+            },
+
+          ],
+          order: "CreatedOn DESC",
+          limit: limit,
+          skip: limit - 10
+        })
+        .then(function(orderItems) {
+          debugger;
           res.send(orderItems);
         })
         .catch(function(err) {
           debugger;
         });
-    } else {
-
+        })
+        .catch(function(err) {
+          debugger;
+        });
     }
 
   }
