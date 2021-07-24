@@ -1,6 +1,6 @@
 <mvc:View controllerName="sap.ui.demo.cart.controller.MyItemsApproval" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:vm="sap.ui.comp.variants" xmlns:l="sap.ui.layout">
-	<Page id="page" title="Items Approval" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack">
+	<Page id="page" title="Items Approval" backgroundDesign="Solid" showNavButton="true" navButtonPress="onNavBack" enableScrolling="false">
 		<headerContent>
 			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
 			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
