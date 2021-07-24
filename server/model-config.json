@@ -123,5 +123,9 @@
   "CartItem":{
     "dataSource": "mongoatlas",
     "public": true
+  },
+  "FavoriteItem":{
+    "dataSource": "mongoatlas",
+    "public": true
   }
 }

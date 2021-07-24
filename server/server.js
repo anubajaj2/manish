@@ -333,11 +333,11 @@ app.get('/OrderItemApproval',
   function(req, res) {
     debugger;
     var Createdby = req.query.Createdby;
-    var limit=parseInt(req.query.limit);
+    var limit = parseInt(req.query.limit);
     var Createdby = '60f7a49be26fabac12b998cd';
-    var TagNo=req.query.TagNo;
-    var OrderNo=req.query.OrderNo;
-    if(!TagNo && !OrderNo){
+    var TagNo = req.query.TagNo;
+    var OrderNo = req.query.OrderNo;
+    if (!TagNo && !OrderNo) {
       var OrderItem = app.models.OrderItem;
       OrderItem.find({
           where: {
@@ -345,18 +345,18 @@ app.get('/OrderItemApproval',
           },
           include: [
             ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-  
+
             {
               relation: 'ToOrderHeader',
               scope: {
                 include: ['ToOrderItems']
               }
             },
-  
+
           ],
           order: "CreatedOn DESC",
-          limit:limit,
-          skip:limit-10
+          limit: limit,
+          skip: limit - 10
         })
         .then(function(orderItems) {
           res.send(orderItems);
@@ -364,62 +364,64 @@ app.get('/OrderItemApproval',
         .catch(function(err) {
           debugger;
         });
-    }
-    else if(TagNo){
-      var product=app.models.Product;
+    } else if (TagNo) {
+      var product = app.models.Product;
       product.find({
-        where:{
-          and:[
-            {
-              "CreatedBy":Createdby
-            },
-            {
-              "TagNo":TagNo
-            }
-          ]
-        }
-        // ,
-        // include: [
-        //   ['ToOrderItem'],
+          where: {
+            and: [{
+                "CreatedBy": Createdby
+              },
+              {
+                "TagNo": TagNo
+              }
+            ]
+          }
+          // ,
+          // include: [
+          //   ['ToOrderItem'],
 
-        //   {
-        //     relation: 'ToOrderItem',
-        //     scope: {
-        //       include: ['ToOrderItems'],
-        //       where:{
-        //         "ApproverId": Createdby
-        //       },
-        //       limit:limit,
-        //       skip:limit-10
-        //     }
-        //   },
+          //   {
+          //     relation: 'ToOrderItem',
+          //     scope: {
+          //       include: ['ToOrderItems'],
+          //       where:{
+          //         "ApproverId": Createdby
+          //       },
+          //       limit:limit,
+          //       skip:limit-10
+          //     }
+          //   },
 
-        // ],
-      })
+          // ],
+        })
         .then(function(product) {
           debugger;
-          var id=product[0].id.toString()
+          var id = product[0].id.toString()
           var OrderItem = app.models.OrderItem;
           OrderItem.find({
               where: {
-                and:[
-                {"ApproverId": Createdby},
-                {"Material":id}
-                ]},
+                and: [{
+                    "ApproverId": Createdby
+                  },
+                  {
+                    "Material": id
+                  }
+                ]
+              },
               include: [
                 ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-      
+
                 {
                   relation: 'ToOrderHeader',
                   scope: {
                     include: ['ToOrderItems']
                   }
                 },
-      
+
               ],
               order: "CreatedOn DESC",
-              limit:limit,
-              skip:limit-10
+              limit: limit,
+              skip: limit - 10
             })
             .then(function(orderItems) {
               res.send(orderItems);
@@ -432,11 +434,10 @@ app.get('/OrderItemApproval',
         .catch(function(err) {
           debugger;
         });
-    }
-    else{
+    } else {
 
     }
- 
+
   }
 );
 
@@ -483,6 +484,46 @@ app.get('/OrderItemShows',
 
 
 app.get('/LastMonthOrderItems',
+  function(req, res) {
+    var Createdby = req.query.CreatedBy;
+    var date = new Date(),
+      y = date.getFullYear(),
+      m = date.getMonth();
+    var OrderHeader = app.models.OrderHeader;
+    OrderHeader.find({
+        where: {
+          "CreatedBy": Createdby,
+          "CreatedOn": {
+            between: [new Date(y, m - 1, 1), new Date(y, m, 0)]
+          }
+        },
+        include: [{
+          relation: 'ToOrderItems',
+          scope: {
+            include: ['ToMaterial', 'ToWeight']
+          }
+        }]
+      })
+      .then(function(orderHeader) {
+        var total = 0,
+          totalGold = 0;
+        orderHeader.forEach((order) => {
+          order.__data.ToOrderItems.forEach((item, i) => {
+            item = item.__data
+            total += item.ToWeight.$Amount + (item.ToWeight.$Piece * item.ToWeight.$MoreAmount) + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
+            totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
+          });
+        });
+
+        res.send({
+          FineGold: totalGold.toFixed(3),
+          Amount: total.toFixed(2)
+        });
+      });
+  }
+);
+
+app.get('/loadInvoiceDataByOrderId',
   function(req, res) {
     var Createdby = req.query.CreatedBy;
     var date = new Date(),

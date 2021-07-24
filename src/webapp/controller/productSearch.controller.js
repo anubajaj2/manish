@@ -316,6 +316,34 @@ sap.ui.define([
       //   }
       // }
     },
+    handleFavoritePress: function(oEvent) {
+      var oBtn = oEvent.getSource();
+      var that = this;
+      this.loadProdWeights(this.onMoreBtnsPath.split("'")[this.onMoreBtnsPath.split("'").length - 2]).
+      then(function(data) {
+        that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
+        // oBtn.setType("Emphasized");
+        // oBtn.setEnabled(false);
+        var allSelectedWeights = [data.ProdWeights[0]];
+        var mainProduct = oBtn.getParent().getModel().getProperty(that.onMoreBtnsPath);
+        var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+        addedWeights.push(allSelectedWeights[0]);
+        that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+        var cartItemPayload = {
+          Material: mainProduct.id,
+          ProductCode: mainProduct.ProductId,
+          WeightId: addedWeights[0].id
+        };
+        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+            "/FavoriteItems", "POST", {}, cartItemPayload, that)
+          .then(function(data) {
+            oBtn.setText("Remove Favorite");
+            MessageToast.show("Added to favorites");
+          }).catch(function(oError) {
+            MessageBox.error("Error while saving favorite item");
+          });
+      });
+    },
     onMore: function(oEvent) {
       // debugger;
       var oButton = oEvent.getSource(),

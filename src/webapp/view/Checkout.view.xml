@@ -25,7 +25,7 @@
                   <CustomListItem>
                     <HBox alignContent="Stretch">
                       <HBox>
-                        <Image width="220px" height="140px" src="{local>PictureUrl/sUrl}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                        <Image width="220px" height="140px" src="{path:'local>Picture',formatter:'.formatter.getImageUrlFromContent'}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
                       </HBox>
                       <HBox class="sapUiLargeMargin">
                         <VBox>

@@ -1,13 +1,11 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
   <Popover id="myPopover" title="More" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Bottom" initialFocus="favorite">
-    <!-- <footer>
-      <OverflowToolbar>
-        <ToolbarSpacer/>
-        <Button id="favorite" icon="sap-icon://favorite" press="handleEmailPress"/>
-      </OverflowToolbar>
-    </footer> -->
+    <!-- <footer> <OverflowToolbar> <ToolbarSpacer/> <Button id="favorite" icon="sap-icon://favorite" press="handleEmailPress"/> </OverflowToolbar> </footer> -->
     <!-- <Image src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}" height="15em" width="15em" densityAware="false"/> -->
-    <Button id="favorite" class="sapUiSmallMargin" icon="sap-icon://favorite" press="handleFavoritePress"/>
-    <Button class="sapUiSmallMargin" icon="sap-icon://expand" press="handleExpandPress"/>
+    <List>
+      <ActionListItem text="Add To Favorite" press="handleFavoritePress" visible="true"/>
+      <ActionListItem text="Expand Image" press="handleExpandPress" visible="true"/>
+    </List>
+    <!-- <Button id="favorite" class="sapUiSmallMargin" icon="sap-icon://favorite" press="handleFavoritePress"/> <Button class="sapUiSmallMargin" icon="sap-icon://expand" press="handleExpandPress"/> -->
   </Popover>
 </core:FragmentDefinition>

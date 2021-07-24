@@ -57,7 +57,7 @@
 							</ObjectHeader>
 						</VBox>
 						<VBox>
-							<Button class="sapUiLargeMarginTop sapUiLargeMarginBegin" icon="sap-icon://favorite"/>
+							<Button class="sapUiLargeMarginTop sapUiLargeMarginBegin" icon="sap-icon://favorite" press="onAddToFavorite"/>
 						</VBox>
 					</HBox>
 					<HBox class="sapUiSmallMarginBegin">

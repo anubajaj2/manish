@@ -161,13 +161,40 @@ sap.ui.define([
             "/CartItems", "POST", {}, cartItemPayload, that)
           .then(function(data) {
             MessageToast.show("Added to cart");
-            that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+            that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.getModel().getProperty(that.sPath + '/ToPhotos/0/Content'));
           }).catch(function(oError) {
             MessageBox.error("Error while saving cart item");
           });
       });
     },
-    addProductToCart: function(id, productRec, allSelectedWeights, PictureUrl, oBtn) {
+    handleFavoritePress: function(oEvent) {
+      var oBtn = oEvent.getSource();
+      var that = this;
+      this.loadProdWeights(this.sPath.split("'")[this.sPath.split("'").length - 2]).
+      then(function(data) {
+        that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
+        oBtn.setType("Emphasized");
+        oBtn.setEnabled(false);
+        var allSelectedWeights = [data.ProdWeights[0]];
+        var mainProduct = oBtn.getParent().getModel().getProperty(that.sPath);
+        var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+        addedWeights.push(allSelectedWeights[0]);
+        that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+        var cartItemPayload = {
+          Material: mainProduct.id,
+          ProductCode: mainProduct.ProductId,
+          WeightId: addedWeights[0].id
+        };
+        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+            "/FavoriteItems", "POST", {}, cartItemPayload, that)
+          .then(function(data) {
+            MessageToast.show("Added to favorites");
+          }).catch(function(oError) {
+            MessageBox.error("Error while saving favorite item");
+          });
+      });
+    },
+    addProductToCart: function(id, productRec, allSelectedWeights, picture) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var cartItem = {};
       cartItem.id = id;
@@ -180,7 +207,7 @@ sap.ui.define([
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
       cartItem.ApproverId = productRec.CreatedBy;
-      cartItem.PictureUrl = PictureUrl;
+      cartItem.Picture = picture;
       for (var i = 0; i < allSelectedWeights.length; i++) {
         cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
         cartItem.LessWeight = allSelectedWeights[i].LessWeight;

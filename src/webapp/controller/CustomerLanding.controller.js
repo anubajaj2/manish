@@ -213,10 +213,7 @@ sap.ui.define([
         cartItem.Category = item.ToMaterial.Category;
         cartItem.SubCategory = item.ToMaterial.SubCategory;
         cartItem.ApproverId = item.ToMaterial.CreatedBy;
-        cartItem.PictureUrl = {
-          sBase64: item.ToMaterial.ToPhotos[0].Content,
-          sUrl: formatter.getImageUrlFromContent(item.ToMaterial.ToPhotos[0].Content)
-        };
+        cartItem.Picture = item.ToMaterial.ToPhotos[0].Content;
         cartItem.GrossWeight = item.ToWeight.GrossWeight;
         cartItem.LessWeight = item.ToWeight.LessWeight;
         cartItem.PairSize = item.ToWeight.PairSize;

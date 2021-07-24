@@ -392,7 +392,7 @@ sap.ui.define([
           AMOUNT: item.MoreAmount,
           FINE: parseFloat((item.NetWeight * (item.Tunch + item.Wastage) / 100).toFixed(3)),
           TOTAL: item.Amount + (item.Piece * item.MoreAmount),
-          IMG: item.PictureUrl.sBase64 //"data:image/png;base64," + that.logo
+          IMG: item.Picture //"data:image/png;base64," + that.logo
         });
       });
       const invoiceDetail = {
