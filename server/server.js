@@ -445,12 +445,12 @@ app.get('/OrderItemApproval',
 app.get('/OrderItemShows',
   function(req, res) {
     debugger;
-    var Createdby = req.query.OrderNo;
+    var OrderNo = req.query.OrderNo;
     // var Createdby = '60f7dccb3ae72a407443ff0b';
     var OrderItem = app.models.OrderItem;
     OrderItem.find({
         where: {
-          "OrderNo": Createdby
+          "OrderNo": OrderNo
         },
         include: [
           ['ToMaterial', 'ToWeight', 'ToOrderHeader', "ToProduct"],
@@ -462,7 +462,7 @@ app.get('/OrderItemShows',
             }
           },
           {
-            relation: 'ToProduct',
+            relation: 'ToMaterial',
             scope: {
               include: ['ToPhotos']
             }
