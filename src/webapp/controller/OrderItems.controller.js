@@ -11,23 +11,15 @@ sap.ui.define([
 
 	return BaseController.extend("sap.ui.demo.cart.controller.OrderItems", {
 		onInit: function() {
-			debugger;
-				var odataModel = new JSONModel({
-				"groupCodeState": "None",
-				"emailState": "None",
-				"PatternState": "None",
-				"Image": ""
-			});
-			this.setModel(odataModel, "OrderItemModel");
 			this._router = UIComponent.getRouterFor(this);
 			this._router.getRoute("OrderItems").attachMatched(this.herculis, this);
-			this.getView().byId('idListOI').refreshItems();
+			// this.getView().byId('idListOI').refreshItems();
 
 		},
 
 		herculis: function(oEvent) {
 			debugger;
-			this.getView().getModel("OrderItemModel").setProperty("/OrderItems", "");
+			// this.getView().getModel("local").setProperty("/OrderItems", "");
 			this.getView().setBusy(true);
 			this.firstTwoDisplay();
 			var oList = this.getView().byId("idListOI");
@@ -38,7 +30,7 @@ sap.ui.define([
 			$.get("/OrderItemShows?OrderNo=" + oEvent.getParameter('arguments').id)
 				.then(function(data) {
 					debugger;
-					that.getView().getModel("OrderItemModel").setProperty("/OrderItems", data);
+					that.getView().getModel("local").setProperty("/OrderItems", data);
 
 				});
 
@@ -47,7 +39,7 @@ sap.ui.define([
 					this.getView().setBusy(false);
 				}, 1000);
 
-			oList.attachUpdateFinished(this.counter, this);
+			// oList.attachUpdateFinished(this.counter, this);
 			that.getView().byId('idListOI').refreshItems();
 
 			// this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
@@ -87,7 +79,7 @@ sap.ui.define([
 			var items = oEvent.getSource().getItems();
 			var oLocal = this.getView().getModel("local");
 			var oDataModel = this.getView().getModel();
-			var oDataModel1 = this.getView().getModel("OrderItemModel");
+			var oDataModel1 = this.getView().getModel("local");
 			for (var i = 0; i < items.length; i++) {
 				var sPath = items[i].getBindingContextPath();
 				// var picsSize = oDataModel1.getProperty(sPath + "/ToProduct/ToPhotos");
@@ -106,7 +98,7 @@ sap.ui.define([
 			// this.getView().byId('idListOI').removeAllItems();
 			this.oRouter.navTo("OrderStatus");
 			this.getView().byId('idListOI').refreshItems();
-			this.getView().getModel("OrderItemModel").setProperty("/OrderItems", "");
+			this.getView().getModel("local").setProperty("/OrderItems", "");
 
 		}
 	});
