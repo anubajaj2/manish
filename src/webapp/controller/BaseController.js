@@ -852,6 +852,491 @@ sap.ui.define([
       var oEntry = arguments[0].getSource().getBindingContext().getObject();
       var oCartModel = this.getView().getModel("cartProducts");
       cart.addToCart(oResourceBundle, oEntry, oCartModel);
+    },
+    generateInvoiceWithOrderId(orderId) {
+      if (!orderId) {
+        MessageBox.error("Invalid Order Id");
+        return;
+      }
+      var that = this;
+      const invoiceDetail = {
+        shipping: {
+          name: "NONE",
+          email: "NONE",
+          mob: "NONE",
+          GSTIN: "NONE",
+          address: "NONE"
+        },
+        userDetails: {
+          Company: "Mangalam Ornaments",
+          Slab: " USER SLAB 1",
+          Name: "Amit Singhal",
+          Mobile: "9660686771",
+          Email: "Smdaishpra@gmail.com",
+          City: "Jaipur"
+        },
+        clientDetails: {
+          Company: "Mangalam Ornaments",
+          Slab: " USER SLAB 1",
+          Name: "Amit Singhal",
+          Mobile: "9660686771",
+          Email: "Smdaishpra@gmail.com",
+          City: "Jaipur"
+        },
+        orderNo: "N/A",
+        remarks: "N/A",
+        items: [],
+        IGST: "NONE",
+        fullAmount: 9999,
+        order_number: "NONE",
+        paymentMode: "NONE",
+        IsWallet: true,
+        header: {
+          company_name: "MANGALAM",
+          company_logo: "",
+          signature: "NONE",
+          // hear \\ is used to change line
+          company_address: "NONE",
+          GSTIN: "NONE"
+        },
+        footer: {
+          text: "This is a computer generated invoice"
+        },
+        currency_symbol: "NONE",
+        date: {
+          billing_date: "NONE",
+          due_date: "NONE"
+        }
+      };
+      this.getView().setBusy(true);
+      $.ajax({
+        type: 'GET', // added,
+        url: 'loadInvoiceDataByOrderId?OrderId=' + orderId,
+        success: function(data) {
+          invoiceDetail.items = data.InvoiceItems;
+          invoiceDetail.orderNo = data.InvoiceNo;
+          invoiceDetail.header.company_logo = data.Logo;
+          that.downloadInvoice(invoiceDetail);
+          that.getView().setBusy(false);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
+    },
+    downloadInvoice: function(invoiceDetail) {
+
+      let header = (doc, invoice) => {
+
+        if (this.logo) {
+          doc.image(invoice.header.company_logo, 205, 35, {
+              width: 200
+            })
+            .fontSize(10);
+          doc.moveDown();
+        } else {
+          doc.fontSize(20)
+            .text(invoice.header.company_name, 245, 45)
+            .fontSize(10)
+            .moveDown()
+        }
+      }
+
+      let customerInformation = (doc, invoice) => {
+        doc
+          .fillColor("#444444")
+          .fontSize(20);
+
+        const customerInformationTop = 130;
+
+        doc.fontSize(10)
+          .font("Helvetica-Bold")
+          .text("Order No:", 30, customerInformationTop - 20)
+          .font("Helvetica")
+          .text(invoice.orderNo, 90, customerInformationTop - 20)
+          .font("Helvetica-Bold")
+          .text("User Details:", 30, customerInformationTop)
+          .font("Helvetica")
+          .text("Company:", 30, customerInformationTop + 15)
+          .text(invoice.userDetails.Company, 150, customerInformationTop + 15)
+          .text("Slab:", 30, customerInformationTop + 30)
+          .text(invoice.userDetails.Slab, 150, customerInformationTop + 30)
+          .fontSize(10)
+          .text("Name:", 30, customerInformationTop + 45)
+          .text(invoice.userDetails.Name, 150, customerInformationTop + 45)
+          .text("Mobile No:", 30, customerInformationTop + 60)
+          .text(invoice.userDetails.Mobile, 150, customerInformationTop + 60)
+          .text("E-mail:", 30, customerInformationTop + 75)
+          .text(invoice.userDetails.Email, 150, customerInformationTop + 75)
+          .text("City:", 30, customerInformationTop + 90)
+          .text(invoice.userDetails.City, 150, customerInformationTop + 90)
+
+          .font("Helvetica-Bold")
+          .text("Remarks:", 30, customerInformationTop + 108)
+          .font("Helvetica")
+          .text(invoice.remarks, 150, customerInformationTop + 108)
+
+          .font("Helvetica-Bold")
+          .text("Client Details:", 350, customerInformationTop)
+          .font("Helvetica")
+          .text("Company:", 350, customerInformationTop + 15)
+          .text(invoice.clientDetails.Company, 450, customerInformationTop + 15)
+          .text("Slab:", 350, customerInformationTop + 30)
+          .text(invoice.clientDetails.Slab, 450, customerInformationTop + 30)
+          .text("Name:", 350, customerInformationTop + 45)
+          .text(invoice.clientDetails.Name, 450, customerInformationTop + 45)
+          .text("Mobile No:", 350, customerInformationTop + 60)
+          .text(invoice.clientDetails.Mobile, 450, customerInformationTop + 60)
+          .text("E-mail:", 350, customerInformationTop + 75)
+          // .text(invoice.clientDetails.Email, 450, customerInformationTop + 75)
+          .text("City:", 350, customerInformationTop + 90)
+          .text(invoice.clientDetails.City, 450, customerInformationTop + 90)
+          .moveDown();
+      }
+
+      let invoiceTable = (doc, invoice) => {
+        let i;
+        let invoiceTableTop = 260;
+        const currencySymbol = invoice.currency_symbol;
+        generateHr(doc, invoiceTableTop - 5);
+        doc.font("Helvetica-Bold");
+        tableRowIGST(
+          doc,
+          invoiceTableTop,
+          "#",
+          "CODE",
+          "GRS-STN",
+          "NET WT",
+          "KT",
+          "SIZE",
+          "PCS",
+          "AMOUNT",
+          "FINE",
+          "TOTAL",
+          "IMG"
+        );
+        generateHr(doc, invoiceTableTop + 15);
+        doc.font("Helvetica");
+        var totalAmount = 0;
+        var totalGST = 0;
+        var total_amount = 0;
+        var total_fine = 0;
+        var total_net_wt = 0;
+        let position = invoiceTableTop + 15;
+        for (i = 0; i < invoice.items.length; i++) {
+          const item = invoice.items[i];
+          position += 65;
+          tableRowIGST(
+            doc,
+            position,
+            i + 1,
+            item.CODE,
+            item.GROSS_WT + '-' + item.STONE_WT,
+            item.NET_WT,
+            item.KT,
+            item.SIZE,
+            item.PCS,
+            item.AMOUNT,
+            item.FINE,
+            item.TOTAL,
+            item.IMG
+          );
+          total_amount += parseFloat(item.TOTAL);
+          total_fine += parseFloat(item.FINE);
+          total_net_wt += parseFloat(item.NET_WT);
+          generateHr(doc, position += 65);
+          // totalAmount += parseFloat(item.Amount);
+          if (invoice.items.length - 1 === i || (i === 3 && invoiceTableTop === 260) || (i - 3) % 5 === 0) {
+            generateVr(doc, 30, invoiceTableTop - 5, position);
+            generateVr(doc, 45, invoiceTableTop - 5, position);
+            generateVr(doc, 95, invoiceTableTop - 5, position);
+            generateVr(doc, 150, invoiceTableTop - 5, position);
+            generateVr(doc, 200, invoiceTableTop - 5, position);
+            generateVr(doc, 230, invoiceTableTop - 5, position);
+            generateVr(doc, 260, invoiceTableTop - 5, position);
+            generateVr(doc, 285, invoiceTableTop - 5, position);
+            generateVr(doc, 340, invoiceTableTop - 5, position);
+            generateVr(doc, 390, invoiceTableTop - 5, position);
+            generateVr(doc, 445, invoiceTableTop - 5, position);
+            generateVr(doc, 570, invoiceTableTop - 5, position);
+          }
+          if ((i === 3 && invoice.items.length > 4) || (i - 3) % 5 === 0) {
+            invoiceTableTop = 40;
+            position = 40;
+            doc.restore();
+            doc.addPage();
+            generateHr(doc, invoiceTableTop - 5);
+          }
+        }
+        tableRowIGST(
+          doc,
+          position + 7,
+          i,
+          "-",
+          "-",
+          total_net_wt.toFixed(3),
+          "-",
+          "-",
+          "-",
+          "-",
+          total_fine.toFixed(3),
+          parseInt(total_amount),
+          "-"
+        );
+        generateHr(doc, position + 25);
+        // console.log(position);
+        if (position > 600) {
+          doc.addPage();
+          customerInformationOtherDetails(doc, 40);
+        } else {
+          customerInformationOtherDetails(doc, position);
+        }
+      }
+      let customerInformationOtherDetails = (doc, position) => {
+        doc
+          .fillColor("#444444")
+          .fontSize(20);
+        let customerInformationBottom = position > 555 ? position + 35 : position + 40;
+
+        doc.fontSize(10)
+          .font("Helvetica-Bold")
+          .text("Ohter Details:", 30, customerInformationBottom)
+          .font("Helvetica")
+          .text("Remarks:", 30, customerInformationBottom += 12)
+          .text("Bangel size 2-6 aana", 150, customerInformationBottom)
+          .text("Purity:", 30, customerInformationBottom += 12)
+          .text("22K", 150, customerInformationBottom)
+          .text("Gold Color:", 30, customerInformationBottom += 12)
+          .text("YELLOW", 150, customerInformationBottom)
+          .text("Gold Type:", 30, customerInformationBottom += 12)
+          .text("PG", 150, customerInformationBottom)
+          .text("Stamp (22K):", 30, customerInformationBottom += 12)
+          .text("916", 150, customerInformationBottom)
+          .text("Finishing:", 30, customerInformationBottom += 12)
+          .text("HIGH POLISH + DULL", 150, customerInformationBottom)
+          .text("Rhodium:", 30, customerInformationBottom += 12)
+          .text("STONE PART RHODIUM", 150, customerInformationBottom)
+          .text("Screw Type:", 30, customerInformationBottom += 12)
+          .text("NA", 150, customerInformationBottom)
+          .text("Patch Details:", 30, customerInformationBottom += 12)
+          .text("NA", 150, customerInformationBottom)
+          .text("Ladies Ring Size:", 30, customerInformationBottom += 12)
+          .text("12 to 14", 150, customerInformationBottom)
+          .text("Gents Ring Size:", 30, customerInformationBottom += 12)
+          .text("21 to 25", 150, customerInformationBottom)
+          .text("Ladies Bracelet Length:", 30, customerInformationBottom += 12)
+          .text("6.75 to 7.25", 170, customerInformationBottom)
+          .text("Gents Bracelet Length:", 30, customerInformationBottom += 12)
+          .text("8.25 to 8.5", 170, customerInformationBottom)
+          .text("Chain Length:", 30, customerInformationBottom += 12)
+          .text("21 to 21", 150, customerInformationBottom)
+          .text("NK / Mala Length:", 30, customerInformationBottom += 12)
+          .text("20 to 21", 150, customerInformationBottom)
+          .text("Bangle Size:", 30, customerInformationBottom += 12)
+          .text("2.6 to 2.6", 150, customerInformationBottom)
+      }
+      let footer = (doc, invoice) => {
+        if (invoice.footer.text.length !== 0) {
+          generateHr(doc, 760);
+          doc.fontSize(8).text(invoice.footer.text, 50, 770, {
+            align: "right",
+            width: 500
+          });
+        }
+      }
+
+      let totalTable = (
+        doc,
+        y,
+        name,
+        description
+      ) => {
+        doc
+          .fontSize(10)
+          .text(name, 380, y, {
+            width: 90,
+            align: "right"
+          })
+          .text(description, 0, y, {
+            align: "right"
+          })
+      }
+
+      let tableRowIGST = (
+        doc,
+        y,
+        sr,
+        code,
+        gross_stone,
+        net_wt,
+        kt,
+        size,
+        pcs,
+        amount,
+        fine,
+        total,
+        img
+      ) => {
+        doc
+          .fontSize(10)
+          .text(sr, 30, y, {
+            width: 10,
+            align: "center"
+          })
+          .text(code, 45, y, {
+            width: 50,
+            align: "center"
+          })
+          .text(gross_stone, 95, y, {
+            width: 55,
+            align: "center"
+          })
+          .text(net_wt, 150, y, {
+            width: 50,
+            align: "center"
+          })
+          .text(kt, 200, y, {
+            width: 30,
+            align: "center"
+          })
+          .text(size, 230, y, {
+            width: 30,
+            align: "center"
+          })
+          .text(pcs, 260, y, {
+            width: 25,
+            align: "center"
+          })
+          .text(amount, 285, y, {
+            width: 55,
+            align: "center"
+          })
+          .text(fine, 340, y, {
+            width: 50,
+            align: "center"
+          })
+          .text(total, 390, y, {
+            width: 55,
+            align: "center"
+          });
+        if (!img.includes("base64")) {
+          doc.text(img, 445, y, {
+            width: 125,
+            align: "center"
+          });
+        } else {
+          doc.image(img, 445, y - 50, {
+            width: 120,
+            height: 100,
+            align: "center"
+          });
+        }
+      }
+      let generateHr = (doc, y) => {
+        doc
+          .strokeColor("#aaaaaa")
+          .lineWidth(1)
+          .moveTo(30, y)
+          .lineTo(570, y)
+          .stroke();
+      }
+      let generateVr = (doc, x, y1, y2) => {
+        doc
+          .strokeColor("#aaaaaa")
+          .lineWidth(1)
+          .moveTo(x, y1)
+          .lineTo(x, y2)
+          .stroke();
+      }
+
+      let formatCurrency = (value, symbol = "") => {
+        if (value) {
+          var x = value.toString().split('.');
+          var y = (x.length > 1 ? "." + x[1] : "");
+          x = x[0];
+          var lastThree = x.substring(x.length - 3);
+          var otherNumbers = x.substring(0, x.length - 3);
+          if (otherNumbers != '')
+            lastThree = ',' + lastThree;
+          var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+          return res + y + symbol;
+        } else {
+          return value + symbol;
+        }
+      }
+
+      let getNumber = str => {
+        if (str.length !== 0) {
+          var num = str.replace(/[^0-9]/g, '');
+        } else {
+          var num = 0;
+        }
+
+        return num;
+      }
+
+      let checkIfTaxAvailable = tax => {
+        let validatedTax = getNumber(tax);
+        if (Number.isNaN(validatedTax) === false && validatedTax <= 100 && validatedTax > 0) {
+          var taxValue = tax;
+        } else {
+          var taxValue = '---';
+        }
+
+        return taxValue;
+      }
+
+      let applyTaxIfAvailable = (price, gst) => {
+
+
+        let validatedTax = getNumber(gst);
+        if (Number.isNaN(validatedTax) === false && validatedTax <= 100) {
+          let taxValue = '.' + validatedTax;
+          var itemPrice = price * (1 + taxValue);
+        } else {
+          var itemPrice = price * (1 + taxValue);
+        }
+
+        return itemPrice;
+      }
+
+      let companyAddress = (doc, address) => {
+        let str = address;
+        // let chunks = str.match(/.{0,25}(\s|$)/g);
+        let chunks = str.split("\\");
+        let first = 50;
+        chunks.forEach(function(i, x) {
+          doc.fontSize(10).text(chunks[x], 300, first, {
+            align: "right"
+          });
+          first = +first + 15;
+        });
+      }
+
+      let niceInvoice = (invoice) => {
+        var doc = new PDFDocument({
+          size: "A4",
+          margin: 25
+        });
+        var stream = doc.pipe(blobStream());
+        header(doc, invoice);
+        customerInformation(doc, invoice);
+        invoiceTable(doc, invoice);
+        // footer(doc, invoice);
+        doc.end();
+        stream.on('finish', function() {
+          // get a blob you can do whatever you like with
+          const blob = stream.toBlob('application/pdf');
+          // or get a blob URL for display in the browser
+          const url = stream.toBlobURL('application/pdf');
+
+          const downloadLink = document.createElement('a');
+          downloadLink.href = url;
+          downloadLink.download = invoice.orderNo;
+          downloadLink.click();
+        });
+      }
+      niceInvoice(invoiceDetail);
     }
   });
 });
