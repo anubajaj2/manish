@@ -226,10 +226,11 @@ sap.ui.define([
       }
     },
     getOrderSummary: function(cartItems, that) {
-      var html = "";
-      var totalAmount = 0;
-      var totalWeight = 0;
-      var date = new Date();
+      var html = "",
+        totalAmount = 0,
+        totalWeight = 0,
+        date = new Date(),
+        customer = this._oLocalModel.getProperty("/CustomerData");
       cartItems.forEach((oItem) => {
         html += "<li><p style=\"font-weight:500;font-size:larger;\"> Item : " + oItem.Category + " / " + oItem.SubCategory + " / " + oItem.Name +
           "<br> Gross Weight : " + oItem.GrossWeight + " g" +
@@ -238,15 +239,14 @@ sap.ui.define([
         totalAmount += oItem.Amount;
         totalWeight += oItem.GrossWeight;
       });
-      var customer = this._oLocalModel.getProperty("/CustomerData");
+
       html = "<h1 style=\"color:green; font-weight:800; font-size:xx-large;\">Order Summary</h1><hr>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Name : " + customer.Name + " &nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Date : " + Date().slice(0, 24) + " IST<br>Code &nbsp;: " + customer.CustomerCode + "</p>" + "<ol>" + html + "</ol>" +
         "<p style=\"color:green; font-weight:600; font-size:x-large;\">Total Amount : " + totalAmount + " INR&nbsp;&nbsp;&nbsp;&nbsp; " +
         " &nbsp;&nbsp;&nbsp;&nbsp;Total Weight : " + totalWeight.toFixed(2) + " g</p>";
-      var orderNo = customer.CustomerCode + "-" + date.getFullYear() + "" + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + "-" + that._oLocalModel.getProperty("/lastOrder/OrderNo");
-      that.orderNo = orderNo;
-      html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + orderNo + " , Please check your email for more details</p>";
+      var invoiceNo = this._oLocalModel.getProperty("/lastOrder/InvoiceNo");
+      html += "<p style=\"color:blue; font-weight:600; font-size:x-large;\">Your Order Number is " + invoiceNo + " , Please check your email for more details</p>";
       that._oLocalModel.setProperty("/OrderSummaryHTML", html);
     },
     saveOrderItem: function(id, cartItems, orderItemPayload, that, index = 0) {
@@ -297,13 +297,16 @@ sap.ui.define([
       // if (sap.ui.getCore().getMessageManager().getMessageModel().getData().length > 0) {
       //   MessageBox.error(this.getResourceBundle().getText("popOverMessageText"));
       // } else {
-      var orderHeaderPayload = this._oLocalModel.getProperty("/OrderHeader");
-      var cartItems = this._oLocalModel.getProperty("/cartItems");
-      var orderItemPayload = this._oLocalModel.getProperty("/OrderItem");
-      var customCalculations = this._oLocalModel.getProperty("/CustomCalculations");
-      // var allWeightsSel = this._oLocalModel.getProperty("/addedWeights");
-      var orderNo = this._oLocalModel.getProperty("/lastOrder/OrderNo") + 1;
+      var orderHeaderPayload = this._oLocalModel.getProperty("/OrderHeader"),
+        cartItems = this._oLocalModel.getProperty("/cartItems"),
+        orderItemPayload = this._oLocalModel.getProperty("/OrderItem"),
+        customCalculations = this._oLocalModel.getProperty("/CustomCalculations"),
+        orderNo = this._oLocalModel.getProperty("/lastOrder/OrderNo") + 1,
+        customer = this._oLocalModel.getProperty("/CustomerData"),
+        date = new Date(),
+        invoiceNo = customer.CustomerCode + "-" + date.getFullYear() + "" + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + "-" + orderNo;
       orderHeaderPayload.OrderNo = orderNo;
+      orderHeaderPayload.InvoiceNo = invoiceNo;
       orderHeaderPayload.Date = Date();
       orderHeaderPayload.GoldBhav22 = customCalculations.Gold;
       orderHeaderPayload.GoldBhav20 = customCalculations.Gold;
@@ -316,6 +319,7 @@ sap.ui.define([
             "/OrderHeaders", "POST", {}, orderHeaderPayload, this)
           .then(function(data) {
             that._oLocalModel.setProperty("/lastOrder/OrderNo", orderNo);
+            that._oLocalModel.setProperty("/lastOrder/InvoiceNo", invoiceNo);
             that.saveOrderItem(data.id, cartItems, orderItemPayload, that);
             // MessageToast.show("Product Created Successfully");
           }).catch(function(oError) {
@@ -376,6 +380,7 @@ sap.ui.define([
     },
     onDownloadInvoice: function() {
       var customer = this._oLocalModel.getProperty("/CustomerData");
+      var invoiceNo = this._oLocalModel.getProperty("/lastOrder/InvoiceNo");
       // var country = this.getCountryNameFromCode(Country);
       var cartItems = this._oLocalModel.getProperty("/invoiceData"),
         invoiceItems = [],
@@ -419,7 +424,7 @@ sap.ui.define([
           Email: "Smdaishpra@gmail.com",
           City: "Jaipur"
         },
-        orderNo: this.orderNo ? this.orderNo : "N/A",
+        orderNo: invoiceNo ? invoiceNo : "N/A",
         remarks: "N/A",
         items: invoiceItems,
         IGST: "NONE",
@@ -905,7 +910,7 @@ sap.ui.define([
 
           const downloadLink = document.createElement('a');
           downloadLink.href = url;
-          downloadLink.download = customer.Name + "_" + that.orderNo;
+          downloadLink.download = customer.Name + "_" + invoiceNo;
           downloadLink.click();
         });
       }

@@ -166,7 +166,7 @@ sap.ui.define([
       var sImage = sPath + "/ToPhotos/0/Content";
       oEvent.getSource().setSrc(this.allImageURLs[sImage].sUrl);
     },
-    addProductToCart: function(id, productRec, allSelectedWeights, PictureUrl, oBtn) {
+    addProductToCart: function(id, productRec, allSelectedWeights, picture) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");
       var cartItem = {};
       cartItem.id = id;
@@ -179,7 +179,7 @@ sap.ui.define([
       cartItem.Category = productRec.Category;
       cartItem.SubCategory = productRec.SubCategory;
       cartItem.ApproverId = productRec.CreatedBy;
-      cartItem.PictureUrl = PictureUrl;
+      cartItem.Picture = picture.sBase64;
       for (var i = 0; i < allSelectedWeights.length; i++) {
         cartItem.GrossWeight = allSelectedWeights[i].GrossWeight;
         cartItem.LessWeight = allSelectedWeights[i].LessWeight;
@@ -277,7 +277,7 @@ sap.ui.define([
               "/CartItems", "POST", {}, cartItemPayload, that)
             .then(function(data) {
               MessageToast.show("Added to cart");
-              that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"], oBtn);
+              that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.allImageURLs[that.sPath + "/ToPhotos/0/Content"]);
             }).catch(function(oError) {
               MessageBox.error("Error while saving cart item");
             });
