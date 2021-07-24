@@ -380,7 +380,7 @@ sap.ui.define([
       oNavContainer.to(this.byId("wizardContentPage"));
     },
     onDownloadInvoice: function() {
-      this.generateInvoiceWithOrderId(that._oLocalModel.getProperty("/lastOrder/OrderId"));
+      this.generateInvoiceWithOrderId(this._oLocalModel.getProperty("/lastOrder/OrderId"));
     }
     // onDownloadInvoice: function() {
     //   var customer = this._oLocalModel.getProperty("/CustomerData");

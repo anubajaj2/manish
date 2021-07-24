@@ -566,7 +566,7 @@ app.get('/loadInvoiceDataByOrderId',
             SIZE: item.ToWeight.PairSize,
             PCS: item.ToWeight.$Piece,
             AMOUNT: item.ToWeight.$MoreAmount,
-            FINE: parseFloat((item.ToMaterial.$NetWeight * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100).toFixed(3)),
+            FINE: parseFloat((item.ToWeight.$NetWeight * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100).toFixed(3)),
             TOTAL: item.ToWeight.$Amount + (item.ToWeight.$Piece * item.ToWeight.$MoreAmount),
             IMG: item.ToMaterial.__data.ToPhotos[0].$Content
           });
