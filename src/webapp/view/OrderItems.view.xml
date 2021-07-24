@@ -14,8 +14,11 @@
 					path: 'CreatedOn'
 				}
 			}" mode="None" includeItemInSelection="false">
+
+<!-- icon = "{path: 'OrderItemModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }" -->
+
 				<ObjectListItem title="{OrderItemModel>ToMaterial/TagNo} - {path: 'OrderItemModel>ToMaterial/Category', formatter: '.formatter.getCategoryName22'}"
-					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem" icon = "{path: 'OrderItemModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }">
+					number="{ path: 'OrderItemModel>ToWeight/Amount', formatter: '.formatter.getIndianCurr' }" numberUnit="INR" navigated="true" press="onNextItem">
 					<attributes>
 						<ObjectAttribute text="Gross Weight. : {OrderItemModel>ToWeight/GrossWeight}" visible="true"/>
 						<ObjectAttribute text="Less Weight. : {OrderItemModel>ToWeight/LessWeigh}" visible="true"/>

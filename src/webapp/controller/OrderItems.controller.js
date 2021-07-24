@@ -12,7 +12,7 @@ sap.ui.define([
 	return BaseController.extend("sap.ui.demo.cart.controller.OrderItems", {
 		onInit: function() {
 			debugger;
-			var odataModel = new JSONModel({
+				var odataModel = new JSONModel({
 				"groupCodeState": "None",
 				"emailState": "None",
 				"PatternState": "None",
@@ -22,11 +22,14 @@ sap.ui.define([
 			this._router = UIComponent.getRouterFor(this);
 			this._router.getRoute("OrderItems").attachMatched(this.herculis, this);
 			this.getView().byId('idListOI').refreshItems();
+
 		},
 
 		herculis: function(oEvent) {
 			debugger;
+			this.getView().getModel("OrderItemModel").setProperty("/OrderItems", "");
 			this.getView().setBusy(true);
+			this.firstTwoDisplay();
 			var oList = this.getView().byId("idListOI");
 			oEvent.getParameter('arguments').id;
 			var CreatedBy = oEvent.getParameter('arguments').id;
@@ -38,17 +41,17 @@ sap.ui.define([
 					that.getView().getModel("OrderItemModel").setProperty("/OrderItems", data);
 
 				});
-				// oList.attachUpdateFinished(this.counter, this);
+
 
 				setTimeout(() => {
 					this.getView().setBusy(false);
 				}, 1000);
 
+			oList.attachUpdateFinished(this.counter, this);
 			that.getView().byId('idListOI').refreshItems();
 
-
 			// this.getModel("local").setProperty("/layout", LayoutType.TwoColumnsMidExpanded);
-			// this.firstTwoDisplay();
+
 			// var sScooby = oEvent.getParameters().arguments.id;
 			//
 
@@ -88,22 +91,22 @@ sap.ui.define([
 			for (var i = 0; i < items.length; i++) {
 				var sPath = items[i].getBindingContextPath();
 				// var picsSize = oDataModel1.getProperty(sPath + "/ToProduct/ToPhotos");
-				var sImage = sPath + "/ToProduct/ToPhotos/0/Content";
+				var sImage = sPath + "/ToMaterial/ToPhotos/0/Content";
 				var sUrl = formatter.getImageUrlFromContent(oDataModel1.getProperty(sImage));
-				if (!this.allImageURLs[sImage]) {
-					this.allImageURLs[sImage] = sUrl;
-				}
+				// if (!this.allImageURLs[sImage]) {
+				// 	this.allImageURLs[sImage] = sUrl;
+				// }
 				items[i].setIcon(sUrl);
 			}
 
 		},
-
-
 		onBack: function() {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.getView().byId('idListOI').refreshItems();
 			// this.getView().byId('idListOI').removeAllItems();
 			this.oRouter.navTo("OrderStatus");
+			this.getView().byId('idListOI').refreshItems();
+			this.getView().getModel("OrderItemModel").setProperty("/OrderItems", "");
 
 		}
 	});
