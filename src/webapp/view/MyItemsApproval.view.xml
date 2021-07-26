@@ -45,6 +45,12 @@
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
+					<Column hAlign="Center">
+						<Text text="Picture"/>
+					</Column>
+					<Column hAlign="Center">
+						<Text text="Date"/>
+					</Column>
 					<Column width="12em" hAlign="Center">
 						<Text text="TagNo"/>
 					</Column>
@@ -66,12 +72,8 @@
 					<Column hAlign="Center">
 						<Text text="Karat"/>
 					</Column>
-					<Column hAlign="Center">
-						<Text text="Wastage"/>
-					</Column>
-					<Column hAlign="Center">
-						<Text text="Tunch"/>
-					</Column>
+
+
 					<Column hAlign="Center">
 						<Text text="Status"/>
 					</Column>
@@ -80,6 +82,8 @@
 					<ColumnListItem>
 						<cells>
 							<!-- <ObjectIdentifier title="{Name}" text="{ProductId}" /> -->
+							<Image id="IdImgeApprovalItem" width="5rem" src="{path: 'ItemApprovalModel>ToMaterial/ToPhotos/0/Content', formatter:'.formatter.getImageUrlFromContent' }" />
+							<Text text="{ path: 'ItemApprovalModel>CreatedOn', formatter: '.formatter.dateAndTime2'}"/>
 							<Text text="{ItemApprovalModel>ToMaterial/TagNo}"/>
 							<Text text="{ItemApprovalModel>ToOrderHeader/InvoiceNo}"/>
 							<Text text="{path: 'ItemApprovalModel>ToMaterial/Category', formatter:'.formatter.getCategoryName'}"/>
@@ -87,8 +91,8 @@
 							<Text text="{ItemApprovalModel>ToWeight/LessWeight}"/>
 							<Text text="{ItemApprovalModel>ToWeight/NetWeight}"/>
 							<Text text="{ItemApprovalModel>ToMaterial/Karat}"/>
-							<Text text="{ItemApprovalModel>ToMaterial/Tunch}"/>
-							<Text text="{ItemApprovalModel>ToMaterial/Wastage}"/>
+
+
 							<Select  forceSelection="false" change="onStatusChange" editable="{=${ItemApprovalModel>Status}==='N'?true:false}"
 								selectedKey="{ItemApprovalModel>Status}">
 								<core:Item key="N" text="New"/>

@@ -291,6 +291,17 @@ sap.ui.define([
       return date.slice(4, 15) + ", Time : " + date.slice(16, 24) + " IST";
     },
 
+    dateAndTime2: function(date) {
+      debugger;
+      var date1= date.split("-")
+      var date2 = date1[2].split(0)[0].split("")[0] + date1[2].split(0)[0].split("")[1];
+      var month = date1[1];
+      var year = date1[0];
+      var fulldate = date2 + "/" + month + "/" + year;
+      fulldate = fulldate.toString();
+      return fulldate;
+    },
+
     dateAndTime1: function(date) {
       date = date.toString();
       return date.slice(0, 10);
