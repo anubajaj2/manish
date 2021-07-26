@@ -397,6 +397,12 @@ app.get('/OrderItemApproval',
                       include: ['ToOrderItems']
                     }
                   },
+                  {
+                    relation: 'ToMaterial',
+                    scope: {
+                      include: ['ToPhotos']
+                    }
+                  },
 
                 ],
                 order: "CreatedOn DESC",
@@ -428,6 +434,13 @@ app.get('/OrderItemApproval',
                     include: ['ToOrderItems']
                   }
                 },
+                {
+                  relation: 'ToMaterial',
+                  scope: {
+                    include: ['ToPhotos']
+                  }
+                },
+
 
               ],
               order: "CreatedOn DESC",
@@ -474,6 +487,13 @@ app.get('/OrderItemApproval',
                 include: ['ToOrderItems']
               }
             },
+            {
+              relation: 'ToMaterial',
+              scope: {
+                include: ['ToPhotos']
+              }
+            },
+
 
           ],
           order: "CreatedOn DESC",
@@ -529,6 +549,13 @@ app.get('/OrderItemApproval',
                     include: ['ToOrderItems']
                   }
                 },
+                {
+                  relation: 'ToMaterial',
+                  scope: {
+                    include: ['ToPhotos']
+                  }
+                },
+
 
               ],
               order: "CreatedOn DESC",
@@ -557,6 +584,13 @@ app.get('/OrderItemApproval',
                 include: ['ToOrderItems']
               }
             },
+            {
+              relation: 'ToMaterial',
+              scope: {
+                include: ['ToPhotos']
+              }
+            },
+
 
           ],
           order: "CreatedOn DESC",
