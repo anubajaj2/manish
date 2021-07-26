@@ -53,12 +53,12 @@ app.use(fileUpload());
 //         }
 // });
 
-app.start = function() {
+app.start = function () {
   // start the web server
   //https.createServer(ssl,app).listen(443);
   //https.createServer(ssl,app).listen(8446);
   //http.createServer(app).listen(80);
-  return app.listen(function() {
+  return app.listen(function () {
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);
@@ -114,7 +114,7 @@ app.start = function() {
 //       });
 //     });
 // });
-app.post("/DeleteProduct", function(req, res) {
+app.post("/DeleteProduct", function (req, res) {
   var app = require('../server/server');
   var that = this;
   if (!req.body.productCode) {
@@ -126,34 +126,34 @@ app.post("/DeleteProduct", function(req, res) {
       ProductId: req.body.productCode
     }
   }).
-  then(function(product) {
-    if (!product) {
-      res.send("Product doesn't exist!");
-      return;
-    }
-    that.productId = product.id;
-    var orderItems = app.models.OrderItem;
-    orderItems.findOne({
-      where: {
-        Material: product.id
+    then(function (product) {
+      if (!product) {
+        res.send("Product doesn't exist!");
+        return;
       }
-    }).
-    then(function(result) {
-      debugger;
-      if (!result) {
-        res.send("id :" + that.productId);
-      } else {
-        res.send("No!, Order is created with this product");
-      }
+      that.productId = product.id;
+      var orderItems = app.models.OrderItem;
+      orderItems.findOne({
+        where: {
+          Material: product.id
+        }
+      }).
+        then(function (result) {
+          debugger;
+          if (!result) {
+            res.send("id :" + that.productId);
+          } else {
+            res.send("No!, Order is created with this product");
+          }
+        });
     });
-  });
 });
-app.get("/ToProdPhoto", function(req, res) {
+app.get("/ToProdPhoto", function (req, res) {
   var app = require('../server/server');
   debugger;
 });
 
-app.post("/GetAllPhotos", function(req, res) {
+app.post("/GetAllPhotos", function (req, res) {
   var app = require('../server/server');
   if (!req.body.productId) {
     return;
@@ -164,14 +164,14 @@ app.post("/GetAllPhotos", function(req, res) {
       Product: req.body.productId
     }
   }).
-  then(function(allImages) {
-    res.send({
-      "allImages": allImages
+    then(function (allImages) {
+      res.send({
+        "allImages": allImages
+      });
     });
-  });
 });
 
-app.post("/DeletePhotos", function(req, res) {
+app.post("/DeletePhotos", function (req, res) {
   var app = require('../server/server');
   var Pics = app.models.Photo;
   if (!req.body.images) {
@@ -179,25 +179,25 @@ app.post("/DeletePhotos", function(req, res) {
   }
   var images = req.body.images;
   for (var i = 0; i < images.length; i++) {
-    Pics.destroyById(images[i].id).then(function(token) {
+    Pics.destroyById(images[i].id).then(function (token) {
       res.send("deleted");
     });
   }
 
 });
 
-app.post("/DeletePhoto", function(req, res) {
+app.post("/DeletePhoto", function (req, res) {
   var app = require('../server/server');
   var Pics = app.models.Photo;
   if (!req.body.id) {
     return;
   }
-  Pics.destroyById(req.body.id).then(function(token) {
+  Pics.destroyById(req.body.id).then(function (token) {
     res.send("deleted");
   });
 });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // var Token = app.models.AccessToken;
   // if(req.method === "GET"){
   // 	next();
@@ -220,14 +220,14 @@ app.use(function(req, res, next) {
 });
 
 app.post("/Photos",
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var Pics = app.models.Photo;
     if (!req.body.images) {
       return;
     }
     var productId = req.body.images[0].Product;
-    Pics.create(req.body.images, function(error, created) {
+    Pics.create(req.body.images, function (error, created) {
       debugger;
       if (error) {
         res.send({
@@ -240,17 +240,17 @@ app.post("/Photos",
             Product: productId
           }
         }).
-        then(function(allImages) {
-          res.send({
-            "allImages": allImages
+          then(function (allImages) {
+            res.send({
+              "allImages": allImages
+            });
           });
-        });
       }
     });
   });
 
 
-app.post("/SoldProduct", function(req, res) {
+app.post("/SoldProduct", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var record = req.body.record;
@@ -258,7 +258,7 @@ app.post("/SoldProduct", function(req, res) {
     return;
   }
   ProdWeight.findById(req.body.record.id).then(
-    function(product) {
+    function (product) {
       if (!product) {
         res.send("No Record Found");
         return;
@@ -292,23 +292,23 @@ app.post("/SoldProduct", function(req, res) {
 // );
 
 app.get('/LastOrderItem',
-  function(req, res) {
+  function (req, res) {
     var Createdby = req.query.CreatedBy;
     var OrderHeader = app.models.OrderHeader;
     OrderHeader.find({
-        where: {
-          "CreatedBy": Createdby
-        },
-        include: [{
-          relation: 'ToOrderItems',
-          scope: {
-            include: ['ToMaterial', 'ToWeight']
-          }
-        }],
-        order: "CreatedOn DESC",
-        limit: 1
-      })
-      .then(function(orderHeader) {
+      where: {
+        "CreatedBy": Createdby
+      },
+      include: [{
+        relation: 'ToOrderItems',
+        scope: {
+          include: ['ToMaterial', 'ToWeight']
+        }
+      }],
+      order: "CreatedOn DESC",
+      limit: 1
+    })
+      .then(function (orderHeader) {
         var total = 0;
         var totalGold = 0;
         var orderNo = 0;
@@ -329,7 +329,7 @@ app.get('/LastOrderItem',
   }
 );
 app.get('/OrderItemApproval',
-  function(req, res) {
+  function (req, res) {
     debugger;
     var Createdby = req.query.Createdby;
     var limit = parseInt(req.query.limit);
@@ -337,92 +337,92 @@ app.get('/OrderItemApproval',
     var TagNo = req.query.TagNo;
     var OrderNo = req.query.OrderNo;
     var Category = req.query.Category;
-     if (Category && Category!=="undefined") {
+    if (Category && Category !== "undefined") {
       var product = app.models.Product;
       product.find({
-          where: {
-            and: [{
-                "CreatedBy": Createdby
-              },
-              {
+        where: {
+          and: [{
+            "CreatedBy": Createdby
+          },
+          {
 
-                "Category":Category
-              }
-            ]
+            "Category": Category
           }
-          // ,
-          // include: [
-          //   ['ToOrderItem'],
+          ]
+        }
+        // ,
+        // include: [
+        //   ['ToOrderItem'],
 
-          //   {
-          //     relation: 'ToOrderItem',
-          //     scope: {
-          //       include: ['ToOrderItems'],
-          //       where:{
-          //         "ApproverId": Createdby
-          //       },
-          //       limit:limit,
-          //       skip:limit-10
-          //     }
-          //   },
+        //   {
+        //     relation: 'ToOrderItem',
+        //     scope: {
+        //       include: ['ToOrderItems'],
+        //       where:{
+        //         "ApproverId": Createdby
+        //       },
+        //       limit:limit,
+        //       skip:limit-10
+        //     }
+        //   },
 
-          // ],
-        })
-        .then(async function(product) {
+        // ],
+      })
+        .then(async function (product) {
           debugger;
-          if(product.length>1){
-            var ordar=[];
-            for(var i=0;i<product.length;i++){
+          if (product.length > 1) {
+            var ordar = [];
+            for (var i = 0; i < product.length; i++) {
               var id = product[i].id.toString();
 
               ordar.push(id);
             }
             var OrderItem = app.models.OrderItem;
-              var OrderIt=await OrderItem.find({
-                where: {
-                  and: [{
-                      "ApproverId": Createdby
-                    },
-                    {
-                      "Material":  {inq: ordar}
-                    }
-                  ]
+            var OrderIt = await OrderItem.find({
+              where: {
+                and: [{
+                  "ApproverId": Createdby
                 },
-                include: [
-                  ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+                {
+                  "Material": { inq: ordar }
+                }
+                ]
+              },
+              include: [
+                ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
 
-                  {
-                    relation: 'ToOrderHeader',
-                    scope: {
-                      include: ['ToOrderItems']
-                    }
-                  },
-                  {
-                    relation: 'ToMaterial',
-                    scope: {
-                      include: ['ToPhotos']
-                    }
-                  },
+                {
+                  relation: 'ToOrderHeader',
+                  scope: {
+                    include: ['ToOrderItems']
+                  }
+                },
+                {
+                  relation: 'ToMaterial',
+                  scope: {
+                    include: ['ToPhotos']
+                  }
+                },
 
-                ],
-                order: "CreatedOn DESC",
-                limit: limit,
-                skip: limit - 10
-              })
+              ],
+              order: "CreatedOn DESC",
+              limit: limit,
+              skip: limit - 10
+            })
               .then()
             res.send(OrderIt);
           }
-          else{
-          var id = product[0].id.toString()
-          var OrderItem = app.models.OrderItem;
-          var OrderIt=await OrderItem.find({
+          else {
+            var id = product[0].id.toString()
+            var OrderItem = app.models.OrderItem;
+            var OrderIt = await OrderItem.find({
               where: {
                 and: [{
-                    "ApproverId": Createdby
-                  },
-                  {
-                    "Material": id
-                  }
+                  "ApproverId": Createdby
+                },
+                {
+                  "Material": id
+                }
                 ]
               },
               include: [
@@ -447,160 +447,160 @@ app.get('/OrderItemApproval',
               limit: limit,
               skip: limit - 10
             })
-            .then()
-          res.send(OrderIt);
+              .then()
+            res.send(OrderIt);
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           debugger;
         });
-    } else if(OrderNo && OrderNo!=="undefined") {
+    } else if (OrderNo && OrderNo !== "undefined") {
       var OrderHeader = app.models.OrderHeader;
       OrderHeader.find({
-          where: {
-            "InvoiceNo": OrderNo
-          },
-          limit: limit,
-          skip: limit - 10
-        })
-        .then(function(orderHead) {
+        where: {
+          "InvoiceNo": OrderNo
+        },
+        limit: limit,
+        skip: limit - 10
+      })
+        .then(function (orderHead) {
           // res.send(orderItems);
           debugger;
           var id = orderHead[0].id.toString()
           var OrderItem = app.models.OrderItem;
-      OrderItem.find({
-          where: {
-            and: [{
-              "ApproverId": Createdby
-            },
-            {
-              "OrderNo": id
-            }
-          ]
-          },
-          include: [
-            ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-
-            {
-              relation: 'ToOrderHeader',
-              scope: {
-                include: ['ToOrderItems']
+          OrderItem.find({
+            where: {
+              and: [{
+                "ApproverId": Createdby
+              },
+              {
+                "OrderNo": id
               }
+              ]
             },
-            {
-              relation: 'ToMaterial',
-              scope: {
-                include: ['ToPhotos']
-              }
-            },
+            include: [
+              ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+
+              {
+                relation: 'ToOrderHeader',
+                scope: {
+                  include: ['ToOrderItems']
+                }
+              },
+              {
+                relation: 'ToMaterial',
+                scope: {
+                  include: ['ToPhotos']
+                }
+              },
 
 
-          ],
-          order: "CreatedOn DESC",
-          limit: limit,
-          skip: limit - 10
+            ],
+            order: "CreatedOn DESC",
+            limit: limit,
+            skip: limit - 10
+          })
+            .then(function (orderItems) {
+              debugger;
+              res.send(orderItems);
+            })
+            .catch(function (err) {
+              debugger;
+            });
         })
-        .then(function(orderItems) {
-          debugger;
-          res.send(orderItems);
-        })
-        .catch(function(err) {
-          debugger;
-        });
-        })
-        .catch(function(err) {
+        .catch(function (err) {
           debugger;
         });
     }
-    else if(TagNo && TagNo!=="undefined"){
+    else if (TagNo && TagNo !== "undefined") {
       var product = app.models.Product;
       product.find({
-          where: {
-            and: [{
-                "CreatedBy": Createdby
-              },
-              {
+        where: {
+          and: [{
+            "CreatedBy": Createdby
+          },
+          {
 
-                "TagNo":TagNo
-              }
-            ]
+            "TagNo": TagNo
           }
-        })
-        .then(async function(product) {
+          ]
+        }
+      })
+        .then(async function (product) {
           debugger;
           var id = product[0].id.toString()
           var OrderItem = app.models.OrderItem;
-          var OrderIt=await OrderItem.find({
-              where: {
-                and: [{
-                    "ApproverId": Createdby
-                  },
-                  {
-                    "Material": id
-                  }
-                ]
+          var OrderIt = await OrderItem.find({
+            where: {
+              and: [{
+                "ApproverId": Createdby
               },
-              include: [
-                ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+              {
+                "Material": id
+              }
+              ]
+            },
+            include: [
+              ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
 
-                {
-                  relation: 'ToOrderHeader',
-                  scope: {
-                    include: ['ToOrderItems']
-                  }
-                },
-                {
-                  relation: 'ToMaterial',
-                  scope: {
-                    include: ['ToPhotos']
-                  }
-                },
+              {
+                relation: 'ToOrderHeader',
+                scope: {
+                  include: ['ToOrderItems']
+                }
+              },
+              {
+                relation: 'ToMaterial',
+                scope: {
+                  include: ['ToPhotos']
+                }
+              },
 
 
-              ],
-              order: "CreatedOn DESC",
-              limit: limit,
-              skip: limit - 10
-            })
+            ],
+            order: "CreatedOn DESC",
+            limit: limit,
+            skip: limit - 10
+          })
             .then()
           res.send(OrderIt);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           debugger;
         });
     }
-    else{
+    else {
       var OrderItem = app.models.OrderItem;
       OrderItem.find({
-          where: {
-            "ApproverId": Createdby
+        where: {
+          "ApproverId": Createdby
+        },
+        include: [
+          ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
+
+          {
+            relation: 'ToOrderHeader',
+            scope: {
+              include: ['ToOrderItems']
+            }
           },
-          include: [
-            ['ToMaterial', 'ToWeight', 'ToOrderHeader'],
-
-            {
-              relation: 'ToOrderHeader',
-              scope: {
-                include: ['ToOrderItems']
-              }
-            },
-            {
-              relation: 'ToMaterial',
-              scope: {
-                include: ['ToPhotos']
-              }
-            },
+          {
+            relation: 'ToMaterial',
+            scope: {
+              include: ['ToPhotos']
+            }
+          },
 
 
-          ],
-          order: "CreatedOn DESC",
-          limit: limit,
-          skip: limit - 10
-        })
-        .then(function(orderItems) {
+        ],
+        order: "CreatedOn DESC",
+        limit: limit,
+        skip: limit - 10
+      })
+        .then(function (orderItems) {
           res.send(orderItems);
         })
-        .catch(function(err) {
+        .catch(function (err) {
           debugger;
         });
     }
@@ -721,39 +721,39 @@ app.get('/OrderItemApproval',
 
 
 app.get('/OrderItemShows',
-  function(req, res) {
+  function (req, res) {
     debugger;
     var OrderNo = req.query.OrderNo;
     // var Createdby = '60f7dccb3ae72a407443ff0b';
     var OrderItem = app.models.OrderItem;
     OrderItem.find({
-        where: {
-          "OrderNo": OrderNo
+      where: {
+        "OrderNo": OrderNo
+      },
+      include: [
+        ['ToMaterial', 'ToWeight', 'ToOrderHeader', "ToProduct"],
+
+        {
+          relation: 'ToOrderHeader',
+          scope: {
+            include: ['ToOrderItems']
+          }
         },
-        include: [
-          ['ToMaterial', 'ToWeight', 'ToOrderHeader', "ToProduct"],
+        {
+          relation: 'ToMaterial',
+          scope: {
+            include: ['ToPhotos']
+          }
+        },
 
-          {
-            relation: 'ToOrderHeader',
-            scope: {
-              include: ['ToOrderItems']
-            }
-          },
-          {
-            relation: 'ToMaterial',
-            scope: {
-              include: ['ToPhotos']
-            }
-          },
-
-        ],
-        order: "CreatedOn DESC"
-      })
-      .then(function(orderItems) {
+      ],
+      order: "CreatedOn DESC"
+    })
+      .then(function (orderItems) {
         debugger;
         res.send(orderItems);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         debugger;
       });
   }
@@ -762,27 +762,27 @@ app.get('/OrderItemShows',
 
 
 app.get('/LastMonthOrderItems',
-  function(req, res) {
+  function (req, res) {
     var Createdby = req.query.CreatedBy;
     var date = new Date(),
       y = date.getFullYear(),
       m = date.getMonth();
     var OrderHeader = app.models.OrderHeader;
     OrderHeader.find({
-        where: {
-          "CreatedBy": Createdby,
-          "CreatedOn": {
-            between: [new Date(y, m - 1, 1), new Date(y, m, 0)]
-          }
-        },
-        include: [{
-          relation: 'ToOrderItems',
-          scope: {
-            include: ['ToMaterial', 'ToWeight']
-          }
-        }]
-      })
-      .then(function(orderHeader) {
+      where: {
+        "CreatedBy": Createdby,
+        "CreatedOn": {
+          between: [new Date(y, m - 1, 1), new Date(y, m, 0)]
+        }
+      },
+      include: [{
+        relation: 'ToOrderItems',
+        scope: {
+          include: ['ToMaterial', 'ToWeight']
+        }
+      }]
+    })
+      .then(function (orderHeader) {
         var total = 0,
           totalGold = 0;
         orderHeader.forEach((order) => {
@@ -802,7 +802,7 @@ app.get('/LastMonthOrderItems',
 );
 
 app.get('/loadInvoiceDataByOrderId',
-  function(req, res) {
+  function (req, res) {
     var idOrd = req.query.OrderId;
     // var date = new Date(),
     //   y = date.getFullYear(),
@@ -810,22 +810,22 @@ app.get('/loadInvoiceDataByOrderId',
     // var idOrd = '60fbb2145a35de7b50e5a11b';
     var OrderHeader = app.models.OrderHeader;
     OrderHeader.findOne({
-        where: {
-          id: idOrd
-        },
-        include: [{
-          relation: 'ToOrderItems',
-          scope: {
-            include: [{
-              relation: 'ToMaterial',
-              scope: {
-                include: ['ToPhotos']
-              }
-            }, 'ToWeight']
-          }
-        }]
-      })
-      .then(function(orderHeader) {
+      where: {
+        id: idOrd
+      },
+      include: [{
+        relation: 'ToOrderItems',
+        scope: {
+          include: [{
+            relation: 'ToMaterial',
+            scope: {
+              include: ['ToPhotos']
+            }
+          }, 'ToWeight']
+        }
+      }]
+    })
+      .then(function (orderHeader) {
         debugger;
         var total = 0,
           totalGold = 0;
@@ -861,38 +861,38 @@ app.get('/loadInvoiceDataByOrderId',
 );
 
 app.get('/LoadCartItems',
-  function(req, res) {
+  function (req, res) {
     var Createdby = req.query.CreatedBy;
     async.waterfall([
-      function(callback) {
+      function (callback) {
         var CartItem = app.models.CartItem;
         CartItem.find({
-            where: {
-              "CreatedBy": Createdby
-            },
-            include: [{
-              relation: 'ToMaterial',
-              scope: {
-                include: [{
-                  relation: 'ToPhotos',
-                  limit: 1
-                }]
-              }
-            }, 'ToWeight']
-          })
-          .then(function(cartItems, err) {
+          where: {
+            "CreatedBy": Createdby
+          },
+          include: [{
+            relation: 'ToMaterial',
+            scope: {
+              include: [{
+                relation: 'ToPhotos',
+                limit: 1
+              }]
+            }
+          }, 'ToWeight']
+        })
+          .then(function (cartItems, err) {
             callback(err, cartItems);
           });
       },
-      function(cartItems, callback) {
+      function (cartItems, callback) {
         app.models.CustomCalculation.find({
-            //
-          })
-          .then(function(customCalculation, err) {
+          //
+        })
+          .then(function (customCalculation, err) {
             callback(err, cartItems, customCalculation);
           });
       }
-    ], function(err, cartItems, customCalculation) {
+    ], function (err, cartItems, customCalculation) {
       res.send({
         cartItems,
         customCalculation
@@ -902,42 +902,42 @@ app.get('/LoadCartItems',
 );
 
 app.get('/LoadFavorites',
-  function(req, res) {
+  function (req, res) {
     var Createdby = req.query.CreatedBy;
     var Favorite = app.models.FavoriteItem;
     Favorite.find({
-        where: {
-          "CreatedBy": Createdby
-        },
-        include: [{
-          relation: 'ToMaterial',
-          scope: {
-            include: [{
-              relation: 'ToPhotos',
-              limit: 1
-            }]
-          }
-        }]
-      })
-      .then(function(favoriteItems, err) {
+      where: {
+        "CreatedBy": Createdby
+      },
+      include: [{
+        relation: 'ToMaterial',
+        scope: {
+          include: [{
+            relation: 'ToPhotos',
+            limit: 1
+          }]
+        }
+      }]
+    })
+      .then(function (favoriteItems, err) {
         res.send(favoriteItems);
       });
   }
 );
 
 app.get('/getpattern',
-  function(req, res) {
+  function (req, res) {
     var Createdby = req.Createdby;
     // var app = require('../server/server');
     var products = app.models.Product;
     products.find({
-        where: {
-          "CreatedBy": Createdby
-        },
-        order: "Count DESC",
-        limit: 1
-      })
-      .then(function(Products) {
+      where: {
+        "CreatedBy": Createdby
+      },
+      order: "Count DESC",
+      limit: 1
+    })
+      .then(function (Products) {
         debugger;
         if (Products.length === 0) {
           res.send("0");
@@ -948,7 +948,7 @@ app.get('/getpattern',
   }
 );
 
-app.post("/UpdateProdWeight", function(req, res) {
+app.post("/UpdateProdWeight", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var record = req.body.record;
@@ -956,7 +956,7 @@ app.post("/UpdateProdWeight", function(req, res) {
     return;
   }
   ProdWeight.findById(req.body.record.id).then(
-    function(product) {
+    function (product) {
       if (!product) {
         res.send("record not found");
         return;
@@ -990,36 +990,66 @@ app.post("/UpdateProdWeight", function(req, res) {
 
 });
 app.get('/getLogo',
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var logo = fs.readFileSync('./server/invoice/mangalam_ornament_logo.png', 'base64');
     res.send(logo);
   }
 );
-app.post("/OrderItemApproval", function(req, res) {
+app.post("/OrderItemApproval", async function (req, res) {
   debugger;
   var id = req.body.data.id;
   var status = req.body.data.Status;
-  var RejectionReason=req.body.data.RejectionReason;
+  var RejectionReason = req.body.data.RejectionReason;
   var OrderItem = app.models.OrderItem;
-  OrderItem.findById(id).then(function(Order) {
+  OrderItem.findById(id).then(async function (Order) {
     debugger;
     if (!Order) {
       res.send("No Record Found");
     }
     Order.updateAttributes({
-        "Status": status,
-        "RejectionReason":RejectionReason
-      }).then(function(d) {
-        debugger;
-      })
-      .catch(function(err) {
-        debugger;
-
-      });
+      "Status": status,
+      "RejectionReason": RejectionReason,
+      "ApprovedOn": new Date()
+    });
+    var OrderNum = Order.OrderNo.toString();
+    var OrderHeader = app.models.OrderHeader;
+    var OrderItem = app.models.OrderItem;
+    var Orders = await OrderItem.find({
+      where: {
+        "OrderNo": OrderNum
+      }
+    }).then();
+    var flag = 0;
+    var aFlag = 0, rFlag = 0;
+    for (let index = 0; index < Orders.length; index++) {
+      if (Orders[index].Status === "N") {
+        flag = 1;
+        break;
+      } else if (Orders[index].Status === "A") {
+        aFlag = aFlag + 1;
+      } else if (Orders[index].Status === "R") {
+        rFlag = rFlag + 1;
+      }
+    }
+    if (flag === 0) {
+      if (rFlag !== 0) {
+        var updateOrder = await OrderHeader.findById(OrderNum).then();
+        updateOrder.updateAttributes({
+          "Status": "P"
+        });
+      }
+     if (rFlag === 0) {
+        var updateOrder = await OrderHeader.findById(OrderNum).then();
+        updateOrder.updateAttributes({
+          "Status": "A"
+        });
+      }
+    }
+    res.send("Success");
   })
 });
-app.post("/GetProdWeights", function(req, res) {
+app.post("/GetProdWeights", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   if (!req.body.productId) {
@@ -1029,22 +1059,22 @@ app.post("/GetProdWeights", function(req, res) {
   ProdWeight.find({
     where: {
       and: [{
-          ProductId: productId
-        },
-        {
-          Status: "A"
-        }
+        ProductId: productId
+      },
+      {
+        Status: "A"
+      }
       ]
     }
   }).
-  then(function(ProdWeights) {
-    res.send({
-      "ProdWeights": ProdWeights
+    then(function (ProdWeights) {
+      res.send({
+        "ProdWeights": ProdWeights
+      });
     });
-  });
 });
 
-app.post("/DeleteProdWeights", function(req, res) {
+app.post("/DeleteProdWeights", function (req, res) {
   var app = require('../server/server');
   var ProdWeight = app.models.ProdWeight;
   var ProdWeights = req.body.ProdWeights;
@@ -1052,7 +1082,7 @@ app.post("/DeleteProdWeights", function(req, res) {
     return;
   }
   for (var i = 0; i < ProdWeights.length; i++) {
-    ProdWeight.destroyById(ProdWeights[i].id).then(function(token) {
+    ProdWeight.destroyById(ProdWeights[i].id).then(function (token) {
 
     });
   }
@@ -1062,7 +1092,7 @@ app.post("/DeleteProdWeights", function(req, res) {
 
 
 app.post("/ProdWeights",
-  function(req, res) {
+  function (req, res) {
     var app = require('../server/server');
     var ProdWeight = app.models.ProdWeight;
     if (!req.body.ProdWeights) {
@@ -1077,9 +1107,9 @@ app.post("/ProdWeights",
     ProdWeight.destroyAll({
       ProductId: productId,
       Status: "A"
-    }, function() {
+    }, function () {
       ProdWeight.create(req.body.ProdWeights,
-        function(error, created) {
+        function (error, created) {
           if (error) {
             res.send({
               error: error
@@ -1089,19 +1119,19 @@ app.post("/ProdWeights",
             ProdWeight.find({
               where: {
                 and: [{
-                    ProductId: productId
-                  },
-                  {
-                    Status: "A"
-                  }
+                  ProductId: productId
+                },
+                {
+                  Status: "A"
+                }
                 ]
               }
             }).
-            then(function(ProdWeights) {
-              res.send({
-                "ProdWeights": ProdWeights
+              then(function (ProdWeights) {
+                res.send({
+                  "ProdWeights": ProdWeights
+                });
               });
-            });
           }
         }
       );
@@ -1110,7 +1140,7 @@ app.post("/ProdWeights",
   });
 
 app.post('/changeUserStatus',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -1122,7 +1152,7 @@ app.post('/changeUserStatus',
       where: {
         "EmailId": req.body.emailId
       }
-    }).then(function(appUser) {
+    }).then(function (appUser) {
       if (appUser) {
         appUser.updateAttributes({
           blocked: req.body.bStat
@@ -1131,7 +1161,7 @@ app.post('/changeUserStatus',
       } else {
         res.send("User not found");
       }
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("Error Occurred");
     });
 
@@ -1139,7 +1169,7 @@ app.post('/changeUserStatus',
 );
 
 app.post('/updateLastLogin',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -1150,7 +1180,7 @@ app.post('/updateLastLogin',
       where: {
         "EmailId": req.body.emailId
       }
-    }).then(function(appUser) {
+    }).then(function (appUser) {
       if (appUser) {
         appUser.updateAttributes({
           lastLogin: new Date()
@@ -1159,7 +1189,7 @@ app.post('/updateLastLogin',
       } else {
         res.send("User not found");
       }
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("Error Occurred");
     });
 
@@ -1172,8 +1202,8 @@ app.post('/updateLastLogin',
 //     // data.pipe(res);
 // });
 app.post('/invoice',
-  function(req, res) {
-    fs.readFile('./server/sampledata/invoice.html', null, function(error, data) {
+  function (req, res) {
+    fs.readFile('./server/sampledata/invoice.html', null, function (error, data) {
       if (error) {
         res.send("Error In Printing Invoice " + error);
         return;
@@ -1205,7 +1235,7 @@ app.post('/invoice',
   }
 );
 app.post('/changePassword',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.emailId) {
       res.send('No Email Id');
       return;
@@ -1226,14 +1256,14 @@ app.post('/changePassword',
     this.AppUser = app.models.AppUser;
     this.RoleMapping = app.models.RoleMapping;
     var _this = this;
-    this.Token.findById(req.body.Authorization).then(function(token) {
+    this.Token.findById(req.body.Authorization).then(function (token) {
       var _this2 = _this;
       _this2.userId = token.userId;
       _this.User.findOne({
         where: {
           email: req.body.emailId
         }
-      }).then(function(user) {
+      }).then(function (user) {
         if (user) {
           user.updateAttributes({
             password: req.body.newPassword
@@ -1244,7 +1274,7 @@ app.post('/changePassword',
             where: {
               "EmailId": user.email
             }
-          }).then(function(appUser) {
+          }).then(function (appUser) {
             if (appUser) {
               appUser.updateAttributes({
                 pwdChange: false,
@@ -1256,10 +1286,10 @@ app.post('/changePassword',
         } else {
           res.send("User Not Found");
         }
-      }).catch(function(err) {
+      }).catch(function (err) {
         res.send("You are not Authorized to perform this action");
       });
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("You are not Authorized to perform this action");
     });
 
@@ -1267,7 +1297,7 @@ app.post('/changePassword',
 );
 
 app.post('/createNewUser',
-  function(req, res) {
+  function (req, res) {
     if (!req.body.name) {
       res.send('No user name sent');
       return;
@@ -1292,21 +1322,21 @@ app.post('/createNewUser',
     this.AppUser = app.models.AppUser;
     this.RoleMapping = app.models.RoleMapping;
     var _this = this;
-    this.Token.findById(req.body.Authorization).then(function(token) {
+    this.Token.findById(req.body.Authorization).then(function (token) {
       var _this2 = _this;
       _this2.userId = token.userId;
       _this.User.findOne({
         where: {
           email: req.body.emailId
         }
-      }).then(function(user) {
+      }).then(function (user) {
         if (!user) {
           var _this3 = _this2;
           _this2.User.create({
             username: req.body.name,
             email: req.body.emailId,
             password: 'Welcome1'
-          }).then(function(user) {
+          }).then(function (user) {
             if (user) {
               var _this4 = _this3;
               _this3.TechnicalId = user.id;
@@ -1314,7 +1344,7 @@ app.post('/createNewUser',
                 where: {
                   "EmailId": user.email
                 }
-              }).then(function(roleMapping) {
+              }).then(function (roleMapping) {
                 debugger;
                 if (!roleMapping) {
                   _this4.AppUser.create({
@@ -1327,7 +1357,7 @@ app.post('/createNewUser',
                     blocked: false,
                     pwdChange: true,
                     lastLogin: new Date()
-                  }).then(function(roleMapping) {
+                  }).then(function (roleMapping) {
                     res.send("yes created");
                   });
                 }
@@ -1337,10 +1367,10 @@ app.post('/createNewUser',
         } else {
           res.send("User Already Exist!!");
         }
-      }).catch(function(err) {
+      }).catch(function (err) {
         res.send("You are not Authorized to perform this action");
       });
-    }).catch(function(err) {
+    }).catch(function (err) {
       res.send("You are not Authorized to perform this action");
     });
 
@@ -1348,7 +1378,7 @@ app.post('/createNewUser',
 );
 
 app.post('/upload',
-  function(req, res) {
+  function (req, res) {
     if (!req.files.myFileUpload) {
       res.send('No files were uploaded.');
       return;
@@ -1366,7 +1396,7 @@ app.post('/upload',
       });
       return "Error";
     }
-    sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function(err) {
+    sampleFile.mv('./uploads/' + req.files.myFileUpload.name, function (err) {
       if (err) {
         console.log("eror saving");
       } else {
@@ -1383,7 +1413,7 @@ app.post('/upload',
             input: './uploads/' + req.files.myFileUpload.name,
             output: null, //since we don't need output.json
             lowerCaseHeaders: true
-          }, function(err, result) {
+          }, function (err, result) {
             if (err) {
               return res.json({
                 error_code: 1,
@@ -1397,7 +1427,7 @@ app.post('/upload',
               data: result
             });
 
-            var getMyDate = function(strDate) {
+            var getMyDate = function (strDate) {
               var qdat = new Date();
               var x = strDate;
               qdat.setYear(parseInt(x.substr(0, 4)));
@@ -1421,21 +1451,21 @@ app.post('/upload',
                   newRec.Type = singleRec.type;
                   //singleRec.Date = getMyDate(singleRec.Date);
                   Category.findOrCreate({
-                      where: {
-                        and: [{
-                          Category: newRec.Category
-                        }, {
-                          SubCategory: newRec.SubCategory
-                        }, {
-                          Type: newRec.Type
-                        }]
-                      }
-                    }, newRec)
-                    .then(function(inq) {
+                    where: {
+                      and: [{
+                        Category: newRec.Category
+                      }, {
+                        SubCategory: newRec.SubCategory
+                      }, {
+                        Type: newRec.Type
+                      }]
+                    }
+                  }, newRec)
+                    .then(function (inq) {
                       debugger;
                       console.log("created successfully");
                     })
-                    .catch(function(err) {
+                    .catch(function (err) {
                       console.log(err);
                     });
                   break;
@@ -1457,7 +1487,7 @@ app.post('/upload',
   }
 );
 
-app.post('/PurchaseLiteSave', async function(req, res) {
+app.post('/PurchaseLiteSave', async function (req, res) {
   debugger;
   var app = require('../server/server');
   var oProdWeight = app.models.ProdWeight;
@@ -1533,7 +1563,7 @@ app.post('/PurchaseLiteSave', async function(req, res) {
 });
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
+boot(app, __dirname, function (err) {
   if (err) throw err;
 
   // start the server if `$ node server.js`
