@@ -269,9 +269,10 @@ sap.ui.define([
 			var oFilterA = new sap.ui.model.Filter("Status", "EQ", "A");
       var oFilterR = new sap.ui.model.Filter("Status", "EQ", "R");
       var oFilterD = new sap.ui.model.Filter("Status", "EQ", "D");
+			var oFilterP = new sap.ui.model.Filter("Status", "EQ", "P");
 			this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
 					"/OrderHeaders", "GET", {
-						filters: [oFilterN, oFilterA,oFilterR,oFilterD]
+						filters: [oFilterN, oFilterA,oFilterR,oFilterD,oFilterP]
 					},
 					// {},
 					{}, this)
@@ -339,7 +340,7 @@ sap.ui.define([
 					 sap.m.MessageBox.error("This is already delivered Data");
 					 return;
 		 }
-		 
+
 			if (sPaths.length) {
 				this.orderStatusUpdate(sPaths, "D");
 			}

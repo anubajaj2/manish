@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
-  <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="39%" placement="Bottom" ariaLabelledBy="master-title">
+  <Popover title="Hello! {local>/CustomerData/Name}" initialFocus="close" contentWidth="18%" contentHeight="45%" placement="Bottom" ariaLabelledBy="master-title">
     <NavContainer id="navCon">
       <Page id="master1" class="sapUiResponsivePadding--header" showHeader="false">
         <List>
@@ -9,6 +9,7 @@
     <ActionListItem text="My Approvals" press="showApprovals" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
     <ActionListItem text="Booked Products" press="showBookedProd" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
     <ActionListItem text="Items Approval" press="showItemsApproval" visible="{= ${local>/Role} === 'Maker' ? true:false }"/>
+    <ActionListItem text="Download Report" press="onReportDownload" visible="true"/>
     <ActionListItem text="Profile" press="showProfile" visible="true"/>
     <ActionListItem text = "About" press="onPressAbout" visible="true" />
 

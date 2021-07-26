@@ -1337,6 +1337,14 @@ sap.ui.define([
         });
       }
       niceInvoice(invoiceDetail);
+    },
+
+    onReportDownload: function(){
+      debugger;
+    var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser")
+      window.open("/ReportDownload?CreatedBy=" + CreatedBy);
     }
+
+
   });
 });

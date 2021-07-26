@@ -22,19 +22,22 @@ sap.ui.define([
     "A": "Success",
     "N": "Warning",
     "R": "Error",
-    "D": "Information"
+    "D": "Information",
+    "P":"Warning"
   };
   var mProdStateT = {
     "A": "Approved",
     "N": "Not Approved",
     "R": "Rejected",
-    "D": "Delevered"
+    "D": "Delevered",
+    "P":"Partial Approved"
   };
   var mProdStateC = {
     "A": "greenClass",
     "N": "orangeClass",
     "R": "redClass",
-    "D": "pinkClass"
+    "D": "pinkClass",
+    "P": "orangeClass"
   };
   var formatter = {
     /**

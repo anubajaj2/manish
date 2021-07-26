@@ -30,8 +30,8 @@
 					<secondStatus>
 						<!-- <ObjectStatus text="Wastage : {local>ToMaterial/Wastage}"/> -->
 						<ObjectStatus text="Tunch : {local>ToMaterial/Tunch}"/>
-						<!-- <ObjectStatus text="{ path: 'local>Status', formatter: '.formatter.prodText' }"
-							state="{ path: 'local>Status', formatter: '.formatter.prodState' }"/> -->
+						<ObjectStatus text="{ path: 'local>Status', formatter: '.formatter.prodText' }"
+							state="{ path: 'local>Status', formatter: '.formatter.prodState' }"/>
 					</secondStatus>
 				</ObjectListItem>
 			</List>
