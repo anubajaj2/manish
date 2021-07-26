@@ -44,7 +44,7 @@
     "tempfile": "^2.0.0",
     "uuid": "^3.2.1",
     "xls-to-json-lc": "^0.3.4",
-    "xlsx": "^0.10.9",
+    "xlsx": "^0.17.0",
     "xlsx-to-json-lc": "^0.5.0",
     "xoauth2": "^1.2.0"
   },
