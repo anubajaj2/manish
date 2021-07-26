@@ -334,6 +334,12 @@ sap.ui.define([
       if(sPaths.length === 0){
         sap.m.MessageBox.error("Please select at least one data");
       }
+
+			if(this.getView().getModel("local").getProperty(sPaths[0]).OrderStatus === "D"){
+					 sap.m.MessageBox.error("This is already delivered Data");
+					 return;
+		 }
+		 
 			if (sPaths.length) {
 				this.orderStatusUpdate(sPaths, "D");
 			}
@@ -881,7 +887,7 @@ sap.ui.define([
 			onCountLoad:function(){
 				debugger
             var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
-            var oFilter1 = new sap.ui.model.Filter("ApproverId", sap.ui.model.FilterOperator.EQ, "'" + CreatedBy + "'");
+            var oFilter1 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "'"  + "'");
             var oFilter2 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "N");
             var oFilter3 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "A");
             var oFilter4 = new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, "R");
