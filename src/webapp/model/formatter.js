@@ -87,6 +87,14 @@ sap.ui.define([
       }
       return false;
     },
+    isInFavorite: function(id, favItems) {
+      for (var i = 0; i < favItems.length; i++) {
+        if (id === favItems[i].Material) {
+          return true;
+        }
+      }
+      return false;
+    },
     calculateBhav: function(netWeight, amount, tunch, wastage, karat, pcs, moreAmount, customCalculations) {
       var fineGold = parseFloat((netWeight * (tunch + wastage) / 100).toFixed(3));
       var totalAmount = amount + (fineGold * customCalculations.Gold) + (pcs * moreAmount);
@@ -502,7 +510,7 @@ sap.ui.define([
      * @return {string} relative image URL
      */
     /*	pictureUrl: function (sUrl) {
-    	
+
     		if (sUrl){
     			return  sap.ui.require.toUrl(sUrl);
     		} else {

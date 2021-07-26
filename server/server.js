@@ -587,8 +587,8 @@ app.get('/LoadCartItems',
     var Createdby = req.query.CreatedBy;
     async.waterfall([
       function(callback) {
-        var OrderHeader = app.models.CartItem;
-        OrderHeader.find({
+        var CartItem = app.models.CartItem;
+        CartItem.find({
             where: {
               "CreatedBy": Createdby
             },
@@ -623,19 +623,26 @@ app.get('/LoadCartItems',
   }
 );
 
-app.get('/LoadMostSold',
+app.get('/LoadFavorites',
   function(req, res) {
-    var Products = app.models.Product;
-    Products.find({
+    var Createdby = req.query.CreatedBy;
+    var Favorite = app.models.FavoriteItem;
+    Favorite.find({
+        where: {
+          "CreatedBy": Createdby
+        },
         include: [{
-          relation: 'ToPhotos',
-          limit: 1
-        }],
-        order: "CreatedOn DESC",
-        limit: 20
+          relation: 'ToMaterial',
+          scope: {
+            include: [{
+              relation: 'ToPhotos',
+              limit: 1
+            }]
+          }
+        }]
       })
-      .then(function(products, err) {
-        res.send(products)
+      .then(function(favoriteItems, err) {
+        res.send(favoriteItems);
       });
   }
 );

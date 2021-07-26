@@ -2,38 +2,32 @@
 
 module.exports = function(OrderItem) {
 
-  OrderItem.observe('after save', async function(ctx) {
+  OrderItem.observe('after save', async function(ctx, next) {
     var app = require('../../server/server');
     var Product = app.models.Product;
     var idProd = ctx.instance.__data.Material.toString();
     if (ctx.isNewInstance === false) {
       next();
     }
+    // console.log("--------------------------------------------------" + idProd);
     Product.findOne({
       where: {
         id: idProd
       },
       limit: 1
     }).then(function(prod) {
-      //console.log(ctx.instance.EmailId + ctx.instance.CourseName);
+      // console.log(prod);
       if (prod) {
-        //	console.log(JSON.stringify(inq));
-        if (!inq.SoftDelete) {
-          inq.SoftDelete = true;
-          inq.ChangedOn = new Date();
-          inq.ChangedBy = "Needs To be Passed";
-          inq.updateAttributes(inq, function() {
-            console.log("The student inquiry is now soft deleted");
-            return next();
-          });
-        } else {
-          //do nothing
-          console.log("Iquiry already deleted");
+        prod.Rank += 1;
+        prod.ChangedOn = new Date();
+        // prod.ChangedBy = "Needs To be Passed";
+        prod.updateAttributes(prod, function() {
+          console.log("Rank Updated");
           return next();
-        }
+        });
       } else {
         //do nothing
-        console.log("No Iquiry found for this");
+        console.log("Product not found");
         return next();
       }
     });

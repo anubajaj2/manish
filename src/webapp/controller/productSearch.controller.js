@@ -317,37 +317,58 @@ sap.ui.define([
       // }
     },
     handleFavoritePress: function(oEvent) {
-      var oBtn = oEvent.getSource();
-      var that = this;
-      this.loadProdWeights(this.onMoreBtnsPath.split("'")[this.onMoreBtnsPath.split("'").length - 2]).
-      then(function(data) {
-        that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
-        // oBtn.setType("Emphasized");
-        // oBtn.setEnabled(false);
-        var allSelectedWeights = [data.ProdWeights[0]];
-        var mainProduct = oBtn.getParent().getModel().getProperty(that.onMoreBtnsPath);
-        var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        addedWeights.push(allSelectedWeights[0]);
-        that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-        var cartItemPayload = {
-          Material: mainProduct.id,
-          ProductCode: mainProduct.ProductId,
-          WeightId: addedWeights[0].id
-        };
-        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-            "/FavoriteItems", "POST", {}, cartItemPayload, that)
-          .then(function(data) {
-            oBtn.setText("Remove Favorite");
-            MessageToast.show("Added to favorites");
-          }).catch(function(oError) {
-            MessageBox.error("Error while saving favorite item");
-          });
-      });
+      var oBtn = oEvent.getSource(),
+        that = this,
+        favItems = this._oLocalModel.getProperty("/Favorites"),
+        prodId = this.onMoreBtnsPath.split("'")[this.onMoreBtnsPath.split("'").length - 2];
+      if (oBtn.getText() === "Add To Favorite") {
+        this.loadProdWeights(prodId).
+        then(function(data) {
+          that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
+          // oBtn.setType("Emphasized");
+          // oBtn.setEnabled(false);
+          var allSelectedWeights = [data.ProdWeights[0]];
+          var mainProduct = oBtn.getParent().getModel().getProperty(that.onMoreBtnsPath);
+          var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+          addedWeights.push(allSelectedWeights[0]);
+          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+          var cartItemPayload = {
+            Material: mainProduct.id,
+            ProductCode: mainProduct.ProductId,
+            WeightId: addedWeights[0].id
+          };
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+              "/FavoriteItems", "POST", {}, cartItemPayload, that)
+            .then(function(data) {
+              oBtn.setText("Remove From Favorites");
+              MessageToast.show("Added to favorites");
+            }).catch(function(oError) {
+              MessageBox.error("Error while saving favorite item");
+            });
+        });
+      } else {
+        for (var j = 0; j < favItems.length; j++) {
+          if (prodId === favItems[j].Material) {
+            that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                "/FavoriteItems('" + favItems[j].Material + "')", "DELETE", {}, {}, that)
+              .then(function(data) {
+                favItems.splice(j, 1);
+                oBtn.setText("Add To Favorite");
+                MessageToast.show("Removed from Favorite");
+              }).catch(function(oError) {
+                MessageBox.error("Error while deleting cart item");
+              });
+            break;
+          }
+        }
+      }
     },
     onMore: function(oEvent) {
       // debugger;
       var oButton = oEvent.getSource(),
-        oView = this.getView();
+        that = this,
+        oView = this.getView(),
+        favItems = this._oLocalModel.getProperty("/Favorites");
       this.onMoreBtnsPath = oButton.getParent().getBindingContext().getPath();
       // create popover
       if (!this._pPopover) {
@@ -363,6 +384,7 @@ sap.ui.define([
       this._pPopover.then(function(oPopover) {
         // oPopover.bindElement(sPath);
         oPopover.openBy(oButton);
+        oPopover.getContent()[0].getItems()[0].setText(formatter.isInFavorite(that.onMoreBtnsPath.split("'")[1], favItems) ? "Remove From Favorite" : "Add To Favorite");
       });
     },
     handleExpandPress: function(oEvent) {

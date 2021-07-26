@@ -17,7 +17,7 @@
     },
     "WeightId": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "CreatedOn": {
       "type": "date"

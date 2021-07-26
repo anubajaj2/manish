@@ -84,20 +84,8 @@ sap.ui.define([
         }
       ];
       this.getOwnerComponent().getModel("local").setProperty("/TodayDeal", oTodayDealData);
-      var that = this;
-      this.getView().setBusy(true);
-      $.ajax({
-        type: 'GET', // added,
-        url: 'LoadMostSold',
-        success: function(data) {
-          that.getView().getModel("local").setProperty("/MostSold", data);
-          that.getView().setBusy(false);
-        },
-        error: function(xhr, status, error) {
-          sap.m.MessageToast.show("error in fetching data");
-          that.getView().setBusy(false);
-        }
-      });
+      // var that = this;
+      // this.getView().setBusy(true);
     },
     _onRouteMatched: function() {
       setInterval(function() {
@@ -156,6 +144,23 @@ sap.ui.define([
       //   }
       // });
       this.loadCategories();
+      $.ajax({
+        type: 'GET', // added,
+        url: 'LoadFavorites',
+        success: function(data) {
+          that.getView().getModel("local").setProperty("/Favorites", data);
+          var orFilters = [];
+          data.forEach(function(item) {
+            orFilters.push(new Filter('ProductId', sap.ui.model.FilterOperator.EQ, item.ProductCode));
+          });
+          that.getView().byId('idFavorite').getBinding('pages').filter(orFilters);
+          // that.getView().setBusy(false);
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+          that.getView().setBusy(false);
+        }
+      });
       $.ajax({
         type: 'GET', // added,
         url: 'LastOrderItem?CreatedBy=' + currentUser,

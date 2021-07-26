@@ -26,10 +26,13 @@ sap.ui.define([
       var oDataModel = this.getView().getModel();
       // var cartBtn = this.getOwnerComponent().getModel("local").getProperty("/oCartBtns")[oEvent.getParameter("arguments").key.split("'")[1]];
       var cartItems = this._oLocalModel.getProperty("/cartItems");
+      var favItems = this._oLocalModel.getProperty("/Favorites");
       // if (formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems)) {
       this.getView().byId("idAddtoCartBtn").setType(formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems) ? "Emphasized" : "Default");
-      this.getView().byId("idAddtoCartBtn").setText(formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems) ? "Added to Cart" : "Add to Cart");
-      this.getView().byId("idAddtoCartBtn").setEnabled(formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems) ? false : true);
+      this.getView().byId("idAddtoCartBtn").setText(formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems) ? "Remove from Cart" : "Added to Cart");
+      // this.getView().byId("idAddtoCartBtn").setEnabled(formatter.isInCart(oEvent.getParameter("arguments").key.split("'")[1], cartItems) ? false : true);
+      this.getView().byId("idAddtoFav").setType(formatter.isInFavorite(oEvent.getParameter("arguments").key.split("'")[1], favItems) ? "Emphasized" : "Default");
+      // this.getView().byId("idAddtoFav").setEnabled(formatter.isInFavorite(oEvent.getParameter("arguments").key.split("'")[1], favItems) ? false : true);
       // } else {
       //   this.getView().byId("idAddtoCartBtn").setType(cartBtn.getType());
       //   this.getView().byId("idAddtoCartBtn").setText("Add to Cart");
@@ -139,60 +142,107 @@ sap.ui.define([
     onAddToCart: function(oEvent) {
       var oBtn = oEvent.getSource();
       var that = this,
-        sPath = this.sPath;
-      this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
-      then(function(data) {
-        // that.loadedWeights[sPath] = data.ProdWeights;
-        that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
-        oBtn.setType("Emphasized");
-        oBtn.setEnabled(false);
-        var allSelectedWeights = [data.ProdWeights[0]];
-        var mainProduct = oBtn.getParent().getModel().getProperty(that.sPath);
-        var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        addedWeights.push(allSelectedWeights[0]);
-        that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-        var cartItemPayload = {
-          Material: mainProduct.id,
-          ProductCode: mainProduct.ProductId,
-          WeightId: addedWeights[0].id,
-          Quantity: 1
-        };
-        that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-            "/CartItems", "POST", {}, cartItemPayload, that)
-          .then(function(data) {
-            MessageToast.show("Added to cart");
-            that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.getModel().getProperty(that.sPath + '/ToPhotos/0/Content'));
-          }).catch(function(oError) {
-            MessageBox.error("Error while saving cart item");
-          });
-      });
+        sPath = this.sPath,
+        addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights"),
+        cartItems = that.getOwnerComponent().getModel("local").getProperty("/cartItems");
+      if (oBtn.getType() === "Default") {
+        this.loadProdWeights(sPath.split("'")[sPath.split("'").length - 2]).
+        then(function(data) {
+          // that.loadedWeights[sPath] = data.ProdWeights;
+          that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
+          oBtn.setType("Emphasized");
+          oBtn.setText("Remove from Cart");
+          // oBtn.setEnabled(false);
+          var allSelectedWeights = [data.ProdWeights[0]];
+          var mainProduct = oBtn.getParent().getModel().getProperty(that.sPath);
+          addedWeights.push(allSelectedWeights[0]);
+          that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+          var cartItemPayload = {
+            Material: mainProduct.id,
+            ProductCode: mainProduct.ProductId,
+            WeightId: addedWeights[0].id,
+            Quantity: 1
+          };
+          that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+              "/CartItems", "POST", {}, cartItemPayload, that)
+            .then(function(data) {
+              MessageToast.show("Added to Cart");
+              that.addProductToCart(data.id, mainProduct, allSelectedWeights, that.getModel().getProperty(that.sPath + '/ToPhotos/0/Content'));
+            }).catch(function(oError) {
+              MessageBox.error("Error while saving cart item");
+            });
+        });
+      } else {
+        // for (var j = 0; j < addedWeights.length; j++) {
+        //   if (tempLoaded[0].id === addedWeights[j].id) {
+        //     addedWeights.splice(j, 1);
+        //     // oBtn.setType("Default");
+        //     break;
+        //   }
+        // }
+        for (var j = 0; j < cartItems.length; j++) {
+          if (sPath.includes(cartItems[j].ProductId)) {
+            that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                "/CartItems('" + cartItems[j].id + "')", "DELETE", {}, {}, that)
+              .then(function(data) {
+                cartItems.splice(j, 1);
+                oBtn.setType("Default");
+                oBtn.setText("Add to cart");
+                MessageToast.show("Removed from cart");
+              }).catch(function(oError) {
+                MessageBox.error("Error while deleting cart item");
+              });
+            break;
+          }
+        }
+      }
     },
     handleFavoritePress: function(oEvent) {
-      var oBtn = oEvent.getSource();
-      var that = this;
-      this.loadProdWeights(this.sPath.split("'")[this.sPath.split("'").length - 2]).
-      then(function(data) {
-        that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
+      var oBtn = oEvent.getSource(),
+        that = this,
+        favItems = this._oLocalModel.getProperty("/Favorites");
+      if (oBtn.getType() === "Default") {
+        // this.loadProdWeights(this.sPath.split("'")[this.sPath.split("'").length - 2]).
+        // then(function(data) {
+        // that._oLocalModel.setProperty("/ProdWeights", data.ProdWeights);
         oBtn.setType("Emphasized");
-        oBtn.setEnabled(false);
-        var allSelectedWeights = [data.ProdWeights[0]];
+        // oBtn.setEnabled(false);
+        // var allSelectedWeights = [data.ProdWeights[0]];
         var mainProduct = oBtn.getParent().getModel().getProperty(that.sPath);
-        var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
-        addedWeights.push(allSelectedWeights[0]);
-        that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
-        var cartItemPayload = {
+        // var addedWeights = that.getOwnerComponent().getModel("local").getProperty("/addedWeights");
+        // addedWeights.push(allSelectedWeights[0]);
+        // that.getOwnerComponent().getModel("local").setProperty("/addedWeights", addedWeights);
+        var favItemPayload = {
           Material: mainProduct.id,
-          ProductCode: mainProduct.ProductId,
-          WeightId: addedWeights[0].id
+          ProductCode: mainProduct.ProductId
+          // WeightId: addedWeights[0].id
         };
         that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
-            "/FavoriteItems", "POST", {}, cartItemPayload, that)
+            "/FavoriteItems", "POST", {}, favItemPayload, that)
           .then(function(data) {
+            favItems.push(data.results);
             MessageToast.show("Added to favorites");
           }).catch(function(oError) {
             MessageBox.error("Error while saving favorite item");
           });
-      });
+        // });
+      } else {
+        for (var j = 0; j < favItems.length; j++) {
+          if (that.sPath.includes(favItems[j].Material)) {
+            that.ODataHelper.callOData(that.getOwnerComponent().getModel(),
+                "/FavoriteItems('" + favItems[j].Material + "')", "DELETE", {}, {}, that)
+              .then(function(data) {
+                favItems.splice(j, 1);
+                oBtn.setType("Default");
+                MessageToast.show("Removed from Favorite");
+              }).catch(function(oError) {
+                MessageBox.error("Error while deleting cart item");
+              });
+            break;
+          }
+        }
+      }
+
     },
     addProductToCart: function(id, productRec, allSelectedWeights, picture) {
       var cartItems = this.getOwnerComponent().getModel("local").getProperty("/cartItems");

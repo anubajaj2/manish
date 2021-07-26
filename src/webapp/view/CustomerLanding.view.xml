@@ -104,12 +104,11 @@
 
 				<l:BlockLayoutRow scrollable="true">
 					<l:BlockLayoutCell title="Favorite" width="100%">
-						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: '/Products',
+						<Carousel id="idFavorite" height="200px" loop="true" showPageIndicator="false" pages="{path: '/Products',
 						parameters: {
-						      expand: 'ToPhotos',
-									top: 1
-							}
-						}">
+						expand: 'ToPhotos',
+						$select : ['ProductId','Name', 'GrossWeight']
+							}}">
 							<customLayout>
 								<CarouselLayout visiblePagesCount="10"/>
 							</customLayout>
@@ -119,7 +118,7 @@
 										<f:GridListItem >
 											<VBox>
 												<HBox justifyContent="Center">
-													<Title text="{Name}" textAlign="Center"/>
+													<Title text="{ProductId}-{Name}" textAlign="Center"/>
 												</HBox>
 												<!-- <Image width="100%" height="150px" src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}"/> -->
 												<anubhav:ImageHover src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}" width="135px" height="150px" press="onProduct"/>
@@ -145,9 +144,19 @@
 
 				<l:BlockLayoutRow>
 					<l:BlockLayoutCell title="Most Liked">
-						<Carousel height="200px" loop="true" showPageIndicator="false" pages="{path: '/Products',
+						<Carousel
+							height="200px"
+							loop="true"
+							showPageIndicator="false"
+							pages="{path: '/Products',
+							sorter: {
+							path: 'Rank',
+							descending: true
+							},
 						parameters: {
-						      expand: 'ToPhotos'
+						      expand: 'ToPhotos',
+									$top:20,
+									$select : ['ProductId', 'Name', 'GrossWeight']
 							}
 						}">
 							<customLayout>
@@ -159,7 +168,7 @@
 										<f:GridListItem >
 											<VBox>
 												<HBox justifyContent="Center">
-													<Title text="{Name}" textAlign="Center"/>
+													<Title text="{ProductId}-{Name}" textAlign="Center"/>
 												</HBox>
 												<!-- <Image width="100%" height="150px" src="{path:'local>ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}"/> -->
 												<anubhav:ImageHover src="{path:'ToPhotos/0/Content',formatter:'.formatter.getImageUrlFromContent'}" width="135px" height="150px" press="onProduct"></anubhav:ImageHover>
