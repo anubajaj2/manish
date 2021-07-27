@@ -10,6 +10,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "body-parser": "^1.14.1",
+    "buffer": "^6.0.3",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "event-stream": "latest",

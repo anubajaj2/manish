@@ -1341,7 +1341,7 @@ sap.ui.define([
 
     onReportDownload: function(){
       debugger;
-    var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser")
+    var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
       window.open("/ReportDownload?CreatedBy=" + CreatedBy);
     }
 
