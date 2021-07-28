@@ -33,7 +33,6 @@ sap.ui.define([
       this._oPopover = null;
     },
     onUserPress: function(oEvent) {
-      debugger;
       var oButton = oEvent.getSource();
       // create popover
       if (!this._oPopover) {

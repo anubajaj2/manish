@@ -1555,7 +1555,7 @@ app.get('/ReportDownload', function(req, res) {
 			"CreatedBy": CreatedBy
 		},
 		include: [
-			['ToWeights', "ToPhotos"],
+			['ToCategory','ToWeights', "ToPhotos"],
 
 		],
 		order: "CreatedOn DESC"
@@ -1568,8 +1568,8 @@ app.get('/ReportDownload', function(req, res) {
 				var heading = {
 					heading: "Product Report"
 				};
-				sheet.mergeCells('A1:N1');
-				sheet.getCell('N1').value = 'Product Report';
+				sheet.mergeCells('A1:M1');
+				sheet.getCell('M1').value = 'Product Report';
 				sheet.getCell('A1').alignment = {
 					vertical: 'middle',
 					horizontal: 'center'
@@ -1584,7 +1584,7 @@ app.get('/ReportDownload', function(req, res) {
 				};
 
 				//Merging second Row
-				sheet.mergeCells('A2:N2');
+				sheet.mergeCells('A2:M2');
 
 				//Code for getting current datetime
 				var currentdate = new Date();
@@ -1605,7 +1605,7 @@ app.get('/ReportDownload', function(req, res) {
 					bold: true
 				};
 
-				var header = ["Name", "TagNo", "Category", "SubCategory", "Karat", "Gender", "Tunch", "GrossWt", "LessWt", "Fine", "Amount",
+				var header = ["Name", "TagNo", "SubCategory", "Karat", "Gender", "Tunch", "GrossWt", "LessWt", "Fine", "Amount",
 					"Remarks", "Status", "Picture"
 				];
 
@@ -1703,13 +1703,13 @@ app.get('/ReportDownload', function(req, res) {
 						argb: 'A9A9A9'
 					}
 				};
-				sheet.getCell('N3').fill = {
-					type: 'pattern',
-					pattern: 'solid',
-					fgColor: {
-						argb: 'A9A9A9'
-					}
-				};
+				// sheet.getCell('N3').fill = {
+				// 	type: 'pattern',
+				// 	pattern: 'solid',
+				// 	fgColor: {
+				// 		argb: 'A9A9A9'
+				// 	}
+				// };
 
 				var totalG = 0;
 				var totalH = 0;
@@ -1734,16 +1734,21 @@ app.get('/ReportDownload', function(req, res) {
 				}
 
 				var colMaxLengthA, colMaxLengthB, colMaxLengthC, colMaxLengthD, colMaxLengthE, colMaxLengthF, colMaxLengthG, colMaxLengthH,
-					colMaxLengthI, colMaxLengthJ, colMaxLengthK, colMaxLengthL, colMaxLengthM, colMaxLengthN
+					colMaxLengthI, colMaxLengthJ, colMaxLengthK, colMaxLengthL, colMaxLengthM
 
 
 				for (var i = 0; i < Records["length"]; i++) {
 					var items = Records[i].__data;
 					var weights = items["ToWeights"];
+					var categories = items["ToCategory"];
 					var images = items["ToPhotos"];
 					for (var j = 0; j < weights.length; j++) {
 						var weight = weights[j];
 					}
+					// for (var l = 0; l < categories.length; l++) {
+						var category = categories.__data;
+					// }
+
 					for (var k = 0; k < images.length; k++) {
 						var image = images[k];
 						var myBase64Image = image["Content"];
@@ -1765,7 +1770,7 @@ app.get('/ReportDownload', function(req, res) {
 					// sheet.addRow().values = item;
 					sheet.addImage(imageId1, {
 						tl: {
-							col: 13.13,
+							col: 12.13,
 							row: rowPos++
 						},
 						ext: {
@@ -1775,8 +1780,8 @@ app.get('/ReportDownload', function(req, res) {
 					});
 
 			items["CreatedOn"] = formatDateForEntry(items["CreatedOn"]);
-			var item = [items["Name"], items["TagNo"], items["Category"], items["SubCategory"], items["Karat"], items["Gender"], items["Tunch"],
-				items["GrossWeight"], weight["LessWeight"], weight["Fine"], weight["Amount"], weight["Remarks"], items["ProdStatus"]
+			var item = [category["Category"], items["TagNo"], items["SubCategory"], items["Karat"], items["Gender"], items["Tunch"],
+				items["GrossWeight"], weight["LessWeight"], weight["Fine"], weight["Amount"], items["Name"], items["OverallStatus"]
 			];
 
 
@@ -1797,11 +1802,11 @@ app.get('/ReportDownload', function(req, res) {
 				totalJ = totalJ.toFixed(2);
 				totalK = totalK.toFixed(2);
 				sheet.getCell('A' + totText).value = "TOTAL";
-				sheet.getCell('G' + totText).value = totalG;
-				sheet.getCell('H' + totText).value = totalH;
-				sheet.getCell('I' + totText).value = totalI;
-				sheet.getCell('J' + totText).value = totalJ;
-				sheet.getCell('K' + totText).value = totalK;
+				sheet.getCell('F' + totText).value = totalG;
+				sheet.getCell('G' + totText).value = totalH;
+				sheet.getCell('H' + totText).value = totalI;
+				sheet.getCell('I' + totText).value = totalJ;
+				sheet.getCell('J' + totText).value = totalK;
 
 				for (var rowIndex = 4; rowIndex < sheet.rowCount; rowIndex++) {
 					sheet.getRow(rowIndex).height = 64;
@@ -1872,59 +1877,7 @@ app.get('/ReportDownload', function(req, res) {
 					// 	};
 					// }
 					//
-					// if (sheet.getCell('D' + (j)).value == '') {
-					// 	sheet.getCell('D' + (j)).fill = {
-					// 		type: 'pattern',
-					// 		pattern: 'solid',
-					// 		bgColor: {
-					// 			argb: 'FFFFFF'
-					// 		},
-					// 		fgColor: {
-					// 			argb: 'FFFFFF'
-					// 		}
-					// 	};
-					// 	if (j > 3 && j <= (totText - 2)) {
-					// 		var valC = sheet.getCell('D' + (j)).value;
-					// 		sheet.getCell('D' + (j)).value = valC + '/-';
-					// 		sheet.getCell('D' + (j)).alignment = {
-					// 			vertical: 'bottom',
-					// 			horizontal: 'left'
-					// 		};
-					// 	}
-					//
-					// } else if (sheet.getCell('D' + (j)).value < 0) {
-					// 	sheet.getCell('D' + (j)).font = {
-					// 		color: {
-					// 			argb: 'FF0000'
-					// 		},
-					// 		bold: true
-					// 	};
-					// 	if (j > 3 && j <= (totText - 2)) {
-					// 		var valC = sheet.getCell('D' + (j)).value;
-					// 		sheet.getCell('D' + (j)).value = valC + '/-';
-					// 		sheet.getCell('D' + (j)).alignment = {
-					// 			vertical: 'bottom',
-					// 			horizontal: 'left'
-					// 		};
-					// 	}
-					//
-					// } else {
-					// 	sheet.getCell('D' + (j)).font = {
-					// 		color: {
-					// 			argb: '000000'
-					// 		},
-					// 		bold: true
-					// 	};
-					// 	if (j > 3 && j <= (totText - 2)) {
-					// 		var valC = sheet.getCell('D' + (j)).value;
-					// 		sheet.getCell('D' + (j)).value = valC ;
-					// 		sheet.getCell('D' + (j)).alignment = {
-					// 			vertical: 'bottom',
-					// 			horizontal: 'left'
-					// 		};
-					// 	}
-					//
-					// }
+
 					if (sheet.getCell('C' + (j)).value == '') {
 						sheet.getCell('C' + (j)).fill = {
 							type: 'pattern',
@@ -2011,6 +1964,34 @@ app.get('/ReportDownload', function(req, res) {
 						};
 					}
 
+					// if (sheet.getCell('F' + (j)).value == '') {
+					// 	sheet.getCell('F' + (j)).fill = {
+					// 		type: 'pattern',
+					// 		pattern: 'solid',
+					// 		bgColor: {
+					// 			argb: 'FFFFFF'
+					// 		},
+					// 		fgColor: {
+					// 			argb: 'FFFFFF'
+					// 		}
+					// 	};
+					//
+					// } else if (sheet.getCell('F' + (j)).value < 0) {
+					// 	sheet.getCell('F' + (j)).font = {
+					// 		color: {
+					// 			argb: 'FF0000'
+					// 		},
+					// 		bold: true
+					// 	};
+					// } else {
+					// 	sheet.getCell('F' + (j)).font = {
+					// 		color: {
+					// 			argb: '000000'
+					// 		},
+					// 		bold: true
+					// 	};
+					// }
+
 					if (sheet.getCell('F' + (j)).value == '') {
 						sheet.getCell('F' + (j)).fill = {
 							type: 'pattern',
@@ -2022,6 +2003,14 @@ app.get('/ReportDownload', function(req, res) {
 								argb: 'FFFFFF'
 							}
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('F' + (j)).value;
+							sheet.getCell('F' + (j)).value = valC + '';
+							sheet.getCell('F' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
 					} else if (sheet.getCell('F' + (j)).value < 0) {
 						sheet.getCell('F' + (j)).font = {
@@ -2030,6 +2019,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('F' + (j)).value;
+							sheet.getCell('F' + (j)).value = valC + ' ';
+							sheet.getCell('F' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					} else {
 						sheet.getCell('F' + (j)).font = {
 							color: {
@@ -2037,6 +2035,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 && j <= (totText)) {
+							var valC = sheet.getCell('F' + (j)).value;
+							sheet.getCell('F' + (j)).value = valC + ' T' ;
+							sheet.getCell('F' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					}
 
 					if (sheet.getCell('G' + (j)).value == '') {
@@ -2050,6 +2057,14 @@ app.get('/ReportDownload', function(req, res) {
 								argb: 'FFFFFF'
 							}
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('G' + (j)).value;
+							sheet.getCell('G' + (j)).value = valC + '';
+							sheet.getCell('G' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
 					} else if (sheet.getCell('G' + (j)).value < 0) {
 						sheet.getCell('G' + (j)).font = {
@@ -2058,6 +2073,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('G' + (j)).value;
+							sheet.getCell('G' + (j)).value = valC + ' ';
+							sheet.getCell('G' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					} else {
 						sheet.getCell('G' + (j)).font = {
 							color: {
@@ -2065,6 +2089,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 && j <= (totText)) {
+							var valC = sheet.getCell('G' + (j)).value;
+							sheet.getCell('G' + (j)).value = valC + ' gm' ;
+							sheet.getCell('G' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					}
 					if (sheet.getCell('H' + (j)).value == '') {
 						sheet.getCell('H' + (j)).fill = {
@@ -2077,6 +2110,14 @@ app.get('/ReportDownload', function(req, res) {
 								argb: 'FFFFFF'
 							}
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('H' + (j)).value;
+							sheet.getCell('H' + (j)).value = valC + '';
+							sheet.getCell('H' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
 					} else if (sheet.getCell('H' + (j)).value < 0) {
 						sheet.getCell('H' + (j)).font = {
@@ -2085,6 +2126,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('H' + (j)).value;
+							sheet.getCell('H' + (j)).value = valC + ' ';
+							sheet.getCell('H' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					} else {
 						sheet.getCell('H' + (j)).font = {
 							color: {
@@ -2092,8 +2142,16 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
-					}
+						if (j > 3 && j <= (totText)) {
+							var valC = sheet.getCell('H' + (j)).value;
+							sheet.getCell('H' + (j)).value = valC + ' gm' ;
+							sheet.getCell('H' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
+					}
 					if (sheet.getCell('I' + (j)).value == '') {
 						sheet.getCell('I' + (j)).fill = {
 							type: 'pattern',
@@ -2105,6 +2163,14 @@ app.get('/ReportDownload', function(req, res) {
 								argb: 'FFFFFF'
 							}
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('I' + (j)).value;
+							sheet.getCell('I' + (j)).value = valC + '';
+							sheet.getCell('I' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
 					} else if (sheet.getCell('I' + (j)).value < 0) {
 						sheet.getCell('I' + (j)).font = {
@@ -2113,6 +2179,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('I' + (j)).value;
+							sheet.getCell('I' + (j)).value = valC + ' ';
+							sheet.getCell('I' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					} else {
 						sheet.getCell('I' + (j)).font = {
 							color: {
@@ -2120,8 +2195,16 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
-					}
+						if (j > 3 && j <= (totText)) {
+							var valC = sheet.getCell('I' + (j)).value;
+							sheet.getCell('I' + (j)).value = valC + ' gm' ;
+							sheet.getCell('I' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
+					}
 					if (sheet.getCell('J' + (j)).value == '') {
 						sheet.getCell('J' + (j)).fill = {
 							type: 'pattern',
@@ -2179,7 +2262,7 @@ app.get('/ReportDownload', function(req, res) {
 					}
 
 					if (sheet.getCell('L' + (j)).value == '') {
-						sheet.getCell('L' + (j)).fill = {
+						sheet.getCell('F' + (j)).fill = {
 							type: 'pattern',
 							pattern: 'solid',
 							bgColor: {
@@ -2189,6 +2272,14 @@ app.get('/ReportDownload', function(req, res) {
 								argb: 'FFFFFF'
 							}
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('L' + (j)).value;
+							sheet.getCell('L' + (j)).value = valC + '';
+							sheet.getCell('L' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
 
 					} else if (sheet.getCell('L' + (j)).value < 0) {
 						sheet.getCell('L' + (j)).font = {
@@ -2197,6 +2288,15 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 || j <= (totText - 2)) {
+							var valC = sheet.getCell('L' + (j)).value;
+							sheet.getCell('F' + (j)).value = valC + ' ';
+							sheet.getCell('F' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					} else {
 						sheet.getCell('L' + (j)).font = {
 							color: {
@@ -2204,6 +2304,25 @@ app.get('/ReportDownload', function(req, res) {
 							},
 							bold: true
 						};
+						if (j > 3 && j <= (totText-1)) {
+							var valC = sheet.getCell('L' + (j)).value;
+							if(valC === 'A'){
+								sheet.getCell('L' + (j)).value =  'Approved' ;
+							}
+
+							else if (valC === 'R') {
+										sheet.getCell('L' + (j)).value =  'Rejected' ;
+							}
+							else if (valC === 'N') {
+										sheet.getCell('L' + (j)).value =  'Draft' ;
+							}
+
+							sheet.getCell('L' + (j)).alignment = {
+								vertical: 'bottom',
+								horizontal: 'right'
+							};
+						}
+
 					}
 
 					if (sheet.getCell('M' + (j)).value == '') {
@@ -2233,33 +2352,33 @@ app.get('/ReportDownload', function(req, res) {
 							bold: true
 						};
 					}
-					if (sheet.getCell('N' + (j)).value == '') {
-						sheet.getCell('N' + (j)).fill = {
-							type: 'pattern',
-							pattern: 'solid',
-							bgColor: {
-								argb: 'FFFFFF'
-							},
-							fgColor: {
-								argb: 'FFFFFF'
-							}
-						};
-
-					} else if (sheet.getCell('N' + (j)).value < 0) {
-						sheet.getCell('N' + (j)).font = {
-							color: {
-								argb: 'FF0000'
-							},
-							bold: true
-						};
-					} else {
-						sheet.getCell('N' + (j)).font = {
-							color: {
-								argb: '000000'
-							},
-							bold: true
-						};
-					}
+					// if (sheet.getCell('N' + (j)).value == '') {
+					// 	sheet.getCell('N' + (j)).fill = {
+					// 		type: 'pattern',
+					// 		pattern: 'solid',
+					// 		bgColor: {
+					// 			argb: 'FFFFFF'
+					// 		},
+					// 		fgColor: {
+					// 			argb: 'FFFFFF'
+					// 		}
+					// 	};
+					//
+					// } else if (sheet.getCell('N' + (j)).value < 0) {
+					// 	sheet.getCell('N' + (j)).font = {
+					// 		color: {
+					// 			argb: 'FF0000'
+					// 		},
+					// 		bold: true
+					// 	};
+					// } else {
+					// 	sheet.getCell('N' + (j)).font = {
+					// 		color: {
+					// 			argb: '000000'
+					// 		},
+					// 		bold: true
+					// 	};
+					// }
 
 					////
 					sheet.getCell('A' + (j)).border = {
@@ -2448,20 +2567,20 @@ app.get('/ReportDownload', function(req, res) {
 							style: 'thin'
 						}
 					};
-					sheet.getCell('N' + (j)).border = {
-						top: {
-							style: 'thin'
-						},
-						left: {
-							style: 'thin'
-						},
-						bottom: {
-							style: 'thin'
-						},
-						right: {
-							style: 'thin'
-						}
-					};
+					// sheet.getCell('N' + (j)).border = {
+					// 	top: {
+					// 		style: 'thin'
+					// 	},
+					// 	left: {
+					// 		style: 'thin'
+					// 	},
+					// 	bottom: {
+					// 		style: 'thin'
+					// 	},
+					// 	right: {
+					// 		style: 'thin'
+					// 	}
+					// };
 
 					// code added by surya for autocolumn width - started
 					//setting absolute length for column A
@@ -2503,7 +2622,7 @@ app.get('/ReportDownload', function(req, res) {
 							}
 						}
 						if (j == totText) {
-							sheet.getColumn('C').width = colMaxLengthC + 1;
+							sheet.getColumn('C').width = colMaxLengthC + 3;
 						}
 						//setting absolute length for column C
 						if (sheet.getCell('D' + (j)).value !== null) {
@@ -2627,20 +2746,20 @@ app.get('/ReportDownload', function(req, res) {
 							}
 						}
 						if (j == totText) {
-							sheet.getColumn('M').width = colMaxLengthM + 3;
+							sheet.getColumn('M').width = colMaxLengthM + 7;
 						}
-						if (sheet.getCell('N' + (j)).value !== null) {
-							if (j == "3") {
-								colMaxLengthN = sheet.getCell('N' + (j)).value.length;
-							} else {
-								if (sheet.getCell('N' + (j)).value.length > colMaxLengthN) {
-									colMaxLengthN = sheet.getCell('N' + (j)).value.length;
-								}
-							}
-						}
-						if (j == totText) {
-							sheet.getColumn('N').width = colMaxLengthN + 7;
-						}
+						// if (sheet.getCell('N' + (j)).value !== null) {
+						// 	if (j == "3") {
+						// 		colMaxLengthN = sheet.getCell('N' + (j)).value.length;
+						// 	} else {
+						// 		if (sheet.getCell('N' + (j)).value.length > colMaxLengthN) {
+						// 			colMaxLengthN = sheet.getCell('N' + (j)).value.length;
+						// 		}
+						// 	}
+						// }
+						// if (j == totText) {
+						// 	sheet.getColumn('N').width = colMaxLengthN + 7;
+						// }
 					}
 					// code added by surya for autocolumn width - ended
 
