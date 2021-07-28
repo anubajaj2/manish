@@ -1597,7 +1597,7 @@ app.get('/ReportDownload', function(req, res) {
 					bold: true
 				};
 
-				var header = ["Name", "TagNo", "SubCategory", "Karat", "Gender", "Tunch", "GrossWt", "LessWt", "Fine", "Amount",
+				var header = ["Category", "TagNo", "SubCategory", "Karat", "Gender", "Tunch", "GrossWt", "LessWt", "Fine", "Amount",
 					"Remarks", "Status", "Picture"
 				];
 
@@ -1754,6 +1754,8 @@ app.get('/ReportDownload', function(req, res) {
 						// });
 					}
 
+
+
 					// items["CreatedOn"] = formatDateForEntry(items["CreatedOn"]);
 					// var item = [items["Name"], items["TagNo"], items["Category"], items["SubCategory"], items["Karat"], items["Gender"], items["Tunch"],
 					// 	items["GrossWeight"], weight["LessWeight"], weight["Fine"], weight["Amount"], weight["Remarks"], items["ProdStatus"]
@@ -1771,8 +1773,10 @@ app.get('/ReportDownload', function(req, res) {
 						}
 					});
 
+					var data11  = category["Category"] + ", " + items["Category"];
+
 			items["CreatedOn"] = formatDateForEntry(items["CreatedOn"]);
-			var item = [category["Category"], items["TagNo"], items["SubCategory"], items["Karat"], items["Gender"], items["Tunch"],
+			var item = [data11, items["TagNo"], items["SubCategory"], items["Karat"], items["Gender"], items["Tunch"],
 				items["GrossWeight"], weight["LessWeight"], weight["Fine"], weight["Amount"], items["Name"], items["OverallStatus"]
 			];
 
@@ -1793,6 +1797,7 @@ app.get('/ReportDownload', function(req, res) {
 				totalI = totalI.toFixed(2);
 				totalJ = totalJ.toFixed(2);
 				totalK = totalK.toFixed(2);
+				// sheet.getCell('A').value = items["Category"];
 				sheet.getCell('A' + totText).value = "TOTAL";
 				sheet.getCell('F' + totText).value = totalG;
 				sheet.getCell('G' + totText).value = totalH;
