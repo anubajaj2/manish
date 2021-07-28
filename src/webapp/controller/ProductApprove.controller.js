@@ -120,21 +120,27 @@ sap.ui.define([
 
 		 handleChange1:function(oEvent){
 			 debugger;
-			 var selectedText = oEvent.getSource().getSelectedItem().getText();
-			 var key1 = parseInt(oEvent.getSource().getSelectedItem().getKey());
-			 var type1 = oEvent.getSource().getSelectedItem().getAdditionalText();
-			 var categeory1 = oEvent.getSource().getSelectedItem().getText().split(" ")[1];
-			 var aFilter = [];
-			 var oFilter11 = new Filter("ItemCode", sap.ui.model.FilterOperator.EQ, key1);
-			 var oFilter12 = new Filter("Category", sap.ui.model.FilterOperator.EQ, categeory1);
-			 var oFilter13 = new Filter("Type", sap.ui.model.FilterOperator.EQ, type1);
-			 var oFilter = new sap.ui.model.Filter({filters:[oFilter11, oFilter12, oFilter13],and:false});
-			 aFilter.push(oFilter);
-			 // filter binding
 			 var oList = this.getView().byId("idListPA");
-			 var oBinding = oList.getBinding("items");
-			 oBinding.filter(aFilter);
+					var oBinding = oList.getBinding("items");
+					 // var selectedText = oEvent.getSource().getSelectedItem().getText();
+					 var key1 = oEvent.getSource().getSelectedKey();
+					 // var type1 = oEvent.getSource().getSelectedItem().getAdditionalText();
+					 // var categeory1 = oEvent.getSource().getSelectedItem().getText().split(" ")[1];
+					 var aFilter = [];
+					 var oFilter1 = new Filter("Category", sap.ui.model.FilterOperator.Contains, key1);
+					 // var oFilter = new sap.ui.model.Filter({
+						// 	 filters: [
+						// 		 new Filter("ItemCode", sap.ui.model.FilterOperator.Contains, key1),
+						//  		 new Filter("Category", sap.ui.model.FilterOperator.Contains, categeory1)
+					 //
+						// 	 ],
+						// 	 and: false
+						//  });
 
+					 aFilter.push(oFilter1);
+					 // filter binding
+
+					 oBinding.filter(aFilter);
 		 }
 
 			// loadProductApprovals: function(){

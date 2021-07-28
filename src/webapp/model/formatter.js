@@ -112,7 +112,6 @@ sap.ui.define([
       return fineGold.toFixed(3) + " g";
     },
     getImageUrlFromContent: function(base64Stream) {
-      debugger
       if (base64Stream) {
         var b64toBlob = function(dataURI) {
           var byteString = atob(dataURI.split(',')[1]);
@@ -295,7 +294,6 @@ sap.ui.define([
     },
 
     dateAndTime2: function(date) {
-      debugger;
       var date1= date.split("-")
       var date2 = date1[2].split(0)[0].split("")[0] + date1[2].split(0)[0].split("")[1];
       var month = date1[1];

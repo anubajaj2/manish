@@ -63,28 +63,24 @@ sap.ui.define([
     },
 
     showApprovals: function() {
-      debugger;
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("MyApproval");
       this.closePopover();
     },
 
     showBookedProd: function() {
-      debugger;
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("ChangeStock");
       this.closePopover();
     },
 
     showItemsApproval: function() {
-      debugger;
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("ItemsApproval");
       this.closePopover();
     },
 
     showProducts: function() {
-      debugger;
       this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       this.oRouter.navTo("MyProduct");
       this.closePopover();
@@ -428,7 +424,6 @@ sap.ui.define([
         });
     },
     upsertWeights: function() {
-      debugger;
       var that = this;
       var allWeights = this.getView().getModel("local").getProperty("/ProdWeights");
       if (allWeights.length === 0) {
@@ -660,7 +655,6 @@ sap.ui.define([
     },
 
     logOutApp: function(Reload) {
-      debugger;
       // this.getOwnerComponent().getModel().setProperty("/ID", "");
       var that = this;
       // var accessToken = that.getView().getModel("local").getProperty("/Authorization");
@@ -689,7 +683,6 @@ sap.ui.define([
     },
 
     redirectLoginPage: function(logOut, Reload) {
-      debugger;
       var that = this;
       var accessToken = that.getView().getModel().getHeaders().Authorization;
       if (logOut == "X" && Reload != "X") {
@@ -1339,7 +1332,6 @@ sap.ui.define([
     },
 
     onReportDownload: function(){
-      debugger;
     var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
       window.open("/ReportDownload?CreatedBy=" + CreatedBy);
     }
