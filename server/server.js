@@ -783,10 +783,6 @@ app.get('/LastMonthOrderItems',
 app.get('/loadInvoiceDataByOrderId',
 	function(req, res) {
 		var idOrd = req.query.OrderId;
-		// var date = new Date(),
-		//   y = date.getFullYear(),
-		//   m = date.getMonth();
-		// var idOrd = '60fbb2145a35de7b50e5a11b';
 		var OrderHeader = app.models.OrderHeader;
 		OrderHeader.findOne({
 				where: {
@@ -809,11 +805,8 @@ app.get('/loadInvoiceDataByOrderId',
 				var total = 0,
 					totalGold = 0;
 				var invoiceItems = [];
-				// orderHeader.forEach((order) => {
 				orderHeader.__data.ToOrderItems.forEach((item, i) => {
 					item = item.__data
-						// total += item.ToWeight.$Amount + (item.ToWeight.$Piece * item.ToWeight.$MoreAmount) + (item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) * (item.ToMaterial.$Karat === "222" ? order.GoldBhav22 : order.GoldBhav22) / 100;
-						// totalGold += ((item.ToWeight.$GrossWeight - item.ToWeight.$LessWeight) * (item.ToMaterial.$Tunch + item.ToMaterial.$Wastage) / 100);
 					invoiceItems.push({
 						CODE: item.ToMaterial.$ProductId,
 						GROSS_WT: item.ToWeight.$GrossWeight,
@@ -828,10 +821,9 @@ app.get('/loadInvoiceDataByOrderId',
 						IMG: item.ToMaterial.__data.ToPhotos[0].$Content
 					});
 				});
-				// });
-				var logo = fs.readFileSync('./server/invoice/mangalam_ornament_logo.png', 'base64');
+				// var logo = fs.readFileSync('./server/invoice/mangalam_ornament_logo.png', 'base64');
 				res.send({
-					Logo: 'data:image/png;base64,' + logo,
+					// Logo: 'data:image/png;base64,' + logo,
 					InvoiceNo: orderHeader.$InvoiceNo,
 					InvoiceItems: invoiceItems
 				});

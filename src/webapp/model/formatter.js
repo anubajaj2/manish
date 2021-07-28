@@ -111,6 +111,17 @@ sap.ui.define([
       // return oCurrencyFormat.format(parseFloat(totalAmount), "INR");
       return fineGold.toFixed(3) + " g";
     },
+    getDataUrl: function(img) {
+      // Create canvas
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      // Set width and height
+      canvas.width = img.width;
+      canvas.height = img.height;
+      // Draw the image
+      ctx.drawImage(img, 0, 0);
+      return canvas.toDataURL('image/png');
+    },
     getImageUrlFromContent: function(base64Stream) {
       if (base64Stream) {
         var b64toBlob = function(dataURI) {

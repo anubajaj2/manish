@@ -900,6 +900,16 @@ sap.ui.define([
           due_date: "NONE"
         }
       };
+      if (!this.logo) {
+        var img = document.createElement("img");
+        img.src = "img/mangalam_ornament_logo.png"
+        img.addEventListener('load', function(event) {
+          that.logo = that.formatter.getDataUrl(event.currentTarget);
+          invoiceDetail.header.company_logo = that.logo;
+        });
+      } else {
+        invoiceDetail.header.company_logo = that.logo;
+      }
       this.getView().setBusy(true);
       $.ajax({
         type: 'GET', // added,
@@ -907,7 +917,7 @@ sap.ui.define([
         success: function(data) {
           invoiceDetail.items = data.InvoiceItems;
           invoiceDetail.orderNo = data.InvoiceNo;
-          invoiceDetail.header.company_logo = data.Logo;
+          // invoiceDetail.header.company_logo = data.Logo;
           that.downloadInvoice(invoiceDetail);
           that.getView().setBusy(false);
         },
