@@ -122,42 +122,15 @@ sap.ui.define([
 			 debugger;
 			 var oList = this.getView().byId("idListPA");
 					var oBinding = oList.getBinding("items");
-					 // var selectedText = oEvent.getSource().getSelectedItem().getText();
 					 var key1 = oEvent.getSource().getSelectedKey();
-					 // var type1 = oEvent.getSource().getSelectedItem().getAdditionalText();
-					 // var categeory1 = oEvent.getSource().getSelectedItem().getText().split(" ")[1];
 					 var aFilter = [];
 					 var oFilter1 = new Filter("Category", sap.ui.model.FilterOperator.Contains, key1);
-					 // var oFilter = new sap.ui.model.Filter({
-						// 	 filters: [
-						// 		 new Filter("ItemCode", sap.ui.model.FilterOperator.Contains, key1),
-						//  		 new Filter("Category", sap.ui.model.FilterOperator.Contains, categeory1)
-					 //
-						// 	 ],
-						// 	 and: false
-						//  });
 
 					 aFilter.push(oFilter1);
 					 // filter binding
 
 					 oBinding.filter(aFilter);
 		 }
-
-			// loadProductApprovals: function(){
-			// 	debugger;
-			// 		var that = this;
-			// 		var oFilter = new sap.ui.model.Filter("Status","EQ", "P");
-			// 		this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
-			//           "/Products", "GET", {filters: [oFilter]}, {}, this)
-			// 	        .then(function(oData) {
-			// 		that.getOwnerComponent().getModel("local").setProperty("/list",{
-			// 		Products:oData.results
-			// 		});
-		  //     })
-		  //     .catch(function(oError) {
-		  //         MessageToast.show("cannot fetch the data");
-		  //      });
-			// 	}
 
 	});
 });

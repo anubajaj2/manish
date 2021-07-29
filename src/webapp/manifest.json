@@ -229,6 +229,14 @@
                   "AdminHome",
                   "Customizing"
                 ]
+              },
+              {
+                "pattern": "AdminDownloadReport",
+                "name": "AdminDownloadReport",
+                "target": [
+                  "AdminHome",
+                  "AdminDownloadReport"
+                ]
               }
             ]
           },
@@ -600,6 +608,13 @@
           "controlAggregation": "midColumnPages",
           "viewLevel": 3,
           "viewId": "Customizing"
+        },
+        "AdminDownloadReport": {
+          "viewName": "AdminDownloadReport",
+          "controlId": "__xmlview0--layout",
+          "controlAggregation": "midColumnPages",
+          "viewLevel": 3,
+          "viewId": "AdminDownloadReport"
         },
 
         "OrderItems": {
