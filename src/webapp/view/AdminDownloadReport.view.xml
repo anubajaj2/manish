@@ -1,50 +1,47 @@
-<mvc:View controllerName="sap.ui.demo.cart.controller.AdminDownloadReport" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:f="sap.ui.layout.form">
-	<Page id="page" title="Report Download" backgroundDesign="Solid" showNavButton="true"
-	navButtonPress="onBack">
-	<headerContent>
-
-		<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
-		<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
-
-	</headerContent>
-  <!-- <Label text="Report" class="sapUiSmallMarginEnd sapUiSma"/> -->
-  <!-- <HBox>
-  <ComboBox id="idSelect"
-    buttons="button1"
-    items="{
-      path: '/Manufacturers'
-    }" selectedKey="{local>/Manufacturer/CustomerCode}" >
-    <items>
-      <core:ListItem key="{CustomerCode}" text="{CustomerCode} {Name}" additionalText="{EmailId}"/>
-    </items>
-
-  </ComboBox>
-
-	<Button id="button1" text="All Manufacturers" press="allManufacturers" />
-
-</HBox> -->
-
-  <ActionSelect
-  			id="idSelect"
-  			buttons="button1" showSecondaryValues = "true"
-  			items="{
-  				path: '/AppUsers', filters: [
-
-      {
-        path: 'Role',
-        operator: 'EQ',
-        value1: 'Maker'
-      }
-
-    ]
-  			}" selectedKey="" forceSelection="false" change="reportDownload">
-  			<items>
-  				<core:ListItem key="{TechnicalId}" text="{UserName}" additionalText="{EmailId}"/>
-  			</items>
-  			<dependents>
-  				<Button id="button1" text="All Manufacturers" press="allManufacturers" />
-  			</dependents>
-  		</ActionSelect>
+<mvc:View controllerName="sap.ui.demo.cart.controller.AdminDownloadReport" xmlns="sap.m" xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form">
+	<Page id="page" title="Report Download" backgroundDesign="Solid" showNavButton="true" navButtonPress="onBack">
+		<headerContent>
+			<Button icon="sap-icon://customer" tooltip="User" press="onUserPress"/>
+			<Button icon="sap-icon://log" type="Emphasized" tooltip="Logout" press="logOutApp"/>
+		</headerContent>
+		<VBox class="sapUiSmallMargin">
+			<HBox>
+				<VBox>
+					<Label text="All Manufacturers"/>
+					<ActionSelect id="idSelect" buttons="button1" showSecondaryValues="true"
+						items="{ path: '/AppUsers', filters: [ { path: 'Role', operator: 'EQ', value1: 'Maker' } ] }" selectedKey="" forceSelection="false"
+						change="reportDownload">
+						<items>
+							<core:ListItem key="{TechnicalId}" text="{UserName}" additionalText="{EmailId}"/>
+						</items>
+						<dependents>
+							<Button id="button1" text="All Manufacturers" press="allManufacturers"/>
+						</dependents>
+					</ActionSelect>
+				</VBox>
+				<!-- <HBox class="sapUiSmallMarginBegin">
+					<Label text="Entry Layout" class="sapUiSmallMarginTop"/>
+					<Switch state="{customModel>/CustomCalculation/EntryLayout}" class="sapUiSmallMarginBegin" customTextOff="Double" customTextOn="Single">
+						<layoutData>
+							<FlexItemData growFactor="1"/>
+						</layoutData>
+					</Switch>
+				</HBox> -->
+				<VBox id="idRetailerVBox">
+					<Label text="All Retailers"/>
+					<ActionSelect id="idSelect1" buttons="button2" showSecondaryValues="true"
+						items="{ path: '/AppUsers', filters: [ { path: 'Role', operator: 'EQ', value1: 'Retailer' } ] }" selectedKey="" forceSelection="false"
+						change="reportRetailerDownload">
+						<items>
+							<core:ListItem key="{TechnicalId}" text="{UserName}" additionalText="{EmailId}"/>
+						</items>
+						<dependents>
+							<Button id="button2" text="All Retailers" press="allRetailers"/>
+						</dependents>
+					</ActionSelect>
+				</VBox>
+			</HBox>
+		</VBox>
 	</Page>
 </mvc:View>

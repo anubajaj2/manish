@@ -51,6 +51,26 @@ sap.ui.define([
 			 });
 
        this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+        "/OrderItems", "GET", {}, {}, this)
+       .then(function(oData) {
+         that.getView().setBusy(false);
+        // MessageToast.show("OrderItems");
+             }).catch(function(oError) {
+          that.getView().setBusy(false);
+         MessageToast.show("cannot fetch the data");
+       });
+
+       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
+        "/OrderHeaders", "GET", {}, {}, this)
+       .then(function(oData) {
+         that.getView().setBusy(false);
+        // MessageToast.show("OrderItems");
+             }).catch(function(oError) {
+          that.getView().setBusy(false);
+         MessageToast.show("cannot fetch the data");
+       });
+
+       this.ODataHelper.callOData(this.getOwnerComponent().getModel(),
        "/Groups", "GET", {}, {}, this)
         .then(function(oData) {
           oModelGroup.setData(oData);
@@ -63,6 +83,7 @@ sap.ui.define([
 
 
     allManufacturers:function(){
+      debugger;
       // var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
         window.open("/adminReportDownload?allManufacturers");
       },
@@ -70,7 +91,6 @@ sap.ui.define([
 
 
     reportDownload:function(oEvent){
-      debugger;
       var key1 = oEvent.getSource().getSelectedKey();
       var userName = oEvent.getSource().getSelectedItem().getText();
 
@@ -92,6 +112,38 @@ sap.ui.define([
          sap.m.MessageToast.show("error in fetching data");
        }
      });
+
+   },
+
+   allRetailers:function(){
+     debugger;
+     // var CreatedBy = this.getView().getModel("local").getProperty("/CurrentUser");
+       window.open("/AllRetailerReportDownload?allRetailers");
+     },
+
+     reportRetailerDownload:function(oEvent){
+       debugger;
+       var key1 = oEvent.getSource().getSelectedKey();
+       var userName = oEvent.getSource().getSelectedItem().getText();
+
+      $.ajax({
+        type: 'GET', // added,
+        url: 'AllRetailerCreatedDownload?CreatedBy=' + key1,
+        success: function(data) {
+         if(data.length === 0 || data.length === '0' || data === undefined || data === "" || data === " " || data === "Error"){
+            sap.m.MessageBox.error("There is no data for this Retailer " + userName);
+         }
+
+          else {
+            window.open("/AllRetailerCreatedDownload?CreatedBy=" + key1);
+                 sap.m.MessageToast.show("Report Download successfully for " + userName);
+          }
+
+        },
+        error: function(xhr, status, error) {
+          sap.m.MessageToast.show("error in fetching data");
+        }
+      });
 
     }
 
